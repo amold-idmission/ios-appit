@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta name="viewport" content="width=320; user-scalable=no" />
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+            <title></title>
+            <script type="text/javascript" charset="utf-8" src="js/jquery-2.0.0.min.js"></script>
+            <style>
+                #yourimage {
+                    width:100%;
+                }
+            #opencv_image {
+                width:100%;
+            }
+            </style>
+            <script>
+                $(document).ready(function() {
+                                  console.log('onReady');
+                                  $("#takePictureField").on("change",gotPic);
+                                  
+                                  
+                                  if(!("url" in window) && ("webkitURL" in window)) {
+                                  window.URL = window.webkitURL;
+                                  }
+                                  
+                                  });
+                                  
+                                  //Credit: https://www.youtube.com/watch?v=EPYnGFEcis4&feature=youtube_gdata_player
+                                  function gotPic(event) {
+                                      if(event.target.files.length == 1 &&
+                                         event.target.files[0].type.indexOf("image/") == 0) {
+                                          $("#yourimage").attr("src",URL.createObjectURL(event.target.files[0]));
+                                          
+                                          // Make in memory copy of image to avoid css issues
+                                          $("<img/>")
+                                          .attr("src", $("#yourimage").attr("src"))
+                                          .load(function() {
+                                                pic_real_width = this.width;
+                                                pic_real_height = this.height;
+                                                $("#output").text(pic_real_width + "x" + pic_real_height);
+                                                });
+                                                
+                                      }
+                                  }
+            
+            function put_summary(summary) {
+                //alert(summary);
+                //var str = $('<div/>').text(summary).html();
+                //window.alert(str);
+                $("#summary").html(summary);
+                //window.location = "http://192.168.1.100:8080/inform/#SectiondivID_P500_S704";
+            }
+            function put_image(base64encoded) {
+                $("#opencv_image").attr("src", "data:image/png;base64,"+base64encoded);
+            }
+            </script>
+            </head>
+    <body>
+<!--        <p>-->
+<!--        Example of camera capture in the UIWebView on iOS-->
+<!--        </p>-->
+<!--        <input type="file" capture="camera" accept="image/*" id="takePictureField" />-->
+<!--        <br/>-->
+<!--        <img id="yourimage"/>-->
+<!--        <div id="output"></div>-->
+        <p>
+        Example of ID acquisition initiated from the UIWebView using a custom view controller.
+        </p>
+        <p> <a href="idmission://capture_colorado_id/">Capture Colorado ID</a></p>
+        <p> <a href="idmission://capture_colorado_back_id/">Capture Colorado ID Back - 2D Bar Code</a></p>
+        <p> <a href="idmission://capture_colorado_high_res_shot/">Capture Colorado ID - Single High Res Shot</a></p>
+        <p> <a href="idmission://capture_passport/">Capture Passport</a></p>
+        <p id="summary"></p>
+        <img id="opencv_image"/>
+    </body>
+</html>

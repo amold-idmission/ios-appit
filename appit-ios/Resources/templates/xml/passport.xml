@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OCRLayoutDef xmlns="http://www.idmission.com/idp">
+	<Name>USA Passport</Name>
+	<Size>
+		<x1>0.0</x1>
+		<y1>0.0</y1>
+		<x2>800</x2>
+		<y2>545</y2>
+	</Size>
+	<Component>
+		<Name>Photo</Name>
+		<Type>Image</Type>
+		<x1>30.0</x1>
+		<y1>100.0</y1>
+		<x2>260</x2>
+		<y2>390</y2>
+	</Component>
+    <Component>
+        <Name>Machine Readable</Name>
+        <x1>10.0</x1>
+        <y1>410.0</y1>
+        <x2>790</x2>
+        <y2>520</y2>
+        <letter_width min="4" max="16" />
+        <letter_height min="10" max="22" />
+        <text_lines>2</text_lines>
+    </Component>
+</OCRLayoutDef>

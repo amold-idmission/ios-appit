@@ -1,0 +1,29 @@
+//
+//  appit-ios-Prefix.pch
+//  appit-ios
+//
+//  Created by idmission on 01/10/15.
+//  Copyright © 2015 IDMission. All rights reserved.
+//
+
+#import <Availability.h>
+
+#ifndef appit_ios_Prefix_pch
+#define appit_ios_Prefix_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* appit_ios_Prefix_pch */
+
+#ifdef __cplusplus
+#import <opencv2/opencv.hpp>
+#import <opencv2/imgproc/imgproc.hpp>
+#import <opencv2/imgproc/types_c.h>
+#import <opencv2/objdetect/objdetect_c.h>
+#endif
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#endif

@@ -1,0 +1,385 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1F0ACE491AAE0B28006183AC /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F0ACE481AAE0B28006183AC /* main.cpp */; };
+		1F0ACE791AAE0BDA006183AC /* CardDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F0ACE5B1AAE0BDA006183AC /* CardDetector.cpp */; };
+		1F0ACE7B1AAE0BDA006183AC /* DocumentMatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F0ACE601AAE0BDA006183AC /* DocumentMatcher.cpp */; };
+		1F0ACE7C1AAE0BDA006183AC /* FaceDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F0ACE631AAE0BDA006183AC /* FaceDetector.cpp */; };
+		1F0ACE7D1AAE0BDA006183AC /* ImageBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F0ACE671AAE0BDA006183AC /* ImageBuffer.cpp */; };
+		1F0ACE7E1AAE0BDA006183AC /* SecurityCheckMatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F0ACE6E1AAE0BDA006183AC /* SecurityCheckMatcher.cpp */; };
+		1F0ACE7F1AAE0BDA006183AC /* TemplateMatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F0ACE711AAE0BDA006183AC /* TemplateMatcher.cpp */; };
+		1F0ACE801AAE0BDA006183AC /* TextExtractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F0ACE741AAE0BDA006183AC /* TextExtractor.cpp */; };
+		1F0ACE811AAE0BDA006183AC /* MRZDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F0ACE761AAE0BDA006183AC /* MRZDetector.cpp */; };
+		1F0ACE8A1AAE0C54006183AC /* libopencv_objdetect.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F0ACE821AAE0C54006183AC /* libopencv_objdetect.3.0.0.dylib */; };
+		1F0ACE8B1AAE0C54006183AC /* libopencv_calib3d.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F0ACE831AAE0C54006183AC /* libopencv_calib3d.3.0.0.dylib */; };
+		1F0ACE8C1AAE0C54006183AC /* libopencv_features2d.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F0ACE841AAE0C54006183AC /* libopencv_features2d.3.0.0.dylib */; };
+		1F0ACE8D1AAE0C54006183AC /* libopencv_flann.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F0ACE851AAE0C54006183AC /* libopencv_flann.3.0.0.dylib */; };
+		1F0ACE8E1AAE0C54006183AC /* libopencv_imgcodecs.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F0ACE861AAE0C54006183AC /* libopencv_imgcodecs.3.0.0.dylib */; };
+		1F0ACE8F1AAE0C54006183AC /* libopencv_imgproc.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F0ACE871AAE0C54006183AC /* libopencv_imgproc.3.0.0.dylib */; };
+		1F0ACE901AAE0C54006183AC /* libopencv_highgui.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F0ACE881AAE0C54006183AC /* libopencv_highgui.3.0.0.dylib */; };
+		1F0ACE911AAE0C54006183AC /* libopencv_core.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F0ACE891AAE0C54006183AC /* libopencv_core.3.0.0.dylib */; };
+		1F0ACE981AAE6CCB006183AC /* libtesseract.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F0ACE971AAE6CCB006183AC /* libtesseract.dylib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1F0ACE431AAE0B28006183AC /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		1F0ACE451AAE0B28006183AC /* MRZDetector */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MRZDetector; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F0ACE481AAE0B28006183AC /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		1F0ACE5B1AAE0BDA006183AC /* CardDetector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CardDetector.cpp; sourceTree = "<group>"; };
+		1F0ACE5C1AAE0BDA006183AC /* CardDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardDetector.h; sourceTree = "<group>"; };
+		1F0ACE5D1AAE0BDA006183AC /* Component.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Component.h; sourceTree = "<group>"; };
+		1F0ACE601AAE0BDA006183AC /* DocumentMatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DocumentMatcher.cpp; sourceTree = "<group>"; };
+		1F0ACE611AAE0BDA006183AC /* DocumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentMatcher.h; sourceTree = "<group>"; };
+		1F0ACE621AAE0BDA006183AC /* FaceComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaceComponent.h; sourceTree = "<group>"; };
+		1F0ACE631AAE0BDA006183AC /* FaceDetector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FaceDetector.cpp; sourceTree = "<group>"; };
+		1F0ACE641AAE0BDA006183AC /* FaceDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaceDetector.h; sourceTree = "<group>"; };
+		1F0ACE651AAE0BDA006183AC /* HistogramBump.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistogramBump.h; sourceTree = "<group>"; };
+		1F0ACE661AAE0BDA006183AC /* Historgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Historgram.h; sourceTree = "<group>"; };
+		1F0ACE671AAE0BDA006183AC /* ImageBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageBuffer.cpp; sourceTree = "<group>"; };
+		1F0ACE681AAE0BDA006183AC /* ImageBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageBuffer.h; sourceTree = "<group>"; };
+		1F0ACE691AAE0BDA006183AC /* Letter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Letter.h; sourceTree = "<group>"; };
+		1F0ACE6A1AAE0BDA006183AC /* Letters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Letters.h; sourceTree = "<group>"; };
+		1F0ACE6B1AAE0BDA006183AC /* LetterSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LetterSize.h; sourceTree = "<group>"; };
+		1F0ACE6C1AAE0BDA006183AC /* Roi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Roi.h; sourceTree = "<group>"; };
+		1F0ACE6D1AAE0BDA006183AC /* SecurityCheckComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecurityCheckComponent.h; sourceTree = "<group>"; };
+		1F0ACE6E1AAE0BDA006183AC /* SecurityCheckMatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SecurityCheckMatcher.cpp; sourceTree = "<group>"; };
+		1F0ACE6F1AAE0BDA006183AC /* SecurityCheckMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecurityCheckMatcher.h; sourceTree = "<group>"; };
+		1F0ACE701AAE0BDA006183AC /* stringutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stringutil.h; sourceTree = "<group>"; };
+		1F0ACE711AAE0BDA006183AC /* TemplateMatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TemplateMatcher.cpp; sourceTree = "<group>"; };
+		1F0ACE721AAE0BDA006183AC /* TemplateMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemplateMatcher.h; sourceTree = "<group>"; };
+		1F0ACE731AAE0BDA006183AC /* TextComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextComponent.h; sourceTree = "<group>"; };
+		1F0ACE741AAE0BDA006183AC /* TextExtractor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextExtractor.cpp; sourceTree = "<group>"; };
+		1F0ACE751AAE0BDA006183AC /* TextExtractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextExtractor.h; sourceTree = "<group>"; };
+		1F0ACE761AAE0BDA006183AC /* MRZDetector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MRZDetector.cpp; sourceTree = "<group>"; };
+		1F0ACE771AAE0BDA006183AC /* MRZDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRZDetector.h; sourceTree = "<group>"; };
+		1F0ACE821AAE0C54006183AC /* libopencv_objdetect.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_objdetect.3.0.0.dylib; path = ../../libraries/native/opencv/lib/libopencv_objdetect.3.0.0.dylib; sourceTree = "<group>"; };
+		1F0ACE831AAE0C54006183AC /* libopencv_calib3d.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_calib3d.3.0.0.dylib; path = ../../libraries/native/opencv/lib/libopencv_calib3d.3.0.0.dylib; sourceTree = "<group>"; };
+		1F0ACE841AAE0C54006183AC /* libopencv_features2d.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_features2d.3.0.0.dylib; path = ../../libraries/native/opencv/lib/libopencv_features2d.3.0.0.dylib; sourceTree = "<group>"; };
+		1F0ACE851AAE0C54006183AC /* libopencv_flann.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_flann.3.0.0.dylib; path = ../../libraries/native/opencv/lib/libopencv_flann.3.0.0.dylib; sourceTree = "<group>"; };
+		1F0ACE861AAE0C54006183AC /* libopencv_imgcodecs.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_imgcodecs.3.0.0.dylib; path = ../../libraries/native/opencv/lib/libopencv_imgcodecs.3.0.0.dylib; sourceTree = "<group>"; };
+		1F0ACE871AAE0C54006183AC /* libopencv_imgproc.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_imgproc.3.0.0.dylib; path = ../../libraries/native/opencv/lib/libopencv_imgproc.3.0.0.dylib; sourceTree = "<group>"; };
+		1F0ACE881AAE0C54006183AC /* libopencv_highgui.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_highgui.3.0.0.dylib; path = ../../libraries/native/opencv/lib/libopencv_highgui.3.0.0.dylib; sourceTree = "<group>"; };
+		1F0ACE891AAE0C54006183AC /* libopencv_core.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_core.3.0.0.dylib; path = ../../libraries/native/opencv/lib/libopencv_core.3.0.0.dylib; sourceTree = "<group>"; };
+		1F0ACE971AAE6CCB006183AC /* libtesseract.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtesseract.dylib; path = /usr/local/lib/libtesseract.dylib; sourceTree = "<absolute>"; };
+		1F4D0FEC1AB0881B000586DD /* Document.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Document.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1F0ACE421AAE0B28006183AC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F0ACE8A1AAE0C54006183AC /* libopencv_objdetect.3.0.0.dylib in Frameworks */,
+				1F0ACE8B1AAE0C54006183AC /* libopencv_calib3d.3.0.0.dylib in Frameworks */,
+				1F0ACE8C1AAE0C54006183AC /* libopencv_features2d.3.0.0.dylib in Frameworks */,
+				1F0ACE8D1AAE0C54006183AC /* libopencv_flann.3.0.0.dylib in Frameworks */,
+				1F0ACE8E1AAE0C54006183AC /* libopencv_imgcodecs.3.0.0.dylib in Frameworks */,
+				1F0ACE8F1AAE0C54006183AC /* libopencv_imgproc.3.0.0.dylib in Frameworks */,
+				1F0ACE901AAE0C54006183AC /* libopencv_highgui.3.0.0.dylib in Frameworks */,
+				1F0ACE911AAE0C54006183AC /* libopencv_core.3.0.0.dylib in Frameworks */,
+				1F0ACE981AAE6CCB006183AC /* libtesseract.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1F0ACE3C1AAE0B28006183AC = {
+			isa = PBXGroup;
+			children = (
+				1F0ACE921AAE0C62006183AC /* Libraries */,
+				1F0ACE781AAE0BDA006183AC /* ImageProcessing */,
+				1F0ACE471AAE0B28006183AC /* MRZDetector */,
+				1F0ACE461AAE0B28006183AC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1F0ACE461AAE0B28006183AC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1F0ACE451AAE0B28006183AC /* MRZDetector */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1F0ACE471AAE0B28006183AC /* MRZDetector */ = {
+			isa = PBXGroup;
+			children = (
+				1F0ACE481AAE0B28006183AC /* main.cpp */,
+			);
+			path = MRZDetector;
+			sourceTree = "<group>";
+		};
+		1F0ACE781AAE0BDA006183AC /* ImageProcessing */ = {
+			isa = PBXGroup;
+			children = (
+				1F0ACE5B1AAE0BDA006183AC /* CardDetector.cpp */,
+				1F0ACE5C1AAE0BDA006183AC /* CardDetector.h */,
+				1F0ACE5D1AAE0BDA006183AC /* Component.h */,
+				1F4D0FEC1AB0881B000586DD /* Document.h */,
+				1F0ACE601AAE0BDA006183AC /* DocumentMatcher.cpp */,
+				1F0ACE611AAE0BDA006183AC /* DocumentMatcher.h */,
+				1F0ACE621AAE0BDA006183AC /* FaceComponent.h */,
+				1F0ACE631AAE0BDA006183AC /* FaceDetector.cpp */,
+				1F0ACE641AAE0BDA006183AC /* FaceDetector.h */,
+				1F0ACE651AAE0BDA006183AC /* HistogramBump.h */,
+				1F0ACE661AAE0BDA006183AC /* Historgram.h */,
+				1F0ACE671AAE0BDA006183AC /* ImageBuffer.cpp */,
+				1F0ACE681AAE0BDA006183AC /* ImageBuffer.h */,
+				1F0ACE691AAE0BDA006183AC /* Letter.h */,
+				1F0ACE6A1AAE0BDA006183AC /* Letters.h */,
+				1F0ACE6B1AAE0BDA006183AC /* LetterSize.h */,
+				1F0ACE761AAE0BDA006183AC /* MRZDetector.cpp */,
+				1F0ACE771AAE0BDA006183AC /* MRZDetector.h */,
+				1F0ACE6C1AAE0BDA006183AC /* Roi.h */,
+				1F0ACE6D1AAE0BDA006183AC /* SecurityCheckComponent.h */,
+				1F0ACE6E1AAE0BDA006183AC /* SecurityCheckMatcher.cpp */,
+				1F0ACE6F1AAE0BDA006183AC /* SecurityCheckMatcher.h */,
+				1F0ACE701AAE0BDA006183AC /* stringutil.h */,
+				1F0ACE711AAE0BDA006183AC /* TemplateMatcher.cpp */,
+				1F0ACE721AAE0BDA006183AC /* TemplateMatcher.h */,
+				1F0ACE731AAE0BDA006183AC /* TextComponent.h */,
+				1F0ACE741AAE0BDA006183AC /* TextExtractor.cpp */,
+				1F0ACE751AAE0BDA006183AC /* TextExtractor.h */,
+			);
+			name = ImageProcessing;
+			path = "../appit-ios";
+			sourceTree = "<group>";
+		};
+		1F0ACE921AAE0C62006183AC /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1F0ACE971AAE6CCB006183AC /* libtesseract.dylib */,
+				1F0ACE821AAE0C54006183AC /* libopencv_objdetect.3.0.0.dylib */,
+				1F0ACE831AAE0C54006183AC /* libopencv_calib3d.3.0.0.dylib */,
+				1F0ACE841AAE0C54006183AC /* libopencv_features2d.3.0.0.dylib */,
+				1F0ACE851AAE0C54006183AC /* libopencv_flann.3.0.0.dylib */,
+				1F0ACE861AAE0C54006183AC /* libopencv_imgcodecs.3.0.0.dylib */,
+				1F0ACE871AAE0C54006183AC /* libopencv_imgproc.3.0.0.dylib */,
+				1F0ACE881AAE0C54006183AC /* libopencv_highgui.3.0.0.dylib */,
+				1F0ACE891AAE0C54006183AC /* libopencv_core.3.0.0.dylib */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1F0ACE441AAE0B28006183AC /* MRZDetector */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1F0ACE4C1AAE0B28006183AC /* Build configuration list for PBXNativeTarget "MRZDetector" */;
+			buildPhases = (
+				1F0ACE411AAE0B28006183AC /* Sources */,
+				1F0ACE421AAE0B28006183AC /* Frameworks */,
+				1F0ACE431AAE0B28006183AC /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MRZDetector;
+			productName = MRZDetector;
+			productReference = 1F0ACE451AAE0B28006183AC /* MRZDetector */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1F0ACE3D1AAE0B28006183AC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = IDMission;
+				TargetAttributes = {
+					1F0ACE441AAE0B28006183AC = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+				};
+			};
+			buildConfigurationList = 1F0ACE401AAE0B28006183AC /* Build configuration list for PBXProject "MRZDetector" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 1F0ACE3C1AAE0B28006183AC;
+			productRefGroup = 1F0ACE461AAE0B28006183AC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1F0ACE441AAE0B28006183AC /* MRZDetector */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1F0ACE411AAE0B28006183AC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F0ACE7E1AAE0BDA006183AC /* SecurityCheckMatcher.cpp in Sources */,
+				1F0ACE811AAE0BDA006183AC /* MRZDetector.cpp in Sources */,
+				1F0ACE7C1AAE0BDA006183AC /* FaceDetector.cpp in Sources */,
+				1F0ACE7D1AAE0BDA006183AC /* ImageBuffer.cpp in Sources */,
+				1F0ACE491AAE0B28006183AC /* main.cpp in Sources */,
+				1F0ACE7F1AAE0BDA006183AC /* TemplateMatcher.cpp in Sources */,
+				1F0ACE791AAE0BDA006183AC /* CardDetector.cpp in Sources */,
+				1F0ACE801AAE0BDA006183AC /* TextExtractor.cpp in Sources */,
+				1F0ACE7B1AAE0BDA006183AC /* DocumentMatcher.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1F0ACE4A1AAE0B28006183AC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		1F0ACE4B1AAE0B28006183AC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		1F0ACE4D1AAE0B28006183AC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/Users/goranrauker/Development/libraries/native/opencv/include,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/Users/goranrauker/Development/libraries/native/opencv/lib,
+					/usr/local/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		1F0ACE4E1AAE0B28006183AC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/Users/goranrauker/Development/libraries/native/opencv/include,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/Users/goranrauker/Development/libraries/native/opencv/lib,
+					/usr/local/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1F0ACE401AAE0B28006183AC /* Build configuration list for PBXProject "MRZDetector" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1F0ACE4A1AAE0B28006183AC /* Debug */,
+				1F0ACE4B1AAE0B28006183AC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1F0ACE4C1AAE0B28006183AC /* Build configuration list for PBXNativeTarget "MRZDetector" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1F0ACE4D1AAE0B28006183AC /* Debug */,
+				1F0ACE4E1AAE0B28006183AC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1F0ACE3D1AAE0B28006183AC /* Project object */;
+}

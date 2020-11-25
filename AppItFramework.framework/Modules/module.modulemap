@@ -1,0 +1,6 @@
+framework module AppItFramework {
+  umbrella header "AppItFramework.h"
+
+  export *
+  module * { export * }
+}

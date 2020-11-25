@@ -1,0 +1,71 @@
+//
+//  CommonImporter.h
+//  AppItFramework
+//
+//  Created by idmission solutions pvt ltd  on 21/10/16.
+//  Copyright © 2016 idmission solutions pvt ltd . All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import "AppItSDK.h"
+#import "NSStringUtils.h"
+#import "LanguageUtils.h"
+#import "OpenCvViewController.h"
+#import "FaceDetectionViewController.h"
+#import "FaceDetectionNewViewController.h"
+#import "MatchFaceViewController.h"
+#import "ProcessImageViewController.h"
+#import "ProcessAndMatchViewController.h"
+#import "CompleteOperationViewController.h"
+#import "CardDetectionViewController.h"
+#import "VerifyCustomerViewController.h"
+#import "InstructionViewController.h"
+#import "NSLogUtils.h"
+#import "UIColor+fromHex.h"
+#import "RequestQueue.h"
+#import "FingerDetectionViewController2.h"
+#import "FingerDetectionViewController.h"
+#import "GPSManager.h"
+#import "VoiceRecordingController.h"
+#import "VideoRecordingController.h"
+#import "FingerprintEnrolmentTask.h"
+#import "FingerPrintVerificationTask.h"
+#import "ResultData.h"
+#import "RequestResponseVController.h"
+#import "BundleLocalization.h"
+#import "BarcodeViewController.h"
+#import "CaptureSignatureController.h"
+#import "VerifyPOAClass.h"
+#import "CreateEmployeeControllerViewController.h"
+#import "VerifyEmployeeController.h"
+#import "CreateTokenControllerViewController.h"
+#import "VerifyTokenController.h"
+#import "SnippetCaptureController.h"
+#import "StringLabels.h"
+#import "UpdateCustomerViewController.h"
+#import "GenerateOTPController.h"
+#import "VerifyOTPController.h"
+#import "ImagePreviewViewController.h"
+//#import "ImageUtils.h"
+#import "MlKitFaceController.h"
+#import "VerifyCredentialsController.h"
+#import "ExecuteGenericRequestViewController.h"
+#import "UpdateEmployeeViewController.h"
+#import "IdValidationAndVideoMatchingController.h"
+#import "UIConfigurationManager.h"
+#import "GenericServiceCallViewController.h"
+#import "VideoConferencingViewController.h"
+#import "SlantedIdCaptureViewController.h"
+#import "SlantedLandscapeViewController.h"
+#import "VoiceRecorder.h"
+#import "MlKitBarcodeScanViewController.h"
+#import "DownloadTemplateData.h"
+#import "PassiveFaceDetectionViewController.h"
+#import "FillFastController.h"
+#import "GetTemplateInfoTask.h"
+#import "TBXML.h"
+#import "TBXMLParser.h"
+
+@interface CommonImporter : NSObject
+
+@end

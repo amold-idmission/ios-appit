@@ -1,0 +1,387 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1F06E5D91AA78A1700D9CEDE /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F06E5D81AA78A1700D9CEDE /* main.cpp */; };
+		1F06E5E61AA7904A00D9CEDE /* libopencv_core.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F06E5E51AA7904A00D9CEDE /* libopencv_core.3.0.0.dylib */; };
+		1F06E5E81AA7906500D9CEDE /* libopencv_highgui.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F06E5E71AA7906500D9CEDE /* libopencv_highgui.3.0.0.dylib */; };
+		1F06E5ED1AA790CA00D9CEDE /* libopencv_imgcodecs.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F06E5EB1AA790CA00D9CEDE /* libopencv_imgcodecs.3.0.0.dylib */; };
+		1F06E5EE1AA790CA00D9CEDE /* libopencv_imgproc.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F06E5EC1AA790CA00D9CEDE /* libopencv_imgproc.3.0.0.dylib */; };
+		1F06E6001AA792EC00D9CEDE /* libopencv_calib3d.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F06E5FD1AA792EC00D9CEDE /* libopencv_calib3d.3.0.0.dylib */; };
+		1F06E6011AA792EC00D9CEDE /* libopencv_features2d.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F06E5FE1AA792EC00D9CEDE /* libopencv_features2d.3.0.0.dylib */; };
+		1F06E6021AA792EC00D9CEDE /* libopencv_flann.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F06E5FF1AA792EC00D9CEDE /* libopencv_flann.3.0.0.dylib */; };
+		1F06E6291AA79B1C00D9CEDE /* DocumentMatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F06E61B1AA79B1C00D9CEDE /* DocumentMatcher.cpp */; };
+		1F06E62A1AA79B1C00D9CEDE /* TemplateMatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F06E61D1AA79B1C00D9CEDE /* TemplateMatcher.cpp */; };
+		1F06E62C1AA79B1C00D9CEDE /* TextExtractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F06E6211AA79B1C00D9CEDE /* TextExtractor.cpp */; };
+		1F41BBD61AB9F2AF003D0FAD /* Document.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F41BBD41AB9F2AF003D0FAD /* Document.cpp */; };
+		1F41BBDA1AB9F2C3003D0FAD /* tinyxml2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F41BBD71AB9F2C3003D0FAD /* tinyxml2.cpp */; };
+		1F41BBDF1ABA098A003D0FAD /* fileutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F41BBDE1ABA098A003D0FAD /* fileutil.cpp */; };
+		1F41BBF81ABA0B12003D0FAD /* cdecode.c in Sources */ = {isa = PBXBuildFile; fileRef = 1F41BBF11ABA0B12003D0FAD /* cdecode.c */; };
+		1F41BBF91ABA0B12003D0FAD /* cencode.c in Sources */ = {isa = PBXBuildFile; fileRef = 1F41BBF31ABA0B12003D0FAD /* cencode.c */; };
+		1FD8F9501AB0F7C000E6787B /* libtesseract.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FD8F94F1AB0F7C000E6787B /* libtesseract.dylib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1F06E5D31AA78A1700D9CEDE /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = usr/share/man/man1;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		1F06E5D51AA78A1700D9CEDE /* TextExtractor */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TextExtractor; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F06E5D81AA78A1700D9CEDE /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		1F06E5E51AA7904A00D9CEDE /* libopencv_core.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_core.3.0.0.dylib; path = ../../libraries/native/opencv/lib/libopencv_core.3.0.0.dylib; sourceTree = "<group>"; };
+		1F06E5E71AA7906500D9CEDE /* libopencv_highgui.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_highgui.3.0.0.dylib; path = ../../libraries/native/opencv/lib/libopencv_highgui.3.0.0.dylib; sourceTree = "<group>"; };
+		1F06E5EB1AA790CA00D9CEDE /* libopencv_imgcodecs.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_imgcodecs.3.0.0.dylib; path = ../../libraries/native/opencv/lib/libopencv_imgcodecs.3.0.0.dylib; sourceTree = "<group>"; };
+		1F06E5EC1AA790CA00D9CEDE /* libopencv_imgproc.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_imgproc.3.0.0.dylib; path = ../../libraries/native/opencv/lib/libopencv_imgproc.3.0.0.dylib; sourceTree = "<group>"; };
+		1F06E5FD1AA792EC00D9CEDE /* libopencv_calib3d.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_calib3d.3.0.0.dylib; path = ../../libraries/native/opencv/lib/libopencv_calib3d.3.0.0.dylib; sourceTree = "<group>"; };
+		1F06E5FE1AA792EC00D9CEDE /* libopencv_features2d.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_features2d.3.0.0.dylib; path = ../../libraries/native/opencv/lib/libopencv_features2d.3.0.0.dylib; sourceTree = "<group>"; };
+		1F06E5FF1AA792EC00D9CEDE /* libopencv_flann.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_flann.3.0.0.dylib; path = ../../libraries/native/opencv/lib/libopencv_flann.3.0.0.dylib; sourceTree = "<group>"; };
+		1F06E61B1AA79B1C00D9CEDE /* DocumentMatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DocumentMatcher.cpp; sourceTree = "<group>"; };
+		1F06E61C1AA79B1C00D9CEDE /* DocumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentMatcher.h; sourceTree = "<group>"; };
+		1F06E61D1AA79B1C00D9CEDE /* TemplateMatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TemplateMatcher.cpp; sourceTree = "<group>"; };
+		1F06E61E1AA79B1C00D9CEDE /* TemplateMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemplateMatcher.h; sourceTree = "<group>"; };
+		1F06E6211AA79B1C00D9CEDE /* TextExtractor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextExtractor.cpp; sourceTree = "<group>"; };
+		1F06E6221AA79B1C00D9CEDE /* TextExtractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextExtractor.h; sourceTree = "<group>"; };
+		1F06E6231AA79B1C00D9CEDE /* Component.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Component.h; sourceTree = "<group>"; };
+		1F06E6241AA79B1C00D9CEDE /* Roi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Roi.h; sourceTree = "<group>"; };
+		1F06E6261AA79B1C00D9CEDE /* TextComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextComponent.h; sourceTree = "<group>"; };
+		1F41BBD41AB9F2AF003D0FAD /* Document.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Document.cpp; sourceTree = "<group>"; };
+		1F41BBD51AB9F2AF003D0FAD /* Document.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Document.h; sourceTree = "<group>"; };
+		1F41BBD71AB9F2C3003D0FAD /* tinyxml2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxml2.cpp; path = ../ThirdParty/tinyxml2/tinyxml2.cpp; sourceTree = "<group>"; };
+		1F41BBD81AB9F2C3003D0FAD /* tinyxml2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tinyxml2.h; path = ../ThirdParty/tinyxml2/tinyxml2.h; sourceTree = "<group>"; };
+		1F41BBDB1ABA0924003D0FAD /* fileutil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fileutil.h; sourceTree = "<group>"; };
+		1F41BBDE1ABA098A003D0FAD /* fileutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fileutil.cpp; sourceTree = "<group>"; };
+		1F41BBF11ABA0B12003D0FAD /* cdecode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cdecode.c; path = ../ThirdParty/b64/cdecode.c; sourceTree = "<group>"; };
+		1F41BBF21ABA0B12003D0FAD /* cdecode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cdecode.h; path = ../ThirdParty/b64/cdecode.h; sourceTree = "<group>"; };
+		1F41BBF31ABA0B12003D0FAD /* cencode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cencode.c; path = ../ThirdParty/b64/cencode.c; sourceTree = "<group>"; };
+		1F41BBF41ABA0B12003D0FAD /* cencode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cencode.h; path = ../ThirdParty/b64/cencode.h; sourceTree = "<group>"; };
+		1F41BBF51ABA0B12003D0FAD /* decode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = decode.h; path = ../ThirdParty/b64/decode.h; sourceTree = "<group>"; };
+		1F41BBF61ABA0B12003D0FAD /* encode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = encode.h; path = ../ThirdParty/b64/encode.h; sourceTree = "<group>"; };
+		1FD8F94E1AB0F79700E6787B /* stringutil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stringutil.h; sourceTree = "<group>"; };
+		1FD8F94F1AB0F7C000E6787B /* libtesseract.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtesseract.dylib; path = /usr/local/lib/libtesseract.dylib; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1F06E5D21AA78A1700D9CEDE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1FD8F9501AB0F7C000E6787B /* libtesseract.dylib in Frameworks */,
+				1F06E6001AA792EC00D9CEDE /* libopencv_calib3d.3.0.0.dylib in Frameworks */,
+				1F06E6011AA792EC00D9CEDE /* libopencv_features2d.3.0.0.dylib in Frameworks */,
+				1F06E6021AA792EC00D9CEDE /* libopencv_flann.3.0.0.dylib in Frameworks */,
+				1F06E5ED1AA790CA00D9CEDE /* libopencv_imgcodecs.3.0.0.dylib in Frameworks */,
+				1F06E5EE1AA790CA00D9CEDE /* libopencv_imgproc.3.0.0.dylib in Frameworks */,
+				1F06E5E61AA7904A00D9CEDE /* libopencv_core.3.0.0.dylib in Frameworks */,
+				1F06E5E81AA7906500D9CEDE /* libopencv_highgui.3.0.0.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1F06E5CC1AA78A1700D9CEDE = {
+			isa = PBXGroup;
+			children = (
+				1F06E6311AA79DD800D9CEDE /* Libraries */,
+				1F06E6271AA79B1C00D9CEDE /* ImageProcessing */,
+				1F06E5D71AA78A1700D9CEDE /* TextExtractor */,
+				1F06E5D61AA78A1700D9CEDE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1F06E5D61AA78A1700D9CEDE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1F06E5D51AA78A1700D9CEDE /* TextExtractor */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1F06E5D71AA78A1700D9CEDE /* TextExtractor */ = {
+			isa = PBXGroup;
+			children = (
+				1F06E5D81AA78A1700D9CEDE /* main.cpp */,
+			);
+			path = TextExtractor;
+			sourceTree = "<group>";
+		};
+		1F06E6271AA79B1C00D9CEDE /* ImageProcessing */ = {
+			isa = PBXGroup;
+			children = (
+				1F41BBF71ABA0B12003D0FAD /* b64 */,
+				1F41BBD91AB9F2C3003D0FAD /* tinyxml2 */,
+				1F41BBD41AB9F2AF003D0FAD /* Document.cpp */,
+				1F06E6231AA79B1C00D9CEDE /* Component.h */,
+				1F41BBD51AB9F2AF003D0FAD /* Document.h */,
+				1F06E61B1AA79B1C00D9CEDE /* DocumentMatcher.cpp */,
+				1F06E61C1AA79B1C00D9CEDE /* DocumentMatcher.h */,
+				1F41BBDE1ABA098A003D0FAD /* fileutil.cpp */,
+				1F41BBDB1ABA0924003D0FAD /* fileutil.h */,
+				1F06E6241AA79B1C00D9CEDE /* Roi.h */,
+				1FD8F94E1AB0F79700E6787B /* stringutil.h */,
+				1F06E61D1AA79B1C00D9CEDE /* TemplateMatcher.cpp */,
+				1F06E61E1AA79B1C00D9CEDE /* TemplateMatcher.h */,
+				1F06E6261AA79B1C00D9CEDE /* TextComponent.h */,
+				1F06E6211AA79B1C00D9CEDE /* TextExtractor.cpp */,
+				1F06E6221AA79B1C00D9CEDE /* TextExtractor.h */,
+			);
+			name = ImageProcessing;
+			path = "../appit-ios";
+			sourceTree = "<group>";
+		};
+		1F06E6311AA79DD800D9CEDE /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1FD8F94F1AB0F7C000E6787B /* libtesseract.dylib */,
+				1F06E5FD1AA792EC00D9CEDE /* libopencv_calib3d.3.0.0.dylib */,
+				1F06E5FE1AA792EC00D9CEDE /* libopencv_features2d.3.0.0.dylib */,
+				1F06E5FF1AA792EC00D9CEDE /* libopencv_flann.3.0.0.dylib */,
+				1F06E5EB1AA790CA00D9CEDE /* libopencv_imgcodecs.3.0.0.dylib */,
+				1F06E5EC1AA790CA00D9CEDE /* libopencv_imgproc.3.0.0.dylib */,
+				1F06E5E71AA7906500D9CEDE /* libopencv_highgui.3.0.0.dylib */,
+				1F06E5E51AA7904A00D9CEDE /* libopencv_core.3.0.0.dylib */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		1F41BBD91AB9F2C3003D0FAD /* tinyxml2 */ = {
+			isa = PBXGroup;
+			children = (
+				1F41BBD71AB9F2C3003D0FAD /* tinyxml2.cpp */,
+				1F41BBD81AB9F2C3003D0FAD /* tinyxml2.h */,
+			);
+			name = tinyxml2;
+			sourceTree = "<group>";
+		};
+		1F41BBF71ABA0B12003D0FAD /* b64 */ = {
+			isa = PBXGroup;
+			children = (
+				1F41BBF11ABA0B12003D0FAD /* cdecode.c */,
+				1F41BBF21ABA0B12003D0FAD /* cdecode.h */,
+				1F41BBF31ABA0B12003D0FAD /* cencode.c */,
+				1F41BBF41ABA0B12003D0FAD /* cencode.h */,
+				1F41BBF51ABA0B12003D0FAD /* decode.h */,
+				1F41BBF61ABA0B12003D0FAD /* encode.h */,
+			);
+			name = b64;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1F06E5D41AA78A1700D9CEDE /* TextExtractor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1F06E5DC1AA78A1700D9CEDE /* Build configuration list for PBXNativeTarget "TextExtractor" */;
+			buildPhases = (
+				1F06E5D11AA78A1700D9CEDE /* Sources */,
+				1F06E5D21AA78A1700D9CEDE /* Frameworks */,
+				1F06E5D31AA78A1700D9CEDE /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TextExtractor;
+			productName = TextExtractor;
+			productReference = 1F06E5D51AA78A1700D9CEDE /* TextExtractor */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1F06E5CD1AA78A1700D9CEDE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = IDMission;
+				TargetAttributes = {
+					1F06E5D41AA78A1700D9CEDE = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+				};
+			};
+			buildConfigurationList = 1F06E5D01AA78A1700D9CEDE /* Build configuration list for PBXProject "TextExtractor" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 1F06E5CC1AA78A1700D9CEDE;
+			productRefGroup = 1F06E5D61AA78A1700D9CEDE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1F06E5D41AA78A1700D9CEDE /* TextExtractor */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1F06E5D11AA78A1700D9CEDE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F41BBF91ABA0B12003D0FAD /* cencode.c in Sources */,
+				1F41BBDA1AB9F2C3003D0FAD /* tinyxml2.cpp in Sources */,
+				1F41BBF81ABA0B12003D0FAD /* cdecode.c in Sources */,
+				1F06E62A1AA79B1C00D9CEDE /* TemplateMatcher.cpp in Sources */,
+				1F41BBDF1ABA098A003D0FAD /* fileutil.cpp in Sources */,
+				1F41BBD61AB9F2AF003D0FAD /* Document.cpp in Sources */,
+				1F06E62C1AA79B1C00D9CEDE /* TextExtractor.cpp in Sources */,
+				1F06E5D91AA78A1700D9CEDE /* main.cpp in Sources */,
+				1F06E6291AA79B1C00D9CEDE /* DocumentMatcher.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1F06E5DA1AA78A1700D9CEDE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		1F06E5DB1AA78A1700D9CEDE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		1F06E5DD1AA78A1700D9CEDE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/Users/goranrauker/Development/libraries/native/opencv/include,
+					/usr/local/include,
+					"/Users/goranrauker/Development/idmission\\ appit-ios/ThirdParty",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/Users/goranrauker/Development/libraries/native/opencv/lib,
+					/usr/local/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		1F06E5DE1AA78A1700D9CEDE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/Users/goranrauker/Development/libraries/native/opencv/include,
+					/usr/local/include,
+					"/Users/goranrauker/Development/idmission\\ appit-ios/ThirdParty",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/Users/goranrauker/Development/libraries/native/opencv/lib,
+					/usr/local/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1F06E5D01AA78A1700D9CEDE /* Build configuration list for PBXProject "TextExtractor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1F06E5DA1AA78A1700D9CEDE /* Debug */,
+				1F06E5DB1AA78A1700D9CEDE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1F06E5DC1AA78A1700D9CEDE /* Build configuration list for PBXNativeTarget "TextExtractor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1F06E5DD1AA78A1700D9CEDE /* Debug */,
+				1F06E5DE1AA78A1700D9CEDE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1F06E5CD1AA78A1700D9CEDE /* Project object */;
+}

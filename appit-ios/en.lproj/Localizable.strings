@@ -1,0 +1,68 @@
+/* 
+  Localizable.strings
+  appit-ios
+
+  Created by idmission solutions pvt ltd  on 24/03/17.
+  Copyright © 2017 IDMission. All rights reserved.
+*/
+
+"light" = "Light";
+"intensity" = "Intensity";
+"focus" = "Focus";
+"glare" = "Glare";
+"smile" = "Smile";
+"low_light_msg" = "It's too dark to take a good image. Find a place with better lighting";
+"low_light_msg_fd" = "It's too dark to take a good image.\nFind a place with better lighting";
+"out_of_focus" = "Tap screen to focus or move camera closer/away";
+"out_of_focus_fd" = "Tap screen to focus \n or move camera closer/away";
+"smile_please" = "Hold camera steady and smile please.";
+"face_detected"="Face detected.";
+"glare_msg" = "Too much light, move document away from direct light";
+"align_document_msg" = "Align document inside the green corners and wait, we'll take the photo for you";
+"move_camera_closer_to_your_face" = "Move camera closer to face and look towards light.";
+"camera_movement" = "Hold camera steady.";
+"internet_error" = "Internet not available";
+"subject_is_too_dark_fc_detect" = "It's too dark to take a good image.\nFind a place with better lighting";
+"out_of_focus_fc_detect" = "Tap screen to focus \n or move camera closer/away";
+"camera_movement_fc_detect" = "Hold camera steady.";
+"keep_face_steady" = "Keep your face steady";
+"detecting_face" = "Detecting face";
+"capturing_identification" = "Capturing identification";
+"look_straight" = "Please look straight into the phone";
+"turn_left" = "Turn your head slowly to the left";
+"turn_right" = "Turn your head slowly to the right";
+"move_up" = "Slowly move your head up";
+"move_down" = "Slowly move your head down";
+"too_much_glare_face_capture" = "Too much light, move face away from direct light";
+"face_image_preview_msg" = "Verify open eyes and also ensure there is no light behind the face.";
+"face_capture_preview_header" = "Detect face preview";
+
+//Error messages
+"success_msg" = "Success";
+"initialization_required_msg" = "SDK not initialized";
+"image_not_captured_msg" = "Image not captured";
+"no_internet_connectivity_msg" = "No internet connection";
+"network_timeout_msg" = "Poor internet connectivity";
+"face_not_detected" = "Live face not detected";
+"request_param_not_available" = "Request parameter not available";
+"invalid_request_param" = "Invalid request parameter";
+"some_error_occurred_msg" = "An error has occurred, please try again";
+"card_not_detected_msg" = "Card not detected.";
+"http_error_500_msg" = "Error in processing your request. Internal Server Error.";
+"http_error_502_msg" = "Error in processing your request. Bad gateway.";
+"http_error_503_msg" = "Error in processing your request. Please try after sometime.";
+"http_error_504_msg" = "Error in processing your request. Gateway timeout.";
+"http_error_404_msg" = "Resource URL could not be found. Please correct URL.";
+"socket_exception_msg" = "Socket timeout exception.";
+"read_timeout_msg" = "Timeout for Response.";
+"unhandled_exception_msg" = "Error in processing your request.";
+"empty_response_msg" = "Error in processing your request.Empty response received.";
+"unknown_host_exception_msg" = "Error in processing your request. Unknown Host Exception.";
+
+//Instruction screen msg
+"continue" = "Continue";
+"face_detection_instruction" = "Take an interactive selfie.\nDo not wear GLASSES or HAT.\nDo not have LIGHT behind you.\nWhen you see turn arrow, please TURN your head slowly.";
+"id_capture_instruction" = "Align the ID with edges of the box.";
+"id_capture_preview_header" = "Check readability";
+"id_capture_preview_message" = "Verify to ensure complete ID is visible with edges and there is no glare or blurred text.";
+

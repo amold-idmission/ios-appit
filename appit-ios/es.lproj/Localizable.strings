@@ -1,0 +1,67 @@
+/* 
+  Localizable.strings
+  appit-ios
+
+  Created by idmission solutions pvt ltd  on 24/03/17.
+  Copyright © 2017 IDMission. All rights reserved.
+*/
+
+"light" = "Iluminación";
+"intensity" = "Intensidad";
+"focus" = "Enfoque";
+"glare" = "Brillo";
+"smile" = "Sonria";
+"low_light_msg" = "No hay suficiente iluminación, por favor busca que la luz ilumine tu rostro.";
+"low_light_msg_fd" = "No hay suficiente iluminación, \n por favor busca que la luz ilumine tu rostro.";
+"out_of_focus" = "Para enfocar, acerca o aleja la cámara ";
+"out_of_focus_fd" = "Para enfocar, \n acerca o aleja la cámara ";
+"smile_please" = "Mantén fija la cámara y sonríe para que detecte tu rostro";
+"face_detected"="Tu rostro ha sido detectado";
+"glare_msg" = "Hay demasiado brillo, por favor retira el documento de la luz directa";
+"align_document_msg" = "Posiciona el documento dentro de los margenes verdes y espera, tomaremos la foto por ti.";
+"move_camera_closer_to_your_face" = "Acerca la cámara a tu rostro y colócate de frente a la luz";
+"camera_movement" = "Mantén fija la cámara";
+"internet_error" = "Internet no esta disponible.";
+"subject_is_too_dark_fc_detect" = "No hay suficiente iluminación,\n por favor busca que la luz ilumine el objetivo";
+"out_of_focus_fc_detect" = "Para enfocar, \n acerca o aleja la cámara ";
+"camera_movement_fc_detect" = "Mantén fija la cámara";
+"keep_face_steady" = "Mantenga su cara estable";
+"detecting_face" = "Detectando la cara";
+"capturing_identification" = "Captura de identificación";
+"look_straight" = "Por favor mira directamente al teléfono";
+"turn_left" = "Gira la cabeza lentamente a la izquierda";
+"turn_right" = "Gira la cabeza lentamente a la derecha";
+"move_up" = "Mueve la cabeza lentamente hacia arriba";
+"move_down" = "Mueve la cabeza lentamente hacia abajo";
+"too_much_glare_face_capture" = "Demasiada luz, aleja la cara de la luz directa";
+"face_image_preview_msg" = "Verifique los ojos abiertos y también asegúrese de que no hay luz detrás de la cara";
+"face_capture_preview_header" = "  Compruebe la legibilidad";
+
+//Error messages
+"success_msg" = "Respuesta existosa";
+"initialization_required_msg" = "SDK no se ha inicializado";
+"image_not_captured_msg" = "Imagen no se ha capturado";
+"no_internet_connectivity_msg" = "No hay conexion a internet";
+"network_timeout_msg" = "Hay poco internet";
+"face_not_detected" = "Rostro vivo no se ha detectado";
+"request_param_not_available" = "Parametro requerido no esta disponible";
+"invalid_request_param" = "Parametro requerido invalido";
+"some_error_occurred_msg" = "Ha ocurrido un error, vuelva a intentar";
+"card_not_detected_msg" = "No se detectó la tarjeta";
+"http_error_500_msg" = "Se produjo un error al procesar su peticion. Error en servidor interno";
+"http_error_502_msg" = "Se produjo un error al procesar su peticion. Problema del gateway";
+"http_error_503_msg" = "Se produjo un error al procesar su peticion. Porfavor intente ma tarde";
+"http_error_504_msg" = "Se produjo un error al procesar su peticion. Tiempo límite de espera excedido";
+"http_error_404_msg" = "La direccion URL no se encontro. Porfavor corrija la direccion URL";
+"socket_exception_msg" = "Tiempo limite de espera excedido en el socket";
+"read_timeout_msg" = "Tiempo limite de espera excedido para la respuesta";
+"unhandled_exception_msg" = "Se produjo un error al procesar su peticion.";
+"empty_response_msg" = "Se produjo un error al procesar su peticion. Se recibio respuesta vacia";
+"unknown_host_exception_msg" = "Se produjo un error al procesar su peticion. Se recibio una excepcion del host";
+
+//Instruction screen msg
+"continue" = "Continue";
+"face_detection_instruction" = "Toma una selfie interactiva.\nNo use GAFAS o SOMBRERO.\nNo tienes LUZ detrás de ti.\nCuando vea un icono de cara sonriente, por favor, sonría.";
+"id_capture_instruction" = "Alinea la identificación con los bordes de la caja.";
+"id_capture_preview_header" = "Compruebe la legibilidad";
+"id_capture_preview_message" = "Compruebe que el ID completo es visible con los bordes y que no hay resplandor ni texto borroso.";

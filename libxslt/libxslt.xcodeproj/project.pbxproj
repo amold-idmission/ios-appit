@@ -1,0 +1,230 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		C77FB299183678C10045904E /* attributes.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = attributes.c; sourceTree = "<group>"; };
+		C77FB29A183678C10045904E /* attributes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = attributes.h; sourceTree = "<group>"; };
+		C77FB29B183678C10045904E /* attrvt.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = attrvt.c; sourceTree = "<group>"; };
+		C77FB29C183678C10045904E /* documents.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = documents.c; sourceTree = "<group>"; };
+		C77FB29D183678C10045904E /* documents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = documents.h; sourceTree = "<group>"; };
+		C77FB29E183678C10045904E /* extensions.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = extensions.c; sourceTree = "<group>"; };
+		C77FB29F183678C10045904E /* extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = extensions.h; sourceTree = "<group>"; };
+		C77FB2A0183678C10045904E /* extra.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = extra.c; sourceTree = "<group>"; };
+		C77FB2A1183678C10045904E /* extra.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = extra.h; sourceTree = "<group>"; };
+		C77FB2A2183678C10045904E /* functions.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = functions.c; sourceTree = "<group>"; };
+		C77FB2A3183678C10045904E /* functions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = functions.h; sourceTree = "<group>"; };
+		C77FB2A4183678C10045904E /* imports.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = imports.c; sourceTree = "<group>"; };
+		C77FB2A5183678C10045904E /* imports.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imports.h; sourceTree = "<group>"; };
+		C77FB2A6183678C10045904E /* keys.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = keys.c; sourceTree = "<group>"; };
+		C77FB2A7183678C10045904E /* keys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = keys.h; sourceTree = "<group>"; };
+		C77FB2A8183678C10045904E /* libxslt.3 */ = {isa = PBXFileReference; lastKnownFileType = text; path = libxslt.3; sourceTree = "<group>"; };
+		C77FB2A9183678C10045904E /* libxslt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libxslt.h; sourceTree = "<group>"; };
+		C77FB2AA183678C10045904E /* libxslt.syms */ = {isa = PBXFileReference; lastKnownFileType = text; path = libxslt.syms; sourceTree = "<group>"; };
+		C77FB2AB183678C10045904E /* Makefile.am */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
+		C77FB2AC183678C10045904E /* namespaces.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = namespaces.c; sourceTree = "<group>"; };
+		C77FB2AD183678C10045904E /* namespaces.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = namespaces.h; sourceTree = "<group>"; };
+		C77FB2AE183678C10045904E /* numbers.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = numbers.c; sourceTree = "<group>"; };
+		C77FB2AF183678C10045904E /* numbersInternals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = numbersInternals.h; sourceTree = "<group>"; };
+		C77FB2B0183678C10045904E /* pattern.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = pattern.c; sourceTree = "<group>"; };
+		C77FB2B1183678C10045904E /* pattern.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pattern.h; sourceTree = "<group>"; };
+		C77FB2B2183678C10045904E /* preproc.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = preproc.c; sourceTree = "<group>"; };
+		C77FB2B3183678C10045904E /* preproc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = preproc.h; sourceTree = "<group>"; };
+		C77FB2B4183678C10045904E /* security.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = security.c; sourceTree = "<group>"; };
+		C77FB2B5183678C10045904E /* security.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = security.h; sourceTree = "<group>"; };
+		C77FB2B6183678C10045904E /* templates.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = templates.c; sourceTree = "<group>"; };
+		C77FB2B7183678C10045904E /* templates.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = templates.h; sourceTree = "<group>"; };
+		C77FB2B8183678C10045904E /* transform.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = transform.c; sourceTree = "<group>"; };
+		C77FB2B9183678C10045904E /* transform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = transform.h; sourceTree = "<group>"; };
+		C77FB2BA183678C10045904E /* trio.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = trio.h; sourceTree = "<group>"; };
+		C77FB2BB183678C10045904E /* triodef.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = triodef.h; sourceTree = "<group>"; };
+		C77FB2BC183678C10045904E /* variables.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = variables.c; sourceTree = "<group>"; };
+		C77FB2BD183678C10045904E /* variables.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = variables.h; sourceTree = "<group>"; };
+		C77FB2BE183678C10045904E /* win32config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = win32config.h; sourceTree = "<group>"; };
+		C77FB2BF183678C10045904E /* xslt.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = xslt.c; sourceTree = "<group>"; };
+		C77FB2C0183678C10045904E /* xslt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xslt.h; sourceTree = "<group>"; };
+		C77FB2C1183678C10045904E /* xsltconfig.h.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = xsltconfig.h.in; sourceTree = "<group>"; };
+		C77FB2C2183678C10045904E /* xsltexports.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xsltexports.h; sourceTree = "<group>"; };
+		C77FB2C3183678C10045904E /* xsltInternals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xsltInternals.h; sourceTree = "<group>"; };
+		C77FB2C4183678C10045904E /* xsltlocale.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = xsltlocale.c; sourceTree = "<group>"; };
+		C77FB2C5183678C10045904E /* xsltlocale.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xsltlocale.h; sourceTree = "<group>"; };
+		C77FB2C6183678C10045904E /* xsltutils.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = xsltutils.c; sourceTree = "<group>"; };
+		C77FB2C7183678C10045904E /* xsltutils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xsltutils.h; sourceTree = "<group>"; };
+		C77FB2C8183678C10045904E /* xsltwin32config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xsltwin32config.h; sourceTree = "<group>"; };
+		C77FB2C9183678C10045904E /* xsltwin32config.h.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = xsltwin32config.h.in; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		C77FB293183678C10045904E = {
+			isa = PBXGroup;
+			children = (
+				C77FB299183678C10045904E /* attributes.c */,
+				C77FB29A183678C10045904E /* attributes.h */,
+				C77FB29B183678C10045904E /* attrvt.c */,
+				C77FB29C183678C10045904E /* documents.c */,
+				C77FB29D183678C10045904E /* documents.h */,
+				C77FB29E183678C10045904E /* extensions.c */,
+				C77FB29F183678C10045904E /* extensions.h */,
+				C77FB2A0183678C10045904E /* extra.c */,
+				C77FB2A1183678C10045904E /* extra.h */,
+				C77FB2A2183678C10045904E /* functions.c */,
+				C77FB2A3183678C10045904E /* functions.h */,
+				C77FB2A4183678C10045904E /* imports.c */,
+				C77FB2A5183678C10045904E /* imports.h */,
+				C77FB2A6183678C10045904E /* keys.c */,
+				C77FB2A7183678C10045904E /* keys.h */,
+				C77FB2A8183678C10045904E /* libxslt.3 */,
+				C77FB2A9183678C10045904E /* libxslt.h */,
+				C77FB2AA183678C10045904E /* libxslt.syms */,
+				C77FB2AB183678C10045904E /* Makefile.am */,
+				C77FB2AC183678C10045904E /* namespaces.c */,
+				C77FB2AD183678C10045904E /* namespaces.h */,
+				C77FB2AE183678C10045904E /* numbers.c */,
+				C77FB2AF183678C10045904E /* numbersInternals.h */,
+				C77FB2B0183678C10045904E /* pattern.c */,
+				C77FB2B1183678C10045904E /* pattern.h */,
+				C77FB2B2183678C10045904E /* preproc.c */,
+				C77FB2B3183678C10045904E /* preproc.h */,
+				C77FB2B4183678C10045904E /* security.c */,
+				C77FB2B5183678C10045904E /* security.h */,
+				C77FB2B6183678C10045904E /* templates.c */,
+				C77FB2B7183678C10045904E /* templates.h */,
+				C77FB2B8183678C10045904E /* transform.c */,
+				C77FB2B9183678C10045904E /* transform.h */,
+				C77FB2BA183678C10045904E /* trio.h */,
+				C77FB2BB183678C10045904E /* triodef.h */,
+				C77FB2BC183678C10045904E /* variables.c */,
+				C77FB2BD183678C10045904E /* variables.h */,
+				C77FB2BE183678C10045904E /* win32config.h */,
+				C77FB2BF183678C10045904E /* xslt.c */,
+				C77FB2C0183678C10045904E /* xslt.h */,
+				C77FB2C1183678C10045904E /* xsltconfig.h.in */,
+				C77FB2C2183678C10045904E /* xsltexports.h */,
+				C77FB2C3183678C10045904E /* xsltInternals.h */,
+				C77FB2C4183678C10045904E /* xsltlocale.c */,
+				C77FB2C5183678C10045904E /* xsltlocale.h */,
+				C77FB2C6183678C10045904E /* xsltutils.c */,
+				C77FB2C7183678C10045904E /* xsltutils.h */,
+				C77FB2C8183678C10045904E /* xsltwin32config.h */,
+				C77FB2C9183678C10045904E /* xsltwin32config.h.in */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		C77FB298183678C10045904E /* libxslt */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = C77FB2CA183678C10045904E /* Build configuration list for PBXLegacyTarget "libxslt" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "/Users/anthonymain/Documents/XSLTTest4/libxslt-1.1.28/libxslt";
+			dependencies = (
+			);
+			name = libxslt;
+			passBuildSettingsInEnvironment = 1;
+			productName = libxslt;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		C77FB294183678C10045904E /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C77FB297183678C10045904E /* Build configuration list for PBXProject "libxslt" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C77FB293183678C10045904E;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C77FB298183678C10045904E /* libxslt */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		C77FB295183678C10045904E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		C77FB296183678C10045904E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+		C77FB2CB183678C10045904E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = libxslt;
+			};
+			name = Debug;
+		};
+		C77FB2CC183678C10045904E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = libxslt;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C77FB297183678C10045904E /* Build configuration list for PBXProject "libxslt" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C77FB295183678C10045904E /* Debug */,
+				C77FB296183678C10045904E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C77FB2CA183678C10045904E /* Build configuration list for PBXLegacyTarget "libxslt" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C77FB2CB183678C10045904E /* Debug */,
+				C77FB2CC183678C10045904E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C77FB294183678C10045904E /* Project object */;
+}
