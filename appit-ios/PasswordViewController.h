@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Settings.h"
-#import "NSStringUtils.h"
+#import "NS_String_Utils.h"
 
 @interface PasswordViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UITextField *password;

@@ -7,30 +7,30 @@
 //
 
 #import "AppDelegate.h"
-#import "OpenCvViewControllerAppit.h"
+//#import "OpenCvViewControllerAppit.h"
 #import "ViewController.h"
 #import "IDServerInterface.h"
 #import "OpenCVUtils.h"
-#import "FaceDetectionViewController.h"
+//#import "FaceDetectionViewController.h"
 //#import "FaceDetectionNewViewController.h"
-#import "FingerDetectionViewController2.h"
-#import "FingerPreviewViewController.h"
-#import "ScanCardIOViewController.h"
-#import "VoiceRecorder.h"
-#import "VideoRecorderViewController.h"
-#import "SkipImageProcessingViewController.h"
+//#import "FingerDetectionViewController2.h"
+//#import "FingerPreviewViewController.h"
+//#import "ScanCardIOViewController.h"
+//#import "VoiceRecorder.h"
+//#import "VideoRecorderViewController.h"
+//#import "SkipImageProcessingViewController.h"
 #import "NSData+GZIP.h"
 #import "UIView+Toast.h"
 #import "PasswordViewController.h"
-#import "NSStringUtils.h"
+#import "NS_String_Utils.h"
 #import <sys/utsname.h>
-#import "BarcodeViewController.h"
-#import "InstructionViewController.h"
-#import "CaptureSignatureController.h"
-#import "MlKitFaceController.h"
-#import "FacePreviewViewController.h"
-#import "SnippetCaptureController.h"
-#import "SnippetData.h"
+//#import "BarcodeViewController.h"
+//#import "InstructionViewController.h"
+//#import "CaptureSignatureController.h"
+//#import "MlKitFaceController.h"
+//#import "FacePreviewViewController.h"
+//#import "SnippetCaptureController.h"
+//#import "SnippetData.h"
 #import <AppItFramework/AppItSDK.h>
 
 #define TEMPLATES_FOLDER [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/templates"]
@@ -93,6 +93,7 @@ static bool idfaceshowInstruction = true;
     
     //ADDED MA
     [super viewDidLoad];
+    [AppItSDK setIsSDKForAppIT:true];
     [self setupWebView];
     [self reloadURL];
 //    self.webView.delegate = self;
@@ -103,7 +104,6 @@ static bool idfaceshowInstruction = true;
     isBackPressed = false;
     
     isImageSnippetCapture = @"N";
-    
 }
 
 - (void)setupWebView {
@@ -447,7 +447,7 @@ static bool idfaceshowInstruction = true;
     } else {
         
         NSString *extensionOfPath = navigationAction.request.URL.pathExtension;
-        if(![NSStringUtils stringIsNilOrEmpty:extensionOfPath] && [@"pdf" isEqualToString:extensionOfPath]) {
+        if(![NS_String_Utils stringIsNilOrEmpty:extensionOfPath] && [@"pdf" isEqualToString:extensionOfPath]) {
             [self.webView setHidden:YES];
             [self setUpWebViewForPDF:navigationAction.request.URL.absoluteString];
         }
@@ -1063,7 +1063,7 @@ static bool idfaceshowInstruction = true;
         
         if([imageProcessingData objectForKey:@"GlarePercentageThreshold"]) {
             NSString *glarePercentageThreshold = [imageProcessingData objectForKey:@"GlarePercentageThreshold"];
-            if([NSStringUtils stringIsNilOrEmpty:glarePercentageThreshold]) {
+            if([NS_String_Utils stringIsNilOrEmpty:glarePercentageThreshold]) {
                 [nonUIDictionary setObject:@"" forKey:@"id_glare_percentage"];
             }  else {
                 [nonUIDictionary setObject:[imageProcessingData objectForKey:@"GlarePercentageThreshold"] forKey:@"id_glare_percentage"];
@@ -1453,15 +1453,15 @@ static bool idfaceshowInstruction = true;
             NSString *state = [imageProcessingData objectForKey:@"state"];
             NSString *IDType = [imageProcessingData objectForKey:@"idType"];
             
-            if(![NSStringUtils stringIsNilOrEmpty:country]){
+            if(![NS_String_Utils stringIsNilOrEmpty:country]){
                 [nonUIDictionary setObject:country forKey:@"country_code"];
             }
             
-            if(![NSStringUtils stringIsNilOrEmpty:state]){
+            if(![NS_String_Utils stringIsNilOrEmpty:state]){
                 [nonUIDictionary setObject:state forKey:@"state_code"];
             }
             
-            if(![NSStringUtils stringIsNilOrEmpty:IDType]){
+            if(![NS_String_Utils stringIsNilOrEmpty:IDType]){
                 [nonUIDictionary setObject:IDType forKey:@"id_type"];
             }
             
@@ -1554,7 +1554,7 @@ static bool idfaceshowInstruction = true;
     [AppItSDK captureFourFingerprint:self cameraFingerCaptureConfig:nonUIDictionary];
     
     //   // if(idfaceshowInstruction) {
-    //    if(![NSStringUtils stringIsNilOrEmpty:[imageProcessingData objectForKey:@"showInstruction"]] && [@"Y" isEqualToString:[imageProcessingData objectForKey:@"showInstruction"]] && idfaceshowInstruction) {
+    //    if(![NS_String_Utils stringIsNilOrEmpty:[imageProcessingData objectForKey:@"showInstruction"]] && [@"Y" isEqualToString:[imageProcessingData objectForKey:@"showInstruction"]] && idfaceshowInstruction) {
     //
     //
     //        // Text Size is similar to HintMEssageSize
@@ -2383,43 +2383,43 @@ static bool idfaceshowInstruction = true;
     [self prepare_data_for_fingerprint];
 }
 
--(void)snippetCaptureResponse : (NSMutableDictionary*) result instance:(id)instance {
-    NSLog(@"Snippet Capture Response");
-    NSMutableDictionary *responseData = [self build_common_return_data];
-    [responseData setObject:@"saveImageSnippet" forKey:@"callbackHandlerName"];
-    SnippetCaptureController *snippetController = (SnippetCaptureController*)instance;
-    NSString *responseBarcodeData = [self get_json_string:[snippetController finalResultDictionary]];
-    if([@"0" isEqualToString:[result objectForKey:@"statusCode"]]) {
-        [responseData setValue:@"0" forKey:@"status"];
-    } else if([@"1" isEqualToString:[result objectForKey:@"statusCode"]]) {
-        [responseData setValue:@"59" forKey:@"status"]; //Snippet Back button pressed
-    }
-    [responseData setValue:@"" forKey:@"message"];
-    [responseData setValue:responseBarcodeData forKey:@"dataFromAppit"];
-    
-    //convert object to data
-    NSString *encodedResponseJsonString = [self get_encoded_json_string:responseData];
-    
-    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedResponseJsonString];
-    //[responseData setValue:@"0" forKey:@"status"];
-}
-
+//-(void)snippetCaptureResponse : (NSMutableDictionary*) result instance:(id)instance {
+//    NSLog(@"Snippet Capture Response");
+//    NSMutableDictionary *responseData = [self build_common_return_data];
+//    [responseData setObject:@"saveImageSnippet" forKey:@"callbackHandlerName"];
+//    SnippetCaptureController *snippetController = (SnippetCaptureController*)instance;
+//    NSString *responseBarcodeData = [self get_json_string:[snippetController finalResultDictionary]];
+//    if([@"0" isEqualToString:[result objectForKey:@"statusCode"]]) {
+//        [responseData setValue:@"0" forKey:@"status"];
+//    } else if([@"1" isEqualToString:[result objectForKey:@"statusCode"]]) {
+//        [responseData setValue:@"59" forKey:@"status"]; //Snippet Back button pressed
+//    }
+//    [responseData setValue:@"" forKey:@"message"];
+//    [responseData setValue:responseBarcodeData forKey:@"dataFromAppit"];
+//
+//    //convert object to data
+//    NSString *encodedResponseJsonString = [self get_encoded_json_string:responseData];
+//
+//    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedResponseJsonString];
+//    //[responseData setValue:@"0" forKey:@"status"];
+//}
+//
 -(void)captureSignatureResponse : (NSMutableDictionary*) result {
-    
+
     NSMutableDictionary *responseData = [self build_common_return_data];
-    
+
     NSMutableDictionary *responseBarcodeDict = [[NSMutableDictionary alloc] init];
-    
+
     NSString *signatureCaptureImage = [result objectForKey:@"signatureImage"];
-    
+
     if(nil != signatureCaptureImage) {
         [responseBarcodeDict setValue:signatureCaptureImage forKey:@"defaultBarcodeImage"];
     } else {
         [responseBarcodeDict setValue:@"" forKey:@"defaultBarcodeImage"];
     }
-    
+
     NSString *responseBarcodeData = [self get_json_string:responseBarcodeDict];
-    
+
     NSString *statusCode = [result objectForKey:@"statusCode"];
     if([@"0" isEqualToString:statusCode]) {
         [responseData setValue:@"57" forKey:@"status"];
@@ -2427,33 +2427,33 @@ static bool idfaceshowInstruction = true;
         [responseData setValue:@"56" forKey:@"status"];
     }
     [responseData setValue:responseBarcodeData forKey:@"dataFromAppit"];
-    
+
     //convert object to data
     NSString *encodedResponseJsonString = [self get_encoded_json_string:responseData];
-    
+
     [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedResponseJsonString];
-    
+
 }
 
--(void)captureSignatureResponse : (NSMutableDictionary*) result instance:(id)instance {
-    NSLog(@"Signature Capture");
-    NSMutableDictionary *responseData = [self build_common_return_data];
-    
-    CaptureSignatureController *signature = (CaptureSignatureController*)instance;
-    
-    //if([signature.responseStatus isEqualToString:@"54"]) {
-    NSMutableDictionary *responseBarcodeDict = [[NSMutableDictionary alloc] init];
-    [responseBarcodeDict setValue:signature.defaultSignatureStringData forKey:@"defaultBarcodeImage"];
-    NSString *responseBarcodeData = [self get_json_string:responseBarcodeDict];
-    [responseData setValue:signature.responseStatus forKey:@"status"];
-    [responseData setValue:responseBarcodeData forKey:@"dataFromAppit"];
-    
-    //convert object to data
-    NSString *encodedResponseJsonString = [self get_encoded_json_string:responseData];
-    
-    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedResponseJsonString];
-    //    }
-}
+//-(void)captureSignatureResponse : (NSMutableDictionary*) result instance:(id)instance {
+//    NSLog(@"Signature Capture");
+//    NSMutableDictionary *responseData = [self build_common_return_data];
+//
+//    CaptureSignatureController *signature = (CaptureSignatureController*)instance;
+//
+//    //if([signature.responseStatus isEqualToString:@"54"]) {
+//    NSMutableDictionary *responseBarcodeDict = [[NSMutableDictionary alloc] init];
+//    [responseBarcodeDict setValue:signature.defaultSignatureStringData forKey:@"defaultBarcodeImage"];
+//    NSString *responseBarcodeData = [self get_json_string:responseBarcodeDict];
+//    [responseData setValue:signature.responseStatus forKey:@"status"];
+//    [responseData setValue:responseBarcodeData forKey:@"dataFromAppit"];
+//
+//    //convert object to data
+//    NSString *encodedResponseJsonString = [self get_encoded_json_string:responseData];
+//
+//    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedResponseJsonString];
+//    //    }
+//}
 
 -(void)scanBarcodeResponse : (NSMutableDictionary*) result {
     NSMutableDictionary *responseData = [self build_common_return_data];
@@ -2487,35 +2487,35 @@ static bool idfaceshowInstruction = true;
     [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedResponseJsonString];
 }
 
--(void)barcodeScanningResponse:(NSMutableDictionary *)result instance:(id)instance {
-    NSLog(@"Scanning barcode");
-    NSMutableDictionary *responseData = [self build_common_return_data];
-    
-    BarcodeViewController *barcode = (BarcodeViewController*)instance;
-    
-    if([barcode.responseStatus isEqualToString:@"54"]) {
-        
-        NSMutableDictionary *responseBarcodeDict = [[NSMutableDictionary alloc] init];
-        [responseBarcodeDict setValue:barcode.barcodeContentData forKey:@"content"];
-        [responseBarcodeDict setValue:barcode.barcodeFormatType forKey:@"format"];
-        //        [responseBarcodeDict setValue:barcode.barcodeImageData forKey:@"barcodeImage"];
-        [responseBarcodeDict setValue:barcode.defaultBarcodeImageStringData forKey:@"defaultBarcodeImage"];
-        NSString *responseBarcodeData = [self get_json_string:responseBarcodeDict];
-        
-        // responseData = [[NSMutableDictionary alloc] init];
-        //        [responseData setValue:barcode.responseStatus forKey:@"responseCode"];
-        //[responseData setValue:responseBarcodeData forKey:@"responseData"];
-        [responseData setValue:barcode.responseStatus forKey:@"status"];
-        [responseData setValue:responseBarcodeData forKey:@"dataFromAppit"];
-        
-        //convert object to data
-        NSString *encodedResponseJsonString = [self get_encoded_json_string:responseData];
-        
-        //call inform
-        [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedResponseJsonString];
-        
-    }
-}
+//-(void)barcodeScanningResponse:(NSMutableDictionary *)result instance:(id)instance {
+//    NSLog(@"Scanning barcode");
+//    NSMutableDictionary *responseData = [self build_common_return_data];
+//
+//    BarcodeViewController *barcode = (BarcodeViewController*)instance;
+//
+//    if([barcode.responseStatus isEqualToString:@"54"]) {
+//
+//        NSMutableDictionary *responseBarcodeDict = [[NSMutableDictionary alloc] init];
+//        [responseBarcodeDict setValue:barcode.barcodeContentData forKey:@"content"];
+//        [responseBarcodeDict setValue:barcode.barcodeFormatType forKey:@"format"];
+//        //        [responseBarcodeDict setValue:barcode.barcodeImageData forKey:@"barcodeImage"];
+//        [responseBarcodeDict setValue:barcode.defaultBarcodeImageStringData forKey:@"defaultBarcodeImage"];
+//        NSString *responseBarcodeData = [self get_json_string:responseBarcodeDict];
+//
+//        // responseData = [[NSMutableDictionary alloc] init];
+//        //        [responseData setValue:barcode.responseStatus forKey:@"responseCode"];
+//        //[responseData setValue:responseBarcodeData forKey:@"responseData"];
+//        [responseData setValue:barcode.responseStatus forKey:@"status"];
+//        [responseData setValue:responseBarcodeData forKey:@"dataFromAppit"];
+//
+//        //convert object to data
+//        NSString *encodedResponseJsonString = [self get_encoded_json_string:responseData];
+//
+//        //call inform
+//        [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedResponseJsonString];
+//
+//    }
+//}
 
 -(void)faceDetectionResponse : (NSMutableDictionary*) result {
     
@@ -2574,68 +2574,68 @@ static bool idfaceshowInstruction = true;
     
 }
 
--(void)faceDetectionResponse:(NSMutableDictionary *)result instance:(id)instance;{
-    
-    NSMutableDictionary *configOriginal = [self build_common_return_data];
-    
-    //    FaceDetectionNewViewController* face = (FaceDetectionNewViewController*)instance;
-    NSMutableDictionary *configEllipse;
-    if([instance isKindOfClass:[MlKitFaceController class]]) {
-        MlKitFaceController *face = (MlKitFaceController*)instance;
-        [configOriginal setObject: face.responseStatus forKey:@"status"];
-        
-        //Creating copy of config
-        configEllipse = [configOriginal mutableCopy];
-        
-        if ([face.responseStatus isEqualToString:@"0"]) {
-            NSMutableDictionary *imagRespOriginal = [NSMutableDictionary new];
-            [imagRespOriginal setObject:face.respOrigionalImgData forKey:@"OriginalImage"];
-            //            [imagResp setObject:face.respEllipseImgData forKey:@"EllipseImage"];
-            
-            NSMutableDictionary *imagRespEllipse = [NSMutableDictionary new];
-            [imagRespEllipse setObject:face.respEllipseImgData forKey:@"EllipseImage"];
-            
-            [configOriginal setObject:[self get_json_string:imagRespOriginal] forKey:@"dataFromAppit"];
-            [configEllipse setObject:[self get_json_string:imagRespEllipse] forKey:@"dataFromAppit"];
-        }else if ([face.responseStatus isEqualToString:@"26"]) {
-            // Make toast with a duration and position
-            [self.view makeToast:@"Face detection failed."
-                        duration:5.0
-                        position:CSToastPositionCenter];
-        }
-    } else {
-        FacePreviewViewController *face = (FacePreviewViewController*)instance;
-        [configOriginal setObject: face.responseStatus forKey:@"status"];
-        
-        //Creating copy of config
-        configEllipse = [configOriginal mutableCopy];
-        
-        if ([face.responseStatus isEqualToString:@"0"]) {
-            NSMutableDictionary *imagRespOriginal = [NSMutableDictionary new];
-            [imagRespOriginal setObject:face.respOrigionalImgData forKey:@"OriginalImage"];
-            //            [imagResp setObject:face.respEllipseImgData forKey:@"EllipseImage"];
-            
-            NSMutableDictionary *imagRespEllipse = [NSMutableDictionary new];
-            [imagRespEllipse setObject:face.respEllipseImgData forKey:@"EllipseImage"];
-            
-            [configOriginal setObject:[self get_json_string:imagRespOriginal] forKey:@"dataFromAppit"];
-            [configEllipse setObject:[self get_json_string:imagRespEllipse] forKey:@"dataFromAppit"];
-        }else if ([face.responseStatus isEqualToString:@"26"]) {
-            // Make toast with a duration and position
-            [self.view makeToast:@"Face detection failed."
-                        duration:5.0
-                        position:CSToastPositionCenter];
-        }
-    }
-    
-    //convert object to data
-    NSString *encodedJsonStringOriginal = [self get_encoded_json_string:configOriginal];
-    NSString *encodedJsonStringEllipse = [self get_encoded_json_string:configEllipse];
-    
-    //call inform
-    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonStringEllipse];
-    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonStringOriginal];
-}
+//-(void)faceDetectionResponse:(NSMutableDictionary *)result instance:(id)instance;{
+//
+//    NSMutableDictionary *configOriginal = [self build_common_return_data];
+//
+//    //    FaceDetectionNewViewController* face = (FaceDetectionNewViewController*)instance;
+//    NSMutableDictionary *configEllipse;
+//    if([instance isKindOfClass:[MlKitFaceController class]]) {
+//        MlKitFaceController *face = (MlKitFaceController*)instance;
+//        [configOriginal setObject: face.responseStatus forKey:@"status"];
+//
+//        //Creating copy of config
+//        configEllipse = [configOriginal mutableCopy];
+//
+//        if ([face.responseStatus isEqualToString:@"0"]) {
+//            NSMutableDictionary *imagRespOriginal = [NSMutableDictionary new];
+//            [imagRespOriginal setObject:face.respOrigionalImgData forKey:@"OriginalImage"];
+//            //            [imagResp setObject:face.respEllipseImgData forKey:@"EllipseImage"];
+//
+//            NSMutableDictionary *imagRespEllipse = [NSMutableDictionary new];
+//            [imagRespEllipse setObject:face.respEllipseImgData forKey:@"EllipseImage"];
+//
+//            [configOriginal setObject:[self get_json_string:imagRespOriginal] forKey:@"dataFromAppit"];
+//            [configEllipse setObject:[self get_json_string:imagRespEllipse] forKey:@"dataFromAppit"];
+//        }else if ([face.responseStatus isEqualToString:@"26"]) {
+//            // Make toast with a duration and position
+//            [self.view makeToast:@"Face detection failed."
+//                        duration:5.0
+//                        position:CSToastPositionCenter];
+//        }
+//    } else {
+//        FacePreviewViewController *face = (FacePreviewViewController*)instance;
+//        [configOriginal setObject: face.responseStatus forKey:@"status"];
+//
+//        //Creating copy of config
+//        configEllipse = [configOriginal mutableCopy];
+//
+//        if ([face.responseStatus isEqualToString:@"0"]) {
+//            NSMutableDictionary *imagRespOriginal = [NSMutableDictionary new];
+//            [imagRespOriginal setObject:face.respOrigionalImgData forKey:@"OriginalImage"];
+//            //            [imagResp setObject:face.respEllipseImgData forKey:@"EllipseImage"];
+//
+//            NSMutableDictionary *imagRespEllipse = [NSMutableDictionary new];
+//            [imagRespEllipse setObject:face.respEllipseImgData forKey:@"EllipseImage"];
+//
+//            [configOriginal setObject:[self get_json_string:imagRespOriginal] forKey:@"dataFromAppit"];
+//            [configEllipse setObject:[self get_json_string:imagRespEllipse] forKey:@"dataFromAppit"];
+//        }else if ([face.responseStatus isEqualToString:@"26"]) {
+//            // Make toast with a duration and position
+//            [self.view makeToast:@"Face detection failed."
+//                        duration:5.0
+//                        position:CSToastPositionCenter];
+//        }
+//    }
+//
+//    //convert object to data
+//    NSString *encodedJsonStringOriginal = [self get_encoded_json_string:configOriginal];
+//    NSString *encodedJsonStringEllipse = [self get_encoded_json_string:configEllipse];
+//
+//    //call inform
+//    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonStringEllipse];
+//    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonStringOriginal];
+//}
 
 - (NSString*) deviceName
 {
@@ -2800,7 +2800,7 @@ static bool idfaceshowInstruction = true;
     NSString *imageHeight = [imageProcessingData objectForKey:@"HighResolutionImageHeight"];
     NSString *imageWidth = [imageProcessingData objectForKey:@"HighResolutionImageWidth"];
     
-    if(resizeImage && ![NSStringUtils stringIsNilOrEmpty:imageHeight] && ![NSStringUtils stringIsNilOrEmpty:imageWidth]){
+    if(resizeImage && ![NS_String_Utils stringIsNilOrEmpty:imageHeight] && ![NS_String_Utils stringIsNilOrEmpty:imageWidth]){
         CGFloat width = [imageWidth floatValue];
         CGFloat height = [imageHeight floatValue];
         image = [self imageWithImage:image convertToSize:CGSizeMake(width, height)];
@@ -2836,9 +2836,9 @@ static bool idfaceshowInstruction = true;
     NSString* summary;
     NSMutableDictionary *config = [self build_common_return_data];
     if([[result objectForKey:@"statusCode"] isEqualToString:@"0"]) {
-        if(![NSStringUtils stringIsNilOrEmpty:[result objectForKey:@"FRONT"]]) {
+        if(![NS_String_Utils stringIsNilOrEmpty:[result objectForKey:@"FRONT"]]) {
             processedImage = [result objectForKey:@"FRONT"];
-        } else if(![NSStringUtils stringIsNilOrEmpty:[result objectForKey:@"BACK"]]) {
+        } else if(![NS_String_Utils stringIsNilOrEmpty:[result objectForKey:@"BACK"]]) {
             processedImage = [result objectForKey:@"BACK"];
         } else {
             processedImage = [result objectForKey:@""];
@@ -2881,29 +2881,29 @@ static bool idfaceshowInstruction = true;
     UIImage* image;
     NSString* summary;
     
-    if([sourceViewController isKindOfClass:[OpenCvViewControllerAppit class]]){
-        OpenCvViewControllerAppit* view = (OpenCvViewControllerAppit*)sourceViewController;
-        
-        image = [view snap];
-        NSString *xml = [view xml];
-        UIImage* actualFaceImage = [view get_face_image];
-        UIImage* actualInputImage = [view get_input_image];
-        UIImage* matchedTemplateImage = [view get_matched_template];
-        
-        summary = xml;
-        
-        processedImage = [self process_image:image resizeImage:true];
-        faceImage = [self process_image:actualFaceImage resizeImage:false];
-        inputImage = [self process_image:actualInputImage resizeImage:false];
-        matchedTemplate = [self process_image:matchedTemplateImage resizeImage:false];
-    }else if([sourceViewController isKindOfClass:[SkipImageProcessingViewController class]]){
-        SkipImageProcessingViewController* view = (SkipImageProcessingViewController*)sourceViewController;
-        image = [view resultImage];
-        processedImage = [self process_image:image resizeImage:true];
-        snippetDictionary = [view finalResultDictionary];
-        isImageSnippetCapture = [view isImageSnippetCapture];
-        summary = @"<OCRLayoutDef></OCRLayoutDef>";
-    }
+//    if([sourceViewController isKindOfClass:[OpenCvViewControllerAppit class]]){
+//        OpenCvViewControllerAppit* view = (OpenCvViewControllerAppit*)sourceViewController;
+//
+//        image = [view snap];
+//        NSString *xml = [view xml];
+//        UIImage* actualFaceImage = [view get_face_image];
+//        UIImage* actualInputImage = [view get_input_image];
+//        UIImage* matchedTemplateImage = [view get_matched_template];
+//
+//        summary = xml;
+//
+//        processedImage = [self process_image:image resizeImage:true];
+//        faceImage = [self process_image:actualFaceImage resizeImage:false];
+//        inputImage = [self process_image:actualInputImage resizeImage:false];
+//        matchedTemplate = [self process_image:matchedTemplateImage resizeImage:false];
+//    }else if([sourceViewController isKindOfClass:[SkipImageProcessingViewController class]]){
+//        SkipImageProcessingViewController* view = (SkipImageProcessingViewController*)sourceViewController;
+//        image = [view resultImage];
+//        processedImage = [self process_image:image resizeImage:true];
+//        snippetDictionary = [view finalResultDictionary];
+//        isImageSnippetCapture = [view isImageSnippetCapture];
+//        summary = @"<OCRLayoutDef></OCRLayoutDef>";
+//    }
     
     //build a config object and convert to json
     NSMutableDictionary *config = [self build_common_return_data];
@@ -3054,362 +3054,362 @@ static bool idfaceshowInstruction = true;
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:@"showOpenCvSeque"]){
         
-        OpenCvViewControllerAppit *controller = (OpenCvViewControllerAppit *)segue.destinationViewController;
-        controller.path_to_xml_template = path_to_xml_template;
-        controller.currentTemplateLocation = currentTemplateLocation;
-        controller.single_high_res_snapshot_mode = false;
-        NSString *imageCaptureCount = [imageProcessingData objectForKey:@"ImageCaptureCount"];
-        int imagesToInsert = 4;
-        if (imageCaptureCount != nil) {
-            imagesToInsert = [imageCaptureCount intValue];
-        }
-        controller.ImagesToInsert = imagesToInsert;
-        if(imagesToInsert>1){
-            controller.ImagesToConsume = imagesToInsert-1;
-        }else{
-            controller.ImagesToConsume = 1;
-        }
-        
-        NSString *OCRMinimumLightThreshold = [imageProcessingData objectForKey:@"OCRMinimumLightThreshold"];
-        if(OCRMinimumLightThreshold != nil)
-            controller.MinImageIntensity =  [OCRMinimumLightThreshold intValue];
-        else
-            controller.MinImageIntensity =  90;
-        
-        NSString *MinFocusScoreThreshold = [imageProcessingData objectForKey:@"MinFocusScoreThreshold"];
-        if(MinFocusScoreThreshold != nil)
-            controller.MinImageFocusScore =  [MinFocusScoreThreshold intValue];
-        else
-            controller.MinImageFocusScore =  10;
-        
-        NSString *templateIds = [imageProcessingData objectForKey:@"TemplateIds"];
-        controller.template_ids = templateIds;
-        
-        NSString *enableGlareDetection = [imageProcessingData objectForKey:@"EnableGlareDetection"];
-        NSString *glarePercentageThreshold = [imageProcessingData objectForKey:@"GlarePercentageThreshold"];
-        
-        if(enableGlareDetection != nil && [enableGlareDetection isEqualToString:@"Y"]){
-            controller.enable_glare_detection = true;
-        }else{
-            controller.enable_glare_detection = false;
-        }
-        
-        if(glarePercentageThreshold!=nil){
-            controller.glare_percentage_threshold = [glarePercentageThreshold intValue];
-        }else{
-            controller.glare_percentage_threshold = 100;
-        }
-        
-        NSString *dIdOutlineColor = @"FFAD36", *dDetectedIdOutlineColor = @"6EB24C", *dOutsideIdOutlineColor = @"487D95",*dDetectedPOAOutlineColor = @"6EB24C",*dDetectedOutsideIdOutlineColor = @"FFFFFF";
-        
-        NSString *idOutlineColor = dIdOutlineColor, *detectedidoutlinecolor = dDetectedIdOutlineColor, *idOutsideOutlineColor = dOutsideIdOutlineColor;
-        
-        int mAlpha = 1;
-        
-        int idOutlineColorAlpha = mAlpha,detectedidoutlinetransparency = mAlpha, idOutsideOutlineColorAlpha = mAlpha;
-        controller.id_outline_color = idOutlineColor;
-        controller.id_outline_color_alpha = idOutlineColorAlpha;
-        controller.id_outline_outside_color = idOutsideOutlineColor;
-        controller.id_outline_outside_color_alpha = idOutsideOutlineColorAlpha;
-        controller.detected_id_outline_color = dDetectedIdOutlineColor;
-        controller.detected_id_outline_color_alpha = mAlpha;
-        controller.detected_id_outline_outside_color = dDetectedOutsideIdOutlineColor;
-        controller.modalPresentationStyle = UIModalPresentationFullScreen;
-        controller.detected_id_outline_outside_color_alpha = mAlpha;
+//        OpenCvViewControllerAppit *controller = (OpenCvViewControllerAppit *)segue.destinationViewController;
+//        controller.path_to_xml_template = path_to_xml_template;
+//        controller.currentTemplateLocation = currentTemplateLocation;
+//        controller.single_high_res_snapshot_mode = false;
+//        NSString *imageCaptureCount = [imageProcessingData objectForKey:@"ImageCaptureCount"];
+//        int imagesToInsert = 4;
+//        if (imageCaptureCount != nil) {
+//            imagesToInsert = [imageCaptureCount intValue];
+//        }
+//        controller.ImagesToInsert = imagesToInsert;
+//        if(imagesToInsert>1){
+//            controller.ImagesToConsume = imagesToInsert-1;
+//        }else{
+//            controller.ImagesToConsume = 1;
+//        }
+//
+//        NSString *OCRMinimumLightThreshold = [imageProcessingData objectForKey:@"OCRMinimumLightThreshold"];
+//        if(OCRMinimumLightThreshold != nil)
+//            controller.MinImageIntensity =  [OCRMinimumLightThreshold intValue];
+//        else
+//            controller.MinImageIntensity =  90;
+//
+//        NSString *MinFocusScoreThreshold = [imageProcessingData objectForKey:@"MinFocusScoreThreshold"];
+//        if(MinFocusScoreThreshold != nil)
+//            controller.MinImageFocusScore =  [MinFocusScoreThreshold intValue];
+//        else
+//            controller.MinImageFocusScore =  10;
+//
+//        NSString *templateIds = [imageProcessingData objectForKey:@"TemplateIds"];
+//        controller.template_ids = templateIds;
+//
+//        NSString *enableGlareDetection = [imageProcessingData objectForKey:@"EnableGlareDetection"];
+//        NSString *glarePercentageThreshold = [imageProcessingData objectForKey:@"GlarePercentageThreshold"];
+//
+//        if(enableGlareDetection != nil && [enableGlareDetection isEqualToString:@"Y"]){
+//            controller.enable_glare_detection = true;
+//        }else{
+//            controller.enable_glare_detection = false;
+//        }
+//
+//        if(glarePercentageThreshold!=nil){
+//            controller.glare_percentage_threshold = [glarePercentageThreshold intValue];
+//        }else{
+//            controller.glare_percentage_threshold = 100;
+//        }
+//
+//        NSString *dIdOutlineColor = @"FFAD36", *dDetectedIdOutlineColor = @"6EB24C", *dOutsideIdOutlineColor = @"487D95",*dDetectedPOAOutlineColor = @"6EB24C",*dDetectedOutsideIdOutlineColor = @"FFFFFF";
+//
+//        NSString *idOutlineColor = dIdOutlineColor, *detectedidoutlinecolor = dDetectedIdOutlineColor, *idOutsideOutlineColor = dOutsideIdOutlineColor;
+//
+//        int mAlpha = 1;
+//
+//        int idOutlineColorAlpha = mAlpha,detectedidoutlinetransparency = mAlpha, idOutsideOutlineColorAlpha = mAlpha;
+//        controller.id_outline_color = idOutlineColor;
+//        controller.id_outline_color_alpha = idOutlineColorAlpha;
+//        controller.id_outline_outside_color = idOutsideOutlineColor;
+//        controller.id_outline_outside_color_alpha = idOutsideOutlineColorAlpha;
+//        controller.detected_id_outline_color = dDetectedIdOutlineColor;
+//        controller.detected_id_outline_color_alpha = mAlpha;
+//        controller.detected_id_outline_outside_color = dDetectedOutsideIdOutlineColor;
+//        controller.modalPresentationStyle = UIModalPresentationFullScreen;
+//        controller.detected_id_outline_outside_color_alpha = mAlpha;
         
     }else if([segue.identifier isEqualToString:@"showFaceDetectionSegue"]){
-        FaceDetectionViewController *controller = (FaceDetectionViewController *)segue.destinationViewController;
-        controller.light_threshold = [[imageProcessingData objectForKey:@"MinLightThreshold"] intValue];
-        controller.focus_threshold = [[imageProcessingData objectForKey:@"FocusThreshold"] intValue];
-        NSString *cameraType = [[imageProcessingData objectForKey:@"CameraType"] uppercaseString];
-        if([cameraType isEqualToString:@"FRONT"]){
-            controller.launch_front_camera = true;
-        }else{
-            controller.launch_front_camera = false;
-        }
-        controller.smile_width_percentage_threshold = [[imageProcessingData objectForKey:@"FaceDetectionThreshold"] intValue];
-        controller.modalPresentationStyle = UIModalPresentationFullScreen;
-        controller.image_size = [[imageProcessingData objectForKey:@"ImageSize"] intValue];
+//        FaceDetectionViewController *controller = (FaceDetectionViewController *)segue.destinationViewController;
+//        controller.light_threshold = [[imageProcessingData objectForKey:@"MinLightThreshold"] intValue];
+//        controller.focus_threshold = [[imageProcessingData objectForKey:@"FocusThreshold"] intValue];
+//        NSString *cameraType = [[imageProcessingData objectForKey:@"CameraType"] uppercaseString];
+//        if([cameraType isEqualToString:@"FRONT"]){
+//            controller.launch_front_camera = true;
+//        }else{
+//            controller.launch_front_camera = false;
+//        }
+//        controller.smile_width_percentage_threshold = [[imageProcessingData objectForKey:@"FaceDetectionThreshold"] intValue];
+//        controller.modalPresentationStyle = UIModalPresentationFullScreen;
+//        controller.image_size = [[imageProcessingData objectForKey:@"ImageSize"] intValue];
     }else if ([segue.identifier isEqualToString:@"showCardScanSegue"]){
-        ScanCardIOViewController *controller = (ScanCardIOViewController *)segue.destinationViewController;
-        controller.modalPresentationStyle = UIModalPresentationFullScreen;
+//        ScanCardIOViewController *controller = (ScanCardIOViewController *)segue.destinationViewController;
+//        controller.modalPresentationStyle = UIModalPresentationFullScreen;
     }else if([segue.identifier isEqualToString:@"showVideoRecordingSegue"]){
-        VideoRecorderViewController *controller = (VideoRecorderViewController *)segue.destinationViewController;
-        controller.modalPresentationStyle = UIModalPresentationFullScreen;
+//        VideoRecorderViewController *controller = (VideoRecorderViewController *)segue.destinationViewController;
+//        controller.modalPresentationStyle = UIModalPresentationFullScreen;
     }else if([segue.identifier isEqualToString:@"showPasswordSegue"]){
         PasswordViewController *controller = (PasswordViewController *)segue.destinationViewController;
         controller.modalPresentationStyle = UIModalPresentationFullScreen;
         controller.currentURL = [Settings getCurrentURL];
     }else if([segue.identifier isEqualToString:@"showSkipImageProcessing"]) {
-        SkipImageProcessingViewController *controller = (SkipImageProcessingViewController *)segue.destinationViewController;
-        
-        NSString *OCRMinimumLightThreshold = [imageProcessingData objectForKey:@"OCRMinimumLightThreshold"];
-        if(OCRMinimumLightThreshold != nil)
-            controller.MinImageIntensity =  [OCRMinimumLightThreshold intValue];
-        else
-            controller.MinImageIntensity =  70;
-        
-        NSString *MinFocusScoreThreshold = [imageProcessingData objectForKey:@"MinFocusScoreThreshold"];
-        if(MinFocusScoreThreshold != nil)
-            controller.MinImageFocusScore =  [MinFocusScoreThreshold intValue];
-        else
-            controller.MinImageFocusScore =  15;
-        
-        NSString *enableGlareDetection = [imageProcessingData objectForKey:@"EnableGlareDetection"];
-        NSString *glarePercentageThreshold = [imageProcessingData objectForKey:@"GlarePercentageThreshold"];
-        
-        //        if(enableGlareDetection != nil && [enableGlareDetection isEqualToString:@"Y"]){
-        //            controller.enable_glare_detection = true;
-        //        }else{
-        //            controller.enable_glare_detection = false;
-        //        }
-        
-        //if(glarePercentageThreshold!=nil){
-        if(![NSStringUtils stringIsNilOrEmpty:glarePercentageThreshold]){
-            controller.glare_percentage_threshold = [glarePercentageThreshold intValue];
-        }else{
-            controller.glare_percentage_threshold = 2;
-        }
-        
-        NSString *enableCapButton = [imageProcessingData objectForKey:@"EnableCaptureButton"];
-        NSString *enableCapButtonTime = [imageProcessingData objectForKey:@"EnableCaptureButtonTime"];
-        
-        if(enableCapButton != nil && [enableCapButton isEqualToString:@"Y"]){
-            controller.enable_capture_button = true;
-        }else{
-            controller.enable_capture_button = false;
-        }
-        
-        if(enableCapButtonTime!=nil){
-            controller.enable_capture_button_time = [enableCapButtonTime intValue];
-        }else{
-            controller.enable_capture_button_time = 10;
-        }
-        
-        NSString *capturePortrait = [imageProcessingData objectForKey:@"CapturePortrait"];
-        NSString *height = [imageProcessingData objectForKey:@"HighResolutionImageHeight"];
-        NSString *width = [imageProcessingData objectForKey:@"HighResolutionImageWidth"];
-        
-        if(capturePortrait != nil && [capturePortrait isEqualToString:@"N"]){
-            controller.capture_in_portrait_mode = false;
-        }else{
-            controller.capture_in_portrait_mode = true;
-            //Swaping width and height
-            NSString *swap = height;
-            height = width;
-            width = swap;
-        }
-        
-        if(height!=nil){
-            controller.imageHeight = [height intValue];
-        }else{
-            controller.imageHeight = 830;
-        }
-        
-        if(width!=nil){
-            controller.imageWidth = [width intValue];
-        }else{
-            controller.imageWidth = 1170;
-        }
-        
-        NSString *dIdOutlineColor = @"FFAD36", *dDetectedIdOutlineColor = @"6EB24C", *dOutsideIdOutlineColor = @"487D95",*dDetectedPOAOutlineColor = @"6EB24C",*dDetectedOutsideIdOutlineColor = @"FFFFFF",*titleMessageStyle = @"Default", *hintMessageStyle = @"Default" ,*titleMessageColor = @"FFFFFF", *hintMessageColor = @"FFFFFF", *backButtonColor = @"FEAD36", *titleTextFontSize=@"", *hintTextFontSize=@"", *idCaptureBorderType = @"Thick", *retryButtonColor = @"FEAD36", *confirmButtonColor = @"FEAD36", *retryButtonBordorColor = @"FEAD36", *confirmButtonStyleColor = @"FFFFFF";
-        
-        NSString *idOutlineColor = dIdOutlineColor, *detectedidoutlinecolor = dDetectedIdOutlineColor, *idOutsideOutlineColor = dOutsideIdOutlineColor;
-        
-        int mAlpha = 1;
-        
-        int idOutlineColorAlpha = mAlpha,detectedidoutlinetransparency = mAlpha, idOutsideOutlineColorAlpha = mAlpha,titleMessageColorAlpha = mAlpha,hintMessageColorAlpha = mAlpha,backButtonColorAlpha = mAlpha, confirmButtonColorAlpha = mAlpha, retryButtonColorAlpha = mAlpha, retryButtonBorderColorAlpha = mAlpha, confirmButtonStyleColorAlpha = mAlpha;
-        if([imageProcessingData objectForKey:@"IdOutlineColor"]) {
-            controller.id_outline_color = [imageProcessingData objectForKey:@"IdOutlineColor"];
-        } else {
-            controller.id_outline_color = idOutlineColor;
-        }
-        
-        if([imageProcessingData objectForKey:@"idOutlineColorAlpha"]) {
-            controller.id_outline_color_alpha = [[imageProcessingData objectForKey:@"idOutlineColorAlpha"] intValue];
-        } else {
-            controller.id_outline_color_alpha = mAlpha;
-        }
-        
-        if([imageProcessingData objectForKey:@"ColorOutsideOutline"]) {
-            controller.id_outline_outside_color = [imageProcessingData objectForKey:@"ColorOutsideOutline"];
-        } else {
-            controller.id_outline_outside_color = idOutsideOutlineColor;
-        }
-        
-        if([imageProcessingData objectForKey:@"idOutsideOutlineColorAlpha"]) {
-            controller.id_outline_outside_color_alpha = [[imageProcessingData objectForKey:@"idOutsideOutlineColorAlpha"] intValue];
-        } else {
-            controller.id_outline_outside_color_alpha = mAlpha;
-        }
-        
-        if([imageProcessingData objectForKey:@"DetectedIdOutlineColor"]) {
-            controller.detected_id_outline_color = [imageProcessingData objectForKey:@"DetectedIdOutlineColor"];
-        } else {
-            controller.detected_id_outline_color = dDetectedIdOutlineColor;
-        }
-        
-        if([imageProcessingData objectForKey:@"detectedIdOutlineColorAlpha"]) {
-            controller.detected_id_outline_color_alpha = [[imageProcessingData objectForKey:@"detectedIdOutlineColorAlpha"] intValue];
-        } else {
-            controller.detected_id_outline_color_alpha = mAlpha;
-        }
-        
-        if([imageProcessingData objectForKey:@"DetectedColorOutsideOutline"]) {
-            controller.detected_id_outline_outside_color = [imageProcessingData objectForKey:@"DetectedColorOutsideOutline"];
-        } else {
-            controller.detected_id_outline_outside_color = dDetectedOutsideIdOutlineColor;
-        }
-        
-        if([imageProcessingData objectForKey:@"detectedIdOutsideOutlineColorAlpha"]) {
-            controller.detected_id_outline_outside_color_alpha = [[imageProcessingData objectForKey:@"detectedIdOutsideOutlineColorAlpha"] intValue];
-        } else {
-            controller.detected_id_outline_outside_color_alpha = mAlpha;
-        }
-        
-        if([imageProcessingData objectForKey:@"headerStyleIOS"]) {
-            controller.title_message_style = [imageProcessingData objectForKey:@"headerStyleIOS"];
-        } else {
-            controller.title_message_style = titleMessageStyle;
-        }
-        
-        if([imageProcessingData objectForKey:@"styleIOS"]) {
-            controller.hint_message_style = [imageProcessingData objectForKey:@"styleIOS"];
-        } else {
-            controller.hint_message_style = hintMessageStyle;
-        }
-        
-        if([imageProcessingData objectForKey:@"headerTextLabelColor"]) {
-            controller.title_message_color = [imageProcessingData objectForKey:@"headerTextLabelColor"];
-        } else {
-            controller.title_message_color = titleMessageColor;
-        }
-        if([imageProcessingData objectForKey:@"headerTextLabelAlpha"]) {
-            controller.title_message_color_alpha = [[imageProcessingData objectForKey:@"headerTextLabelAlpha"] intValue];
-        } else {
-            controller.title_message_color_alpha = titleMessageColorAlpha;
-        }
-        
-        if([imageProcessingData objectForKey:@"textLabelColor"]) {
-            controller.hint_message_color = [imageProcessingData objectForKey:@"textLabelColor"];
-        } else {
-            controller.hint_message_color = hintMessageColor;
-        }
-        if([imageProcessingData objectForKey:@"textLabelAlpha"]) {
-            controller.hint_message_color_alpha = [[imageProcessingData objectForKey:@"textLabelAlpha"] intValue];
-        } else {
-            controller.hint_message_color_alpha = hintMessageColorAlpha;
-        }
-        if([imageProcessingData objectForKey:@"backButtonColor"]) {
-            controller.back_button_color = [imageProcessingData objectForKey:@"backButtonColor"];
-        } else {
-            controller.back_button_color = backButtonColor;
-        }
-        if([imageProcessingData objectForKey:@"backButtonColorAlpha"]) {
-            controller.back_button_color_alpha = [[imageProcessingData objectForKey:@"backButtonColorAlpha"] intValue];
-        } else {
-            controller.back_button_color_alpha = backButtonColorAlpha;
-        }
-        
-        if([imageProcessingData objectForKey:@"headerTextLabelSize"]) {
-            controller.header_font_size = [imageProcessingData objectForKey:@"headerTextLabelSize"];
-        } else {
-            controller.header_font_size = titleTextFontSize;
-        }
-        if([imageProcessingData objectForKey:@"textLabelSize"]) {
-            controller.text_font_size = [imageProcessingData objectForKey:@"textLabelSize"];
-        } else {
-            controller.text_font_size = titleTextFontSize;
-        }
-        
-        if([imageProcessingData objectForKey:@"idCaptureBorder"]) {
-            controller.id_Capture_BorderType = [imageProcessingData objectForKey:@"idCaptureBorder"];
-        } else {
-            controller.id_Capture_BorderType = idCaptureBorderType;
-        }
-        
-        if([imageProcessingData objectForKey:@"IdAlignmentValue"]) {
-            controller.id_Capture_Title_Align = [imageProcessingData objectForKey:@"IdAlignmentValue"];
-        } else {
-            controller.id_Capture_Title_Align = @"Top";
-        }
-        
-        if([imageProcessingData objectForKey:@"IdHintMessageAlignmentValue"]) {
-            controller.id_Capture_Hint_Align = [imageProcessingData objectForKey:@"IdHintMessageAlignmentValue"];
-        } else {
-            controller.id_Capture_Hint_Align = @"Center";
-        }
-        
-        if([imageProcessingData objectForKey:@"IdTitleAlignment"]) {
-            if([@"Y" isEqualToString:[imageProcessingData objectForKey:@"IdTitleAlignment"]]) {
-                controller.hideIdCaptureTitle = false;
-            } else {
-                controller.hideIdCaptureTitle = true;;
-            }
-        } else {
-            controller.hideIdCaptureTitle = false;
-        }
-        
-        if([imageProcessingData objectForKey:@"IdHintMessageAlignment"]) {
-            if([@"Y" isEqualToString:[imageProcessingData objectForKey:@"IdHintMessageAlignment"]]) {
-                controller.hideIdCaptureHintMessage = false;
-            } else {
-                controller.hideIdCaptureHintMessage = true;
-            }
-        } else {
-            controller.hideIdCaptureHintMessage = false;
-        }
-        
-        if([imageProcessingData objectForKey:@"confirmButtonColor"]) {
-            controller.confirm_button_color = [imageProcessingData objectForKey:@"confirmButtonColor"];
-        } else {
-            controller.confirm_button_color = confirmButtonColor;
-        }
-        
-        if([imageProcessingData objectForKey:@"confirmButtonColorAlpha"]) {
-            controller.confirm_button_color_alpha = [[imageProcessingData objectForKey:@"confirmButtonColorAlpha"] intValue];
-        } else {
-            controller.confirm_button_color_alpha = confirmButtonColorAlpha;
-        }
-        
-        if([imageProcessingData objectForKey:@"retryButtonColor"]) {
-            controller.retry_button_color = [imageProcessingData objectForKey:@"retryButtonColor"];
-        } else {
-            controller.retry_button_color = retryButtonColor;
-        }
-        
-        if([imageProcessingData objectForKey:@"retryButtonColorAlpha"]) {
-            controller.retry_button_color_alpha = [[imageProcessingData objectForKey:@"retryButtonColorAlpha"] intValue];
-        } else {
-            controller.retry_button_color_alpha = retryButtonColorAlpha;
-        }
-        
-        if([imageProcessingData objectForKey:@"retryButtonBorderColor"]) {
-            controller.retry_button_border_color = [imageProcessingData objectForKey:@"retryButtonBorderColor"];
-        } else {
-            controller.retry_button_border_color = retryButtonBordorColor;
-        }
-        
-        if([imageProcessingData objectForKey:@"retryButtonColorBorderAlpha"]) {
-            controller.retry_button_border_color_alpha = [[imageProcessingData objectForKey:@"retryButtonColorBorderAlpha"] intValue];
-        } else {
-            controller.retry_button_border_color_alpha = retryButtonBorderColorAlpha;
-        }
-        
-        if([imageProcessingData objectForKey:@"confirmButtonStyle"]) {
-            controller.confirm_button_style_color = [imageProcessingData objectForKey:@"confirmButtonStyle"];
-        } else {
-            controller.confirm_button_style_color = confirmButtonStyleColor;
-        }
-        
-        if([imageProcessingData objectForKey:@"confirmButtonStyleAlpha"]) {
-            controller.confirm_button_border_style_alpha = [[imageProcessingData objectForKey:@"confirmButtonStyleAlpha"] intValue];
-        } else {
-            controller.confirm_button_border_style_alpha = confirmButtonStyleColorAlpha;
-        }
-        controller.modalPresentationStyle = UIModalPresentationFullScreen;
-        controller.delegate = self;
-        controller.imageProcDataDic = imageProcessingData;
+//        SkipImageProcessingViewController *controller = (SkipImageProcessingViewController *)segue.destinationViewController;
+//
+//        NSString *OCRMinimumLightThreshold = [imageProcessingData objectForKey:@"OCRMinimumLightThreshold"];
+//        if(OCRMinimumLightThreshold != nil)
+//            controller.MinImageIntensity =  [OCRMinimumLightThreshold intValue];
+//        else
+//            controller.MinImageIntensity =  70;
+//
+//        NSString *MinFocusScoreThreshold = [imageProcessingData objectForKey:@"MinFocusScoreThreshold"];
+//        if(MinFocusScoreThreshold != nil)
+//            controller.MinImageFocusScore =  [MinFocusScoreThreshold intValue];
+//        else
+//            controller.MinImageFocusScore =  15;
+//
+//        NSString *enableGlareDetection = [imageProcessingData objectForKey:@"EnableGlareDetection"];
+//        NSString *glarePercentageThreshold = [imageProcessingData objectForKey:@"GlarePercentageThreshold"];
+//
+//        //        if(enableGlareDetection != nil && [enableGlareDetection isEqualToString:@"Y"]){
+//        //            controller.enable_glare_detection = true;
+//        //        }else{
+//        //            controller.enable_glare_detection = false;
+//        //        }
+//
+//        //if(glarePercentageThreshold!=nil){
+//        if(![NS_String_Utils stringIsNilOrEmpty:glarePercentageThreshold]){
+//            controller.glare_percentage_threshold = [glarePercentageThreshold intValue];
+//        }else{
+//            controller.glare_percentage_threshold = 2;
+//        }
+//
+//        NSString *enableCapButton = [imageProcessingData objectForKey:@"EnableCaptureButton"];
+//        NSString *enableCapButtonTime = [imageProcessingData objectForKey:@"EnableCaptureButtonTime"];
+//
+//        if(enableCapButton != nil && [enableCapButton isEqualToString:@"Y"]){
+//            controller.enable_capture_button = true;
+//        }else{
+//            controller.enable_capture_button = false;
+//        }
+//
+//        if(enableCapButtonTime!=nil){
+//            controller.enable_capture_button_time = [enableCapButtonTime intValue];
+//        }else{
+//            controller.enable_capture_button_time = 10;
+//        }
+//
+//        NSString *capturePortrait = [imageProcessingData objectForKey:@"CapturePortrait"];
+//        NSString *height = [imageProcessingData objectForKey:@"HighResolutionImageHeight"];
+//        NSString *width = [imageProcessingData objectForKey:@"HighResolutionImageWidth"];
+//
+//        if(capturePortrait != nil && [capturePortrait isEqualToString:@"N"]){
+//            controller.capture_in_portrait_mode = false;
+//        }else{
+//            controller.capture_in_portrait_mode = true;
+//            //Swaping width and height
+//            NSString *swap = height;
+//            height = width;
+//            width = swap;
+//        }
+//
+//        if(height!=nil){
+//            controller.imageHeight = [height intValue];
+//        }else{
+//            controller.imageHeight = 830;
+//        }
+//
+//        if(width!=nil){
+//            controller.imageWidth = [width intValue];
+//        }else{
+//            controller.imageWidth = 1170;
+//        }
+//
+//        NSString *dIdOutlineColor = @"FFAD36", *dDetectedIdOutlineColor = @"6EB24C", *dOutsideIdOutlineColor = @"487D95",*dDetectedPOAOutlineColor = @"6EB24C",*dDetectedOutsideIdOutlineColor = @"FFFFFF",*titleMessageStyle = @"Default", *hintMessageStyle = @"Default" ,*titleMessageColor = @"FFFFFF", *hintMessageColor = @"FFFFFF", *backButtonColor = @"FEAD36", *titleTextFontSize=@"", *hintTextFontSize=@"", *idCaptureBorderType = @"Thick", *retryButtonColor = @"FEAD36", *confirmButtonColor = @"FEAD36", *retryButtonBordorColor = @"FEAD36", *confirmButtonStyleColor = @"FFFFFF";
+//
+//        NSString *idOutlineColor = dIdOutlineColor, *detectedidoutlinecolor = dDetectedIdOutlineColor, *idOutsideOutlineColor = dOutsideIdOutlineColor;
+//
+//        int mAlpha = 1;
+//
+//        int idOutlineColorAlpha = mAlpha,detectedidoutlinetransparency = mAlpha, idOutsideOutlineColorAlpha = mAlpha,titleMessageColorAlpha = mAlpha,hintMessageColorAlpha = mAlpha,backButtonColorAlpha = mAlpha, confirmButtonColorAlpha = mAlpha, retryButtonColorAlpha = mAlpha, retryButtonBorderColorAlpha = mAlpha, confirmButtonStyleColorAlpha = mAlpha;
+//        if([imageProcessingData objectForKey:@"IdOutlineColor"]) {
+//            controller.id_outline_color = [imageProcessingData objectForKey:@"IdOutlineColor"];
+//        } else {
+//            controller.id_outline_color = idOutlineColor;
+//        }
+//
+//        if([imageProcessingData objectForKey:@"idOutlineColorAlpha"]) {
+//            controller.id_outline_color_alpha = [[imageProcessingData objectForKey:@"idOutlineColorAlpha"] intValue];
+//        } else {
+//            controller.id_outline_color_alpha = mAlpha;
+//        }
+//
+//        if([imageProcessingData objectForKey:@"ColorOutsideOutline"]) {
+//            controller.id_outline_outside_color = [imageProcessingData objectForKey:@"ColorOutsideOutline"];
+//        } else {
+//            controller.id_outline_outside_color = idOutsideOutlineColor;
+//        }
+//
+//        if([imageProcessingData objectForKey:@"idOutsideOutlineColorAlpha"]) {
+//            controller.id_outline_outside_color_alpha = [[imageProcessingData objectForKey:@"idOutsideOutlineColorAlpha"] intValue];
+//        } else {
+//            controller.id_outline_outside_color_alpha = mAlpha;
+//        }
+//
+//        if([imageProcessingData objectForKey:@"DetectedIdOutlineColor"]) {
+//            controller.detected_id_outline_color = [imageProcessingData objectForKey:@"DetectedIdOutlineColor"];
+//        } else {
+//            controller.detected_id_outline_color = dDetectedIdOutlineColor;
+//        }
+//
+//        if([imageProcessingData objectForKey:@"detectedIdOutlineColorAlpha"]) {
+//            controller.detected_id_outline_color_alpha = [[imageProcessingData objectForKey:@"detectedIdOutlineColorAlpha"] intValue];
+//        } else {
+//            controller.detected_id_outline_color_alpha = mAlpha;
+//        }
+//
+//        if([imageProcessingData objectForKey:@"DetectedColorOutsideOutline"]) {
+//            controller.detected_id_outline_outside_color = [imageProcessingData objectForKey:@"DetectedColorOutsideOutline"];
+//        } else {
+//            controller.detected_id_outline_outside_color = dDetectedOutsideIdOutlineColor;
+//        }
+//
+//        if([imageProcessingData objectForKey:@"detectedIdOutsideOutlineColorAlpha"]) {
+//            controller.detected_id_outline_outside_color_alpha = [[imageProcessingData objectForKey:@"detectedIdOutsideOutlineColorAlpha"] intValue];
+//        } else {
+//            controller.detected_id_outline_outside_color_alpha = mAlpha;
+//        }
+//
+//        if([imageProcessingData objectForKey:@"headerStyleIOS"]) {
+//            controller.title_message_style = [imageProcessingData objectForKey:@"headerStyleIOS"];
+//        } else {
+//            controller.title_message_style = titleMessageStyle;
+//        }
+//
+//        if([imageProcessingData objectForKey:@"styleIOS"]) {
+//            controller.hint_message_style = [imageProcessingData objectForKey:@"styleIOS"];
+//        } else {
+//            controller.hint_message_style = hintMessageStyle;
+//        }
+//
+//        if([imageProcessingData objectForKey:@"headerTextLabelColor"]) {
+//            controller.title_message_color = [imageProcessingData objectForKey:@"headerTextLabelColor"];
+//        } else {
+//            controller.title_message_color = titleMessageColor;
+//        }
+//        if([imageProcessingData objectForKey:@"headerTextLabelAlpha"]) {
+//            controller.title_message_color_alpha = [[imageProcessingData objectForKey:@"headerTextLabelAlpha"] intValue];
+//        } else {
+//            controller.title_message_color_alpha = titleMessageColorAlpha;
+//        }
+//
+//        if([imageProcessingData objectForKey:@"textLabelColor"]) {
+//            controller.hint_message_color = [imageProcessingData objectForKey:@"textLabelColor"];
+//        } else {
+//            controller.hint_message_color = hintMessageColor;
+//        }
+//        if([imageProcessingData objectForKey:@"textLabelAlpha"]) {
+//            controller.hint_message_color_alpha = [[imageProcessingData objectForKey:@"textLabelAlpha"] intValue];
+//        } else {
+//            controller.hint_message_color_alpha = hintMessageColorAlpha;
+//        }
+//        if([imageProcessingData objectForKey:@"backButtonColor"]) {
+//            controller.back_button_color = [imageProcessingData objectForKey:@"backButtonColor"];
+//        } else {
+//            controller.back_button_color = backButtonColor;
+//        }
+//        if([imageProcessingData objectForKey:@"backButtonColorAlpha"]) {
+//            controller.back_button_color_alpha = [[imageProcessingData objectForKey:@"backButtonColorAlpha"] intValue];
+//        } else {
+//            controller.back_button_color_alpha = backButtonColorAlpha;
+//        }
+//
+//        if([imageProcessingData objectForKey:@"headerTextLabelSize"]) {
+//            controller.header_font_size = [imageProcessingData objectForKey:@"headerTextLabelSize"];
+//        } else {
+//            controller.header_font_size = titleTextFontSize;
+//        }
+//        if([imageProcessingData objectForKey:@"textLabelSize"]) {
+//            controller.text_font_size = [imageProcessingData objectForKey:@"textLabelSize"];
+//        } else {
+//            controller.text_font_size = titleTextFontSize;
+//        }
+//
+//        if([imageProcessingData objectForKey:@"idCaptureBorder"]) {
+//            controller.id_Capture_BorderType = [imageProcessingData objectForKey:@"idCaptureBorder"];
+//        } else {
+//            controller.id_Capture_BorderType = idCaptureBorderType;
+//        }
+//
+//        if([imageProcessingData objectForKey:@"IdAlignmentValue"]) {
+//            controller.id_Capture_Title_Align = [imageProcessingData objectForKey:@"IdAlignmentValue"];
+//        } else {
+//            controller.id_Capture_Title_Align = @"Top";
+//        }
+//
+//        if([imageProcessingData objectForKey:@"IdHintMessageAlignmentValue"]) {
+//            controller.id_Capture_Hint_Align = [imageProcessingData objectForKey:@"IdHintMessageAlignmentValue"];
+//        } else {
+//            controller.id_Capture_Hint_Align = @"Center";
+//        }
+//
+//        if([imageProcessingData objectForKey:@"IdTitleAlignment"]) {
+//            if([@"Y" isEqualToString:[imageProcessingData objectForKey:@"IdTitleAlignment"]]) {
+//                controller.hideIdCaptureTitle = false;
+//            } else {
+//                controller.hideIdCaptureTitle = true;;
+//            }
+//        } else {
+//            controller.hideIdCaptureTitle = false;
+//        }
+//
+//        if([imageProcessingData objectForKey:@"IdHintMessageAlignment"]) {
+//            if([@"Y" isEqualToString:[imageProcessingData objectForKey:@"IdHintMessageAlignment"]]) {
+//                controller.hideIdCaptureHintMessage = false;
+//            } else {
+//                controller.hideIdCaptureHintMessage = true;
+//            }
+//        } else {
+//            controller.hideIdCaptureHintMessage = false;
+//        }
+//
+//        if([imageProcessingData objectForKey:@"confirmButtonColor"]) {
+//            controller.confirm_button_color = [imageProcessingData objectForKey:@"confirmButtonColor"];
+//        } else {
+//            controller.confirm_button_color = confirmButtonColor;
+//        }
+//
+//        if([imageProcessingData objectForKey:@"confirmButtonColorAlpha"]) {
+//            controller.confirm_button_color_alpha = [[imageProcessingData objectForKey:@"confirmButtonColorAlpha"] intValue];
+//        } else {
+//            controller.confirm_button_color_alpha = confirmButtonColorAlpha;
+//        }
+//
+//        if([imageProcessingData objectForKey:@"retryButtonColor"]) {
+//            controller.retry_button_color = [imageProcessingData objectForKey:@"retryButtonColor"];
+//        } else {
+//            controller.retry_button_color = retryButtonColor;
+//        }
+//
+//        if([imageProcessingData objectForKey:@"retryButtonColorAlpha"]) {
+//            controller.retry_button_color_alpha = [[imageProcessingData objectForKey:@"retryButtonColorAlpha"] intValue];
+//        } else {
+//            controller.retry_button_color_alpha = retryButtonColorAlpha;
+//        }
+//
+//        if([imageProcessingData objectForKey:@"retryButtonBorderColor"]) {
+//            controller.retry_button_border_color = [imageProcessingData objectForKey:@"retryButtonBorderColor"];
+//        } else {
+//            controller.retry_button_border_color = retryButtonBordorColor;
+//        }
+//
+//        if([imageProcessingData objectForKey:@"retryButtonColorBorderAlpha"]) {
+//            controller.retry_button_border_color_alpha = [[imageProcessingData objectForKey:@"retryButtonColorBorderAlpha"] intValue];
+//        } else {
+//            controller.retry_button_border_color_alpha = retryButtonBorderColorAlpha;
+//        }
+//
+//        if([imageProcessingData objectForKey:@"confirmButtonStyle"]) {
+//            controller.confirm_button_style_color = [imageProcessingData objectForKey:@"confirmButtonStyle"];
+//        } else {
+//            controller.confirm_button_style_color = confirmButtonStyleColor;
+//        }
+//
+//        if([imageProcessingData objectForKey:@"confirmButtonStyleAlpha"]) {
+//            controller.confirm_button_border_style_alpha = [[imageProcessingData objectForKey:@"confirmButtonStyleAlpha"] intValue];
+//        } else {
+//            controller.confirm_button_border_style_alpha = confirmButtonStyleColorAlpha;
+//        }
+//        controller.modalPresentationStyle = UIModalPresentationFullScreen;
+//        controller.delegate = self;
+//        controller.imageProcDataDic = imageProcessingData;
     }
 }
 
@@ -3417,18 +3417,18 @@ static bool idfaceshowInstruction = true;
     // http://stackoverflow.com/questions/12561735/what-are-unwind-segues-for-and-how-do-you-use-them
     
     UIViewController* sourceViewController = segue.sourceViewController;
-    
-    if ([sourceViewController isKindOfClass:[OpenCvViewControllerAppit class]])
-    {
-        [self handle_opencv_callback:sourceViewController callbackFrom:@"ImageConsumer"];
-    } else if([sourceViewController isKindOfClass:[SkipImageProcessingViewController class]]) {
-        SkipImageProcessingViewController* view = (SkipImageProcessingViewController*)sourceViewController;
-        if(!view.isFomResume) {
-            [self handle_opencv_callback:sourceViewController callbackFrom:@"ImageConsumer"];
-        } else {
-            [self performSelector:@selector(lanunchOnResume) withObject:self afterDelay:0.5];
-        }
-    }
+//
+//    if ([sourceViewController isKindOfClass:[OpenCvViewControllerAppit class]])
+//    {
+//        [self handle_opencv_callback:sourceViewController callbackFrom:@"ImageConsumer"];
+//    } else if([sourceViewController isKindOfClass:[SkipImageProcessingViewController class]]) {
+//        SkipImageProcessingViewController* view = (SkipImageProcessingViewController*)sourceViewController;
+//        if(!view.isFomResume) {
+//            [self handle_opencv_callback:sourceViewController callbackFrom:@"ImageConsumer"];
+//        } else {
+//            [self performSelector:@selector(lanunchOnResume) withObject:self afterDelay:0.5];
+//        }
+//    }
 }
 
 - (void)lanunchOnResume
@@ -3439,74 +3439,74 @@ static bool idfaceshowInstruction = true;
 - (IBAction)unwindToListBack:(UIStoryboardSegue *)segue {
     // http://stackoverflow.com/questions/12561735/what-are-unwind-segues-for-and-how-do-you-use-them
     
-    UIViewController* sourceViewController = segue.sourceViewController;
-    
-    if ([sourceViewController isKindOfClass:[OpenCvViewControllerAppit class]] ||
-        [sourceViewController isKindOfClass:[SkipImageProcessingViewController class]])
-    {
-        [sourceViewController viewWillDisappear:false];
-        [self handle_opencv_callback:sourceViewController callbackFrom:@"BackButton"];
-        
-    }else if ([sourceViewController isKindOfClass:[FaceDetectionViewController class]]){
-        
-        NSMutableDictionary *configOriginal = [self build_common_return_data];
-        
-        FaceDetectionViewController* face = (FaceDetectionViewController*)sourceViewController;
-        
-        [configOriginal setObject: face.responseStatus forKey:@"status"];
-        
-        //Creating copy of config
-        NSMutableDictionary *configEllipse = [configOriginal mutableCopy];
-        
-        if ([face.responseStatus isEqualToString:@"0"]) {
-            NSMutableDictionary *imagRespOriginal = [NSMutableDictionary new];
-            [imagRespOriginal setObject:face.respOrigionalImgData forKey:@"OriginalImage"];
-            //            [imagResp setObject:face.respEllipseImgData forKey:@"EllipseImage"];
-            
-            NSMutableDictionary *imagRespEllipse = [NSMutableDictionary new];
-            [imagRespEllipse setObject:face.respEllipseImgData forKey:@"EllipseImage"];
-            
-            [configOriginal setObject:[self get_json_string:imagRespOriginal] forKey:@"dataFromAppit"];
-            [configEllipse setObject:[self get_json_string:imagRespEllipse] forKey:@"dataFromAppit"];
-        }else if ([face.responseStatus isEqualToString:@"26"]) {
-            // Make toast with a duration and position
-            [self.view makeToast:@"Face detection failed."
-                        duration:5.0
-                        position:CSToastPositionCenter];
-        }
-        
-        //convert object to data
-        NSString *encodedJsonStringOriginal = [self get_encoded_json_string:configOriginal];
-        NSString *encodedJsonStringEllipse = [self get_encoded_json_string:configEllipse];
-        
-        //call inform
-        [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonStringEllipse];
-        [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonStringOriginal];
-    }else if ([sourceViewController isKindOfClass:[ScanCardIOViewController class]]){
-        
-        NSMutableDictionary *config = [self build_common_return_data];
-        
-        ScanCardIOViewController* scan = (ScanCardIOViewController*)sourceViewController;
-        
-        [config setObject: scan.responseStatus forKey:@"status"];
-        
-        NSLog(@"Exit from Scan Card Screen %@", scan.responseStatus);
-        
-        if ([scan.responseStatus isEqualToString:@"0"]) {
-            NSMutableDictionary *cardResp = [NSMutableDictionary new];
-            [cardResp setObject:scan.responseCardType forKey:@"CardType"];
-            [cardResp setObject:scan.responseCardNumber forKey:@"CardNumber"];
-            [cardResp setObject:scan.responseCardImage forKey:@"CardImage"];
-            
-            [config setObject:[self get_json_string:cardResp] forKey:@"dataFromAppit"];
-        }
-        
-        //convert object to data
-        NSString *encodedJsonString = [self get_encoded_json_string:config];
-        
-        //call inform
-        [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
-    }
+//    UIViewController* sourceViewController = segue.sourceViewController;
+//
+//    if ([sourceViewController isKindOfClass:[OpenCvViewControllerAppit class]] ||
+//        [sourceViewController isKindOfClass:[SkipImageProcessingViewController class]])
+//    {
+//        [sourceViewController viewWillDisappear:false];
+//        [self handle_opencv_callback:sourceViewController callbackFrom:@"BackButton"];
+//
+//    }else if ([sourceViewController isKindOfClass:[FaceDetectionViewController class]]){
+//
+//        NSMutableDictionary *configOriginal = [self build_common_return_data];
+//
+//        FaceDetectionViewController* face = (FaceDetectionViewController*)sourceViewController;
+//
+//        [configOriginal setObject: face.responseStatus forKey:@"status"];
+//
+//        //Creating copy of config
+//        NSMutableDictionary *configEllipse = [configOriginal mutableCopy];
+//
+//        if ([face.responseStatus isEqualToString:@"0"]) {
+//            NSMutableDictionary *imagRespOriginal = [NSMutableDictionary new];
+//            [imagRespOriginal setObject:face.respOrigionalImgData forKey:@"OriginalImage"];
+//            //            [imagResp setObject:face.respEllipseImgData forKey:@"EllipseImage"];
+//
+//            NSMutableDictionary *imagRespEllipse = [NSMutableDictionary new];
+//            [imagRespEllipse setObject:face.respEllipseImgData forKey:@"EllipseImage"];
+//
+//            [configOriginal setObject:[self get_json_string:imagRespOriginal] forKey:@"dataFromAppit"];
+//            [configEllipse setObject:[self get_json_string:imagRespEllipse] forKey:@"dataFromAppit"];
+//        }else if ([face.responseStatus isEqualToString:@"26"]) {
+//            // Make toast with a duration and position
+//            [self.view makeToast:@"Face detection failed."
+//                        duration:5.0
+//                        position:CSToastPositionCenter];
+//        }
+//
+//        //convert object to data
+//        NSString *encodedJsonStringOriginal = [self get_encoded_json_string:configOriginal];
+//        NSString *encodedJsonStringEllipse = [self get_encoded_json_string:configEllipse];
+//
+//        //call inform
+//        [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonStringEllipse];
+//        [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonStringOriginal];
+//    }else if ([sourceViewController isKindOfClass:[ScanCardIOViewController class]]){
+//
+//        NSMutableDictionary *config = [self build_common_return_data];
+//
+//        ScanCardIOViewController* scan = (ScanCardIOViewController*)sourceViewController;
+//
+//        [config setObject: scan.responseStatus forKey:@"status"];
+//
+//        NSLog(@"Exit from Scan Card Screen %@", scan.responseStatus);
+//
+//        if ([scan.responseStatus isEqualToString:@"0"]) {
+//            NSMutableDictionary *cardResp = [NSMutableDictionary new];
+//            [cardResp setObject:scan.responseCardType forKey:@"CardType"];
+//            [cardResp setObject:scan.responseCardNumber forKey:@"CardNumber"];
+//            [cardResp setObject:scan.responseCardImage forKey:@"CardImage"];
+//
+//            [config setObject:[self get_json_string:cardResp] forKey:@"dataFromAppit"];
+//        }
+//
+//        //convert object to data
+//        NSString *encodedJsonString = [self get_encoded_json_string:config];
+//
+//        //call inform
+//        [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
+//    }
 }
 
 -(void)cardDetectionResponse:(NSMutableDictionary *)result {
@@ -4531,7 +4531,7 @@ static bool idfaceshowInstruction = true;
     [_another_wkWebview_viewHolder_pdf setHidden:YES];
 }
 - (IBAction)shareDataButtonClicked:(id)sender {
-    if(![NSStringUtils stringIsNilOrEmpty:content_file_name]) {
+    if(![NS_String_Utils stringIsNilOrEmpty:content_file_name]) {
         NSString *documentsDirectory = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
         
         NSString *resourcePath = [documentsDirectory stringByAppendingPathComponent:@"/Content_Folder/"];
@@ -4586,7 +4586,7 @@ static bool idfaceshowInstruction = true;
                 
                 content_file_name = [url_string_data lastPathComponent];
                 
-                if(![NSStringUtils stringIsNilOrEmpty:content_file_name]) {
+                if(![NS_String_Utils stringIsNilOrEmpty:content_file_name]) {
                     NSString *content_file_path = [NSString stringWithFormat:@"%@/%@", outFileDirectoryPath, content_file_name];
                     
                     if ([[NSFileManager defaultManager] fileExistsAtPath:content_file_path]) {
