@@ -8,7 +8,7 @@
 
 #import "ChangeURLViewController.h"
 #import "ViewController.h"
-#import "NSStringUtils.h"
+#import "NS_String_Utils.h"
 #import "Settings.h"
 
 @interface ChangeURLViewController ()
@@ -44,7 +44,7 @@
         NSString *url = [changeURLText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         [Settings setCurrentURL:url];
         currentURL = url;
-        if(![NSStringUtils stringIsNilOrEmpty:changedPassword]){
+        if(![NS_String_Utils stringIsNilOrEmpty:changedPassword]){
             [Settings setCurrentPassword:changedPassword];
         }
     }
@@ -201,7 +201,7 @@
 -(BOOL)validateChangePassword:(NSString*)currentPassword newPassword:(NSString*)newPassword retypePassword:(NSString*)retypePassword{
 
     NSString *error = nil;
-    if([NSStringUtils stringIsNilOrEmpty:currentPassword] || [NSStringUtils stringIsNilOrEmpty:newPassword] || [NSStringUtils stringIsNilOrEmpty:retypePassword]){
+    if([NS_String_Utils stringIsNilOrEmpty:currentPassword] || [NS_String_Utils stringIsNilOrEmpty:newPassword] || [NS_String_Utils stringIsNilOrEmpty:retypePassword]){
         error = @"Please fill all the details.";
     }else if(![[Settings getCurrentPassword] isEqualToString:currentPassword]){
         error = @"Please enter correct old password.";
@@ -221,9 +221,9 @@
 
 - (void)alertTextFieldValueChanged:(UITextField *)sender {
     
-    if(![NSStringUtils stringIsNilOrEmpty:[_oldpassAlertTextField text]]
-       && ![NSStringUtils stringIsNilOrEmpty:[_newpassAlertTextField text]]
-       && ![NSStringUtils stringIsNilOrEmpty:[_confirmpassAlertTextField text]]){
+    if(![NS_String_Utils stringIsNilOrEmpty:[_oldpassAlertTextField text]]
+       && ![NS_String_Utils stringIsNilOrEmpty:[_newpassAlertTextField text]]
+       && ![NS_String_Utils stringIsNilOrEmpty:[_confirmpassAlertTextField text]]){
         [_okActionButton setEnabled:TRUE];
     }else{
         if([_okActionButton isEnabled]){

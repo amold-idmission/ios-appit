@@ -9,12 +9,12 @@
 #import "AppDelegate.h"
 #include <tesseract/baseapi.h>
 #import "CommonUtils.h"
-#import "FaceDetectionViewController.h"
-#import "OpenCvViewControllerAppit.h"
+//#import "FaceDetectionViewController.h"
+//#import "OpenCvViewControllerAppit.h"
 #import "TemplateDownloadViewController.h"
 #import "Settings.h"
 #import "ViewController.h"
-#import <Firebase.h>
+
 
 @interface AppDelegate ()
 
@@ -55,7 +55,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     //FireBase App Configuration
-    [FIRApp configure];
+//    [FIRApp configure];
     
     tess_data_path = [self setup_tesseract_data];
     
@@ -190,53 +190,53 @@
 
     if ([action containsString:@"callFaceDetection"]) {
 
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        FaceDetectionViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"FaceDetectionViewController"];
-//        viewController.threshold = [[imageProcessingData objectForKey:@"threshold"] intValue];
-//        viewController.thresholdSetting = [imageProcessingData objectForKey:@"thresholdSetting"];
-//        viewController.support_eyewear = [[imageProcessingData objectForKey:@"support_eyewear"] boolValue];
-//        viewController.take_image_while_processing = [[imageProcessingData objectForKey:@"take_image_while_processing"] boolValue];
-//        viewController.verify_final_image = [[imageProcessingData objectForKey:@"verify_final_image"] boolValue];
-//        viewController.verify_final_image_Minimum_Match = [[imageProcessingData objectForKey:@"verify_final_image_Minimum_Match"] intValue];
-//        viewController.LowLightThresholdValue = [[imageProcessingData objectForKey:@"LowLightThresholdValue"] intValue];
-//        
-//        viewController.launchedFromApp = YES;
-//        [viewController.responseUrl appendString:respURL];
-        
-        self.window.rootViewController = viewController;
-        [self.window makeKeyAndVisible];
+//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//        FaceDetectionViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"FaceDetectionViewController"];
+////        viewController.threshold = [[imageProcessingData objectForKey:@"threshold"] intValue];
+////        viewController.thresholdSetting = [imageProcessingData objectForKey:@"thresholdSetting"];
+////        viewController.support_eyewear = [[imageProcessingData objectForKey:@"support_eyewear"] boolValue];
+////        viewController.take_image_while_processing = [[imageProcessingData objectForKey:@"take_image_while_processing"] boolValue];
+////        viewController.verify_final_image = [[imageProcessingData objectForKey:@"verify_final_image"] boolValue];
+////        viewController.verify_final_image_Minimum_Match = [[imageProcessingData objectForKey:@"verify_final_image_Minimum_Match"] intValue];
+////        viewController.LowLightThresholdValue = [[imageProcessingData objectForKey:@"LowLightThresholdValue"] intValue];
+////
+////        viewController.launchedFromApp = YES;
+////        [viewController.responseUrl appendString:respURL];
+//
+//        self.window.rootViewController = viewController;
+//        [self.window makeKeyAndVisible];
 
     }else if([action containsString:@"callImageProc"]){
         
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        OpenCvViewControllerAppit *controller = [storyboard instantiateViewControllerWithIdentifier:@"OpenCvViewControllerAppitId"];
-
-        BOOL highResolutionImageMode = [[imageProcessingData objectForKey:@"HighResolutionImageMode"] boolValue];
-        
-        if(highResolutionImageMode){
-        
-        }else{
-            
-            controller.single_high_res_snapshot_mode = highResolutionImageMode;
-            
-            NSString *templateIds = [imageProcessingData objectForKey:@"TemplateIds"];
-            controller.template_ids = templateIds;
-            
-            NSString *imageCaptureCount = [imageProcessingData objectForKey:@"ImageCaptureCount"];
-            int imagesToInsert = 4;
-            if (imageCaptureCount != nil) {
-                imagesToInsert = [imageCaptureCount intValue];
-            }
-            controller.ImagesToInsert = imagesToInsert;
-            controller.ImagesToConsume = imagesToInsert-1;
-            
-            
-            controller.launchedFromApp = YES;
-            controller.responseUrl = [NSMutableString stringWithString:respURL];
-            
-            self.window.rootViewController = controller;
-            [self.window makeKeyAndVisible];
-        }
+//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//        OpenCvViewControllerAppit *controller = [storyboard instantiateViewControllerWithIdentifier:@"OpenCvViewControllerAppitId"];
+//
+//        BOOL highResolutionImageMode = [[imageProcessingData objectForKey:@"HighResolutionImageMode"] boolValue];
+//
+//        if(highResolutionImageMode){
+//
+//        }else{
+//
+//            controller.single_high_res_snapshot_mode = highResolutionImageMode;
+//
+//            NSString *templateIds = [imageProcessingData objectForKey:@"TemplateIds"];
+//            controller.template_ids = templateIds;
+//
+//            NSString *imageCaptureCount = [imageProcessingData objectForKey:@"ImageCaptureCount"];
+//            int imagesToInsert = 4;
+//            if (imageCaptureCount != nil) {
+//                imagesToInsert = [imageCaptureCount intValue];
+//            }
+//            controller.ImagesToInsert = imagesToInsert;
+//            controller.ImagesToConsume = imagesToInsert-1;
+//
+//
+//            controller.launchedFromApp = YES;
+//            controller.responseUrl = [NSMutableString stringWithString:respURL];
+//
+//            self.window.rootViewController = controller;
+//            [self.window makeKeyAndVisible];
+//        }
     }else if([action containsString:@"callDownloadTemplate"]){
         
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
