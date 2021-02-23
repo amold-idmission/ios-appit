@@ -302,7 +302,7 @@ static bool idfaceshowInstruction = true;
             [self handle_opencv_result_callback];
         } else if ([operation isEqualToString: @"templateDownload"] ) {
             
-            [self download_templates];
+//            [self download_templates];
         }else if ([operation isEqualToString: @"scanFingerprint"] ) {
             idfaceshowInstruction = true;
             [self prepare_data_for_fingerprint];
