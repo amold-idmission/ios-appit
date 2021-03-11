@@ -1547,6 +1547,8 @@ static bool idfaceshowInstruction = true;
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"showInstruction"] forKey:@"cfc_show_instruction_screen"];
     }
     
+    [nonUIDictionary setObject:@"1" forKey:@"cfc_zoom_camera"];
+    
     NSMutableDictionary *fingCapDict = [[NSMutableDictionary alloc] init];
     [fingCapDict setObject:uiDictionary forKey:@"camera_finger_capture"];
     [AppItSDK customizeUserInterface:fingCapDict];

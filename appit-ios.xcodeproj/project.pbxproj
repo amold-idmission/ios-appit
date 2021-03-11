@@ -126,10 +126,10 @@
 		C453992E206A828D00E8E2DE /* face_outline_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = C453991A206A828D00E8E2DE /* face_outline_ipad.png */; };
 		C453993C206B717200E8E2DE /* smile_orange.png in Resources */ = {isa = PBXBuildFile; fileRef = C453993A206B717200E8E2DE /* smile_orange.png */; };
 		C453993D206B717200E8E2DE /* face_smile_orange.png in Resources */ = {isa = PBXBuildFile; fileRef = C453993B206B717200E8E2DE /* face_smile_orange.png */; };
+		C457A0B625FA0F85006ABFE9 /* AppItFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C457A0B425FA0F7A006ABFE9 /* AppItFramework.framework */; };
+		C457A0B725FA0F85006ABFE9 /* AppItFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C457A0B425FA0F7A006ABFE9 /* AppItFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C45D21E625D3F752004212A8 /* libtesseract_all.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C45D21E425D3F752004212A8 /* libtesseract_all.a */; };
 		C45D21E725D3F752004212A8 /* liblept.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C45D21E525D3F752004212A8 /* liblept.a */; };
-		C45D223B25D4132A004212A8 /* AppItFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C45D223925D4130E004212A8 /* AppItFramework.framework */; };
-		C45D223C25D4132A004212A8 /* AppItFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C45D223925D4130E004212A8 /* AppItFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C45E683421FF2B90006323D6 /* instruction_1.png in Resources */ = {isa = PBXBuildFile; fileRef = C45E682921FF2B8E006323D6 /* instruction_1.png */; };
 		C45E683521FF2B90006323D6 /* instruction_5.png in Resources */ = {isa = PBXBuildFile; fileRef = C45E682D21FF2B8E006323D6 /* instruction_5.png */; };
 		C45E683621FF2B90006323D6 /* instruction_6.png in Resources */ = {isa = PBXBuildFile; fileRef = C45E682E21FF2B8E006323D6 /* instruction_6.png */; };
@@ -209,7 +209,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C45D223C25D4132A004212A8 /* AppItFramework.framework in Embed Frameworks */,
+				C457A0B725FA0F85006ABFE9 /* AppItFramework.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -422,9 +422,9 @@
 		C453991A206A828D00E8E2DE /* face_outline_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = face_outline_ipad.png; sourceTree = "<group>"; };
 		C453993A206B717200E8E2DE /* smile_orange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smile_orange.png; sourceTree = "<group>"; };
 		C453993B206B717200E8E2DE /* face_smile_orange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = face_smile_orange.png; sourceTree = "<group>"; };
+		C457A0B425FA0F7A006ABFE9 /* AppItFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppItFramework.framework; sourceTree = "<group>"; };
 		C45D21E425D3F752004212A8 /* libtesseract_all.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtesseract_all.a; path = ThirdParty/tesseract/lib/libtesseract_all.a; sourceTree = "<group>"; };
 		C45D21E525D3F752004212A8 /* liblept.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblept.a; path = ThirdParty/tesseract/lib/liblept.a; sourceTree = "<group>"; };
-		C45D223925D4130E004212A8 /* AppItFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppItFramework.framework; sourceTree = "<group>"; };
 		C45E682921FF2B8E006323D6 /* instruction_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = instruction_1.png; sourceTree = "<group>"; };
 		C45E682D21FF2B8E006323D6 /* instruction_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = instruction_5.png; sourceTree = "<group>"; };
 		C45E682E21FF2B8E006323D6 /* instruction_6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = instruction_6.png; sourceTree = "<group>"; };
@@ -473,7 +473,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C45D223B25D4132A004212A8 /* AppItFramework.framework in Frameworks */,
+				C457A0B625FA0F85006ABFE9 /* AppItFramework.framework in Frameworks */,
 				C45D21E725D3F752004212A8 /* liblept.a in Frameworks */,
 				2ED01671AA01A74B58D650E7 /* Pods_appit_ios.framework in Frameworks */,
 				C45D21E625D3F752004212A8 /* libtesseract_all.a in Frameworks */,
@@ -494,7 +494,7 @@
 		1F02EBF21A7A929B0081C599 = {
 			isa = PBXGroup;
 			children = (
-				C45D223925D4130E004212A8 /* AppItFramework.framework */,
+				C457A0B425FA0F7A006ABFE9 /* AppItFramework.framework */,
 				1F02EBFD1A7A929B0081C599 /* appit-ios */,
 				1F02EC171A7A929B0081C599 /* Unit Tests */,
 				1F02EC331A7A9F540081C599 /* Frameworks */,
@@ -1544,7 +1544,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = SXB7K82DRL;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1572,7 +1572,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/appit-ios",
 				);
-				MARKETING_VERSION = 8.1.4;
+				MARKETING_VERSION = 8.1.6;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lc++",
@@ -1609,7 +1609,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = SXB7K82DRL;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1637,7 +1637,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/appit-ios",
 				);
-				MARKETING_VERSION = 8.1.4;
+				MARKETING_VERSION = 8.1.6;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lc++",
