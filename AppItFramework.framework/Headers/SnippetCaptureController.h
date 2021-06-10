@@ -12,6 +12,7 @@
 #import "AppItSDK.h"
 //#import <GoogleMobileVision/GoogleMobileVision.h>
 #import "Reachability.h"
+#import <MLKit.h>
 
 @interface SnippetCaptureController : UIViewController<UIScrollViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIImagePickerControllerDelegate,UIAlertViewDelegate> {
     MMSCropImageView *imageView;

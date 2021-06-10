@@ -13,7 +13,8 @@
 #import "AppItSDK.h"
 #import "GlobalGetterSetter.h"
 
-@interface VerifyCredentialsController : UIViewController<NSXMLParserDelegate> {
+//@interface VerifyCredentialsController : UIViewController<NSXMLParserDelegate> {
+@interface VerifyCredentialsController : NSObject<NSXMLParserDelegate> {
     
 }
 @property(nonatomic,assign)id delegate;
@@ -33,10 +34,19 @@
 @property (nonatomic) bool enableGPS;
 
 +(NSString*)getModelPath;
++(NSString*)getModelPath:(NSString *)uniqueKey;
 +(BOOL)isModelDownloaded;
 +(void)setIsModelDownloaded:(BOOL)modelDownloaded;
++(BOOL)isIDModelDownloaded;
++(void)setIsIDModelDownloaded:(BOOL)modelDownloaded;
 +(NSString *)getRequestCancelCount;
 +(void)setRequestCancelCount : (NSString*)_cancelCount;
+
++(NSString*)getIdModelPath;
++(NSString*)getIdModelPath:(NSString *)uniqueKey;
+
+-(id) initWithData:(id)instance loginId:(NSString *)loginId password:(NSString *)password
+               url:(NSString *)url productID:(NSString *)productID merchantID:(NSString *)merchantID enableGPS:(bool)enableGPS EnableDebug:(bool)EnableDebug Language:(NSString *)Language productName:(NSString *)productName;
 
 @end
 

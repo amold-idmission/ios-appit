@@ -47,4 +47,6 @@
 
 @property(nonatomic) BOOL capture_in_portrait_mode;
 
+@property(nonatomic) NSString *imageFilterType;
+
 @end

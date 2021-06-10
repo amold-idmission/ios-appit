@@ -42,6 +42,9 @@
 @property(nonatomic,assign) BOOL confirm;
 @property(nonatomic) NSString *genericFieldName;
 @property(nonatomic, assign) ScanningModeClass *currentScanningMode;
+@property(nonatomic, assign) bool spoofImageDetected;
+@property(nonatomic) float idCaptureFocusScore;
+@property(nonatomic, assign) bool isCompressImageSizeTo_800_width;
 
 +(void)retryCapture:(id)instance captureType:(NSString*)captureType;
 +(NSMutableDictionary *)getConfigDataJSON:(NSString*)light focus:(NSString*)focus glare:(NSString*)glare isAutoCapture:(NSString*)isAutoCapture operationTime:(NSString*) operationTime;
