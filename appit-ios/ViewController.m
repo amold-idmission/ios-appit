@@ -7,30 +7,14 @@
 //
 
 #import "AppDelegate.h"
-//#import "OpenCvViewControllerAppit.h"
 #import "ViewController.h"
 #import "IDServerInterface.h"
 #import "OpenCVUtils.h"
-//#import "FaceDetectionViewController.h"
-//#import "FaceDetectionNewViewController.h"
-//#import "FingerDetectionViewController2.h"
-//#import "FingerPreviewViewController.h"
-//#import "ScanCardIOViewController.h"
-//#import "VoiceRecorder.h"
-//#import "VideoRecorderViewController.h"
-//#import "SkipImageProcessingViewController.h"
 #import "NSData+GZIP.h"
 #import "UIView+Toast.h"
 #import "PasswordViewController.h"
 #import "NS_String_Utils.h"
 #import <sys/utsname.h>
-//#import "BarcodeViewController.h"
-//#import "InstructionViewController.h"
-//#import "CaptureSignatureController.h"
-//#import "MlKitFaceController.h"
-//#import "FacePreviewViewController.h"
-//#import "SnippetCaptureController.h"
-//#import "SnippetData.h"
 #import <AppItFramework/AppItSDK.h>
 
 #define TEMPLATES_FOLDER [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/templates"]
@@ -89,6 +73,8 @@ static int count = 0, minute = 0;
 static bool first_launch = false;
 static bool idfaceshowInstruction = true;
 
+#pragma mark - UIViewcontroller Lifecycle Methods
+
 - (void)viewDidLoad {
     
     //ADDED MA
@@ -96,19 +82,90 @@ static bool idfaceshowInstruction = true;
     [AppItSDK setIsSDKForAppIT:true];
     [self setupWebView];
     [self reloadURL];
-//    self.webView.delegate = self;
     
     self.navigationItem.hidesBackButton = YES;
     //[self initViews];
     first_launch = true;
     isBackPressed = false;
-    
     isImageSnippetCapture = @"N";
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+    [super viewWillAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+    [super viewWillDisappear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+//    [self changeLanguage];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id)coordinator {
+    // best call super just in case
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    
+    // will execute before rotation
+    [coordinator animateAlongsideTransition:^(id  _Nonnull context) {
+        // will execute during rotation
+        
+    } completion:^(id  _Nonnull context) {
+        // will execute after rotation
+        if(self.view.bounds.size.height > self.view.bounds.size.width){
+            NSLog(@"Portrait");
+            //[self addFooter];
+        }else{
+            NSLog(@"Landscape");
+        }
+    }];
+}
+
+- (void)changeLanguage{
+    NSString * languageLocal = [[NSLocale preferredLanguages] firstObject];
+    NSString * language = [[languageLocal componentsSeparatedByString:@"-"] objectAtIndex:0];
+    [StringLabels initializeCurrentLabels:language];
+}
+
+-(void)addFooter{
+    bool isIphoneX = false;
+    if([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
+        NSLog(@"iPhone");
+        int height = (int)[[UIScreen mainScreen] nativeBounds].size.height;
+        int width = (int)[[UIScreen mainScreen] nativeBounds].size.width;
+        
+        switch (height) {
+                
+            case 2688:
+                isIphoneX = true;
+                break;
+            case 1792:
+                isIphoneX = true;
+                break;
+            case 2436:
+                isIphoneX = true;
+                break;
+        }
+    }
+    
+    if(isIphoneX) {
+        if(self.webView != nil){
+            self.webView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 130);
+        }
+    }
+}
+
+#pragma mark - Setup WKWebView
+
 - (void)setupWebView {
-    self.webView = [[WKWebView alloc] initWithFrame: CGRectZero
-                                      configuration: [self setJS]];
+    self.webView = [[WKWebView alloc] initWithFrame: CGRectZero configuration: [self setJS]];
     self.webView.UIDelegate = self;
     self.webView.navigationDelegate = self;
     self.webView.allowsBackForwardNavigationGestures = YES;
@@ -122,32 +179,32 @@ static bool idfaceshowInstruction = true;
     webView.translatesAutoresizingMaskIntoConstraints = NO;
     
     NSLayoutConstraint *trailing =[NSLayoutConstraint
-    constraintWithItem:webView
-    attribute:NSLayoutAttributeTrailing
-    relatedBy:NSLayoutRelationEqual
-    toItem:self.view
-    attribute:NSLayoutAttributeTrailing
-    multiplier:1.0f
-    constant:0.f];
+                                   constraintWithItem:webView
+                                   attribute:NSLayoutAttributeTrailing
+                                   relatedBy:NSLayoutRelationEqual
+                                   toItem:self.view
+                                   attribute:NSLayoutAttributeTrailing
+                                   multiplier:1.0f
+                                   constant:0.f];
     
     NSLayoutConstraint *leading = [NSLayoutConstraint
-    constraintWithItem:webView
-    attribute:NSLayoutAttributeLeading
-    relatedBy:NSLayoutRelationEqual
-    toItem:self.view
-    attribute:NSLayoutAttributeLeading
-    multiplier:1.0f
-    constant:0.f];
+                                   constraintWithItem:webView
+                                   attribute:NSLayoutAttributeLeading
+                                   relatedBy:NSLayoutRelationEqual
+                                   toItem:self.view
+                                   attribute:NSLayoutAttributeLeading
+                                   multiplier:1.0f
+                                   constant:0.f];
     
     NSLayoutConstraint *bottom =[NSLayoutConstraint
-    constraintWithItem:webView
-    attribute:NSLayoutAttributeBottom
-    relatedBy:NSLayoutRelationEqual
-    toItem:self.view
-    attribute:NSLayoutAttributeBottom
-    multiplier:1.0f
-    constant:0.f];
-
+                                 constraintWithItem:webView
+                                 attribute:NSLayoutAttributeBottom
+                                 relatedBy:NSLayoutRelationEqual
+                                 toItem:self.view
+                                 attribute:NSLayoutAttributeBottom
+                                 multiplier:1.0f
+                                 constant:0.f];
+    
     NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:webView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0f constant:0.f];
     
     [self.view addConstraint:trailing];
@@ -172,57 +229,61 @@ static bool idfaceshowInstruction = true;
     wkWebConfig.mediaTypesRequiringUserActionForPlayback = NO;
     wkWebConfig.allowsPictureInPictureMediaPlayback = NO;
     [wkWebConfig.userContentController
-    addScriptMessageHandler:self name:@"callbackHandler"];
+     addScriptMessageHandler:self name:@"callbackHandler"];
     wkWebConfig.preferences.javaScriptEnabled = YES;
     
     return wkWebConfig;
 }
 
-- (void)changeLanguage{
-    NSString * languageLocal = [[NSLocale preferredLanguages] firstObject];
-    NSString * language = [[languageLocal componentsSeparatedByString:@"-"]
-                           objectAtIndex:0];
-    //    // [StringLabels initializeCurrentLabels:@"es"];
-    //    if ([language isEqualToString:@"es"]){
-    //        language = @"es";
-    //    }else {
-    //        language = @"en";
-    //    }
-    [StringLabels initializeCurrentLabels:language];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-    [super viewWillAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
+-(void) reloadURL{
+    NSString* url = [Settings getCurrentURL];
+    //    self.webView.allowsInlineMediaPlayback = YES;
+    //    self.webView.mediaPlaybackRequiresUserAction = NO;
+    //    self.webView.allowsPictureInPictureMediaPlayback = NO;
     
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-    [super viewWillDisappear:animated];
+    [self setCurrentTemplateLocation:url];
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
 }
 
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id)coordinator {
-    // best call super just in case
-    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+-(void) setCurrentTemplateLocation: (NSString*) currentURL{
     
-    // will execute before rotation
-    [coordinator animateAlongsideTransition:^(id  _Nonnull context) {
-        // will execute during rotation
-        
-    } completion:^(id  _Nonnull context) {
-        // will execute after rotation
-        if(self.view.bounds.size.height > self.view.bounds.size.width){
-            NSLog(@"Portrait");
-            //[self addFooter];
+    NSURL *nsurl = [NSURL URLWithString:currentURL];
+    if(nsurl == nil || nsurl.absoluteString.length==0){
+        currentTemplateLocation = @"DefaultTemplateLocation";
+    }else{
+        NSString *host = nsurl.host;
+        if(host==nil || host.length==0){
+            currentTemplateLocation = @"DefaultTemplateLocation";
         }else{
-            NSLog(@"Landscape");
+            currentTemplateLocation = host;
         }
-    }];
+    }
+    
+    [self createTemplatesDirectory : currentTemplateLocation];
+    currentTemplateLocation = [NSString stringWithFormat:@"%@/%@", TEMPLATES_FOLDER, currentTemplateLocation];
+    NSLog(@"Current Location %@", currentTemplateLocation);
 }
-- (void)viewDidAppear:(BOOL)animated{
-    [self changeLanguage];
+
+-(NSString*)createTemplatesDirectory:(NSString*) currentTemplateFolder{
+    NSFileManager *defaultManager = [NSFileManager defaultManager];
+    
+    NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentPath = ([documentPaths count] > 0) ? [documentPaths objectAtIndex:0] : nil;
+    
+    NSString *currentTemplateFolderPath = [NSString stringWithFormat:@"/templates/%@", currentTemplateFolder];
+    NSString *dataPath = [documentPath stringByAppendingPathComponent:currentTemplateFolderPath];
+    
+    if (![defaultManager fileExistsAtPath:dataPath]){
+        [defaultManager createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil]; //Create folder
+        
+    }
+    
+    //Skip iCloud back-up of templates folder
+    //[self addSkipBackupAttributeToItemAtPath:dataPath];
+    return dataPath;
 }
+
+#pragma mark - UIScrollView Delegate Methods
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
@@ -234,22 +295,74 @@ static bool idfaceshowInstruction = true;
     _webView.scrollView.minimumZoomScale = 1.0;
 }
 
+#pragma mark - JS execution (triggered at any time from the app side)
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/// JS execution (triggered at any time from the app side)
 - (void)triggerJS:(NSString *)jsString webView:(WKWebView *)webView {
     [webView evaluateJavaScript:jsString
               completionHandler:^(NSString *result, NSError *error){
-                  if (error != nil) {
-                      NSLog(@"Error during JS execution：%@", error.localizedDescription);
-                      return;
-                  }
-                  NSLog(@"Output result：%@", result);
-              }];
+        if (error != nil) {
+            NSLog(@"Error during JS execution：%@", error.localizedDescription);
+            return;
+        }
+        NSLog(@"Output result：%@", result);
+    }];
+}
+
+- (NSDictionary*)parse_string_to_json:(NSString*)jsonString{
+    NSError *jsonError;
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary* json = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                         options:NSJSONReadingMutableContainers
+                                                           error:&jsonError];
+    return json;
+}
+
+- (NSMutableDictionary*)build_common_return_data{
+    NSMutableDictionary *config = [NSMutableDictionary
+                                   dictionaryWithObjectsAndKeys:operation,@"operation",
+                                   [requestParamJson objectForKey:@"callBackParam"],@"callBackParam",
+                                   [requestParamJson objectForKey:@"callbackHandlerName"],@"callbackHandlerName",
+                                   nil];
+    return config;
+}
+
+- (NSString*)get_encoded_json_string:(NSMutableDictionary *)json {
+    NSError *error = nil;
+    //convert object to data
+    NSData* configJsonData = [NSJSONSerialization dataWithJSONObject:json
+                                                             options:NSJSONWritingPrettyPrinted error:&error];
+    if (! configJsonData) {
+        NSLog(@"Got an error: %@", error);
+    } else {
+        NSString *jsonString = [[NSString alloc] initWithData:configJsonData encoding:NSUTF8StringEncoding];
+        //NSLog(@"Json Created: %@", jsonString);
+        // Base64 encode the string to avoid problems
+        NSData *plainData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+        NSString *encodedJsonString = [plainData base64EncodedStringWithOptions:0];
+        return encodedJsonString;
+    }
+    return nil;
+}
+
+- (NSString*)get_json_string:(NSMutableDictionary *)json {
+    NSError *error = nil;
+    //convert object to data
+    NSData* configJsonData = [NSJSONSerialization dataWithJSONObject:json
+                                                             options:NSJSONWritingPrettyPrinted error:&error];
+    if (! configJsonData) {
+        NSLog(@"Got an error: %@", error);
+    } else {
+        NSString *jsonString = [[NSString alloc] initWithData:configJsonData encoding:NSUTF8StringEncoding];
+        return jsonString;
+    }
+    return nil;
+}
+
+- (void)call_inform_js:(NSString *)functionName functionParameters:(NSString *)functionParameters{
+    NSString *function = [NSString stringWithFormat:@"%@(\"%@\");", functionName, functionParameters];
+    //NSString *function = [NSString stringWithFormat: @"invokeIosAppitHandler(\"%@\");", encodedJsonString];
+    //[_webView stringByEvaluatingJavaScriptFromString:function];
+    [_webView evaluateJavaScript:function completionHandler:nil];
 }
 
 #pragma mark - WKNavigationDelegate Methods
@@ -266,13 +379,10 @@ static bool idfaceshowInstruction = true;
         
         NSString *requestParam = @"";
         
-        //        NSLog(@"Host : %@", request.URL.host);
-        
         NSURLComponents *components = [NSURLComponents componentsWithString:navigationAction.request.URL.absoluteString];
         for(NSURLQueryItem *item in components.queryItems)
         {
             NSLog(@"Parameter : name= %@", item.name);
-            //            NSLog(@"Parameter : name= %@ value= %@", item.name, item.value);
             if([item.name isEqualToString: @"requestParam"]){
                 requestParam = item.value;
                 break;
@@ -292,16 +402,17 @@ static bool idfaceshowInstruction = true;
                                                            options:NSJSONReadingMutableContainers
                                                              error:&jsonError];
         operation = [requestParamJson objectForKey:@"operation"];
-        NSLog(@"%@", [NSString stringWithFormat:@"%@", operation]);
-        
+        NSLog(@"Operation = %@", [NSString stringWithFormat:@"%@", operation]);
+
         if ([operation isEqualToString: @"imageProc"] ) {
             idfaceshowInstruction = true;
             [self restrictRotation_toMaskAll:YES];
             [self prepare_data_for_image_proc];
+        } else if ([operation isEqualToString: @"setLang"] ) {
+            [self setAppLanguage];
         } else if ([operation isEqualToString: @"imageProcResult"] ) {
             [self handle_opencv_result_callback];
         } else if ([operation isEqualToString: @"templateDownload"] ) {
-            
 //            [self download_templates];
         }else if ([operation isEqualToString: @"scanFingerprint"] ) {
             idfaceshowInstruction = true;
@@ -321,13 +432,8 @@ static bool idfaceshowInstruction = true;
             [self restrictRotation_toMaskAll:YES];
             [AppItSDK captureSignature:self];
         }else if ([operation isEqualToString: @"startVoiceRecording"] ) {
-            // voiceRecorder = [VoiceRecorder alloc];
-            // voiceRecorder.delegate = self;
             NSMutableDictionary *voiceRecordingConfig = [[self getVoiceRecordingConfigData] mutableCopy];
-            
-            // [voiceRecorder startRecording:voiceRecordingConfig];
             [AppItSDK startVoiceRecording:self voiceRecordingConfig:voiceRecordingConfig];
-            
         }else if ([operation isEqualToString: @"stopVoiceRecording"] ) {
             // [voiceRecorder stopRecording];
             // NSLog(@"Need to add pause");
@@ -345,7 +451,7 @@ static bool idfaceshowInstruction = true;
             NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
             
             NSDictionary *xsltDownloadDataDictionary = [dataToAppit objectForKey:@"xsltDownload"];
-
+            
             NSMutableDictionary *downloadXSLTDictionary = [[NSMutableDictionary alloc] init];
             [downloadXSLTDictionary setObject:[xsltDownloadDataDictionary objectForKey:@"IDServerUrl"] forKey:@"url"];
             [downloadXSLTDictionary setObject:[xsltDownloadDataDictionary objectForKey:@"loginId"]  forKey:@"login_ID"];
@@ -392,15 +498,12 @@ static bool idfaceshowInstruction = true;
                     //  [labelScrolledData setText:@""];
                     textOnVideoScreen = @"";
                 }
-                //                [self refreshVideoRecordingScreen];
-                //                [self initVideoCameraSession];
-                //                [self restrictRotation:YES];
                 
                 NSString *showVideoFeedback = [videoRecordingDictionary objectForKey:@"showVideoFeedback"];
                 BOOL enableBgVideoRecording = [@"N" isEqualToString:showVideoFeedback];
                 
                 videoCallbackExecuted = false;
-//                [AppItSDK startVideoRecording:self recordingTime:recordingDuration additionalDictionary:nil textDatatoScrolled:textOnVideoScreen];
+                //                [AppItSDK startVideoRecording:self recordingTime:recordingDuration additionalDictionary:nil textDatatoScrolled:textOnVideoScreen];
                 [AppItSDK startVideoRecording:self recordingTime:recordingDuration additionalDictionary:nil textDatatoScrolled:textOnVideoScreen isEnableBgVideoRecording:enableBgVideoRecording];
             } else {
                 NSMutableDictionary *config = [self build_common_return_data];
@@ -431,7 +534,7 @@ static bool idfaceshowInstruction = true;
             NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
             
             NSDictionary *videoConferencingDataDictionary = [dataToAppit objectForKey:@"videoConference"];
-
+            
             [self checkCameraPermission_videoConference:videoConferencingDataDictionary];
         }
         decisionHandler(WKNavigationActionPolicyCancel);
@@ -441,7 +544,7 @@ static bool idfaceshowInstruction = true;
             [[UIApplication sharedApplication] openURL:navigationAction.request.URL];
             decisionHandler(WKNavigationActionPolicyCancel);
         } else {
-             decisionHandler(WKNavigationActionPolicyAllow);
+            decisionHandler(WKNavigationActionPolicyAllow);
         }
         
     } else {
@@ -454,10 +557,10 @@ static bool idfaceshowInstruction = true;
         
         decisionHandler(WKNavigationActionPolicyAllow);
     }
-//    webView.scalesPageToFit = YES;
-
-   webView.contentMode = UIViewContentModeScaleAspectFit;
-
+    //    webView.scalesPageToFit = YES;
+    
+    webView.contentMode = UIViewContentModeScaleAspectFit;
+    
 }
 
 //-(void)webView:(WKWebView *)webView didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler
@@ -475,19 +578,19 @@ static bool idfaceshowInstruction = true;
 
 // Start reading
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
-//    NSLog(@"Start reading");
+    //    NSLog(@"Start reading");
 }
 
 // Read complete
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-//    NSLog(@"Read complete");
-//    [self triggerJS:@"document.body.innerHTML" webView:webView];
+    //    NSLog(@"Read complete");
+    //    [self triggerJS:@"document.body.innerHTML" webView:webView];
     
-//    [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.querySelector('meta[name=viewport]').setAttribute('content', 'width=%d;', false); ", (int)webView.frame.size.width]];
-//    [webView evaluateJavaScript:[NSString stringWithFormat:@"document.querySelector('meta[name=viewport]').setAttribute('content', 'width=%d;', false); ", (int)webView.frame.size.width] completionHandler:nil];
+    //    [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.querySelector('meta[name=viewport]').setAttribute('content', 'width=%d;', false); ", (int)webView.frame.size.width]];
+    //    [webView evaluateJavaScript:[NSString stringWithFormat:@"document.querySelector('meta[name=viewport]').setAttribute('content', 'width=%d;', false); ", (int)webView.frame.size.width] completionHandler:nil];
     
     NSString *javascript = @"var meta = document.createElement('meta');meta.setAttribute('name', 'viewport');meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');document.getElementsByTagName('head')[0].appendChild(meta);";
-
+    
     [webView evaluateJavaScript:[NSString stringWithFormat:javascript, (int)webView.frame.size.width] completionHandler:nil];
     
     
@@ -502,480 +605,41 @@ static bool idfaceshowInstruction = true;
 
 // Read failure
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
-//    NSLog(@"Read failure");
+    //    NSLog(@"Read failure");
 }
 
 // Connection Failed
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
-//    NSLog(@"Error code：%ld", (long)error.code);
+    //    NSLog(@"Error code：%ld", (long)error.code);
 }
 
--(void)startProgress {
-    
-    myTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 repeats:YES block:^(NSTimer * _Nonnull timer) {
-        count++;
-        if(count <=recordingDuration) {
-            progressView.progress =(float)count/recordingDuration;
-            if(count==60){ //second
-                minute++;
-                count = 0;
-            }
-            NSString *time = [[NSString alloc]
-                              initWithFormat:@"%02d:%02d",minute,count];
-            recordingTimeLabel.text = time;
-        } else {
-            [myTimer invalidate];
-            myTimer = nil;
-        }
-    }];
-}
+#pragma mark - WKWebKit Handler Methods
 
--(void)initViews {
-    int height = self.view.frame.size.height;
-    int width = self.view.frame.size.width;
-    int centerX = width/2;
-    int centerY = height/2;
-    int buttonWidhHeight = 100;
-    int progressPadding = 40;
-    if(height <= 623) {
-        buttonWidhHeight = 50;
-        progressPadding = 20;
-    }
-    int padding = 10;
-    int botPadding = 0;
-    
-    UIView *scrollView = [self view];
-    
-    //Mute UnMute Video Button
-    muteUnmuteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [muteUnmuteBtn setFrame:CGRectMake(padding, height-buttonWidhHeight - botPadding, buttonWidhHeight, buttonWidhHeight)];
-    [muteUnmuteBtn addTarget:self action:@selector(mute_unmute_video:) forControlEvents:UIControlEventTouchUpInside];
-    [muteUnmuteBtn setImage:[UIImage imageNamed:@"unmute_rec.png"] forState:UIControlStateNormal];
-    [scrollView addSubview:muteUnmuteBtn];
-    
-    //Play Pause Button
-    playPauseVideo = [UIButton buttonWithType:UIButtonTypeCustom];
-    [playPauseVideo setFrame:CGRectMake(width-buttonWidhHeight-padding, height-buttonWidhHeight - botPadding, buttonWidhHeight, buttonWidhHeight)];
-    [playPauseVideo addTarget:self action:@selector(play_pause_video:) forControlEvents:UIControlEventTouchUpInside];
-    [playPauseVideo setImage:[UIImage imageNamed:@"done_rec.png"] forState:UIControlStateNormal];
-    [scrollView addSubview:playPauseVideo];
-    
-    //Progress Bar
-    // UIProgressView *progressView = [[UIProgressView alloc] init];
-    progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
-    progressView.frame = CGRectMake(0,height-buttonWidhHeight - botPadding - progressPadding,width,buttonWidhHeight);
-    [scrollView addSubview:progressView];
-    //    [progressView setProgress:0.0];
-    progressView.trackTintColor = [UIColor blueColor];
-    progressView.progressTintColor = [UIColor whiteColor];
-    progressView.transform = CGAffineTransformMakeScale(-1.0f, 1.0f);
-    
-    //Scrolled label to be shown
-    labelScrolledData = [[UITextView alloc] init];
-    labelScrolledData.frame = CGRectMake(0,progressView.frame.origin.y - 60 , self.view.frame.size.width, 60);
-    [labelScrolledData setFont:[UIFont fontWithName:@"Arial" size:18]];
-    [labelScrolledData setScrollEnabled:YES];
-    [labelScrolledData setUserInteractionEnabled:YES];
-    [labelScrolledData setBackgroundColor:[UIColor clearColor]];
-    [labelScrolledData setTextAlignment:NSTextAlignmentCenter];
-    [labelScrolledData setTextColor:[UIColor whiteColor]];
-    [self.view addSubview:labelScrolledData];
-    
-    //recording timer label
-    recordingLabel = [[UILabel alloc] init];
-    [recordingLabel setFrame: CGRectMake(0,height-(buttonWidhHeight+55) - botPadding - progressPadding,width,buttonWidhHeight)];
-    [recordingLabel setText:@"Recording"];
-    [recordingLabel setTextColor:[UIColor whiteColor]];
-    [recordingLabel setTextAlignment:NSTextAlignmentCenter];
-    [recordingLabel setLineBreakMode:NSLineBreakByWordWrapping];
-    [self.view addSubview:recordingLabel];
-    
-    recordingTimeLabel = [[UILabel alloc] init];
-    [recordingTimeLabel setFrame: CGRectMake(0,height-(buttonWidhHeight+30) - botPadding - progressPadding,width,buttonWidhHeight)];
-    [recordingTimeLabel setFont:[UIFont systemFontOfSize:25]];
-    [recordingTimeLabel setText:@"00:00"];
-    [recordingTimeLabel setTextColor:[UIColor whiteColor]];
-    [recordingTimeLabel setLineBreakMode:NSLineBreakByWordWrapping];
-    [recordingTimeLabel setTextAlignment:NSTextAlignmentCenter];
-    [self.view addSubview:recordingTimeLabel];
-    
-    
-    //Start Stop Button
-    recordingButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [recordingButton setFrame:CGRectMake(centerX-(buttonWidhHeight/2), height-buttonWidhHeight - botPadding, buttonWidhHeight, buttonWidhHeight)];
-    [recordingButton addTarget:self action:@selector(start_stop_recording:) forControlEvents:UIControlEventTouchUpInside];
-    [recordingButton setImage:[UIImage imageNamed:@"start_recording.png"] forState:UIControlStateNormal];
-    [scrollView addSubview:recordingButton];
-    
-    //Toggle Camera Button
-    toogleCamera = [UIButton buttonWithType:UIButtonTypeCustom];
-    [toogleCamera setFrame:CGRectMake(width-buttonWidhHeight-padding, height-buttonWidhHeight - botPadding, buttonWidhHeight, buttonWidhHeight)];
-    [toogleCamera addTarget:self action:@selector(toggle_camera:) forControlEvents:UIControlEventTouchUpInside];
-    [toogleCamera setImage:[UIImage imageNamed:@"front_cam.png"] forState:UIControlStateNormal];
-    [scrollView addSubview:toogleCamera];
-    
-    //Video View Expand
-    expandVideo = [UIButton buttonWithType:UIButtonTypeCustom];
-    [expandVideo setFrame:CGRectMake(width-padding-buttonWidhHeight, padding, buttonWidhHeight, buttonWidhHeight)];
-    [expandVideo addTarget:self action:@selector(expand_video:) forControlEvents:UIControlEventTouchUpInside];
-    [expandVideo setImage:[UIImage imageNamed:@"minimize.png"] forState:UIControlStateNormal];
-    [scrollView addSubview:expandVideo];
-    
-    //Adding BACK button -Start
-    backUIButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    CGRect backButtonRect = CGRectMake(10, 10 , 50, 50);
-    [backUIButton setFrame:backButtonRect];
-    [backUIButton setImage:[UIImage imageNamed:@"back_cancel_arrow.png"] forState:UIControlStateNormal];
-    
-    [backUIButton addTarget:self action:@selector(backPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [scrollView addSubview:backUIButton];
-    
-    [playPauseVideo setHidden:YES];
-    [recordingButton setHidden:YES];
-    [toogleCamera setHidden:YES];
-    [expandVideo setHidden:YES];
-    [backUIButton setHidden:YES];
-    [muteUnmuteBtn setHidden:YES];
-    [progressView setHidden:YES];
-    [labelScrolledData setHidden:YES];
-}
+/* SetLanguage Call */
+-(void)setAppLanguage {
+    NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
+    NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
+    NSString *ApplanguageString = [[dataToAppit objectForKey:@"appitlang"] objectForKey:@"lang"];
+    NSLog(@"Application Language :%@", ApplanguageString);
 
--(void)play_pause_video:(UIButton*)button{
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    [playPauseVideo setHidden:YES];
-    [recordingButton setHidden:YES];
-    [toogleCamera setHidden:YES];
-    [muteUnmuteBtn setHidden:YES];
-    [expandVideo setHidden:YES];
-    [backUIButton setHidden:YES];
-    [labelScrolledData setHidden:YES];
-    [_webView setHidden:NO];
-    [recordingTimeLabel setHidden:YES];
-    [recordingLabel setHidden:YES];
-    [playerViewController.player pause];
-    [self destroyVideoCameraSession];
-    [toogleCamera setImage:[UIImage imageNamed:@"front_cam.png"] forState:UIControlStateNormal];
-    isMute = false;
-    [muteUnmuteBtn setImage:[UIImage imageNamed:@"unmute_rec.png"] forState:UIControlStateNormal];
-    
-    [self restrictRotation_toMaskAll:YES];
-    
-    NSMutableDictionary *config = [self build_common_return_data];
-    [config setObject:@"42" forKey:@"status"];
-    
-    NSString *encodedJsonString = [self get_encoded_json_string:config];
-    
-    divideInSecond = 10.0;
-    numberOfPart = ceil(videoRecSeconds/divideInSecond);
-    videoChunkSize = ceil(base64Encoded.length/numberOfPart);
-    
-    NSString *time = [[NSString alloc]
-                      initWithFormat:@"%02d:%02d",0, 0];
-    recordingTimeLabel.text = time;
-    
-    //call inform
-    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
-    
-}
+    // Store Value for Local Use
+    [[NSUserDefaults standardUserDefaults] setObject:ApplanguageString forKey:@"AppLanguage"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 
--(void)mute_unmute_video:(UIButton*)button {
-    if(!isMute) {
-        isMute = true;
-        [muteUnmuteBtn setImage:[UIImage imageNamed:@"mute_rec.png"] forState:UIControlStateNormal];
-    }else {
-        isMute = false;
-        [muteUnmuteBtn setImage:[UIImage imageNamed:@"unmute_rec.png"] forState:UIControlStateNormal];
-    }
-}
+    // Store Value to use in Extension
+    NSUserDefaults * usrInfo = [[NSUserDefaults alloc] initWithSuiteName:@"group.idmission.dilo.NotificationService"];
+    [usrInfo setObject:ApplanguageString forKey:@"ApplicationLanguage"];
+    [usrInfo synchronize];
 
--(void)start_stop_recording:(UIButton*)button {
-    
-    [playerViewController.view removeFromSuperview];
-    BOOL recording = [self toggleVideoRecording];
-    if(recording){
-        [recordingButton setImage:[UIImage imageNamed:@"stop_recording.png"] forState:UIControlStateNormal];
-        recordingStarted = @"true";
-        [self refreshVideoRecordingScreen];
-    }else{
-        [recordingButton setImage:[UIImage imageNamed:@"start_recording.png"] forState:UIControlStateNormal];
-        recordingStarted = @"false";
-        [self refreshVideoRecordingScreen];
-    }
-    
-}
-
--(void)toggle_camera:(UIButton*)button{
-    [playerViewController.view removeFromSuperview];
-    BOOL isBackCamera = [self toggleCameraPosition];
-    if(isBackCamera){
-        [toogleCamera setImage:[UIImage imageNamed:@"front_cam.png"] forState:UIControlStateNormal];
-    }else{
-        [toogleCamera setImage:[UIImage imageNamed:@"back_cam.png"] forState:UIControlStateNormal];
-    }
-}
-
--(void)backPressed:(UIButton*)button{
-    NSLog(@"Back Pressed");
-    if(recordingInProgress) {
-        NSLog(@"STOP RECORDING");
-        recordingInProgress = NO;
-        [movieFileOutput stopRecording];
-        [myTimer invalidate];
-    }
-    count=0;
-    minute=0;
-    NSString *time = [[NSString alloc]
-                      initWithFormat:@"%02d:%02d",0, 0];
-    recordingTimeLabel.text = time;
-    
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    isBackPressed = true;
-    [playPauseVideo setHidden:YES];
-    [labelScrolledData setHidden:YES];
-    [recordingButton setHidden:YES];
-    [toogleCamera setHidden:YES];
-    [muteUnmuteBtn setHidden:YES];
-    [expandVideo setHidden:YES];
-    [backUIButton setHidden:YES];
-    [_webView setHidden:NO];
-    [progressView setProgress:0.0];
-    [progressView setHidden:YES];
-    [playerViewController.player pause];
-    [recordingTimeLabel setHidden:YES];
-    [recordingLabel setHidden:YES];
-    [self destroyVideoCameraSession];
-    [toogleCamera setImage:[UIImage imageNamed:@"front_cam.png"] forState:UIControlStateNormal];
-    isMute = false;
-    [muteUnmuteBtn setImage:[UIImage imageNamed:@"unmute_rec.png"] forState:UIControlStateNormal];
-    
-    [self restrictRotation_toMaskAll:YES];
-    
-    NSMutableDictionary *config = [self build_common_return_data];
-    [config setObject:@"41" forKey:@"status"];
-    
-    NSString *encodedJsonString = [self get_encoded_json_string:config];
-    
-    //    divideInSecond = 10.0;
-    //    numberOfPart = ceil(videoRecSeconds/divideInSecond);
-    //    videoChunkSize = ceil(base64Encoded.length/numberOfPart);
-    
-    //call inform
-    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
-}
-
--(void)expand_video:(UIButton*)button{
-    NSLog(@"expand_video");
-    CGRect layerRect = [[[self view] layer] bounds];
-    if(!isMinimized) {
-        
-        isMinimized = true;
-        int x = layerRect.size.width*65/100;
-        int y = 0;
-        int w = layerRect.size.width-x;
-        int h = layerRect.size.height*35/100;
-        //TODO
-        layerRect = CGRectMake(x, y, w, h);
-        
-        [_videoPreviewLayer setBounds:layerRect];
-        [_videoPreviewLayer setPosition:CGPointMake(CGRectGetMidX(layerRect),
-                                                    CGRectGetMidY(layerRect))];
-        if(nil != playerViewController) {
-            playerViewController.view.frame = CGRectMake(x,y,w,h);
-            [self.view bringSubviewToFront:recordingButton];
-        }
-        
-        [_webView setHidden:NO];
-        [self.view sendSubviewToBack:_webView];
-        
-        float height = _videoPreviewLayer.bounds.size.height;
-        float width = _videoPreviewLayer.bounds.size.width;
-        int screenHeight = self.view.frame.size.height;
-        int centerX = width/2;
-        int buttonWidhHeight = 100;
-        int progressPadding = 40;
-        if(screenHeight <= 623) {
-            buttonWidhHeight = 50;
-            progressPadding = 20;
-        }
-        [recordingButton setFrame:CGRectMake(_videoPreviewLayer.bounds.origin.x + centerX-(buttonWidhHeight/2), height-buttonWidhHeight, buttonWidhHeight, buttonWidhHeight)];
-        
-        [progressView setFrame:CGRectMake(_videoPreviewLayer.bounds.origin.x + 2, height-buttonWidhHeight - progressPadding, width, buttonWidhHeight)];
-        fullScreen = false;
-        [self refreshVideoRecordingScreen];
-        [expandVideo setImage:[UIImage imageNamed:@"maximize.png"] forState:UIControlStateNormal];
-        
+    /*START Language Change*/
+    if ([ApplanguageString isEqualToString:@"en_US"]) {
+        ApplanguageString = @"en";
     } else {
-        isMinimized = false;
-        [_videoPreviewLayer setBounds:layerRect];
-        [_videoPreviewLayer setPosition:CGPointMake(CGRectGetMidX(layerRect),
-                                                    CGRectGetMidY(layerRect))];
-        if(nil != playerViewController) {
-            int x = 50;
-            int y = 110;
-            if(layerRect.size.height <= 623) {
-                x = 25;
-                y = 60;
-            }
-            playerViewController.view.frame = CGRectMake(x,y,self.view.frame.size.width-x-x,self.view.frame.size.height-y-y);
-        }
-        [_webView setHidden:YES];
-        float navigationheight = self.navigationController.navigationBar.frame.size.height;
-        int height = self.view.frame.size.height;
-        int width = self.view.frame.size.width;
-        int centerX = width/2;
-        int centerY = height/2;
-        int buttonWidhHeight = 100;
-        int progressPadding = 40;
-        if(height <= 623) {
-            buttonWidhHeight = 50;
-            progressPadding = 20;
-        }
-        int padding = 10;
-        int botPadding = 0;
-        
-        [recordingButton setFrame:CGRectMake(centerX-(buttonWidhHeight/2), height-buttonWidhHeight - botPadding, buttonWidhHeight, buttonWidhHeight)];
-        
-        [progressView setFrame:CGRectMake(0, height-buttonWidhHeight - botPadding - progressPadding, width, buttonWidhHeight)];
-        
-        fullScreen = true;
-        [self refreshVideoRecordingScreen];
-        [expandVideo setImage:[UIImage imageNamed:@"minimize.png"] forState:UIControlStateNormal];
+        ApplanguageString = @"es";
     }
-}
-
--(BOOL)toggleVideoRecording{
-    
-    if (!recordingInProgress){
-        
-        NSLog(@"START RECORDING");
-        [progressView setProgress:0.0];
-        recordingInProgress = YES;
-        
-        //Create temporary URL to record to
-        NSString *outputPath = [[NSString alloc] initWithFormat:@"%@%@", NSTemporaryDirectory(), @"output.mov"];
-        
-        NSURL *outputURL = [[NSURL alloc] initFileURLWithPath:outputPath];
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        if ([fileManager fileExistsAtPath:outputPath]){
-            NSError *error;
-            if ([fileManager removeItemAtPath:outputPath error:&error] == NO){
-                //Error - handle if requried
-            }
-        }
-        
-        //Start recording
-        [movieFileOutput startRecordingToOutputFileURL:outputURL recordingDelegate:self];
-        count = 0;
-        minute=0;
-        [self startProgress];
-        
-    }else{
-        NSLog(@"STOP RECORDING");
-        recordingInProgress = NO;
-        [movieFileOutput stopRecording];
-        [myTimer invalidate];
-    }
-    return recordingInProgress;
-}
-
-- (BOOL)toggleCameraPosition{
-    
-    BOOL isBackCamera = YES;
-    //Only do if device has multiple cameras
-    if ([[AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo] count] > 1){
-        NSLog(@"Toggle camera");
-        NSError *error;
-        //AVCaptureDeviceInput *videoInput = [self videoInput];
-        AVCaptureDeviceInput *newVideoInput;
-        AVCaptureDevicePosition position = [[videoInputDevice device] position];
-        if (position == AVCaptureDevicePositionBack){
-            newVideoInput = [[AVCaptureDeviceInput alloc] initWithDevice:[self cameraWithPosition:AVCaptureDevicePositionFront] error:&error];
-            isBackCamera = NO;
-        }else if (position == AVCaptureDevicePositionFront){
-            newVideoInput = [[AVCaptureDeviceInput alloc] initWithDevice:[self cameraWithPosition:AVCaptureDevicePositionBack] error:&error];
-            isBackCamera = YES;
-        }
-        
-        if (newVideoInput != nil){
-            [captureSession beginConfiguration];//We can now change the inputs and output configuration.  Use commitConfiguration to end
-            [captureSession removeInput:videoInputDevice];
-            if ([captureSession canAddInput:newVideoInput]){
-                [captureSession addInput:newVideoInput];
-                videoInputDevice = newVideoInput;
-            }else{
-                [captureSession addInput:videoInputDevice];
-            }
-            
-            [captureSession commitConfiguration];
-        }
-    }
-    return isBackCamera;
-}
-
-- (AVCaptureDevice *) cameraWithPosition:(AVCaptureDevicePosition) position{
-    NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
-    for (AVCaptureDevice *device in devices){
-        if ([device position] == position){
-            return device;
-        }
-    }
-    return nil;
-}
-
--(void)downloadXsltResultResponse : (NSMutableDictionary*) result {
-    NSLog(@"Download XSLT Response");
-}
-
--(void)videoRecordingResponse:(NSMutableDictionary*) result {
-    NSLog(@"Video Recording Response");
-    
-    if(result.count == 0){
-        return;
-    }
-    
-    if(!videoCallbackExecuted){
-        videoCallbackExecuted = true;
-        
-        NSMutableDictionary *config = [self build_common_return_data];
-        
-        if([[result objectForKey:@"statusCode"] isEqualToString:@"0"]) {
-            
-            [config setObject:@"42" forKey:@"status"];
-            
-            NSString *encodedJsonString = [self get_encoded_json_string:config];
-            videoRecSeconds = [AppItSDK getVideoRecordingInSec];
-            
-            NSData *videoData = [NSData dataWithContentsOfURL:[result objectForKey:@"VIDEO_DATA"] options: 0 error:nil];
-            
-            base64Encoded = [videoData base64EncodedStringWithOptions:0];
-            
-            divideInSecond = 10.0;
-            numberOfPart = ceil(videoRecSeconds/divideInSecond);
-            videoChunkSize = ceil(base64Encoded.length/numberOfPart);
-            
-            NSString *time = [[NSString alloc]
-                              initWithFormat:@"%02d:%02d",0, 0];
-            
-            [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
-        } else {
-            
-            count=0;
-            minute=0;
-            
-            [self.navigationController setNavigationBarHidden:NO animated:YES];
-            isBackPressed = true;
-            
-            isMute = false;
-            
-            NSMutableDictionary *config = [self build_common_return_data];
-            [config setObject:@"41" forKey:@"status"];
-            
-            NSString *encodedJsonString = [self get_encoded_json_string:config];
-            
-            //call inform
-            [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
-        }
-    }
+    [AppItSDK updateLanguage:ApplanguageString];
+    [StringLabels initializeCurrentLabels:ApplanguageString];
+    /*END Language Change*/
 }
 
 -(void) prepare_data_for_third_party_response_result {
@@ -1079,15 +743,15 @@ static bool idfaceshowInstruction = true;
         }
         
         if([imageProcessingData objectForKey:@"HighResolutionImageHeight"]) {
-//           [nonUIDictionary setObject:[imageProcessingData objectForKey:@"HighResolutionImageHeight"] forKey:@"id_image_height"];
+            //           [nonUIDictionary setObject:[imageProcessingData objectForKey:@"HighResolutionImageHeight"] forKey:@"id_image_height"];
             [nonUIDictionary setObject:[imageProcessingData objectForKey:@"HighResolutionImageHeight"] forKey:@"id_image_width"];
-//             [nonUIDictionary setObject:@"1170" forKey:@"id_image_height"];
+            //             [nonUIDictionary setObject:@"1170" forKey:@"id_image_height"];
         }
         
         if([imageProcessingData objectForKey:@"HighResolutionImageWidth"]) {
-//            [nonUIDictionary setObject:[imageProcessingData objectForKey:@"HighResolutionImageWidth"] forKey:@"id_image_width"];
+            //            [nonUIDictionary setObject:[imageProcessingData objectForKey:@"HighResolutionImageWidth"] forKey:@"id_image_width"];
             [nonUIDictionary setObject:[imageProcessingData objectForKey:@"HighResolutionImageWidth"] forKey:@"id_image_height"];
-//            [nonUIDictionary setObject:@"800" forKey:@"id_image_width"];
+            //            [nonUIDictionary setObject:@"800" forKey:@"id_image_width"];
         }
         
         NSString *dIdOutlineColor = @"FFFFFF", *dDetectedIdOutlineColor = @"6EB24C", *dOutsideIdOutlineColor = @"FFFFFF",*dDetectedPOAOutlineColor = @"6EB24C",*dDetectedOutsideIdOutlineColor = @"FFFFFF",*titleMessageStyle = @"Normal", *hintMessageStyle = @"Normal" ,*titleMessageColor = @"FFFFFF", *backButtonColor = @"FEAD36", *titleTextFontSize=@"", *hintTextFontSize=@"", *idCaptureBorderType = @"Thick", *retryButtonColor = @"606060", *confirmButtonColor = @"606060", *retryButtonBordorColor = @"FFFFFF", *confirmButtonStyleColor = @"FFFFFF";
@@ -1095,7 +759,7 @@ static bool idfaceshowInstruction = true;
         NSString *idOutlineColor = dIdOutlineColor, *detectedidoutlinecolor = dDetectedIdOutlineColor, *idOutsideOutlineColor = dOutsideIdOutlineColor;
         
         int idOutlineColorAlpha = mAlpha,detectedidoutlinetransparency = mAlpha, idOutsideOutlineColorAlpha = mAlpha,titleMessageColorAlpha = mAlpha,backButtonColorAlpha = mAlpha, confirmButtonColorAlpha = mAlpha, retryButtonColorAlpha = mAlpha, retryButtonBorderColorAlpha = mAlpha, confirmButtonStyleColorAlpha = mAlpha;
-    
+        
         if([imageProcessingData objectForKey:@"IdOutlineColor"]) {
             [uiDictionary setObject:[imageProcessingData objectForKey:@"IdOutlineColor"] forKey:@"id_outline_color"];
         } else {
@@ -1161,7 +825,7 @@ static bool idfaceshowInstruction = true;
         } else {
             [uiDictionary setObject:titleMessageColor forKey:@"id_header_text_label_color"];
         }
-
+        
         if([imageProcessingData objectForKey:@"headerTextLabelAlpha"]) {
             [uiDictionary setObject:[imageProcessingData objectForKey:@"headerTextLabelAlpha"] forKey:@"id_header_text_label_alpha"];
         } else {
@@ -1447,7 +1111,7 @@ static bool idfaceshowInstruction = true;
         } else {
             
             NSMutableDictionary *selfieCapDic = [[NSMutableDictionary alloc] init];
-//            [selfieCapDic setObject:uiDictionary forKey:@"id_capture_back"];
+            //            [selfieCapDic setObject:uiDictionary forKey:@"id_capture_back"];
             NSString *docSide = [imageProcessingData objectForKey:@"documentSide"];
             NSString *country = [imageProcessingData objectForKey:@"country"];
             NSString *state = [imageProcessingData objectForKey:@"state"];
@@ -1478,7 +1142,7 @@ static bool idfaceshowInstruction = true;
             }
             
             
-
+            
             
         }
         
@@ -1490,18 +1154,18 @@ static bool idfaceshowInstruction = true;
 
 -(void) prepare_data_for_fingerprint{
     
-    int mAlpha = 1;
+//    int mAlpha = 1;
     
-    NSString *dOutsideFaceOutlineColor = @"487D95", *dFontStyle=@"Default", *hintMessageColor = @"FFFFFF", *hintMessageSize = @"", *instContinueButtonColor = @"FFFFFF", *instContinueButtonTextColor = @"487D95";
+//    NSString *dOutsideFaceOutlineColor = @"487D95", *dFontStyle=@"Default", *hintMessageColor = @"FFFFFF", *hintMessageSize = @"", *instContinueButtonColor = @"FFFFFF", *instContinueButtonTextColor = @"487D95";
     
-    int hintMessageColorAlpha = mAlpha, instContinueButtonAlpha = mAlpha, instContinueButtonTextAlpha = mAlpha;
+//    int hintMessageColorAlpha = mAlpha, instContinueButtonAlpha = mAlpha, instContinueButtonTextAlpha = mAlpha;
     
     NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
     imageProcessingData = [NSMutableDictionary dictionary];
     NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
     NSArray *imageProcessingArray = [dataToAppit objectForKey:@"scanFingerprint"];
     imageProcessingData = [imageProcessingArray objectAtIndex:0];
-    NSString *imageProcessingArray2 = [imageProcessingData objectForKey:@"FocusThreshold"];
+//    NSString *imageProcessingArray2 = [imageProcessingData objectForKey:@"FocusThreshold"];
     
     NSMutableDictionary *uiDictionary = [[NSMutableDictionary alloc] init];
     
@@ -1546,8 +1210,101 @@ static bool idfaceshowInstruction = true;
         
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"showInstruction"] forKey:@"cfc_show_instruction_screen"];
     }
+        
+    // Index Finger
+    if([imageProcessingData objectForKey:@"indexFingerMinThreshold"]) {
+
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"indexFingerMinThreshold"] forKey:@"cfc_indexfinger_min_threshold"];
+    }
+    if([imageProcessingData objectForKey:@"indexFingerThreshold"]) {
+
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"indexFingerThreshold"] forKey:@"cfc_indexfinger_threshold"];
+    }
     
+    // Middle Finger
+    if([imageProcessingData objectForKey:@"middleFingerMinThreshold"]) {
+
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"middleFingerMinThreshold"] forKey:@"cfc_middlefinger_min_threshold"];
+    }
+    if([imageProcessingData objectForKey:@"middleFingerThreshold"]) {
+
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"middleFingerThreshold"] forKey:@"cfc_middlefinger_threshold"];
+    }
+    
+    // Ring FInger
+    if([imageProcessingData objectForKey:@"ringFingerMinThreshold"]) {
+
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"ringFingerMinThreshold"] forKey:@"cfc_ringfinger_min_threshold"];
+    }
+    if([imageProcessingData objectForKey:@"ringFingerThreshold"]) {
+
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"ringFingerThreshold"] forKey:@"cfc_ringfinger_threshold"];
+    }
+    
+    // Baby FInger
+    if([imageProcessingData objectForKey:@"babyFingerMinThreshold"]) {
+
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"babyFingerMinThreshold"] forKey:@"cfc_babyfinger_min_threshold"];
+    }
+    if([imageProcessingData objectForKey:@"babyFingerThreshold"]) {
+
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"babyFingerThreshold"] forKey:@"cfc_babyfinger_threshold"];
+    }
+    
+    // Finger to be Capture
+    if([imageProcessingData objectForKey:@"processIndexFinger"]) {
+
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processIndexFinger"] forKey:@"cfc_keep_index_finger"];
+    }
+    if([imageProcessingData objectForKey:@"processMiddleFinger"]) {
+
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processMiddleFinger"] forKey:@"cfc_keep_middle_finger"];
+    }
+    if([imageProcessingData objectForKey:@"processRingFinger"]) {
+
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processRingFinger"] forKey:@"cfc_keep_ring_finger"];
+    }
+    if([imageProcessingData objectForKey:@"processBabyFinger"]) {
+
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processBabyFinger"] forKey:@"cfc_keep_baby_finger"];
+    }
+    
+    if([imageProcessingData objectForKey:@"aggressivenessFactor4F"]) {
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"aggressivenessFactor4F"] forKey:@"cfc_aggressiveness_factor"];
+    }
+    if([imageProcessingData objectForKey:@"imageWidth4f"]) {
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"imageWidth4f"] forKey:@"cfc_image_width"];
+    }
+    if([imageProcessingData objectForKey:@"cfc_ridge_width"]) {
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"cfc_ridge_width"] forKey:@"ridgeWidth"];
+    }
+    if([imageProcessingData objectForKey:@"type"]) {
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"type"] forKey:@"cfc_label_text_type"];
+    }
+    if([imageProcessingData objectForKey:@"style"]) {
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"style"] forKey:@"cfc_label_text_style"];
+    }
+
+    if([imageProcessingData objectForKey:@"FocusThreshold"]) {
+        [AppItSDK setFPFocusThreshold:[[imageProcessingData objectForKey:@"FocusThreshold"] intValue]];
+    }
+
     [nonUIDictionary setObject:@"1" forKey:@"cfc_zoom_camera"];
+
+    /* Following Extra VAlues Come From Config Side
+        zoomCamera4F = 20;
+        cameraBiometrics = Y;
+    */
+    
+    /* Following Value from SDK side not configured
+        "cfc_label_text_color": "FFFFFF",
+        "cfc_label_text_color_alpha": "1",
+        "cfc_instruction_button_color": "FFFFFF",
+        "cfc_instruction_button_alpha": "1",
+        "labels": {
+          "camera_finger_capture_title": "Capture Fingerprint"
+        }
+     */
     
     NSMutableDictionary *fingCapDict = [[NSMutableDictionary alloc] init];
     [fingCapDict setObject:uiDictionary forKey:@"camera_finger_capture"];
@@ -1555,44 +1312,6 @@ static bool idfaceshowInstruction = true;
     
     [AppItSDK captureFourFingerprint:self cameraFingerCaptureConfig:nonUIDictionary];
     
-    //   // if(idfaceshowInstruction) {
-    //    if(![NS_String_Utils stringIsNilOrEmpty:[imageProcessingData objectForKey:@"showInstruction"]] && [@"Y" isEqualToString:[imageProcessingData objectForKey:@"showInstruction"]] && idfaceshowInstruction) {
-    //
-    //
-    //        // Text Size is similar to HintMEssageSize
-    //        if([imageProcessingData objectForKey:@"HintMessageSize"]) {
-    //            hintMessageSize = [imageProcessingData objectForKey:@"HintMessageSize"];
-    //        }
-    //
-    //        if([imageProcessingData objectForKey:@"OutsideColorOfFaceOutline"]) {
-    //            dOutsideFaceOutlineColor = [imageProcessingData objectForKey:@"OutsideColorOfFaceOutline"];
-    //        }
-    //
-    //        InstructionViewController *controller = [InstructionViewController new];
-    //        controller.delegate = self;
-    //        controller.instruction_type = @"FP";
-    //        controller.background_color = dOutsideFaceOutlineColor;
-    //        controller.background_color_alpha = mAlpha;
-    //        controller.instruction_image = nil;
-    //        controller.imageType = @"";
-    //        controller.instructionTextStyle = dFontStyle;
-    //        controller.continueButtonStyle = dFontStyle;
-    //        controller.instruction_text_color = hintMessageColor;
-    //        controller.instruction_text_color_alpha = hintMessageColorAlpha;
-    //        controller.continue_button_color = instContinueButtonColor;
-    //        controller.continue_button_color_alpha = instContinueButtonAlpha;
-    //        controller.continue_button_text_color = instContinueButtonTextColor;
-    //        controller.continue_button_text_color_alpha = instContinueButtonTextAlpha;
-    //        controller.instTextSize = hintMessageSize;
-    //        [self presentViewController:controller animated:YES completion:nil];
-    //    } else {
-    //        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    //        FingerDetectionViewController2 *vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"FingerDetectionViewController2"];
-    //        vc.delegate = self;
-    //        vc.focus_threshold = [imageProcessingArray2 intValue];
-    //        vc.init = true;
-    //        [self presentModalViewController:vc animated:YES];
-    //    }
 }
 
 -(void) checkCameraPermission {
@@ -1715,81 +1434,89 @@ static bool idfaceshowInstruction = true;
 }
 
 -(void) prepare_data_for_face_detection{
-    
-    int mAlpha = 1, dOutsideFaceOutlineColorAlpha = 1;
-    
-    NSString *dFaceOutlineColor = @"FFAD36", *dDetectedFaceOutlineColor = @"6EB24C", *dOutsideFaceOutlineColor = @"FFFFFF",*dDetectedOutsideFaceOutlineColor = @"FFFFFF", *dHeaderFontStyle=@"Default", *dFontStyle=@"Default", *titleMessageColor = @"FFFFFF", *hintMessageColor = @"FFFFFF", *backButtonColor= @"FEAD36", *titleMessageSize = @"", *hintMessageSize = @"", *instContinueButtonColor = @"FFFFFF", *instContinueButtonTextColor = @"487D95", *retryButtonColor = @"606060", *confirmButtonColor = @"606060", *retryButtonBorderColor = @"FFFFFF", *confirmButtonBackgroundColor = @"FFFFFF", *defaultFaceContour = @"Zero", *defaultPassiveFaceCapture = @"Y", *defaultManualCaptureEnable = @"Y", *defaultManualCaptureTime = @"60", *defaultManualCaptureButtonRetryCount = @"2";
-    
-    int faceoutlinetransparency = mAlpha, detectedfaceoutlinetransparency = mAlpha, outsideoutlinetransparency = mAlpha,detectedoutsideoutlinetransparency = mAlpha, titleMessageColorAlpha = mAlpha, hintMessageColorAlpha = mAlpha, backButtonColorAlpha = mAlpha, instContinueButtonAlpha = mAlpha, instContinueButtonTextAlpha = mAlpha, retryButtonAlpha = mAlpha,
-    confirmButtonAlpha = mAlpha, retryButtonBorderAlpha = mAlpha, confirmButtonBackgroundAlpha = mAlpha;
-    
+
+//    int mAlpha = 1, dOutsideFaceOutlineColorAlpha = 1;
+
+    NSString *dFaceOutlineColor = @"FFAD36", *dDetectedFaceOutlineColor = @"6EB24C", *dOutsideFaceOutlineColor = @"487D95",*dDetectedOutsideFaceOutlineColor = @"FFFFFF", *retryButtonColor = @"FEAD36", *confirmButtonColor = @"FEAD36", *retryButtonBorderColor = @"FEAD36", *confirmButtonBackgroundColor = @"FFFFFF", *defaultFaceContour = @"Zero";
+
+//    NSString *dFaceOutlineColor = @"FFAD36", *dDetectedFaceOutlineColor = @"6EB24C", *dOutsideFaceOutlineColor = @"FFFFFF",*dDetectedOutsideFaceOutlineColor = @"FFFFFF", *retryButtonColor = @"606060", *confirmButtonColor = @"606060", *retryButtonBorderColor = @"FFFFFF", *confirmButtonBackgroundColor = @"FFFFFF", *defaultFaceContour = @"Zero", *defaultPassiveFaceCapture = @"Y", *defaultManualCaptureEnable = @"Y", *defaultManualCaptureTime = @"60", *defaultManualCaptureButtonRetryCount = @"2";;
+//    NSString *dHeaderFontStyle=@"Default", *dFontStyle=@"Default", *titleMessageColor = @"FFFFFF", *hintMessageColor = @"FFFFFF", *backButtonColor= @"FEAD36", *titleMessageSize = @"", *hintMessageSize = @"", *instContinueButtonColor = @"FFFFFF", *instContinueButtonTextColor = @"487D95";
+
+//    int faceoutlinetransparency = mAlpha, detectedfaceoutlinetransparency = mAlpha, outsideoutlinetransparency = mAlpha,detectedoutsideoutlinetransparency = mAlpha, titleMessageColorAlpha = mAlpha, hintMessageColorAlpha = mAlpha, backButtonColorAlpha = mAlpha, instContinueButtonAlpha = mAlpha, instContinueButtonTextAlpha = mAlpha, retryButtonAlpha = mAlpha,
+//    confirmButtonAlpha = mAlpha, retryButtonBorderAlpha = mAlpha, confirmButtonBackgroundAlpha = mAlpha;
+
     NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
-    
+
     if([dataToAppitString containsString:@"APPIT"]){
-        
+
         NSArray *dataArray = [dataToAppitString componentsSeparatedByString:@"APPIT"];
         dataToAppitString = [dataArray objectAtIndex:7];
     }
-    
+
     imageProcessingData = [NSMutableDictionary dictionary];
-    
+
     NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
     NSArray *imageProcessingArray = [dataToAppit objectForKey:@"faceDetection"];
     imageProcessingData = [imageProcessingArray objectAtIndex:0];
-    
+
     NSMutableDictionary *uiDictionary = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *nonUIDictionary = [[NSMutableDictionary alloc] init];
-    
+
     if([imageProcessingData objectForKey:@"instructionButtonColor"]) {
-        
+
         [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonColor"] forKey:@"fd_instruction_button_color"];
+    } else {
+        [uiDictionary setObject:@"000000" forKey:@"fd_instruction_button_color"];
     }
-    
-    if([imageProcessingData objectForKey:@"instructionButtonColorAlpha"]) {
-        
-        [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonColorAlpha"] forKey:@"fd_instruction_button_alpha"];
-        
-    }
-    
+
+//    if([imageProcessingData objectForKey:@"instructionButtonColorAlpha"]) {
+//
+//        [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonColorAlpha"] forKey:@"fd_instruction_button_alpha"];
+//
+//    }
+
     if([imageProcessingData objectForKey:@"instructionButtonTXTColor"]) {
-        
+
         [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonTXTColor"] forKey:@"fd_instruction_button_txt_color"];
-        
+
+    } else {
+        [uiDictionary setObject:@"FFFFFF" forKey:@"fd_instruction_button_txt_color"];
+
     }
-    
-    if([imageProcessingData objectForKey:@"instructionButtonTXTColorAlpha"]) {
-        
-        [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonTXTColorAlpha"] forKey:@"fd_instruction_button_txt_alpha"];
-        
-    }
-    
+
+//    if([imageProcessingData objectForKey:@"instructionButtonTXTColorAlpha"]) {
+//
+//        [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonTXTColorAlpha"] forKey:@"fd_instruction_button_txt_alpha"];
+//
+//    }
+
     if([imageProcessingData objectForKey:@"ShowInstructionScreen"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"ShowInstructionScreen"] forKey:@"fd_show_instruction_screen"];
     }
-    
-    NSString *faceoutlinecolor = dFaceOutlineColor, *detectedfaceoutlinecolor = dDetectedFaceOutlineColor, *outsideoutlinecolor = dOutsideFaceOutlineColor;
-    
-    BOOL isFaceTitleOnTop = false , isFaceHintMessageOnTop = true;
-    
+
+    NSString *faceoutlinecolor = dFaceOutlineColor; //*detectedfaceoutlinecolor = dDetectedFaceOutlineColor, *outsideoutlinecolor = dOutsideFaceOutlineColor;
+
+//    BOOL isFaceTitleOnTop = false , isFaceHintMessageOnTop = true;
+
     if([imageProcessingData objectForKey:@"MinLightThreshold"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"MinLightThreshold"] forKey:@"fd_light_threshold"];
     }
-    
+
     if([imageProcessingData objectForKey:@"FocusThreshold"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"FocusThreshold"] forKey:@"fd_focus_threshold"];
     }
-    
+
     NSString *cameraType = [[imageProcessingData objectForKey:@"CameraType"] uppercaseString];
-    
+
     if([cameraType isEqualToString:@"FRONT"]) {
-        
+
         [nonUIDictionary setObject:@"Y" forKey:@"fd_launch_front_camera"];
         [nonUIDictionary setObject:@"N" forKey:@"fd_toggle_camera"];
-        
+
     } else if([cameraType isEqualToString:@"BOTH"]) {
-        
+
         [nonUIDictionary setObject:@"Y" forKey:@"fd_toggle_camera"];
-        
+
         if([@"Y" isEqualToString:[imageProcessingData objectForKey:@"LaunchFrontCamera"]]) {
             [nonUIDictionary setObject:@"Y" forKey:@"fd_launch_front_camera"];
         } else {
@@ -1802,135 +1529,144 @@ static bool idfaceshowInstruction = true;
         [nonUIDictionary setObject:@"Y" forKey:@"fd_launch_front_camera"];
         [nonUIDictionary setObject:@"Y" forKey:@"fd_toggle_camera"];
     } else {
-        
+
         [nonUIDictionary setObject:@"N" forKey:@"fd_launch_front_camera"];
         [nonUIDictionary setObject:@"N" forKey:@"fd_toggle_camera"];
     }
-    
+
     if([imageProcessingData objectForKey:@"FaceTitleAlignment"]) {
         if([@"top" isEqualToString:[imageProcessingData objectForKey:@"FaceTitleAlignment"]]) {
             [uiDictionary setObject:@"Y" forKey:@"fd_face_title_label_on_top"];
         } else {
             [uiDictionary setObject:@"N" forKey:@"fd_face_title_label_on_top"];
         }
-    } else {
-        [uiDictionary setObject:@"N" forKey:@"fd_face_title_label_on_top"];
     }
-    
+//    else {
+//        [uiDictionary setObject:@"N" forKey:@"fd_face_title_label_on_top"];
+//    }
+
     if([imageProcessingData objectForKey:@"FaceHintMessageAlignment"]) {
         if([@"top" isEqualToString:[imageProcessingData objectForKey:@"FaceHintMessageAlignment"]]) {
             [uiDictionary setObject:@"Y" forKey:@"fd_face_hint_message_on_top"];
         } else {
             [uiDictionary setObject:@"N" forKey:@"fd_face_hint_message_on_top"];
         }
-    } else {
-        [uiDictionary setObject:@"Y" forKey:@"fd_face_hint_message_on_top"];
     }
-    
+//    else {
+//        [uiDictionary setObject:@"Y" forKey:@"fd_face_hint_message_on_top"];
+//    }
+
     //Always need to show preview screen in case ok FaceDetection
     if([@"Y" isEqualToString:[imageProcessingData objectForKey:@"ShowPreviewScreen"]]) {
         [nonUIDictionary setObject:@"Y" forKey:@"fd_show_preview_screen"];
-    } else {
-        [nonUIDictionary setObject:@"Y" forKey:@"fd_show_preview_screen"];
     }
-    
+//    else {
+//        [nonUIDictionary setObject:@"Y" forKey:@"fd_show_preview_screen"];
+//    }
+
     //***
     //TitleMessageStyle
     if([imageProcessingData objectForKey:@"headerStyleIOS"]) // headerStyle
     {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"headerStyleIOS"] forKey:@"fd_header_text_style"];
-        
+
     }
-    
+
     if([imageProcessingData objectForKey:@"headerTextLabelColor"]) {
-        
+
         [uiDictionary setObject:[imageProcessingData objectForKey:@"headerTextLabelColor"] forKey:@"fd_header_text_label_color"];
     }
 
     if([imageProcessingData objectForKey:@"headerTextLabelAlpha"]) {
-        
+
         [uiDictionary setObject:[imageProcessingData objectForKey:@"headerTextLabelAlpha"] forKey:@"fd_header_text_label_alpha"];
     }
-    
+
     if([imageProcessingData objectForKey:@"headerTextLabelSize"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"headerTextLabelSize"] forKey:@"fd_header_text_label_size"];
     }
-    
+
     //HintMessageStyle
     if([imageProcessingData objectForKey:@"styleIOS"]) //style
     {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"styleIOS"] forKey:@"fd_label_text_style"];
     }
-    
+
     if([imageProcessingData objectForKey:@"textLabelColor"]) {
-        
+
         [uiDictionary setObject:[imageProcessingData objectForKey:@"textLabelColor"] forKey:@"fd_label_text_color"];
+    } else {
+        [uiDictionary setObject:@"909090" forKey:@"fd_label_text_color"];
+
     }
-    
+
     if([imageProcessingData objectForKey:@"textLabelAlpha"]) {
-        
+
         [uiDictionary setObject:[imageProcessingData objectForKey:@"textLabelAlpha"] forKey:@"fd_label_text_alpha"];
     }
-    
+
     if([imageProcessingData objectForKey:@"textLabelSize"]) {
-        
+
         [uiDictionary setObject:[imageProcessingData objectForKey:@"textLabelSize"] forKey:@"fd_label_text_size"];
     }
-    
+
     //BackButtonColor-Alpha
     if([imageProcessingData objectForKey:@"backButtonColor"]) {
-        
+
         [uiDictionary setObject:[imageProcessingData objectForKey:@"backButtonColor"] forKey:@"fd_back_button_color"];
     }
-    
+
     if([imageProcessingData objectForKey:@"backButtonColorAlpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"backButtonColorAlpha"] forKey:@"fd_back_button_color_alpha"];
     }
-    
+
     if([imageProcessingData objectForKey:@"FaceDetectionThreshold"]) {
-       [nonUIDictionary setObject:[imageProcessingData objectForKey:@"FaceDetectionThreshold"] forKey:@"fd_detection_threshold"];
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"FaceDetectionThreshold"] forKey:@"fd_detection_threshold"];
     }
-    
+
     if([imageProcessingData objectForKey:@"ImageSize"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"ImageSize"] forKey:@"fd_max_image_size"];
     }
-    
+
     if([imageProcessingData objectForKey:@"FaceOutlineColor"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"FaceOutlineColor"] forKey:@"fd_outline_color"];
-    } else {
+    }
+    else {
         [uiDictionary setObject:faceoutlinecolor forKey:@"fd_outline_color"];
     }
-    
+
     if([imageProcessingData objectForKey:@"DetectedFaceOutlineColor"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"DetectedFaceOutlineColor"] forKey:@"fd_detected_face_outline_color"];
-    } else {
+    }
+    else {
         [uiDictionary setObject:dDetectedFaceOutlineColor forKey:@"fd_detected_face_outline_color"];
     }
-    
+
     if([imageProcessingData objectForKey:@"OutsideColorOfFaceOutline"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"OutsideColorOfFaceOutline"] forKey:@"fd_outside_face_outline_color"];
-    } else {
+    }
+    else {
         [uiDictionary setObject:dOutsideFaceOutlineColor forKey:@"fd_outside_face_outline_color"];
     }
-    
+
     if([imageProcessingData objectForKey:@"OutsideDetectedColorOfFaceOutline"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"OutsideDetectedColorOfFaceOutline"] forKey:@"fd_detected_outside_face_outline_color"];
-    } else {
+    }
+    else {
         [uiDictionary setObject:dDetectedOutsideFaceOutlineColor forKey:@"fd_detected_outside_face_outline_color"];
     }
-    
+
     //**
     if([imageProcessingData objectForKey:@"retryButtonColor"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"retryButtonColor"] forKey:@"fd_retry_button_color"];
-        
-    } else {
+
+    }
+    else {
         [uiDictionary setObject:retryButtonColor forKey:@"fd_retry_button_color"];
     }
-    
+
     if([imageProcessingData objectForKey:@"retryButtonColorAlpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"retryButtonColorAlpha"] forKey:@"fd_retry_button_color_alpha"];
-    } else {
-        [uiDictionary setObject:@"1" forKey:@"fd_retry_button_color_alpha"];
     }
     
     if([imageProcessingData objectForKey:@"confirmButtonColor"]) {
@@ -1939,11 +1675,9 @@ static bool idfaceshowInstruction = true;
     } else {
         [uiDictionary setObject:confirmButtonColor forKey:@"fd_confirm_button_color"];
     }
-    
+
     if([imageProcessingData objectForKey:@"confirmButtonColorAlpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"confirmButtonColorAlpha"] forKey:@"fd_confirm_button_color_alpha"];
-    } else {
-        [uiDictionary setObject:@"1" forKey:@"fd_confirm_button_color_alpha"];
     }
     
     if([imageProcessingData objectForKey:@"retryButtonBorderColor"]) {
@@ -1952,338 +1686,705 @@ static bool idfaceshowInstruction = true;
     } else {
         [uiDictionary setObject:retryButtonBorderColor forKey:@"fd_retry_button_border_color"];
     }
-    
+
     if([imageProcessingData objectForKey:@"retryButtonColorBorderAlpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"retryButtonColorBorderAlpha"] forKey:@"fd_retry_button_border_color_alpha"];
-    } else {
-        [uiDictionary setObject:@"1" forKey:@"fd_retry_button_border_color_alpha"];
     }
     
     if([imageProcessingData objectForKey:@"confirmButtonStyle"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"confirmButtonStyle"] forKey:@"fd_confirm_button_background_color"];
-    } else {
+    }
+    else {
         [uiDictionary setObject:confirmButtonBackgroundColor forKey:@"fd_confirm_button_background_color"];
     }
-    
+
     if([imageProcessingData objectForKey:@"confirmButtonStyleAlpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"confirmButtonStyleAlpha"] forKey:@"fd_confirm_button_background_color_alpha"];
-    } else {
-        [uiDictionary setObject:@"1" forKey:@"fd_confirm_button_background_color_alpha"];
     }
-    
+//    else {
+//        [uiDictionary setObject:@"1" forKey:@"fd_confirm_button_background_color_alpha"];
+//    }
+
     if([imageProcessingData objectForKey:@"faceOutlineHexColorAlpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"faceOutlineHexColorAlpha"] forKey:@"fd_outline_color_alpha"];
     }
-    
+
     if([imageProcessingData objectForKey:@"detectedFaceOutlineHexColorAlpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"detectedFaceOutlineHexColorAlpha"] forKey:@"fd_detected_face_outline_color_alpha"];
     }
-    
+
     if([imageProcessingData objectForKey:@"outsideFaceOutlineColorAlpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"outsideFaceOutlineColorAlpha"] forKey:@"fd_outside_face_outline_color_alpha"];
     }
-    
+
     if([imageProcessingData objectForKey:@"detectedFaceOutsideColorAlpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"detectedFaceOutsideColorAlpha"] forKey:@"fd_detected_outside_face_outline_color_alpha"];
     }
-    
+
     if([imageProcessingData objectForKey:@"HideFaceTitleAlignment"]) {
         if([@"Y" isEqualToString:[imageProcessingData objectForKey:@"HideFaceTitleAlignment"]]) {
             [uiDictionary setObject:@"N" forKey:@"fd_hide_face_title_lable"];
         } else {
             [uiDictionary setObject:@"Y" forKey:@"fd_hide_face_title_lable"];
         }
-    } else {
-        [uiDictionary setObject:@"N" forKey:@"fd_hide_face_title_lable"];
     }
-    
+//    else {
+//        [uiDictionary setObject:@"N" forKey:@"fd_hide_face_title_lable"];
+//    }
+
     if([imageProcessingData objectForKey:@"HideFaceHintMessageAlignment"]) {
         if([@"Y" isEqualToString:[imageProcessingData objectForKey:@"HideFaceHintMessageAlignment"]]) {
             [uiDictionary setObject:@"N" forKey:@"fd_hide_face_hint_message"];
         } else {
             [uiDictionary setObject:@"Y" forKey:@"fd_hide_face_hint_message"];
         }
-    } else {
-        [uiDictionary setObject:@"N" forKey:@"fd_hide_face_hint_message"];
     }
-    
+//    else {
+//        [uiDictionary setObject:@"N" forKey:@"fd_hide_face_hint_message"];
+//    }
+
     if([imageProcessingData objectForKey:@"FACE_CONTOURS"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"FACE_CONTOURS"] forKey:@"fd_face_contours"];
-    } else {
+    }
+    else {
         [uiDictionary setObject:defaultFaceContour forKey:@"fd_face_contours"];
     }
-    
+
     // Passive Or Active Face Detection Flag
     if([imageProcessingData objectForKey:@"FaceDetectionMethod"] && ![[imageProcessingData objectForKey:@"FaceDetectionMethod"] isEqualToString:@"Passive"]) {
         [uiDictionary setObject:@"N" forKey:@"fd_enable_passive_face_detection"];
-    } else {
-        [uiDictionary setObject:defaultPassiveFaceCapture forKey:@"fd_enable_passive_face_detection"];
     }
-    
+//    else {
+//        [uiDictionary setObject:defaultPassiveFaceCapture forKey:@"fd_enable_passive_face_detection"];
+//    }
+
     //Enable Manual CaptureButton
     if([imageProcessingData objectForKey:@"EnableManualCapture"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"EnableManualCapture"] forKey:@"fd_enable_manual_capture"];
-    } else {
-        [uiDictionary setObject:defaultManualCaptureEnable forKey:@"fd_enable_manual_capture"];
     }
-    
+//    else {
+//        [uiDictionary setObject:defaultManualCaptureEnable forKey:@"fd_enable_manual_capture"];
+//    }
+
     //Enable Manual Capture Time
     if([imageProcessingData objectForKey:@"fd_enable_manual_capture_time"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_enable_manual_capture_time"] forKey:@"fd_enable_manual_capture_time"];
-    } else {
-        [uiDictionary setObject:defaultManualCaptureTime forKey:@"fd_enable_manual_capture_time"];
     }
-    
+//    else {
+//        [uiDictionary setObject:defaultManualCaptureTime forKey:@"fd_enable_manual_capture_time"];
+//    }
+
     // Enable Manual Capture Retry Count
     if([imageProcessingData objectForKey:@"fd_enable_manual_capture_retry_count"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_enable_manual_capture_retry_count"] forKey:@"fd_enable_manual_capture_retry_count"];
-    } else {
-        [uiDictionary setObject:defaultManualCaptureButtonRetryCount forKey:@"fd_enable_manual_capture_retry_count"];
     }
-    
+//    else {
+//        [uiDictionary setObject:defaultManualCaptureButtonRetryCount forKey:@"fd_enable_manual_capture_retry_count"];
+//    }
+
     //Latest changes
     //TitleImageBitmap
     if([imageProcessingData objectForKey:@"fd_title_img_bitmap_base64"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_title_img_bitmap_base64"] forKey:@"fd_title_img_bitmap_base64"];
     }
-    
+
     //Eye Open Threshold
     if([imageProcessingData objectForKey:@"fd_eye_open_threshold"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"fd_eye_open_threshold"] forKey:@"fd_eye_open_threshold"];
     }
-    
+
     //Spoof Detection threshold
     if([imageProcessingData objectForKey:@"fd_Spoof_Detection_threshold"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"fd_Spoof_Detection_threshold"] forKey:@"fd_Spoof_Detection_threshold"];
     }
-    
+
     //Saturation value
     if([imageProcessingData objectForKey:@"fd_saturation_value"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"fd_saturation_value"] forKey:@"fd_saturation_value"];
     }
-    
+
     //Manual Capture Button Time
     if([imageProcessingData objectForKey:@"fd_enable_manual_capture_time"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"fd_enable_manual_capture_time"] forKey:@"fd_enable_manual_capture_time"];
     }
-    
+
     //Manual Capture Retry count
     if([imageProcessingData objectForKey:@"fd_enable_manual_capture_retry_count"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"fd_enable_manual_capture_retry_count"] forKey:@"fd_enable_manual_capture_retry_count"];
     }
-    
+
     //Label Shadow
     if([imageProcessingData objectForKey:@"fd_enable_label_shadow"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_enable_label_shadow"] forKey:@"fd_enable_label_shadow"];
     }
-    
+
     //Upload Face data
     if([imageProcessingData objectForKey:@"fd_upload_facedata"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"fd_upload_facedata"] forKey:@"fd_upload_facedata"];
     }
-    
+
     //Passive OutsideFaceOut line color
     if([imageProcessingData objectForKey:@"fd_passive_outside_face_outline_color"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_passive_outside_face_outline_color"] forKey:@"fd_passive_outside_face_outline_color"];
     }
-    
+
     //Passive OutsideFaceOut line color Alpha
     if([imageProcessingData objectForKey:@"fd_passive_outside_face_outline_color_alpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_passive_outside_face_outline_color_alpha"] forKey:@"fd_passive_outside_face_outline_color_alpha"];
     }
-    
+
     //Instruction Preview Background color
     if([imageProcessingData objectForKey:@"fd_instruction_preview_background_color"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_instruction_preview_background_color"] forKey:@"fd_instruction_preview_background_color"];
     }
-    
+
     //Instruction Preview Background color Alpha
     if([imageProcessingData objectForKey:@"fd_instruction_preview_background_color_alpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_instruction_preview_background_color_alpha"] forKey:@"fd_instruction_preview_background_color_alpha"];
     }
-    
+
     //Success Message color
     if([imageProcessingData objectForKey:@"fd_capture_success_message_color"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_capture_success_message_color"] forKey:@"fd_capture_success_message_color"];
     }
-    
+
     //Success Message Color Alpha
     if([imageProcessingData objectForKey:@"fd_capture_success_message_color_alpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_capture_success_message_color_alpha"] forKey:@"fd_capture_success_message_color_alpha"];
     }
-    
+
     //Preview Screen Enable
     if([imageProcessingData objectForKey:@"fd_preview_screen"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_preview_screen"] forKey:@"fd_preview_screen"];
     }
-    
+
     //Dummy Image color
     if([imageProcessingData objectForKey:@"fd_dummy_image_color"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_dummy_image_color"] forKey:@"fd_dummy_image_color"];
     }
-    
+
     //Dummy Image color alpha
     if([imageProcessingData objectForKey:@"fd_dummy_image_color_alpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_dummy_image_color_alpha"] forKey:@"fd_dummy_image_color_alpha"];
     }
-    
+
     //Instruction Image Resource ID
     if([imageProcessingData objectForKey:@"fd_instruction_img_resource_id"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_instruction_img_resource_id"] forKey:@"fd_instruction_img_resource_id"];
     }
-    
+
     //Enable Cropping
     if([imageProcessingData objectForKey:@"fd_enable_cropping"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"fd_enable_cropping"] forKey:@"fd_enable_cropping"];
     }
-    
+
     //Enable dot capture
     if([imageProcessingData objectForKey:@"fd_enable_donotcapture"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"fd_enable_donotcapture"] forKey:@"fd_enable_donotcapture"];
     }
-    
+
     //Enable BGR
     if([imageProcessingData objectForKey:@"fd_enable_bgr"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"fd_enable_bgr"] forKey:@"fd_enable_bgr"];
     }
-    
+
     //Face Hint ICON
     if([imageProcessingData objectForKey:@"fd_hide_face_hint_icon"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_hide_face_hint_icon"] forKey:@"fd_hide_face_hint_icon"];
     }
-    
+
     //Hide Title Image
     if([imageProcessingData objectForKey:@"fd_hide_title_image"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_hide_title_image"] forKey:@"fd_hide_title_image"];
     }
-    
+
     //Show Custom UI
     if([imageProcessingData objectForKey:@"fd_show_custom_ui"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_show_custom_ui"] forKey:@"fd_show_custom_ui"];
     }
-    
+
     //Face Outline Image ID
     if([imageProcessingData objectForKey:@"fd_face_outline_image_id"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_face_outline_image_id"] forKey:@"fd_face_outline_image_id"];
     }
-    
+
     //Outside Face Outline Image ID
     if([imageProcessingData objectForKey:@"fd_outside_face_outline_image_id"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_outside_face_outline_image_id"] forKey:@"fd_outside_face_outline_image_id"];
     }
-    
+
     //Face Outline Progress Images
     if([imageProcessingData objectForKey:@"fd_face_outline_progress_images"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_face_outline_progress_images"] forKey:@"fd_face_outline_progress_images"];
     }
-    
+
     //Face Outline Progress Image Delay
     if([imageProcessingData objectForKey:@"fd_face_outline_progress_images_delay"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_face_outline_progress_images_delay"] forKey:@"fd_face_outline_progress_images_delay"];
     }
-    
+
     //Face Turn Arrow List
     if([imageProcessingData objectForKey:@"fd_face_turn_arrow_list"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_face_turn_arrow_list"] forKey:@"fd_face_turn_arrow_list"];
     }
-    
+
     //Toggle Camera Button icon
     if([imageProcessingData objectForKey:@"fd_toggle_camera_button_icon"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_toggle_camera_button_icon"] forKey:@"fd_toggle_camera_button_icon"];
     }
-    
+
     //CaptureButton Color
     if([imageProcessingData objectForKey:@"fd_capture_button_color"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_capture_button_color"] forKey:@"fd_capture_button_color"];
     }
-    
+
     //Capture Button Color Alpha
     if([imageProcessingData objectForKey:@"fd_capture_button_color_alpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_capture_button_color_alpha"] forKey:@"fd_capture_button_color_alpha"];
     }
-    
+
     //Label Text Type
     if([imageProcessingData objectForKey:@"fd_label_text_type"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_label_text_type"] forKey:@"fd_label_text_type"];
     }
-    
+
     //Header Text type
     if([imageProcessingData objectForKey:@"fd_header_text_type"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_header_text_type"] forKey:@"fd_header_text_type"];
     }
-    
+
     //Face hint icon on top
     if([imageProcessingData objectForKey:@"fd_face_hint_icon_on_top"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_face_hint_icon_on_top"] forKey:@"fd_face_hint_icon_on_top"];
     }
-    
+
     //Face title image on top
     if([imageProcessingData objectForKey:@"fd_title_image_on_top"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_title_image_on_top"] forKey:@"fd_title_image_on_top"];
     }
-    
+
     NSMutableDictionary *selfieCapDic = [[NSMutableDictionary alloc] init];
     [selfieCapDic setObject:uiDictionary forKey:@"face_capture"];
     [AppItSDK customizeUserInterface:selfieCapDic];
-    
+
     [AppItSDK detectFace:self faceCaptureConfig:nonUIDictionary];
 }
 
-- (NSDictionary*)parse_string_to_json:(NSString*)jsonString{
-    NSError *jsonError;
-    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary* json = [NSJSONSerialization JSONObjectWithData:jsonData
-                                                         options:NSJSONReadingMutableContainers
-                                                           error:&jsonError];
-    return json;
-}
-
-- (NSMutableDictionary*)build_common_return_data{
-    NSMutableDictionary *config = [NSMutableDictionary
-                                   dictionaryWithObjectsAndKeys:operation,@"operation",
-                                   [requestParamJson objectForKey:@"callBackParam"],@"callBackParam",
-                                   [requestParamJson objectForKey:@"callbackHandlerName"],@"callbackHandlerName",
-                                   nil];
-    return config;
-}
-
-- (NSString*)get_encoded_json_string:(NSMutableDictionary *)json {
-    NSError *error = nil;
-    //convert object to data
-    NSData* configJsonData = [NSJSONSerialization dataWithJSONObject:json
-                                                             options:NSJSONWritingPrettyPrinted error:&error];
-    if (! configJsonData) {
-        NSLog(@"Got an error: %@", error);
-    } else {
-        NSString *jsonString = [[NSString alloc] initWithData:configJsonData encoding:NSUTF8StringEncoding];
-        //NSLog(@"Json Created: %@", jsonString);
-        // Base64 encode the string to avoid problems
-        NSData *plainData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-        NSString *encodedJsonString = [plainData base64EncodedStringWithOptions:0];
-        return encodedJsonString;
+- (void)handle_opencv_result_callback {
+    //build a config object and convert to json
+    NSMutableDictionary *config = [self build_common_return_data];
+    
+    NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
+    NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
+    NSArray *imageResultArray = [dataToAppit objectForKey:@"imageResult"];
+    NSDictionary *imageResult = [imageResultArray objectAtIndex:0];
+    NSString *imageName = [imageResult objectForKey:@"ImageName"];
+    
+    if (processedImage != nil) {
+        
+        NSMutableDictionary *imageData;
+        
+        if ( [imageName isEqualToString: @"ProcessedImage"] ) {
+            imageData = [NSMutableDictionary
+                         dictionaryWithObjectsAndKeys:processedImage,@"ImageData",
+                         nil];
+        }
+        else if ( [imageName isEqualToString: @"Photo"] || [imageName isEqualToString: @"FaceImage"] ) {
+            imageData = [NSMutableDictionary
+                         dictionaryWithObjectsAndKeys:faceImage,@"ImageData",
+                         nil];
+        }else if ( [imageName isEqualToString: @"InputImage"] ) {
+            imageData = [NSMutableDictionary
+                         dictionaryWithObjectsAndKeys:inputImage,@"ImageData",
+                         nil];
+        }else if ( [imageName isEqualToString: @"MatchedTemplate"]) {
+            imageData = [NSMutableDictionary
+                         dictionaryWithObjectsAndKeys:matchedTemplate,@"ImageData",
+                         nil];
+        }
+        
+        if([isImageSnippetCapture isEqualToString:@"Y"]) {
+            [imageData setObject:@"Y" forKey:@"ImageSnippetPresentFlag"];
+            [imageData setObject:snippetDictionary forKey:@"snippetData"];
+        }
+        
+        if(nil != barcodeDataDictionary && [barcodeDataDictionary count] > 0) {
+            NSMutableDictionary *IDDataDict = [[NSMutableDictionary alloc] init];
+            [IDDataDict setObject:barcodeDataDictionary forKey:@"IDData"];
+            [imageData setObject:@"Y" forKey:@"BarcodePresentFlag"];
+            [imageData setObject:IDDataDict forKey:@"BarcodeData"];
+        }
+        
+        if(nil != mrzDataDictionary && [mrzDataDictionary count] > 0) {
+            [imageData setObject:@"Y" forKey:@"MRZPresentFlag"];
+            NSMutableDictionary *IDDataDict = [[NSMutableDictionary alloc] init];
+            [IDDataDict setObject:mrzDataDictionary forKey:@"IDData"];
+            //            [imageData setObject:mrzDataDictionary forKey:@"MRZData"];
+            [imageData setObject:IDDataDict forKey:@"MRZData"];
+        }
+        
+        NSError *error = nil;
+        NSData* configImageData = [NSJSONSerialization dataWithJSONObject:imageData
+                                                                  options:NSJSONWritingPrettyPrinted error:&error];
+        NSString *imageDataString = [[NSString alloc] initWithData:configImageData encoding:NSUTF8StringEncoding];
+        //0 = Success
+        [config setObject:@"0" forKey:@"status"];
+        [config setObject:imageDataString forKey:@"dataFromAppit"];
+    }else{
+        //1 = Error
+        [config setObject:@"1" forKey:@"status"];
     }
-    return nil;
-}
-
-- (NSString*)get_json_string:(NSMutableDictionary *)json {
-    NSError *error = nil;
+    
     //convert object to data
-    NSData* configJsonData = [NSJSONSerialization dataWithJSONObject:json
-                                                             options:NSJSONWritingPrettyPrinted error:&error];
-    if (! configJsonData) {
-        NSLog(@"Got an error: %@", error);
-    } else {
-        NSString *jsonString = [[NSString alloc] initWithData:configJsonData encoding:NSUTF8StringEncoding];
-        return jsonString;
-    }
-    return nil;
+    NSString *encodedJsonString = [self get_encoded_json_string:config];
+    
+    //call inform
+    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
 }
 
-- (void)call_inform_js:(NSString *)functionName functionParameters:(NSString *)functionParameters{
-    NSString *function = [NSString stringWithFormat:@"%@(\"%@\");", functionName, functionParameters];
-    //NSString *function = [NSString stringWithFormat: @"invokeIosAppitHandler(\"%@\");", encodedJsonString];
-    //[_webView stringByEvaluatingJavaScriptFromString:function];
-    [_webView evaluateJavaScript:function completionHandler:nil];
+- (NSDictionary *) getVoiceRecordingConfigData {
+    NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
+    NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
+    NSArray *voiceRecordingConfigArray = [dataToAppit objectForKey:@"voiceRecordingConfig"];
+    NSDictionary *voiceRecordingConfig = [voiceRecordingConfigArray objectAtIndex:0];
+    return voiceRecordingConfig;
+    
+}
+
+-(void)handle_get_spectification_callback {
+    NSString *currentiOSAppitVersion = [IDServerInterface getURLFromProperty:@"CFBundleShortVersionString"];
+    
+    NSString *buildnumber = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    
+    NSMutableString *versionString = [NSMutableString stringWithFormat:@"%@(%@)", currentiOSAppitVersion, buildnumber];
+    
+    //build a config object and convert to json
+    NSMutableDictionary *config = [self build_common_return_data];
+    
+    NSString * uuidString =  [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    
+    NSMutableDictionary *getSpecDict = [[NSMutableDictionary alloc] init];
+    [getSpecDict setObject:@"iOSAppIT" forKey:@"APPIT"];
+    [getSpecDict setObject:@"iOS" forKey:@"OS"];
+    [getSpecDict setObject:versionString forKey:@"APPIT_VERSION"];
+    [getSpecDict setObject:@"" forKey:@"APPIT_VERSION_CODE"];
+    [getSpecDict setObject:uuidString forKey:@"APPIT_HRADWARE_ID"];
+    
+    NSString *getSpecString = [self get_json_string:getSpecDict];
+    
+    [config setValue:@"0" forKey:@"status"];
+    [config setValue:getSpecString forKey:@"dataFromAppit"];
+    
+    //convert object to data
+    NSString *encodedJsonString = [self get_encoded_json_string:config];
+    
+    //call inform
+    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
+}
+
+- (void)handle_appit_version_callback{
+    
+    //Current iOSAppit Version
+    NSString *currentiOSAppitVersion = [IDServerInterface getURLFromProperty:@"CFBundleShortVersionString"];
+    NSString *currentiOSAppitVersionCode = [currentiOSAppitVersion stringByReplacingOccurrencesOfString:@"." withString:@""];
+    NSString *supportedFeatureList = @"imageProcResult,templateDownload,scanFingerprint,cancelScan,startVoiceRecording,stopVoiceRecording,faceDetection,cardIO,getAppitVersion,thirdPartyResult,signaturecapture,imageSnippetCapture";
+    
+    NSString * uuidString =  [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    
+    //build a config object and convert to json
+    NSMutableDictionary *config = [self build_common_return_data];
+    
+    [config setObject:@"0" forKey:@"status"];
+    [config setObject:currentiOSAppitVersion forKey:@"dataFromAppit"];
+    [config setObject:currentiOSAppitVersionCode forKey:@"appitVersionCode"];
+    [config setObject:supportedFeatureList forKey:@"supportedFeatureList"];
+    [config setObject:uuidString forKey:@"MACAddress"];
+    [config setObject:uuidString forKey:@"DeviceSerialNumber"];
+    
+    //convert object to data
+    NSString *encodedJsonString = [self get_encoded_json_string:config];
+    
+    //call inform
+    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
+}
+
+-(void) checkCameraPermission_videoConference:(NSDictionary*)videoConfDictionary {
+    
+    NSMutableDictionary *videoConferenceDictionary = [[NSMutableDictionary alloc] init];
+    
+    [videoConferenceDictionary setObject:[videoConfDictionary objectForKey:@"conferenceId"] forKey:@"conferenceId"];
+    [videoConferenceDictionary setObject:[videoConfDictionary objectForKey:@"source"] forKey:@"source"];
+    [videoConferenceDictionary setObject:[videoConfDictionary objectForKey:@"destination"] forKey:@"destination"];
+    [videoConferenceDictionary setObject:[videoConfDictionary objectForKey:@"appName"] forKey:@"appName"];
+    [videoConferenceDictionary setObject:[videoConfDictionary objectForKey:@"targetOrigin"] forKey:@"targetOrigin"];
+    [videoConferenceDictionary setObject:[videoConfDictionary objectForKey:@"conferenceServerUrl"] forKey:@"conferenceServerUrl"];
+    
+    [self getCameraPermission:videoConferenceDictionary];
+}
+
+-(void)getCameraPermission:(NSMutableDictionary*)videoConferenceDictionary{
+    
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+    switch (authStatus) {
+        case AVAuthorizationStatusAuthorized: { // camera authorized
+            // do camera intensive stuff
+            [self notifyUserOfCameraAccessAccept:videoConferenceDictionary];
+        }
+            break;
+        case AVAuthorizationStatusNotDetermined: { // request authorization
+            
+            [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    if(granted) {
+                        // do camera intensive stuff
+                        [self notifyUserOfCameraAccessAccept:videoConferenceDictionary];
+                    } else {
+                        [self notifyUserOfCameraAccessDenial];
+                    }
+                });
+            }];
+        }
+            break;
+        case AVAuthorizationStatusRestricted:
+        case AVAuthorizationStatusDenied: {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self notifyUserOfCameraAccessDenial];
+            });
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)notifyUserOfCameraAccessDenial {
+    NSLog(@"VideoConference ::: Camera access denial");
+    // display a useful message asking the user to grant permissions from within Settings > Privacy > Camera
+    [self sendCancelResponse];
+}
+
+- (void)notifyUserOfCameraAccessAccept:(NSMutableDictionary*)videoConferenceDictionary{
+    //Ask Microphone permission
+    NSLog(@"VideoConference ::: Camera access granted");
+    [self getMicrophonePermission:videoConferenceDictionary];
+}
+
+-(void)getMicrophonePermission:(NSMutableDictionary*)videoConferenceDictionary{
+    
+    [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
+        if (granted) {
+            [self notifyUserOfMicrophoneAccessAccept:videoConferenceDictionary];
+        }else {
+            [self notifyUserOfMicrophoneAccessDenial];
+        }
+    }];
+}
+
+- (void)notifyUserOfMicrophoneAccessDenial {
+    // display a useful message asking the user to grant permissions from within Settings > Privacy > Microphone
+    NSLog(@"VideoConference ::: Microphone access denial");
+    [self sendCancelResponse];
+}
+
+- (void)notifyUserOfMicrophoneAccessAccept:(NSMutableDictionary*)videoConferenceDictionary{
+    NSLog(@"VideoConference ::: Microphone access granted");
+    
+    [AppItSDK startVideoConferencing:self videoConferenceData:videoConferenceDictionary];
+}
+
+-(void) restrictRotation_toMaskAll:(BOOL) restriction {
+    AppDelegate* appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    appDelegate.restrictOrientationToSupportAll = restriction;
+}
+
+-(void)sendCancelResponse{
+    NSMutableDictionary *_resultDictionary = [NSMutableDictionary new];
+    [_resultDictionary setObject:@"1" forKey:@"statusCode"];
+    [self videoConferencingResponse: _resultDictionary];
+}
+
+-(void) setUpWebViewForPDF:(NSString *)url {
+    
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
+    dispatch_async(queue, ^{
+        
+        [self URL_download_Process_pdf:url];
+        
+    });
+    
+    [_top_buttons_viewHolder_pdf setHidden:NO];
+    [_another_wkWebview_viewHolder_pdf setHidden:NO];
+    [_file_name_label_pdf setText:[url lastPathComponent]];
+    
+    pdf_webView = [[WKWebView alloc] initWithFrame: CGRectZero
+                                     configuration: [self setJS]];
+    pdf_webView.allowsBackForwardNavigationGestures = YES;
+    pdf_webView.configuration.preferences.javaScriptEnabled = YES;
+    [_another_wkWebview_viewHolder_pdf addSubview: pdf_webView];
+    [self setConstraints_for_PDF_WkWebView:pdf_webView parentView:_another_wkWebview_viewHolder_pdf];
+    
+    //    [pdf_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://demo.idmission.com/Faysal-Bank-Demo/images/downloadFormPDFPrd-1.pdf"]]];
+    [pdf_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
+}
+
+-(void) setConstraints_for_PDF_WkWebView:(WKWebView *)webView parentView:(UIView *)parentView{
+    
+    webView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    NSLayoutConstraint *trailing =[NSLayoutConstraint
+                                   constraintWithItem:webView
+                                   attribute:NSLayoutAttributeTrailing
+                                   relatedBy:NSLayoutRelationEqual
+                                   toItem:parentView
+                                   attribute:NSLayoutAttributeTrailing
+                                   multiplier:1.0f
+                                   constant:0.f];
+    
+    NSLayoutConstraint *leading = [NSLayoutConstraint
+                                   constraintWithItem:webView
+                                   attribute:NSLayoutAttributeLeading
+                                   relatedBy:NSLayoutRelationEqual
+                                   toItem:parentView
+                                   attribute:NSLayoutAttributeLeading
+                                   multiplier:1.0f
+                                   constant:0.f];
+    
+    NSLayoutConstraint *bottom =[NSLayoutConstraint
+                                 constraintWithItem:webView
+                                 attribute:NSLayoutAttributeBottom
+                                 relatedBy:NSLayoutRelationEqual
+                                 toItem:parentView
+                                 attribute:NSLayoutAttributeBottom
+                                 multiplier:1.0f
+                                 constant:0.f];
+    
+    NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:webView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:parentView attribute:NSLayoutAttributeTop multiplier:1.0f constant:0.f];
+    
+    [parentView addConstraint:trailing];
+    [parentView addConstraint:leading];
+    [parentView addConstraint:top];
+    [parentView addConstraint:bottom];
+    
+}
+
+-(void) URL_download_Process_pdf:(NSString *)url_string_data {
+    
+    NSDate *executionStart = [NSDate date];
+    
+    NSURL *url = [NSURL URLWithString:url_string_data];
+    
+    
+    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    sessionConfiguration.HTTPAdditionalHeaders = @{
+        @"Content-Type":@"application/xml; charset=utf-8",
+    };
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:self delegateQueue:nil];
+    
+    NSURLSessionDataTask *downloadDataTask = [session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+        NSDate *executionFinish = [NSDate date];
+        NSTimeInterval executionTime = [executionFinish timeIntervalSinceDate:executionStart];
+        
+        if(error != nil){
+            NSLog(@"Error while downloading content = %@", error);
+        }else{
+            if(nil != data) {
+                NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+                NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
+                NSString *outFileDirectoryPath = [documentsDirectory stringByAppendingPathComponent:@"/Content_Folder/"];
+                
+                if (![[NSFileManager defaultManager] fileExistsAtPath:outFileDirectoryPath]) {
+                    [[NSFileManager defaultManager] createDirectoryAtPath:outFileDirectoryPath withIntermediateDirectories:YES attributes:nil error:&error];
+                }
+                
+                content_file_name = [url_string_data lastPathComponent];
+                
+                if(![NS_String_Utils stringIsNilOrEmpty:content_file_name]) {
+                    NSString *content_file_path = [NSString stringWithFormat:@"%@/%@", outFileDirectoryPath, content_file_name];
+                    
+                    if ([[NSFileManager defaultManager] fileExistsAtPath:content_file_path]) {
+                        // delete if exist
+                        [[NSFileManager defaultManager] removeItemAtPath:content_file_path error:nil];
+                    }
+                    
+                    [data writeToFile:content_file_path atomically:YES];
+                    
+                    NSLog(@"");
+                }
+                
+            }
+            
+        }
+    }];
+    
+    [downloadDataTask resume];
+}
+
+- (UIViewController *) documentInteractionControllerViewControllerForPreview: (UIDocumentInteractionController *) controller {
+    return self;
+}
+
+#pragma mark - AppitSDK Response Methods
+
+-(void)initializeSDKResponse : (NSMutableDictionary*) result{
+    NSLog(@"initializeSDKResponse ::: %@", result);
+}
+
+-(void)downloadXsltResultResponse : (NSMutableDictionary*) result {
+    NSLog(@"Download XSLT Response");
+}
+
+-(void)videoRecordingResponse:(NSMutableDictionary*) result {
+    NSLog(@"Video Recording Response");
+    
+    if(result.count == 0){
+        return;
+    }
+    
+    if(!videoCallbackExecuted){
+        videoCallbackExecuted = true;
+        
+        NSMutableDictionary *config = [self build_common_return_data];
+        
+        if([[result objectForKey:@"statusCode"] isEqualToString:@"0"]) {
+            
+            [config setObject:@"42" forKey:@"status"];
+            
+            NSString *encodedJsonString = [self get_encoded_json_string:config];
+            videoRecSeconds = [AppItSDK getVideoRecordingInSec];
+            
+            NSData *videoData = [NSData dataWithContentsOfURL:[result objectForKey:@"VIDEO_DATA"] options: 0 error:nil];
+            
+            base64Encoded = [videoData base64EncodedStringWithOptions:0];
+            
+            divideInSecond = 10.0;
+            numberOfPart = ceil(videoRecSeconds/divideInSecond);
+            videoChunkSize = ceil(base64Encoded.length/numberOfPart);
+            
+            NSString *time = [[NSString alloc]
+                              initWithFormat:@"%02d:%02d",0, 0];
+            
+            [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
+        } else {
+            
+            count=0;
+            minute=0;
+            
+            [self.navigationController setNavigationBarHidden:NO animated:YES];
+            isBackPressed = true;
+            
+            isMute = false;
+            
+            NSMutableDictionary *config = [self build_common_return_data];
+            [config setObject:@"41" forKey:@"status"];
+            
+            NSString *encodedJsonString = [self get_encoded_json_string:config];
+            
+            //call inform
+            [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
+        }
+    }
 }
 
 -(void)fourFingerprintDetectionResponse : (NSMutableDictionary*) result {
@@ -2385,43 +2486,22 @@ static bool idfaceshowInstruction = true;
     [self prepare_data_for_fingerprint];
 }
 
-//-(void)snippetCaptureResponse : (NSMutableDictionary*) result instance:(id)instance {
-//    NSLog(@"Snippet Capture Response");
-//    NSMutableDictionary *responseData = [self build_common_return_data];
-//    [responseData setObject:@"saveImageSnippet" forKey:@"callbackHandlerName"];
-//    SnippetCaptureController *snippetController = (SnippetCaptureController*)instance;
-//    NSString *responseBarcodeData = [self get_json_string:[snippetController finalResultDictionary]];
-//    if([@"0" isEqualToString:[result objectForKey:@"statusCode"]]) {
-//        [responseData setValue:@"0" forKey:@"status"];
-//    } else if([@"1" isEqualToString:[result objectForKey:@"statusCode"]]) {
-//        [responseData setValue:@"59" forKey:@"status"]; //Snippet Back button pressed
-//    }
-//    [responseData setValue:@"" forKey:@"message"];
-//    [responseData setValue:responseBarcodeData forKey:@"dataFromAppit"];
-//
-//    //convert object to data
-//    NSString *encodedResponseJsonString = [self get_encoded_json_string:responseData];
-//
-//    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedResponseJsonString];
-//    //[responseData setValue:@"0" forKey:@"status"];
-//}
-//
 -(void)captureSignatureResponse : (NSMutableDictionary*) result {
-
+    
     NSMutableDictionary *responseData = [self build_common_return_data];
-
+    
     NSMutableDictionary *responseBarcodeDict = [[NSMutableDictionary alloc] init];
-
+    
     NSString *signatureCaptureImage = [result objectForKey:@"signatureImage"];
-
+    
     if(nil != signatureCaptureImage) {
         [responseBarcodeDict setValue:signatureCaptureImage forKey:@"defaultBarcodeImage"];
     } else {
         [responseBarcodeDict setValue:@"" forKey:@"defaultBarcodeImage"];
     }
-
+    
     NSString *responseBarcodeData = [self get_json_string:responseBarcodeDict];
-
+    
     NSString *statusCode = [result objectForKey:@"statusCode"];
     if([@"0" isEqualToString:statusCode]) {
         [responseData setValue:@"57" forKey:@"status"];
@@ -2429,33 +2509,13 @@ static bool idfaceshowInstruction = true;
         [responseData setValue:@"56" forKey:@"status"];
     }
     [responseData setValue:responseBarcodeData forKey:@"dataFromAppit"];
-
+    
     //convert object to data
     NSString *encodedResponseJsonString = [self get_encoded_json_string:responseData];
-
+    
     [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedResponseJsonString];
-
+    
 }
-
-//-(void)captureSignatureResponse : (NSMutableDictionary*) result instance:(id)instance {
-//    NSLog(@"Signature Capture");
-//    NSMutableDictionary *responseData = [self build_common_return_data];
-//
-//    CaptureSignatureController *signature = (CaptureSignatureController*)instance;
-//
-//    //if([signature.responseStatus isEqualToString:@"54"]) {
-//    NSMutableDictionary *responseBarcodeDict = [[NSMutableDictionary alloc] init];
-//    [responseBarcodeDict setValue:signature.defaultSignatureStringData forKey:@"defaultBarcodeImage"];
-//    NSString *responseBarcodeData = [self get_json_string:responseBarcodeDict];
-//    [responseData setValue:signature.responseStatus forKey:@"status"];
-//    [responseData setValue:responseBarcodeData forKey:@"dataFromAppit"];
-//
-//    //convert object to data
-//    NSString *encodedResponseJsonString = [self get_encoded_json_string:responseData];
-//
-//    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedResponseJsonString];
-//    //    }
-//}
 
 -(void)scanBarcodeResponse : (NSMutableDictionary*) result {
     NSMutableDictionary *responseData = [self build_common_return_data];
@@ -2489,36 +2549,6 @@ static bool idfaceshowInstruction = true;
     [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedResponseJsonString];
 }
 
-//-(void)barcodeScanningResponse:(NSMutableDictionary *)result instance:(id)instance {
-//    NSLog(@"Scanning barcode");
-//    NSMutableDictionary *responseData = [self build_common_return_data];
-//
-//    BarcodeViewController *barcode = (BarcodeViewController*)instance;
-//
-//    if([barcode.responseStatus isEqualToString:@"54"]) {
-//
-//        NSMutableDictionary *responseBarcodeDict = [[NSMutableDictionary alloc] init];
-//        [responseBarcodeDict setValue:barcode.barcodeContentData forKey:@"content"];
-//        [responseBarcodeDict setValue:barcode.barcodeFormatType forKey:@"format"];
-//        //        [responseBarcodeDict setValue:barcode.barcodeImageData forKey:@"barcodeImage"];
-//        [responseBarcodeDict setValue:barcode.defaultBarcodeImageStringData forKey:@"defaultBarcodeImage"];
-//        NSString *responseBarcodeData = [self get_json_string:responseBarcodeDict];
-//
-//        // responseData = [[NSMutableDictionary alloc] init];
-//        //        [responseData setValue:barcode.responseStatus forKey:@"responseCode"];
-//        //[responseData setValue:responseBarcodeData forKey:@"responseData"];
-//        [responseData setValue:barcode.responseStatus forKey:@"status"];
-//        [responseData setValue:responseBarcodeData forKey:@"dataFromAppit"];
-//
-//        //convert object to data
-//        NSString *encodedResponseJsonString = [self get_encoded_json_string:responseData];
-//
-//        //call inform
-//        [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedResponseJsonString];
-//
-//    }
-//}
-
 -(void)faceDetectionResponse : (NSMutableDictionary*) result {
     
     NSMutableDictionary *configOriginal = [self build_common_return_data];
@@ -2527,7 +2557,7 @@ static bool idfaceshowInstruction = true;
     NSMutableDictionary *configEllipse;
     // if([instance isKindOfClass:[MlKitFaceController class]]) {
     //     MlKitFaceController *face = (MlKitFaceController*)instance;
-//    [configOriginal setObject:[result objectForKey:@"statusCode"] forKey:@"status"];
+    //    [configOriginal setObject:[result objectForKey:@"statusCode"] forKey:@"status"];
     
     //Creating copy of config
     configEllipse = [configOriginal mutableCopy];
@@ -2576,262 +2606,6 @@ static bool idfaceshowInstruction = true;
     
 }
 
-//-(void)faceDetectionResponse:(NSMutableDictionary *)result instance:(id)instance;{
-//
-//    NSMutableDictionary *configOriginal = [self build_common_return_data];
-//
-//    //    FaceDetectionNewViewController* face = (FaceDetectionNewViewController*)instance;
-//    NSMutableDictionary *configEllipse;
-//    if([instance isKindOfClass:[MlKitFaceController class]]) {
-//        MlKitFaceController *face = (MlKitFaceController*)instance;
-//        [configOriginal setObject: face.responseStatus forKey:@"status"];
-//
-//        //Creating copy of config
-//        configEllipse = [configOriginal mutableCopy];
-//
-//        if ([face.responseStatus isEqualToString:@"0"]) {
-//            NSMutableDictionary *imagRespOriginal = [NSMutableDictionary new];
-//            [imagRespOriginal setObject:face.respOrigionalImgData forKey:@"OriginalImage"];
-//            //            [imagResp setObject:face.respEllipseImgData forKey:@"EllipseImage"];
-//
-//            NSMutableDictionary *imagRespEllipse = [NSMutableDictionary new];
-//            [imagRespEllipse setObject:face.respEllipseImgData forKey:@"EllipseImage"];
-//
-//            [configOriginal setObject:[self get_json_string:imagRespOriginal] forKey:@"dataFromAppit"];
-//            [configEllipse setObject:[self get_json_string:imagRespEllipse] forKey:@"dataFromAppit"];
-//        }else if ([face.responseStatus isEqualToString:@"26"]) {
-//            // Make toast with a duration and position
-//            [self.view makeToast:@"Face detection failed."
-//                        duration:5.0
-//                        position:CSToastPositionCenter];
-//        }
-//    } else {
-//        FacePreviewViewController *face = (FacePreviewViewController*)instance;
-//        [configOriginal setObject: face.responseStatus forKey:@"status"];
-//
-//        //Creating copy of config
-//        configEllipse = [configOriginal mutableCopy];
-//
-//        if ([face.responseStatus isEqualToString:@"0"]) {
-//            NSMutableDictionary *imagRespOriginal = [NSMutableDictionary new];
-//            [imagRespOriginal setObject:face.respOrigionalImgData forKey:@"OriginalImage"];
-//            //            [imagResp setObject:face.respEllipseImgData forKey:@"EllipseImage"];
-//
-//            NSMutableDictionary *imagRespEllipse = [NSMutableDictionary new];
-//            [imagRespEllipse setObject:face.respEllipseImgData forKey:@"EllipseImage"];
-//
-//            [configOriginal setObject:[self get_json_string:imagRespOriginal] forKey:@"dataFromAppit"];
-//            [configEllipse setObject:[self get_json_string:imagRespEllipse] forKey:@"dataFromAppit"];
-//        }else if ([face.responseStatus isEqualToString:@"26"]) {
-//            // Make toast with a duration and position
-//            [self.view makeToast:@"Face detection failed."
-//                        duration:5.0
-//                        position:CSToastPositionCenter];
-//        }
-//    }
-//
-//    //convert object to data
-//    NSString *encodedJsonStringOriginal = [self get_encoded_json_string:configOriginal];
-//    NSString *encodedJsonStringEllipse = [self get_encoded_json_string:configEllipse];
-//
-//    //call inform
-//    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonStringEllipse];
-//    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonStringOriginal];
-//}
-
-- (NSString*) deviceName
-{
-    struct utsname systemInfo;
-    uname(&systemInfo);
-    
-    return [NSString stringWithCString:systemInfo.machine
-                              encoding:NSUTF8StringEncoding];
-}
-
-- (void)handle_opencv_result_callback {
-    //build a config object and convert to json
-    NSMutableDictionary *config = [self build_common_return_data];
-    
-    NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
-    NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
-    NSArray *imageResultArray = [dataToAppit objectForKey:@"imageResult"];
-    NSDictionary *imageResult = [imageResultArray objectAtIndex:0];
-    NSString *imageName = [imageResult objectForKey:@"ImageName"];
-    
-    if (processedImage != nil) {
-        
-        NSMutableDictionary *imageData;
-        
-        if ( [imageName isEqualToString: @"ProcessedImage"] ) {
-            imageData = [NSMutableDictionary
-                         dictionaryWithObjectsAndKeys:processedImage,@"ImageData",
-                         nil];
-        }
-        else if ( [imageName isEqualToString: @"Photo"] || [imageName isEqualToString: @"FaceImage"] ) {
-            imageData = [NSMutableDictionary
-                         dictionaryWithObjectsAndKeys:faceImage,@"ImageData",
-                         nil];
-        }else if ( [imageName isEqualToString: @"InputImage"] ) {
-            imageData = [NSMutableDictionary
-                         dictionaryWithObjectsAndKeys:inputImage,@"ImageData",
-                         nil];
-        }else if ( [imageName isEqualToString: @"MatchedTemplate"]) {
-            imageData = [NSMutableDictionary
-                         dictionaryWithObjectsAndKeys:matchedTemplate,@"ImageData",
-                         nil];
-        }
-        
-        if([isImageSnippetCapture isEqualToString:@"Y"]) {
-            [imageData setObject:@"Y" forKey:@"ImageSnippetPresentFlag"];
-            [imageData setObject:snippetDictionary forKey:@"snippetData"];
-        }
-        
-        if(nil != barcodeDataDictionary && [barcodeDataDictionary count] > 0) {
-            NSMutableDictionary *IDDataDict = [[NSMutableDictionary alloc] init];
-            [IDDataDict setObject:barcodeDataDictionary forKey:@"IDData"];
-            [imageData setObject:@"Y" forKey:@"BarcodePresentFlag"];
-            [imageData setObject:IDDataDict forKey:@"BarcodeData"];
-        }
-        
-        if(nil != mrzDataDictionary && [mrzDataDictionary count] > 0) {
-            [imageData setObject:@"Y" forKey:@"MRZPresentFlag"];
-            NSMutableDictionary *IDDataDict = [[NSMutableDictionary alloc] init];
-            [IDDataDict setObject:mrzDataDictionary forKey:@"IDData"];
-//            [imageData setObject:mrzDataDictionary forKey:@"MRZData"];
-            [imageData setObject:IDDataDict forKey:@"MRZData"];
-        }
-        
-        NSError *error = nil;
-        NSData* configImageData = [NSJSONSerialization dataWithJSONObject:imageData
-                                                                  options:NSJSONWritingPrettyPrinted error:&error];
-        NSString *imageDataString = [[NSString alloc] initWithData:configImageData encoding:NSUTF8StringEncoding];
-        //0 = Success
-        [config setObject:@"0" forKey:@"status"];
-        [config setObject:imageDataString forKey:@"dataFromAppit"];
-    }else{
-        //1 = Error
-        [config setObject:@"1" forKey:@"status"];
-    }
-    
-    //convert object to data
-    NSString *encodedJsonString = [self get_encoded_json_string:config];
-    
-    //call inform
-    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
-}
-
-- (void)download_templates {
-    NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
-    NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
-    NSArray *templateDownloadArray = [dataToAppit objectForKey:@"templateDownload"];
-    NSDictionary *templateDownload = [templateDownloadArray objectAtIndex:0];
-    //NSArray *templateIdsArray = [templateDownload objectForKey:@"TemplateIds"];
-    NSString* downloadStatus;
-    
-    if(templateDownloadStatus == 0){
-        idServerInterface = [IDServerInterface alloc];
-        idServerInterface.currentTemplateLocation = currentTemplateLocation;
-        
-        BOOL status = [idServerInterface isTemplateDownloadingRequire:templateDownload];
-        if(status){
-            NSLog(@"download_templates : Templates update require...");
-            NSString* statusCode = [idServerInterface downloadTemplates:templateDownload];
-            templateDownloadStatus = 1;
-            downloadStatus = @"23";
-        }else{
-            NSLog(@"download_templates : Templates are updated...");
-            templateDownloadStatus = 0;
-            downloadStatus = @"38";
-        }
-    }else{
-        if ([idServerInterface getTemplateDownloadStatus] == 2){
-            templateDownloadStatus = 2;
-        }
-        
-        if(templateDownloadStatus == 1){
-            downloadStatus = @"23";
-        }else if(templateDownloadStatus == 2){
-            templateDownloadStatus = 0;
-            downloadStatus = @"0";
-        }
-    }
-    //NSLog(@"templateDownloadStatus: %d", templateDownloadStatus);
-    
-    //build a config object and convert to json
-    NSMutableDictionary *config = [self build_common_return_data];
-    [config setObject:downloadStatus forKey:@"status"];
-    //convert object to data
-    NSString *encodedJsonString = [self get_encoded_json_string:config];
-    //call inform
-    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
-}
-
-- (void)download_templates_old {
-    //build a config object and convert to json
-    NSMutableDictionary *config = [self build_common_return_data];
-    
-    NSString *dataFile = [[NSBundle mainBundle] pathForResource:@"colorado_id_front" ofType:@"xml" inDirectory:@"/templates/xml"];
-    NSFileManager *filemgr = [NSFileManager defaultManager];
-    NSData *databuffer = [filemgr contentsAtPath: dataFile];
-    NSString *docPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/colorado_id_front_new.xml"];
-    NSString *fileData = [[NSString alloc] initWithData:databuffer encoding:NSUTF8StringEncoding];
-    [fileData writeToFile:docPath
-               atomically:YES
-                 encoding:NSUTF8StringEncoding
-                    error:NULL];
-    
-    [config setObject:@"TemplateDownloadCompleted" forKey:@"dataFromAppit"];
-    
-    
-    //convert object to data
-    NSString *encodedJsonString = [self get_encoded_json_string:config];
-    
-    //call inform
-    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
-}
-
-- (NSString*) process_image:(UIImage*)image resizeImage:(BOOL)resizeImage{
-    
-    if(image == nil){
-        return nil;
-    }
-    
-    NSString *imageSize = [imageProcessingData objectForKey:@"ImageSizeLimit"];
-    
-    //We will get image height and width only in case of skip-image processing
-    NSString *imageHeight = [imageProcessingData objectForKey:@"HighResolutionImageHeight"];
-    NSString *imageWidth = [imageProcessingData objectForKey:@"HighResolutionImageWidth"];
-    
-    if(resizeImage && ![NS_String_Utils stringIsNilOrEmpty:imageHeight] && ![NS_String_Utils stringIsNilOrEmpty:imageWidth]){
-        CGFloat width = [imageWidth floatValue];
-        CGFloat height = [imageHeight floatValue];
-        image = [self imageWithImage:image convertToSize:CGSizeMake(width, height)];
-    }
-    
-    int imageSizeLimit = 1000 * 1024;
-    if (imageSize != nil) {
-        imageSizeLimit = [imageSize intValue]*1024;
-    }
-    
-    NSData *imageData = UIImageJPEGRepresentation(image, 0.9);
-    
-    if([imageData length] > imageSizeLimit){
-        //For reducing image size use below jpeg percentage
-        NSArray *jpegQlty = @[@0.85, @0.80, @0.75];
-        
-        for(int i=0; i<[jpegQlty count]; i++) {
-            float qlty = [[jpegQlty objectAtIndex:i] floatValue];
-            imageData = UIImageJPEGRepresentation(image, qlty);
-            if([imageData length] <= imageSizeLimit){
-                break;
-            }
-        }
-    }
-    
-    NSString *base64 = [imageData base64EncodedStringWithOptions:0];
-    return base64;
-}
-
 -(void)captureImageResponse : (NSMutableDictionary*) result {
     [self restrictRotation_toMaskAll:NO];
     NSLog(@"");
@@ -2878,54 +2652,22 @@ static bool idfaceshowInstruction = true;
     [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
 }
 
-- (void)handle_opencv_callback:(UIViewController *)sourceViewController callbackFrom:(NSString*)callbackFrom {
+-(void)cardDetectionResponse:(NSMutableDictionary *)result {
+    NSLog(@"Just to chek");
     
-    UIImage* image;
-    NSString* summary;
-    
-//    if([sourceViewController isKindOfClass:[OpenCvViewControllerAppit class]]){
-//        OpenCvViewControllerAppit* view = (OpenCvViewControllerAppit*)sourceViewController;
-//
-//        image = [view snap];
-//        NSString *xml = [view xml];
-//        UIImage* actualFaceImage = [view get_face_image];
-//        UIImage* actualInputImage = [view get_input_image];
-//        UIImage* matchedTemplateImage = [view get_matched_template];
-//
-//        summary = xml;
-//
-//        processedImage = [self process_image:image resizeImage:true];
-//        faceImage = [self process_image:actualFaceImage resizeImage:false];
-//        inputImage = [self process_image:actualInputImage resizeImage:false];
-//        matchedTemplate = [self process_image:matchedTemplateImage resizeImage:false];
-//    }else if([sourceViewController isKindOfClass:[SkipImageProcessingViewController class]]){
-//        SkipImageProcessingViewController* view = (SkipImageProcessingViewController*)sourceViewController;
-//        image = [view resultImage];
-//        processedImage = [self process_image:image resizeImage:true];
-//        snippetDictionary = [view finalResultDictionary];
-//        isImageSnippetCapture = [view isImageSnippetCapture];
-//        summary = @"<OCRLayoutDef></OCRLayoutDef>";
-//    }
-    
-    //build a config object and convert to json
     NSMutableDictionary *config = [self build_common_return_data];
-    if (image != nil) {
-        //0 = Success
-        [config setObject:@"0" forKey:@"status"];
-        [config setObject:summary forKey:@"dataFromAppit"];
-    }else{
-        if ([callbackFrom isEqualToString:@"BackButton"]) {
-            //2 = Error
-            [config setObject:@"2" forKey:@"status"];
-            callbackExecuted = true;
-        }else{
-            if (!callbackExecuted) {
-                //1 = Error
-                [config setObject:@"1" forKey:@"status"];
-            }else{
-                [config setObject:@"2" forKey:@"status"];
-            }
-        }
+    
+    [config setObject: [result objectForKey:@"statusCode"] forKey:@"status"];
+    
+    if([[result objectForKey:@"statusCode"] isEqualToString:@"0"]) {
+        NSMutableDictionary *cardResp = [NSMutableDictionary new];
+        [cardResp setObject:[result objectForKey:@"cardType"] forKey:@"CardType"];
+        [cardResp setObject:[result objectForKey:@"cardNumber"] forKey:@"CardNumber"];
+        [cardResp setObject:[result objectForKey:@"CARD"] forKey:@"CardImage"];
+        
+        [config setObject:[self get_json_string:cardResp] forKey:@"dataFromAppit"];
+    } else if([[result objectForKey:@"statusCode"] isEqualToString:@"9"]) {
+        [config setObject:@"18" forKey:@"status"];
     }
     
     //convert object to data
@@ -2933,6 +2675,7 @@ static bool idfaceshowInstruction = true;
     
     //call inform
     [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
+    
 }
 
 -(void)snippetCaptureResponse : (NSMutableDictionary *)result {
@@ -3043,498 +2786,24 @@ static bool idfaceshowInstruction = true;
     }
 }
 
-
-- (UIImage *)imageWithImage:(UIImage *)image convertToSize:(CGSize)size {
-    UIGraphicsBeginImageContext(size);
-    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
-    UIImage *destImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return destImage;
-}
-
-
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if([segue.identifier isEqualToString:@"showOpenCvSeque"]){
-        
-//        OpenCvViewControllerAppit *controller = (OpenCvViewControllerAppit *)segue.destinationViewController;
-//        controller.path_to_xml_template = path_to_xml_template;
-//        controller.currentTemplateLocation = currentTemplateLocation;
-//        controller.single_high_res_snapshot_mode = false;
-//        NSString *imageCaptureCount = [imageProcessingData objectForKey:@"ImageCaptureCount"];
-//        int imagesToInsert = 4;
-//        if (imageCaptureCount != nil) {
-//            imagesToInsert = [imageCaptureCount intValue];
-//        }
-//        controller.ImagesToInsert = imagesToInsert;
-//        if(imagesToInsert>1){
-//            controller.ImagesToConsume = imagesToInsert-1;
-//        }else{
-//            controller.ImagesToConsume = 1;
-//        }
-//
-//        NSString *OCRMinimumLightThreshold = [imageProcessingData objectForKey:@"OCRMinimumLightThreshold"];
-//        if(OCRMinimumLightThreshold != nil)
-//            controller.MinImageIntensity =  [OCRMinimumLightThreshold intValue];
-//        else
-//            controller.MinImageIntensity =  90;
-//
-//        NSString *MinFocusScoreThreshold = [imageProcessingData objectForKey:@"MinFocusScoreThreshold"];
-//        if(MinFocusScoreThreshold != nil)
-//            controller.MinImageFocusScore =  [MinFocusScoreThreshold intValue];
-//        else
-//            controller.MinImageFocusScore =  10;
-//
-//        NSString *templateIds = [imageProcessingData objectForKey:@"TemplateIds"];
-//        controller.template_ids = templateIds;
-//
-//        NSString *enableGlareDetection = [imageProcessingData objectForKey:@"EnableGlareDetection"];
-//        NSString *glarePercentageThreshold = [imageProcessingData objectForKey:@"GlarePercentageThreshold"];
-//
-//        if(enableGlareDetection != nil && [enableGlareDetection isEqualToString:@"Y"]){
-//            controller.enable_glare_detection = true;
-//        }else{
-//            controller.enable_glare_detection = false;
-//        }
-//
-//        if(glarePercentageThreshold!=nil){
-//            controller.glare_percentage_threshold = [glarePercentageThreshold intValue];
-//        }else{
-//            controller.glare_percentage_threshold = 100;
-//        }
-//
-//        NSString *dIdOutlineColor = @"FFAD36", *dDetectedIdOutlineColor = @"6EB24C", *dOutsideIdOutlineColor = @"487D95",*dDetectedPOAOutlineColor = @"6EB24C",*dDetectedOutsideIdOutlineColor = @"FFFFFF";
-//
-//        NSString *idOutlineColor = dIdOutlineColor, *detectedidoutlinecolor = dDetectedIdOutlineColor, *idOutsideOutlineColor = dOutsideIdOutlineColor;
-//
-//        int mAlpha = 1;
-//
-//        int idOutlineColorAlpha = mAlpha,detectedidoutlinetransparency = mAlpha, idOutsideOutlineColorAlpha = mAlpha;
-//        controller.id_outline_color = idOutlineColor;
-//        controller.id_outline_color_alpha = idOutlineColorAlpha;
-//        controller.id_outline_outside_color = idOutsideOutlineColor;
-//        controller.id_outline_outside_color_alpha = idOutsideOutlineColorAlpha;
-//        controller.detected_id_outline_color = dDetectedIdOutlineColor;
-//        controller.detected_id_outline_color_alpha = mAlpha;
-//        controller.detected_id_outline_outside_color = dDetectedOutsideIdOutlineColor;
-//        controller.modalPresentationStyle = UIModalPresentationFullScreen;
-//        controller.detected_id_outline_outside_color_alpha = mAlpha;
-        
-    }else if([segue.identifier isEqualToString:@"showFaceDetectionSegue"]){
-//        FaceDetectionViewController *controller = (FaceDetectionViewController *)segue.destinationViewController;
-//        controller.light_threshold = [[imageProcessingData objectForKey:@"MinLightThreshold"] intValue];
-//        controller.focus_threshold = [[imageProcessingData objectForKey:@"FocusThreshold"] intValue];
-//        NSString *cameraType = [[imageProcessingData objectForKey:@"CameraType"] uppercaseString];
-//        if([cameraType isEqualToString:@"FRONT"]){
-//            controller.launch_front_camera = true;
-//        }else{
-//            controller.launch_front_camera = false;
-//        }
-//        controller.smile_width_percentage_threshold = [[imageProcessingData objectForKey:@"FaceDetectionThreshold"] intValue];
-//        controller.modalPresentationStyle = UIModalPresentationFullScreen;
-//        controller.image_size = [[imageProcessingData objectForKey:@"ImageSize"] intValue];
-    }else if ([segue.identifier isEqualToString:@"showCardScanSegue"]){
-//        ScanCardIOViewController *controller = (ScanCardIOViewController *)segue.destinationViewController;
-//        controller.modalPresentationStyle = UIModalPresentationFullScreen;
-    }else if([segue.identifier isEqualToString:@"showVideoRecordingSegue"]){
-//        VideoRecorderViewController *controller = (VideoRecorderViewController *)segue.destinationViewController;
-//        controller.modalPresentationStyle = UIModalPresentationFullScreen;
-    }else if([segue.identifier isEqualToString:@"showPasswordSegue"]){
-        PasswordViewController *controller = (PasswordViewController *)segue.destinationViewController;
-        controller.modalPresentationStyle = UIModalPresentationFullScreen;
-        controller.currentURL = [Settings getCurrentURL];
-    }else if([segue.identifier isEqualToString:@"showSkipImageProcessing"]) {
-//        SkipImageProcessingViewController *controller = (SkipImageProcessingViewController *)segue.destinationViewController;
-//
-//        NSString *OCRMinimumLightThreshold = [imageProcessingData objectForKey:@"OCRMinimumLightThreshold"];
-//        if(OCRMinimumLightThreshold != nil)
-//            controller.MinImageIntensity =  [OCRMinimumLightThreshold intValue];
-//        else
-//            controller.MinImageIntensity =  70;
-//
-//        NSString *MinFocusScoreThreshold = [imageProcessingData objectForKey:@"MinFocusScoreThreshold"];
-//        if(MinFocusScoreThreshold != nil)
-//            controller.MinImageFocusScore =  [MinFocusScoreThreshold intValue];
-//        else
-//            controller.MinImageFocusScore =  15;
-//
-//        NSString *enableGlareDetection = [imageProcessingData objectForKey:@"EnableGlareDetection"];
-//        NSString *glarePercentageThreshold = [imageProcessingData objectForKey:@"GlarePercentageThreshold"];
-//
-//        //        if(enableGlareDetection != nil && [enableGlareDetection isEqualToString:@"Y"]){
-//        //            controller.enable_glare_detection = true;
-//        //        }else{
-//        //            controller.enable_glare_detection = false;
-//        //        }
-//
-//        //if(glarePercentageThreshold!=nil){
-//        if(![NS_String_Utils stringIsNilOrEmpty:glarePercentageThreshold]){
-//            controller.glare_percentage_threshold = [glarePercentageThreshold intValue];
-//        }else{
-//            controller.glare_percentage_threshold = 2;
-//        }
-//
-//        NSString *enableCapButton = [imageProcessingData objectForKey:@"EnableCaptureButton"];
-//        NSString *enableCapButtonTime = [imageProcessingData objectForKey:@"EnableCaptureButtonTime"];
-//
-//        if(enableCapButton != nil && [enableCapButton isEqualToString:@"Y"]){
-//            controller.enable_capture_button = true;
-//        }else{
-//            controller.enable_capture_button = false;
-//        }
-//
-//        if(enableCapButtonTime!=nil){
-//            controller.enable_capture_button_time = [enableCapButtonTime intValue];
-//        }else{
-//            controller.enable_capture_button_time = 10;
-//        }
-//
-//        NSString *capturePortrait = [imageProcessingData objectForKey:@"CapturePortrait"];
-//        NSString *height = [imageProcessingData objectForKey:@"HighResolutionImageHeight"];
-//        NSString *width = [imageProcessingData objectForKey:@"HighResolutionImageWidth"];
-//
-//        if(capturePortrait != nil && [capturePortrait isEqualToString:@"N"]){
-//            controller.capture_in_portrait_mode = false;
-//        }else{
-//            controller.capture_in_portrait_mode = true;
-//            //Swaping width and height
-//            NSString *swap = height;
-//            height = width;
-//            width = swap;
-//        }
-//
-//        if(height!=nil){
-//            controller.imageHeight = [height intValue];
-//        }else{
-//            controller.imageHeight = 830;
-//        }
-//
-//        if(width!=nil){
-//            controller.imageWidth = [width intValue];
-//        }else{
-//            controller.imageWidth = 1170;
-//        }
-//
-//        NSString *dIdOutlineColor = @"FFAD36", *dDetectedIdOutlineColor = @"6EB24C", *dOutsideIdOutlineColor = @"487D95",*dDetectedPOAOutlineColor = @"6EB24C",*dDetectedOutsideIdOutlineColor = @"FFFFFF",*titleMessageStyle = @"Default", *hintMessageStyle = @"Default" ,*titleMessageColor = @"FFFFFF", *hintMessageColor = @"FFFFFF", *backButtonColor = @"FEAD36", *titleTextFontSize=@"", *hintTextFontSize=@"", *idCaptureBorderType = @"Thick", *retryButtonColor = @"FEAD36", *confirmButtonColor = @"FEAD36", *retryButtonBordorColor = @"FEAD36", *confirmButtonStyleColor = @"FFFFFF";
-//
-//        NSString *idOutlineColor = dIdOutlineColor, *detectedidoutlinecolor = dDetectedIdOutlineColor, *idOutsideOutlineColor = dOutsideIdOutlineColor;
-//
-//        int mAlpha = 1;
-//
-//        int idOutlineColorAlpha = mAlpha,detectedidoutlinetransparency = mAlpha, idOutsideOutlineColorAlpha = mAlpha,titleMessageColorAlpha = mAlpha,hintMessageColorAlpha = mAlpha,backButtonColorAlpha = mAlpha, confirmButtonColorAlpha = mAlpha, retryButtonColorAlpha = mAlpha, retryButtonBorderColorAlpha = mAlpha, confirmButtonStyleColorAlpha = mAlpha;
-//        if([imageProcessingData objectForKey:@"IdOutlineColor"]) {
-//            controller.id_outline_color = [imageProcessingData objectForKey:@"IdOutlineColor"];
-//        } else {
-//            controller.id_outline_color = idOutlineColor;
-//        }
-//
-//        if([imageProcessingData objectForKey:@"idOutlineColorAlpha"]) {
-//            controller.id_outline_color_alpha = [[imageProcessingData objectForKey:@"idOutlineColorAlpha"] intValue];
-//        } else {
-//            controller.id_outline_color_alpha = mAlpha;
-//        }
-//
-//        if([imageProcessingData objectForKey:@"ColorOutsideOutline"]) {
-//            controller.id_outline_outside_color = [imageProcessingData objectForKey:@"ColorOutsideOutline"];
-//        } else {
-//            controller.id_outline_outside_color = idOutsideOutlineColor;
-//        }
-//
-//        if([imageProcessingData objectForKey:@"idOutsideOutlineColorAlpha"]) {
-//            controller.id_outline_outside_color_alpha = [[imageProcessingData objectForKey:@"idOutsideOutlineColorAlpha"] intValue];
-//        } else {
-//            controller.id_outline_outside_color_alpha = mAlpha;
-//        }
-//
-//        if([imageProcessingData objectForKey:@"DetectedIdOutlineColor"]) {
-//            controller.detected_id_outline_color = [imageProcessingData objectForKey:@"DetectedIdOutlineColor"];
-//        } else {
-//            controller.detected_id_outline_color = dDetectedIdOutlineColor;
-//        }
-//
-//        if([imageProcessingData objectForKey:@"detectedIdOutlineColorAlpha"]) {
-//            controller.detected_id_outline_color_alpha = [[imageProcessingData objectForKey:@"detectedIdOutlineColorAlpha"] intValue];
-//        } else {
-//            controller.detected_id_outline_color_alpha = mAlpha;
-//        }
-//
-//        if([imageProcessingData objectForKey:@"DetectedColorOutsideOutline"]) {
-//            controller.detected_id_outline_outside_color = [imageProcessingData objectForKey:@"DetectedColorOutsideOutline"];
-//        } else {
-//            controller.detected_id_outline_outside_color = dDetectedOutsideIdOutlineColor;
-//        }
-//
-//        if([imageProcessingData objectForKey:@"detectedIdOutsideOutlineColorAlpha"]) {
-//            controller.detected_id_outline_outside_color_alpha = [[imageProcessingData objectForKey:@"detectedIdOutsideOutlineColorAlpha"] intValue];
-//        } else {
-//            controller.detected_id_outline_outside_color_alpha = mAlpha;
-//        }
-//
-//        if([imageProcessingData objectForKey:@"headerStyleIOS"]) {
-//            controller.title_message_style = [imageProcessingData objectForKey:@"headerStyleIOS"];
-//        } else {
-//            controller.title_message_style = titleMessageStyle;
-//        }
-//
-//        if([imageProcessingData objectForKey:@"styleIOS"]) {
-//            controller.hint_message_style = [imageProcessingData objectForKey:@"styleIOS"];
-//        } else {
-//            controller.hint_message_style = hintMessageStyle;
-//        }
-//
-//        if([imageProcessingData objectForKey:@"headerTextLabelColor"]) {
-//            controller.title_message_color = [imageProcessingData objectForKey:@"headerTextLabelColor"];
-//        } else {
-//            controller.title_message_color = titleMessageColor;
-//        }
-//        if([imageProcessingData objectForKey:@"headerTextLabelAlpha"]) {
-//            controller.title_message_color_alpha = [[imageProcessingData objectForKey:@"headerTextLabelAlpha"] intValue];
-//        } else {
-//            controller.title_message_color_alpha = titleMessageColorAlpha;
-//        }
-//
-//        if([imageProcessingData objectForKey:@"textLabelColor"]) {
-//            controller.hint_message_color = [imageProcessingData objectForKey:@"textLabelColor"];
-//        } else {
-//            controller.hint_message_color = hintMessageColor;
-//        }
-//        if([imageProcessingData objectForKey:@"textLabelAlpha"]) {
-//            controller.hint_message_color_alpha = [[imageProcessingData objectForKey:@"textLabelAlpha"] intValue];
-//        } else {
-//            controller.hint_message_color_alpha = hintMessageColorAlpha;
-//        }
-//        if([imageProcessingData objectForKey:@"backButtonColor"]) {
-//            controller.back_button_color = [imageProcessingData objectForKey:@"backButtonColor"];
-//        } else {
-//            controller.back_button_color = backButtonColor;
-//        }
-//        if([imageProcessingData objectForKey:@"backButtonColorAlpha"]) {
-//            controller.back_button_color_alpha = [[imageProcessingData objectForKey:@"backButtonColorAlpha"] intValue];
-//        } else {
-//            controller.back_button_color_alpha = backButtonColorAlpha;
-//        }
-//
-//        if([imageProcessingData objectForKey:@"headerTextLabelSize"]) {
-//            controller.header_font_size = [imageProcessingData objectForKey:@"headerTextLabelSize"];
-//        } else {
-//            controller.header_font_size = titleTextFontSize;
-//        }
-//        if([imageProcessingData objectForKey:@"textLabelSize"]) {
-//            controller.text_font_size = [imageProcessingData objectForKey:@"textLabelSize"];
-//        } else {
-//            controller.text_font_size = titleTextFontSize;
-//        }
-//
-//        if([imageProcessingData objectForKey:@"idCaptureBorder"]) {
-//            controller.id_Capture_BorderType = [imageProcessingData objectForKey:@"idCaptureBorder"];
-//        } else {
-//            controller.id_Capture_BorderType = idCaptureBorderType;
-//        }
-//
-//        if([imageProcessingData objectForKey:@"IdAlignmentValue"]) {
-//            controller.id_Capture_Title_Align = [imageProcessingData objectForKey:@"IdAlignmentValue"];
-//        } else {
-//            controller.id_Capture_Title_Align = @"Top";
-//        }
-//
-//        if([imageProcessingData objectForKey:@"IdHintMessageAlignmentValue"]) {
-//            controller.id_Capture_Hint_Align = [imageProcessingData objectForKey:@"IdHintMessageAlignmentValue"];
-//        } else {
-//            controller.id_Capture_Hint_Align = @"Center";
-//        }
-//
-//        if([imageProcessingData objectForKey:@"IdTitleAlignment"]) {
-//            if([@"Y" isEqualToString:[imageProcessingData objectForKey:@"IdTitleAlignment"]]) {
-//                controller.hideIdCaptureTitle = false;
-//            } else {
-//                controller.hideIdCaptureTitle = true;;
-//            }
-//        } else {
-//            controller.hideIdCaptureTitle = false;
-//        }
-//
-//        if([imageProcessingData objectForKey:@"IdHintMessageAlignment"]) {
-//            if([@"Y" isEqualToString:[imageProcessingData objectForKey:@"IdHintMessageAlignment"]]) {
-//                controller.hideIdCaptureHintMessage = false;
-//            } else {
-//                controller.hideIdCaptureHintMessage = true;
-//            }
-//        } else {
-//            controller.hideIdCaptureHintMessage = false;
-//        }
-//
-//        if([imageProcessingData objectForKey:@"confirmButtonColor"]) {
-//            controller.confirm_button_color = [imageProcessingData objectForKey:@"confirmButtonColor"];
-//        } else {
-//            controller.confirm_button_color = confirmButtonColor;
-//        }
-//
-//        if([imageProcessingData objectForKey:@"confirmButtonColorAlpha"]) {
-//            controller.confirm_button_color_alpha = [[imageProcessingData objectForKey:@"confirmButtonColorAlpha"] intValue];
-//        } else {
-//            controller.confirm_button_color_alpha = confirmButtonColorAlpha;
-//        }
-//
-//        if([imageProcessingData objectForKey:@"retryButtonColor"]) {
-//            controller.retry_button_color = [imageProcessingData objectForKey:@"retryButtonColor"];
-//        } else {
-//            controller.retry_button_color = retryButtonColor;
-//        }
-//
-//        if([imageProcessingData objectForKey:@"retryButtonColorAlpha"]) {
-//            controller.retry_button_color_alpha = [[imageProcessingData objectForKey:@"retryButtonColorAlpha"] intValue];
-//        } else {
-//            controller.retry_button_color_alpha = retryButtonColorAlpha;
-//        }
-//
-//        if([imageProcessingData objectForKey:@"retryButtonBorderColor"]) {
-//            controller.retry_button_border_color = [imageProcessingData objectForKey:@"retryButtonBorderColor"];
-//        } else {
-//            controller.retry_button_border_color = retryButtonBordorColor;
-//        }
-//
-//        if([imageProcessingData objectForKey:@"retryButtonColorBorderAlpha"]) {
-//            controller.retry_button_border_color_alpha = [[imageProcessingData objectForKey:@"retryButtonColorBorderAlpha"] intValue];
-//        } else {
-//            controller.retry_button_border_color_alpha = retryButtonBorderColorAlpha;
-//        }
-//
-//        if([imageProcessingData objectForKey:@"confirmButtonStyle"]) {
-//            controller.confirm_button_style_color = [imageProcessingData objectForKey:@"confirmButtonStyle"];
-//        } else {
-//            controller.confirm_button_style_color = confirmButtonStyleColor;
-//        }
-//
-//        if([imageProcessingData objectForKey:@"confirmButtonStyleAlpha"]) {
-//            controller.confirm_button_border_style_alpha = [[imageProcessingData objectForKey:@"confirmButtonStyleAlpha"] intValue];
-//        } else {
-//            controller.confirm_button_border_style_alpha = confirmButtonStyleColorAlpha;
-//        }
-//        controller.modalPresentationStyle = UIModalPresentationFullScreen;
-//        controller.delegate = self;
-//        controller.imageProcDataDic = imageProcessingData;
-    }
-}
-
-- (IBAction)unwindToList:(UIStoryboardSegue *)segue {
-    // http://stackoverflow.com/questions/12561735/what-are-unwind-segues-for-and-how-do-you-use-them
-    
-    UIViewController* sourceViewController = segue.sourceViewController;
-//
-//    if ([sourceViewController isKindOfClass:[OpenCvViewControllerAppit class]])
-//    {
-//        [self handle_opencv_callback:sourceViewController callbackFrom:@"ImageConsumer"];
-//    } else if([sourceViewController isKindOfClass:[SkipImageProcessingViewController class]]) {
-//        SkipImageProcessingViewController* view = (SkipImageProcessingViewController*)sourceViewController;
-//        if(!view.isFomResume) {
-//            [self handle_opencv_callback:sourceViewController callbackFrom:@"ImageConsumer"];
-//        } else {
-//            [self performSelector:@selector(lanunchOnResume) withObject:self afterDelay:0.5];
-//        }
-//    }
-}
-
-- (void)lanunchOnResume
-{
-    [self idInstructionScreenResponse:nil];
-}
-
-- (IBAction)unwindToListBack:(UIStoryboardSegue *)segue {
-    // http://stackoverflow.com/questions/12561735/what-are-unwind-segues-for-and-how-do-you-use-them
-    
-//    UIViewController* sourceViewController = segue.sourceViewController;
-//
-//    if ([sourceViewController isKindOfClass:[OpenCvViewControllerAppit class]] ||
-//        [sourceViewController isKindOfClass:[SkipImageProcessingViewController class]])
-//    {
-//        [sourceViewController viewWillDisappear:false];
-//        [self handle_opencv_callback:sourceViewController callbackFrom:@"BackButton"];
-//
-//    }else if ([sourceViewController isKindOfClass:[FaceDetectionViewController class]]){
-//
-//        NSMutableDictionary *configOriginal = [self build_common_return_data];
-//
-//        FaceDetectionViewController* face = (FaceDetectionViewController*)sourceViewController;
-//
-//        [configOriginal setObject: face.responseStatus forKey:@"status"];
-//
-//        //Creating copy of config
-//        NSMutableDictionary *configEllipse = [configOriginal mutableCopy];
-//
-//        if ([face.responseStatus isEqualToString:@"0"]) {
-//            NSMutableDictionary *imagRespOriginal = [NSMutableDictionary new];
-//            [imagRespOriginal setObject:face.respOrigionalImgData forKey:@"OriginalImage"];
-//            //            [imagResp setObject:face.respEllipseImgData forKey:@"EllipseImage"];
-//
-//            NSMutableDictionary *imagRespEllipse = [NSMutableDictionary new];
-//            [imagRespEllipse setObject:face.respEllipseImgData forKey:@"EllipseImage"];
-//
-//            [configOriginal setObject:[self get_json_string:imagRespOriginal] forKey:@"dataFromAppit"];
-//            [configEllipse setObject:[self get_json_string:imagRespEllipse] forKey:@"dataFromAppit"];
-//        }else if ([face.responseStatus isEqualToString:@"26"]) {
-//            // Make toast with a duration and position
-//            [self.view makeToast:@"Face detection failed."
-//                        duration:5.0
-//                        position:CSToastPositionCenter];
-//        }
-//
-//        //convert object to data
-//        NSString *encodedJsonStringOriginal = [self get_encoded_json_string:configOriginal];
-//        NSString *encodedJsonStringEllipse = [self get_encoded_json_string:configEllipse];
-//
-//        //call inform
-//        [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonStringEllipse];
-//        [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonStringOriginal];
-//    }else if ([sourceViewController isKindOfClass:[ScanCardIOViewController class]]){
-//
-//        NSMutableDictionary *config = [self build_common_return_data];
-//
-//        ScanCardIOViewController* scan = (ScanCardIOViewController*)sourceViewController;
-//
-//        [config setObject: scan.responseStatus forKey:@"status"];
-//
-//        NSLog(@"Exit from Scan Card Screen %@", scan.responseStatus);
-//
-//        if ([scan.responseStatus isEqualToString:@"0"]) {
-//            NSMutableDictionary *cardResp = [NSMutableDictionary new];
-//            [cardResp setObject:scan.responseCardType forKey:@"CardType"];
-//            [cardResp setObject:scan.responseCardNumber forKey:@"CardNumber"];
-//            [cardResp setObject:scan.responseCardImage forKey:@"CardImage"];
-//
-//            [config setObject:[self get_json_string:cardResp] forKey:@"dataFromAppit"];
-//        }
-//
-//        //convert object to data
-//        NSString *encodedJsonString = [self get_encoded_json_string:config];
-//
-//        //call inform
-//        [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
-//    }
-}
-
--(void)cardDetectionResponse:(NSMutableDictionary *)result {
-    NSLog(@"Just to chek");
+-(void)videoConferencingResponse : (NSMutableDictionary*) result{
+    NSLog(@"Video conferencing response::: %@", result);
     
     NSMutableDictionary *config = [self build_common_return_data];
     
-    [config setObject: [result objectForKey:@"statusCode"] forKey:@"status"];
-    
-    if([[result objectForKey:@"statusCode"] isEqualToString:@"0"]) {
-        NSMutableDictionary *cardResp = [NSMutableDictionary new];
-        [cardResp setObject:[result objectForKey:@"cardType"] forKey:@"CardType"];
-        [cardResp setObject:[result objectForKey:@"cardNumber"] forKey:@"CardNumber"];
-        [cardResp setObject:[result objectForKey:@"CARD"] forKey:@"CardImage"];
-        
-        [config setObject:[self get_json_string:cardResp] forKey:@"dataFromAppit"];
-    } else if([[result objectForKey:@"statusCode"] isEqualToString:@"9"]) {
-        [config setObject:@"18" forKey:@"status"];
+    if ([[result objectForKey:@"statusCode"] isEqualToString:@"0"]) {
+        [config setObject:@"0" forKey:@"status"];   //Success
+        [config setObject:@"success" forKey:@"message"];   //Success
+    }else{
+        [config setObject:@"1" forKey:@"status"];   //Failed
+        [config setObject:@"cancelled" forKey:@"message"];   //Failed
     }
     
     //convert object to data
-    NSString *encodedJsonString = [self get_encoded_json_string:config];
+    NSString *encodedJsonStringOriginal = [self get_encoded_json_string:config];
     
     //call inform
-    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
-    
+    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonStringOriginal];
 }
 
 -(void)voiceRecordingResponse : (NSMutableDictionary*) result {
@@ -3547,18 +2816,7 @@ static bool idfaceshowInstruction = true;
     [self handle_voice_recording_callback:audioData];
 }
 
-- (NSDictionary *) getVoiceRecordingConfigData
-{
-    NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
-    NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
-    NSArray *voiceRecordingConfigArray = [dataToAppit objectForKey:@"voiceRecordingConfig"];
-    NSDictionary *voiceRecordingConfig = [voiceRecordingConfigArray objectAtIndex:0];
-    return voiceRecordingConfig;
-    
-}
-
-- (void)audioRecorderDidFinishRecording:(AVAudioRecorder *) aRecorder successfully:(BOOL)flag
-{
+- (void)audioRecorderDidFinishRecording:(AVAudioRecorder *) aRecorder successfully:(BOOL)flag {
     
     NSError *err = nil;
     
@@ -3607,77 +2865,82 @@ static bool idfaceshowInstruction = true;
     //}
 }
 
--(void)handle_get_spectification_callback {
-    NSString *currentiOSAppitVersion = [IDServerInterface getURLFromProperty:@"CFBundleShortVersionString"];
-    
-    NSString *buildnumber = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
-    
-    NSMutableString *versionString = [NSMutableString stringWithFormat:@"%@(%@)", currentiOSAppitVersion, buildnumber];
-    
-    //build a config object and convert to json
-    NSMutableDictionary *config = [self build_common_return_data];
-    
-    NSString * uuidString =  [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-    
-    NSMutableDictionary *getSpecDict = [[NSMutableDictionary alloc] init];
-    [getSpecDict setObject:@"iOSAppIT" forKey:@"APPIT"];
-    [getSpecDict setObject:@"iOS" forKey:@"OS"];
-    [getSpecDict setObject:versionString forKey:@"APPIT_VERSION"];
-    [getSpecDict setObject:@"" forKey:@"APPIT_VERSION_CODE"];
-    [getSpecDict setObject:uuidString forKey:@"APPIT_HRADWARE_ID"];
-    
-    NSString *getSpecString = [self get_json_string:getSpecDict];
-    
-    [config setValue:@"0" forKey:@"status"];
-    [config setValue:getSpecString forKey:@"dataFromAppit"];
-    
-    //convert object to data
-    NSString *encodedJsonString = [self get_encoded_json_string:config];
-    
-    //call inform
-    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
-}
-
-- (void)handle_appit_version_callback{
-    
-    //Current iOSAppit Version
-    NSString *currentiOSAppitVersion = [IDServerInterface getURLFromProperty:@"CFBundleShortVersionString"];
-    NSString *currentiOSAppitVersionCode = [currentiOSAppitVersion stringByReplacingOccurrencesOfString:@"." withString:@""];
-    NSString *supportedFeatureList = @"imageProcResult,templateDownload,scanFingerprint,cancelScan,startVoiceRecording,stopVoiceRecording,faceDetection,cardIO,getAppitVersion,thirdPartyResult,signaturecapture,imageSnippetCapture";
-    
-    NSString * uuidString =  [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-    
-    //build a config object and convert to json
-    NSMutableDictionary *config = [self build_common_return_data];
-    
-    [config setObject:@"0" forKey:@"status"];
-    [config setObject:currentiOSAppitVersion forKey:@"dataFromAppit"];
-    [config setObject:currentiOSAppitVersionCode forKey:@"appitVersionCode"];
-    [config setObject:supportedFeatureList forKey:@"supportedFeatureList"];
-    [config setObject:uuidString forKey:@"MACAddress"];
-    [config setObject:uuidString forKey:@"DeviceSerialNumber"];
-    
-    //convert object to data
-    NSString *encodedJsonString = [self get_encoded_json_string:config];
-    
-    //call inform
-    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
-}
-
-- (void)testOutputEqualsInput
+- (NSString*) deviceName
 {
-    //set up data
-    NSString *inputString = @"Hello World!";
-    NSData *inputData = [inputString dataUsingEncoding:NSUTF8StringEncoding];
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    return [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
+}
+
+- (NSString*) process_image:(UIImage*)image resizeImage:(BOOL)resizeImage{
     
-    //compress
-    NSData *compressedData = [inputData gzippedData];
+    if(image == nil){
+        return nil;
+    }
     
-    NSString *compressedString = [compressedData base64EncodedStringWithOptions:0];
-    NSLog(@"compressedString: %@",compressedString);
-    //decode
-    //NSData *outputData = [compressedData gunzippedData];
-    //NSString *outputString = [[NSString alloc] initWithData:outputData encoding:NSUTF8StringEncoding];
+    NSString *imageSize = [imageProcessingData objectForKey:@"ImageSizeLimit"];
+    
+    //We will get image height and width only in case of skip-image processing
+    NSString *imageHeight = [imageProcessingData objectForKey:@"HighResolutionImageHeight"];
+    NSString *imageWidth = [imageProcessingData objectForKey:@"HighResolutionImageWidth"];
+    
+    if(resizeImage && ![NS_String_Utils stringIsNilOrEmpty:imageHeight] && ![NS_String_Utils stringIsNilOrEmpty:imageWidth]){
+        CGFloat width = [imageWidth floatValue];
+        CGFloat height = [imageHeight floatValue];
+        image = [self imageWithImage:image convertToSize:CGSizeMake(width, height)];
+    }
+    
+    int imageSizeLimit = 1000 * 1024;
+    if (imageSize != nil) {
+        imageSizeLimit = [imageSize intValue]*1024;
+    }
+    
+    NSData *imageData = UIImageJPEGRepresentation(image, 0.9);
+    
+    if([imageData length] > imageSizeLimit){
+        //For reducing image size use below jpeg percentage
+        NSArray *jpegQlty = @[@0.85, @0.80, @0.75];
+        
+        for(int i=0; i<[jpegQlty count]; i++) {
+            float qlty = [[jpegQlty objectAtIndex:i] floatValue];
+            imageData = UIImageJPEGRepresentation(image, qlty);
+            if([imageData length] <= imageSizeLimit){
+                break;
+            }
+        }
+    }
+    
+    NSString *base64 = [imageData base64EncodedStringWithOptions:0];
+    return base64;
+}
+
+- (UIImage *)imageWithImage:(UIImage *)image convertToSize:(CGSize)size {
+    UIGraphicsBeginImageContext(size);
+    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    UIImage *destImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return destImage;
+}
+
+#pragma mark - UIButton Action
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if([segue.identifier isEqualToString:@"showOpenCvSeque"]){
+        
+                
+    }else if([segue.identifier isEqualToString:@"showFaceDetectionSegue"]){
+
+    }else if ([segue.identifier isEqualToString:@"showCardScanSegue"]){
+
+    }else if([segue.identifier isEqualToString:@"showVideoRecordingSegue"]){
+
+    }else if([segue.identifier isEqualToString:@"showPasswordSegue"]){
+        PasswordViewController *controller = (PasswordViewController *)segue.destinationViewController;
+        controller.modalPresentationStyle = UIModalPresentationFullScreen;
+        controller.currentURL = [Settings getCurrentURL];
+    }else if([segue.identifier isEqualToString:@"showSkipImageProcessing"]) {
+        
+    }
 }
 
 - (IBAction)optionsButtonClicked:(id)sender {
@@ -3712,10 +2975,10 @@ static bool idfaceshowInstruction = true;
         UIAlertAction *actionOk = [UIAlertAction actionWithTitle:@"Ok"
                                                            style:UIAlertActionStyleDefault
                                                          handler:^(UIAlertAction * action) {
-                                                             
-                                                             //Clearing app data and refreshing url
-                                                             [self clearAppDataAndRefresh];
-                                                         }];
+            
+            //Clearing app data and refreshing url
+            [self clearAppDataAndRefresh];
+        }];
         [alertController addAction:actionCancel];
         [alertController addAction:actionOk];
         alertController.modalPresentationStyle = UIModalPresentationFullScreen;
@@ -3744,8 +3007,8 @@ static bool idfaceshowInstruction = true;
         UIAlertAction *actionOk = [UIAlertAction actionWithTitle:@"Ok"
                                                            style:UIAlertActionStyleDefault
                                                          handler:^(UIAlertAction * action) {
-                                                             
-                                                         }];
+            
+        }];
         [alertController addAction:actionOk];
         alertController.modalPresentationStyle = UIModalPresentationFullScreen;
         [self presentViewController:alertController animated:YES completion:nil];
@@ -3774,66 +3037,6 @@ static bool idfaceshowInstruction = true;
     alertController.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController: alertController animated: YES completion: nil];
     
-}
-
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex != 0)  // 0 == the cancel button
-    {
-        exit(0);
-    }
-}
-
--(void) reloadURL{
-    NSString* url = [Settings getCurrentURL];
-//    self.webView.allowsInlineMediaPlayback = YES;
-//    self.webView.mediaPlaybackRequiresUserAction = NO;
-//    self.webView.allowsPictureInPictureMediaPlayback = NO;
-    
-    [self setCurrentTemplateLocation:url];
-    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
-}
-
--(void) setresettingUrl:(NSString*) resettingUrl {
-    urlRelode = resettingUrl;
-}
-
--(void) setCurrentTemplateLocation: (NSString*) currentURL{
-    
-    NSURL *nsurl = [NSURL URLWithString:currentURL];
-    if(nsurl == nil || nsurl.absoluteString.length==0){
-        currentTemplateLocation = @"DefaultTemplateLocation";
-    }else{
-        NSString *host = nsurl.host;
-        if(host==nil || host.length==0){
-            currentTemplateLocation = @"DefaultTemplateLocation";
-        }else{
-            currentTemplateLocation = host;
-        }
-    }
-    
-    [self createTemplatesDirectory : currentTemplateLocation];
-    currentTemplateLocation = [NSString stringWithFormat:@"%@/%@", TEMPLATES_FOLDER, currentTemplateLocation];
-    NSLog(@"Current Location %@", currentTemplateLocation);
-}
-
--(NSString*)createTemplatesDirectory:(NSString*) currentTemplateFolder{
-    NSFileManager *defaultManager = [NSFileManager defaultManager];
-    
-    NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentPath = ([documentPaths count] > 0) ? [documentPaths objectAtIndex:0] : nil;
-    
-    NSString *currentTemplateFolderPath = [NSString stringWithFormat:@"/templates/%@", currentTemplateFolder];
-    NSString *dataPath = [documentPath stringByAppendingPathComponent:currentTemplateFolderPath];
-    
-    if (![defaultManager fileExistsAtPath:dataPath]){
-        [defaultManager createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil]; //Create folder
-        
-    }
-    
-    //Skip iCloud back-up of templates folder
-    //[self addSkipBackupAttributeToItemAtPath:dataPath];
-    return dataPath;
 }
 
 -(void)clearAppDataAndRefresh{
@@ -3882,136 +3085,62 @@ static bool idfaceshowInstruction = true;
     [self reloadURL];
 }
 
-// video rec
-
--(BOOL)initVideoCameraSession{
-    
-    NSLog(@"initVideoCameraSession - Start");
-    
-    captureSession = [[AVCaptureSession alloc] init];
-    
-    //Adding Video Input
-    AVCaptureDevice *videoDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    if (videoDevice){
-        NSError *error;
-        videoInputDevice = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice error:&error];
-        if (!error){
-            if ([captureSession canAddInput:videoInputDevice]){
-                [captureSession addInput:videoInputDevice];
-            }else{
-                NSLog(@"Couldn't add video input");
-            }
-        }else{
-            NSLog(@"Couldn't create video input");
-        }
-    }else{
-        NSLog(@"Couldn't create video capture device");
-    }
-    
-    
-    //Adding Audio Input
-    AVCaptureDevice *audioCaptureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeAudio];
-    NSError *error = nil;
-    AVCaptureDeviceInput *audioInput = [AVCaptureDeviceInput deviceInputWithDevice:audioCaptureDevice error:&error];
-    if (audioInput){
-        [captureSession addInput:audioInput];
-    }
-    
-    
-    //Adding Movie File Output
-    movieFileOutput = [[AVCaptureMovieFileOutput alloc] init];
-    //    Float64 totalSeconds = 120;            //Total seconds
-    Float64 totalSeconds = recordingDuration;
-    int32_t preferredTimeScale = 30;    //Frames per second
-    CMTime maxDuration = CMTimeMakeWithSeconds(totalSeconds, preferredTimeScale);    //<<SET MAX DURATION
-    [movieFileOutput setMaxRecordedDuration:maxDuration];
-    //    [movieFileOutput setMinFreeDiskSpaceLimit:1024*1024];
-    
-    if ([captureSession canAddOutput:movieFileOutput]){
-        [captureSession addOutput:movieFileOutput];
-    }
-    
-    
-    //Setting image quality
-    [captureSession setSessionPreset:AVCaptureSessionPresetLow];
-    if ([captureSession canSetSessionPreset:AVCaptureSessionPreset640x480]){
-        [captureSession setSessionPreset:AVCaptureSessionPreset640x480];
-    }
-    
-    
-    //Adding Video Preview Layer
-    _videoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:captureSession];
-    [_videoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
-    
-    //Frame Rate
-    
-    BOOL isFPSSupported = NO;
-    AVCaptureDeviceFormat *currentFormat = [videoDevice activeFormat];
-    for ( AVFrameRateRange *range in currentFormat.videoSupportedFrameRateRanges ) {
-        if ( range.maxFrameRate >= 20 && range.minFrameRate <= 20 )        {
-            isFPSSupported = YES;
-            break;
-        }
-    }
-    
-    if( isFPSSupported ) {
-        if ( [videoDevice lockForConfiguration:NULL] ) {
-            videoDevice.activeVideoMaxFrameDuration = CMTimeMake( 1, 15 );
-            videoDevice.activeVideoMinFrameDuration = CMTimeMake( 1, 15 );
-            [videoDevice unlockForConfiguration];
-        }
-    }
-    
-    //Screen size according to current orientation
-    CGRect layerRect = [[[self view] layer] bounds];
-    //Creating CGRect of landscape and portrait mode...according to current screen size
-    if(layerRect.size.height > layerRect.size.width){ //Launched in portrait mode
-        portraitLayerRect = layerRect;
-        landscapeLayerRect = CGRectMake(layerRect.origin.x, layerRect.origin.y, layerRect.size.height, layerRect.size.width);
-    }else{                                            //Launched in landscape mode
-        landscapeLayerRect = layerRect;
-        portraitLayerRect = CGRectMake(layerRect.origin.x, layerRect.origin.y, layerRect.size.height, layerRect.size.width);
-    }
-    //Display Preview Layer
-    [_videoPreviewLayer setBounds:layerRect];
-    [_videoPreviewLayer setPosition:CGPointMake(CGRectGetMidX(layerRect), CGRectGetMidY(layerRect))];
-    //[[[self view] layer] addSublayer:[[self CaptureManager] previewLayer]];
-    //We use this instead so it goes on a layer behind our UI controls (avoids us having to manually bring each control to the front):
-    UIView *cameraView = [[UIView alloc] init];
-    [[self view] addSubview:cameraView];
-    [self.view sendSubviewToBack:cameraView];
-    
-    
-    [[cameraView layer] addSublayer:_videoPreviewLayer];
-    
-    
-    //Start The Capture Session Running
-    [captureSession startRunning];
-    
-    NSLog(@"initVideoCameraSession - End");
-    
-    [_webView setHidden:YES];
-    
-    return TRUE;
-}
-
--(void)destroyVideoCameraSession{
-    [captureSession stopRunning];
-    [captureSession removeInput:videoInputDevice];
-    [captureSession removeOutput:movieFileOutput];
-    [_videoPreviewLayer removeFromSuperlayer];
-    [playerViewController.view removeFromSuperview];
-    
-    _videoPreviewLayer = nil;
-    playerViewController = nil;
-    videoInputDevice = nil;
-    captureSession = nil;
-    movieFileOutput = nil;
-    myTimer = nil;
-}
-
-- (void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    if (buttonIndex != 0)  // 0 == the cancel button
+    {
+        exit(0);
+    }
+}
+
+- (IBAction)closeWkWebviewButtonClicked:(id)sender {
+    
+    [self.webView setHidden:NO];
+    [pdf_webView removeFromSuperview];
+    pdf_webView = nil;
+    [_top_buttons_viewHolder_pdf setHidden:YES];
+    [_another_wkWebview_viewHolder_pdf setHidden:YES];
+}
+- (IBAction)shareDataButtonClicked:(id)sender {
+    if(![NS_String_Utils stringIsNilOrEmpty:content_file_name]) {
+        NSString *documentsDirectory = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+        
+        NSString *resourcePath = [documentsDirectory stringByAppendingPathComponent:@"/Content_Folder/"];
+        
+        resourcePath = [resourcePath stringByAppendingPathComponent:content_file_name];
+        
+        if ([[NSFileManager defaultManager] fileExistsAtPath:resourcePath]) {
+            NSURL *URL = [NSURL fileURLWithPath:resourcePath];
+            
+            if (URL) {
+                self->documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:URL];
+                
+                [self->documentInteractionController setDelegate:self];
+                
+                [self->documentInteractionController presentOptionsMenuFromRect:[_top_buttons_viewHolder_pdf frame] inView:self.view animated:YES];
+            }
+        }
+        
+    }
+    
+}
+
+#pragma mark - Other Methods
+
+- (IBAction)unwindToList:(UIStoryboardSegue *)segue {
+    // http://stackoverflow.com/questions/12561735/what-are-unwind-segues-for-and-how-do-you-use-them
+}
+
+- (IBAction)unwindToListBack:(UIStoryboardSegue *)segue {
+    // http://stackoverflow.com/questions/12561735/what-are-unwind-segues-for-and-how-do-you-use-them
+}
+
+- (void)lanunchOnResume
+{
+    [self idInstructionScreenResponse:nil];
+}
+
+- (void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error {
     
     NSLog(@"captureOutput - Start");
     if(!isBackPressed) {
@@ -4168,72 +3297,71 @@ static bool idfaceshowInstruction = true;
     dispatch_queue_t _processingQueue = dispatch_queue_create("assetAudioWriterQueue", NULL);
     [videoWriterInput requestMediaDataWhenReadyOnQueue:_processingQueue usingBlock:
      ^{
-         while ([videoWriterInput isReadyForMoreMediaData]) {
-             CMSampleBufferRef sampleBuffer;
-             if ([reader status] == AVAssetReaderStatusReading &&
-                 (sampleBuffer = [asset_reader_output copyNextSampleBuffer])) {
-                 BOOL result = [videoWriterInput appendSampleBuffer:sampleBuffer];
-                 CFRelease(sampleBuffer);
-                 if (!result) {
-                     // PROBLEM SEEMS TO BE HERE... result is getting false value....
-                     [reader cancelReading];
-                     NSLog(@"NO RESULT");
-                     NSLog(@"videoWriter.error: %@", videoWriter.error);
-                     break;
-                 }
-             } else {
-                 [videoWriterInput markAsFinished];
-                 switch ([reader status]) {
-                     case AVAssetReaderStatusUnknown:
-                         break;
-                     case AVAssetReaderStatusReading:
-                         // the reader has more for other tracks, even if this one is done
-                         break;
-                     case AVAssetReaderStatusCompleted:
-                         // your method for when the conversion is done
-                         // should call finishWriting on the writer
-                         //hook up audio track
-                         [audioReader startReading];
-                         [videoWriter startSessionAtSourceTime:kCMTimeZero];
-                         // dispatch_queue_t mediaInputQueue = dispatch_queue_create("mediaInputQueue", NULL);
-                         // [audioWriterInput requestMediaDataWhenReadyOnQueue:mediaInputQueue usingBlock:^
-                         //{
-                         NSLog(@"Request");
-                         NSLog(@"Asset Writer ready :%d",audioWriterInput.readyForMoreMediaData);
-                         while (audioWriterInput.readyForMoreMediaData) {
-                             CMSampleBufferRef nextBuffer;
-                             if ([audioReader status] == AVAssetReaderStatusReading &&
-                                 (nextBuffer = [readerOutput copyNextSampleBuffer])) {
-                                 NSLog(@"Ready");
-                                 if (nextBuffer) {
-                                     NSLog(@"NextBuffer");
-                                     [audioWriterInput appendSampleBuffer:nextBuffer];
-                                 }
-                             }else{
-                                 [audioWriterInput markAsFinished];
-                                 switch ([audioReader status]) {
-                                     case AVAssetReaderStatusCompleted:
-                                         [videoWriter finishWriting];
-                                         NSLog(@"setting  final... the URL");
-                                         //  self.finalURL=[[NSURL alloc]initFileURLWithPath:newName];
-                                         finalURL = [[NSURL alloc]initFileURLWithPath:outputPath];
-                                         dispatch_semaphore_signal(semaphore);
-                                         //[self playRecordedVideo:finalURL];
-                                         break;
-                                 }
-                             }
-                         }
-                         break;
-                     case AVAssetReaderStatusFailed:
-                         [videoWriter cancelWriting];
-                         break;
-                     case AVAssetReaderStatusCancelled:
-                         break;
-                 }
-                 break;
-             }
-         }
-     }
+        while ([videoWriterInput isReadyForMoreMediaData]) {
+            CMSampleBufferRef sampleBuffer;
+            if ([reader status] == AVAssetReaderStatusReading &&
+                (sampleBuffer = [asset_reader_output copyNextSampleBuffer])) {
+                BOOL result = [videoWriterInput appendSampleBuffer:sampleBuffer];
+                CFRelease(sampleBuffer);
+                if (!result) {
+                    // PROBLEM SEEMS TO BE HERE... result is getting false value....
+                    [reader cancelReading];
+                    NSLog(@"NO RESULT");
+                    NSLog(@"videoWriter.error: %@", videoWriter.error);
+                    break;
+                }
+            } else {
+                [videoWriterInput markAsFinished];
+                switch ([reader status]) {
+                    case AVAssetReaderStatusUnknown:
+                        break;
+                    case AVAssetReaderStatusReading:
+                        // the reader has more for other tracks, even if this one is done
+                        break;
+                    case AVAssetReaderStatusCompleted:
+                        // your method for when the conversion is done
+                        // should call finishWriting on the writer
+                        //hook up audio track
+                        [audioReader startReading];
+                        [videoWriter startSessionAtSourceTime:kCMTimeZero];
+                        // dispatch_queue_t mediaInputQueue = dispatch_queue_create("mediaInputQueue", NULL);
+                        // [audioWriterInput requestMediaDataWhenReadyOnQueue:mediaInputQueue usingBlock:^
+                        //{
+                        NSLog(@"Request");
+                        NSLog(@"Asset Writer ready :%d",audioWriterInput.readyForMoreMediaData);
+                        while (audioWriterInput.readyForMoreMediaData) {
+                            CMSampleBufferRef nextBuffer;
+                            if ([audioReader status] == AVAssetReaderStatusReading &&
+                                (nextBuffer = [readerOutput copyNextSampleBuffer])) {
+                                NSLog(@"Ready");
+                                if (nextBuffer) {
+                                    NSLog(@"NextBuffer");
+                                    [audioWriterInput appendSampleBuffer:nextBuffer];
+                                }
+                            }else{
+                                [audioWriterInput markAsFinished];
+                                switch ([audioReader status]) {
+                                    case AVAssetReaderStatusCompleted:
+                                        [videoWriter finishWriting];
+                                        NSLog(@"setting  final... the URL");
+                                        //  self.finalURL=[[NSURL alloc]initFileURLWithPath:newName];
+                                        finalURL = [[NSURL alloc]initFileURLWithPath:outputPath];
+                                        dispatch_semaphore_signal(semaphore);
+                                        break;
+                                }
+                            }
+                        }
+                        break;
+                    case AVAssetReaderStatusFailed:
+                        [videoWriter cancelWriting];
+                        break;
+                    case AVAssetReaderStatusCancelled:
+                        break;
+                }
+                break;
+            }
+        }
+    }
      ];
     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
     NSLog(@"Write Ended");
@@ -4308,309 +3436,666 @@ static bool idfaceshowInstruction = true;
     }
 }
 
--(void) restrictRotation_toMaskAll:(BOOL) restriction
-{
-    AppDelegate* appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
-    appDelegate.restrictOrientationToSupportAll = restriction;
-}
+#pragma mark - Un-Used Methods
 
--(void)addFooter{
-    bool isIphoneX = false;
-    if([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
-        NSLog(@"iPhone");
-        int height = (int)[[UIScreen mainScreen] nativeBounds].size.height;
-        int width = (int)[[UIScreen mainScreen] nativeBounds].size.width;
-        
-        switch (height) {
-                
-            case 2688:
-                isIphoneX = true;
-                break;
-            case 1792:
-                isIphoneX = true;
-                break;
-            case 2436:
-                isIphoneX = true;
-                break;
-        }
+-(void)initViews {
+    int height = self.view.frame.size.height;
+    int width = self.view.frame.size.width;
+    int centerX = width/2;
+    int centerY = height/2;
+    int buttonWidhHeight = 100;
+    int progressPadding = 40;
+    if(height <= 623) {
+        buttonWidhHeight = 50;
+        progressPadding = 20;
     }
+    int padding = 10;
+    int botPadding = 0;
     
-    if(isIphoneX) {
-        if(self.webView != nil){
-            self.webView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 130);
-        }
-    }
+    UIView *scrollView = [self view];
+    
+    //Mute UnMute Video Button
+    muteUnmuteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [muteUnmuteBtn setFrame:CGRectMake(padding, height-buttonWidhHeight - botPadding, buttonWidhHeight, buttonWidhHeight)];
+    [muteUnmuteBtn addTarget:self action:@selector(mute_unmute_video:) forControlEvents:UIControlEventTouchUpInside];
+    [muteUnmuteBtn setImage:[UIImage imageNamed:@"unmute_rec.png"] forState:UIControlStateNormal];
+    [scrollView addSubview:muteUnmuteBtn];
+    
+    //Play Pause Button
+    playPauseVideo = [UIButton buttonWithType:UIButtonTypeCustom];
+    [playPauseVideo setFrame:CGRectMake(width-buttonWidhHeight-padding, height-buttonWidhHeight - botPadding, buttonWidhHeight, buttonWidhHeight)];
+    [playPauseVideo addTarget:self action:@selector(play_pause_video:) forControlEvents:UIControlEventTouchUpInside];
+    [playPauseVideo setImage:[UIImage imageNamed:@"done_rec.png"] forState:UIControlStateNormal];
+    [scrollView addSubview:playPauseVideo];
+    
+    //Progress Bar
+    // UIProgressView *progressView = [[UIProgressView alloc] init];
+    progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
+    progressView.frame = CGRectMake(0,height-buttonWidhHeight - botPadding - progressPadding,width,buttonWidhHeight);
+    [scrollView addSubview:progressView];
+    //    [progressView setProgress:0.0];
+    progressView.trackTintColor = [UIColor blueColor];
+    progressView.progressTintColor = [UIColor whiteColor];
+    progressView.transform = CGAffineTransformMakeScale(-1.0f, 1.0f);
+    
+    //Scrolled label to be shown
+    labelScrolledData = [[UITextView alloc] init];
+    labelScrolledData.frame = CGRectMake(0,progressView.frame.origin.y - 60 , self.view.frame.size.width, 60);
+    [labelScrolledData setFont:[UIFont fontWithName:@"Arial" size:18]];
+    [labelScrolledData setScrollEnabled:YES];
+    [labelScrolledData setUserInteractionEnabled:YES];
+    [labelScrolledData setBackgroundColor:[UIColor clearColor]];
+    [labelScrolledData setTextAlignment:NSTextAlignmentCenter];
+    [labelScrolledData setTextColor:[UIColor whiteColor]];
+    [self.view addSubview:labelScrolledData];
+    
+    //recording timer label
+    recordingLabel = [[UILabel alloc] init];
+    [recordingLabel setFrame: CGRectMake(0,height-(buttonWidhHeight+55) - botPadding - progressPadding,width,buttonWidhHeight)];
+    [recordingLabel setText:@"Recording"];
+    [recordingLabel setTextColor:[UIColor whiteColor]];
+    [recordingLabel setTextAlignment:NSTextAlignmentCenter];
+    [recordingLabel setLineBreakMode:NSLineBreakByWordWrapping];
+    [self.view addSubview:recordingLabel];
+    
+    recordingTimeLabel = [[UILabel alloc] init];
+    [recordingTimeLabel setFrame: CGRectMake(0,height-(buttonWidhHeight+30) - botPadding - progressPadding,width,buttonWidhHeight)];
+    [recordingTimeLabel setFont:[UIFont systemFontOfSize:25]];
+    [recordingTimeLabel setText:@"00:00"];
+    [recordingTimeLabel setTextColor:[UIColor whiteColor]];
+    [recordingTimeLabel setLineBreakMode:NSLineBreakByWordWrapping];
+    [recordingTimeLabel setTextAlignment:NSTextAlignmentCenter];
+    [self.view addSubview:recordingTimeLabel];
+    
+    
+    //Start Stop Button
+    recordingButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [recordingButton setFrame:CGRectMake(centerX-(buttonWidhHeight/2), height-buttonWidhHeight - botPadding, buttonWidhHeight, buttonWidhHeight)];
+    [recordingButton addTarget:self action:@selector(start_stop_recording:) forControlEvents:UIControlEventTouchUpInside];
+    [recordingButton setImage:[UIImage imageNamed:@"start_recording.png"] forState:UIControlStateNormal];
+    [scrollView addSubview:recordingButton];
+    
+    //Toggle Camera Button
+    toogleCamera = [UIButton buttonWithType:UIButtonTypeCustom];
+    [toogleCamera setFrame:CGRectMake(width-buttonWidhHeight-padding, height-buttonWidhHeight - botPadding, buttonWidhHeight, buttonWidhHeight)];
+    [toogleCamera addTarget:self action:@selector(toggle_camera:) forControlEvents:UIControlEventTouchUpInside];
+    [toogleCamera setImage:[UIImage imageNamed:@"front_cam.png"] forState:UIControlStateNormal];
+    [scrollView addSubview:toogleCamera];
+    
+    //Video View Expand
+    expandVideo = [UIButton buttonWithType:UIButtonTypeCustom];
+    [expandVideo setFrame:CGRectMake(width-padding-buttonWidhHeight, padding, buttonWidhHeight, buttonWidhHeight)];
+    [expandVideo addTarget:self action:@selector(expand_video:) forControlEvents:UIControlEventTouchUpInside];
+    [expandVideo setImage:[UIImage imageNamed:@"minimize.png"] forState:UIControlStateNormal];
+    [scrollView addSubview:expandVideo];
+    
+    //Adding BACK button -Start
+    backUIButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    CGRect backButtonRect = CGRectMake(10, 10 , 50, 50);
+    [backUIButton setFrame:backButtonRect];
+    [backUIButton setImage:[UIImage imageNamed:@"back_cancel_arrow.png"] forState:UIControlStateNormal];
+    
+    [backUIButton addTarget:self action:@selector(backPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [scrollView addSubview:backUIButton];
+    
+    [playPauseVideo setHidden:YES];
+    [recordingButton setHidden:YES];
+    [toogleCamera setHidden:YES];
+    [expandVideo setHidden:YES];
+    [backUIButton setHidden:YES];
+    [muteUnmuteBtn setHidden:YES];
+    [progressView setHidden:YES];
+    [labelScrolledData setHidden:YES];
 }
 
--(void) checkCameraPermission_videoConference:(NSDictionary*)videoConfDictionary {
+-(void)play_pause_video:(UIButton*)button{
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [playPauseVideo setHidden:YES];
+    [recordingButton setHidden:YES];
+    [toogleCamera setHidden:YES];
+    [muteUnmuteBtn setHidden:YES];
+    [expandVideo setHidden:YES];
+    [backUIButton setHidden:YES];
+    [labelScrolledData setHidden:YES];
+    [_webView setHidden:NO];
+    [recordingTimeLabel setHidden:YES];
+    [recordingLabel setHidden:YES];
+    [playerViewController.player pause];
+    [self destroyVideoCameraSession];
+    [toogleCamera setImage:[UIImage imageNamed:@"front_cam.png"] forState:UIControlStateNormal];
+    isMute = false;
+    [muteUnmuteBtn setImage:[UIImage imageNamed:@"unmute_rec.png"] forState:UIControlStateNormal];
     
-    NSMutableDictionary *videoConferenceDictionary = [[NSMutableDictionary alloc] init];
-        
-    [videoConferenceDictionary setObject:[videoConfDictionary objectForKey:@"conferenceId"] forKey:@"conferenceId"];
-    [videoConferenceDictionary setObject:[videoConfDictionary objectForKey:@"source"] forKey:@"source"];
-    [videoConferenceDictionary setObject:[videoConfDictionary objectForKey:@"destination"] forKey:@"destination"];
-    [videoConferenceDictionary setObject:[videoConfDictionary objectForKey:@"appName"] forKey:@"appName"];
-    [videoConferenceDictionary setObject:[videoConfDictionary objectForKey:@"targetOrigin"] forKey:@"targetOrigin"];
-    [videoConferenceDictionary setObject:[videoConfDictionary objectForKey:@"conferenceServerUrl"] forKey:@"conferenceServerUrl"];
-    
-    [self getCameraPermission:videoConferenceDictionary];
-}
-
--(void)videoConferencingResponse : (NSMutableDictionary*) result{
-    NSLog(@"Video conferencing response::: %@", result);
+    [self restrictRotation_toMaskAll:YES];
     
     NSMutableDictionary *config = [self build_common_return_data];
+    [config setObject:@"42" forKey:@"status"];
     
-    if ([[result objectForKey:@"statusCode"] isEqualToString:@"0"]) {
-        [config setObject:@"0" forKey:@"status"];   //Success
-        [config setObject:@"success" forKey:@"message"];   //Success
+    NSString *encodedJsonString = [self get_encoded_json_string:config];
+    
+    divideInSecond = 10.0;
+    numberOfPart = ceil(videoRecSeconds/divideInSecond);
+    videoChunkSize = ceil(base64Encoded.length/numberOfPart);
+    
+    NSString *time = [[NSString alloc]
+                      initWithFormat:@"%02d:%02d",0, 0];
+    recordingTimeLabel.text = time;
+    
+    //call inform
+    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
+    
+}
+
+-(void)mute_unmute_video:(UIButton*)button {
+    if(!isMute) {
+        isMute = true;
+        [muteUnmuteBtn setImage:[UIImage imageNamed:@"mute_rec.png"] forState:UIControlStateNormal];
+    }else {
+        isMute = false;
+        [muteUnmuteBtn setImage:[UIImage imageNamed:@"unmute_rec.png"] forState:UIControlStateNormal];
+    }
+}
+
+-(void)start_stop_recording:(UIButton*)button {
+    
+    [playerViewController.view removeFromSuperview];
+    BOOL recording = [self toggleVideoRecording];
+    if(recording){
+        [recordingButton setImage:[UIImage imageNamed:@"stop_recording.png"] forState:UIControlStateNormal];
+        recordingStarted = @"true";
+        [self refreshVideoRecordingScreen];
     }else{
-        [config setObject:@"1" forKey:@"status"];   //Failed
-        [config setObject:@"cancelled" forKey:@"message"];   //Failed
+        [recordingButton setImage:[UIImage imageNamed:@"start_recording.png"] forState:UIControlStateNormal];
+        recordingStarted = @"false";
+        [self refreshVideoRecordingScreen];
+    }
+    
+}
+
+-(void)toggle_camera:(UIButton*)button{
+    [playerViewController.view removeFromSuperview];
+    BOOL isBackCamera = [self toggleCameraPosition];
+    if(isBackCamera){
+        [toogleCamera setImage:[UIImage imageNamed:@"front_cam.png"] forState:UIControlStateNormal];
+    }else{
+        [toogleCamera setImage:[UIImage imageNamed:@"back_cam.png"] forState:UIControlStateNormal];
+    }
+}
+
+-(void)backPressed:(UIButton*)button{
+    NSLog(@"Back Pressed");
+    if(recordingInProgress) {
+        NSLog(@"STOP RECORDING");
+        recordingInProgress = NO;
+        [movieFileOutput stopRecording];
+        [myTimer invalidate];
+    }
+    count=0;
+    minute=0;
+    NSString *time = [[NSString alloc]
+                      initWithFormat:@"%02d:%02d",0, 0];
+    recordingTimeLabel.text = time;
+    
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    isBackPressed = true;
+    [playPauseVideo setHidden:YES];
+    [labelScrolledData setHidden:YES];
+    [recordingButton setHidden:YES];
+    [toogleCamera setHidden:YES];
+    [muteUnmuteBtn setHidden:YES];
+    [expandVideo setHidden:YES];
+    [backUIButton setHidden:YES];
+    [_webView setHidden:NO];
+    [progressView setProgress:0.0];
+    [progressView setHidden:YES];
+    [playerViewController.player pause];
+    [recordingTimeLabel setHidden:YES];
+    [recordingLabel setHidden:YES];
+    [self destroyVideoCameraSession];
+    [toogleCamera setImage:[UIImage imageNamed:@"front_cam.png"] forState:UIControlStateNormal];
+    isMute = false;
+    [muteUnmuteBtn setImage:[UIImage imageNamed:@"unmute_rec.png"] forState:UIControlStateNormal];
+    
+    [self restrictRotation_toMaskAll:YES];
+    
+    NSMutableDictionary *config = [self build_common_return_data];
+    [config setObject:@"41" forKey:@"status"];
+    
+    NSString *encodedJsonString = [self get_encoded_json_string:config];
+    
+    //    divideInSecond = 10.0;
+    //    numberOfPart = ceil(videoRecSeconds/divideInSecond);
+    //    videoChunkSize = ceil(base64Encoded.length/numberOfPart);
+    
+    //call inform
+    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
+}
+
+-(void)destroyVideoCameraSession{
+    [captureSession stopRunning];
+    [captureSession removeInput:videoInputDevice];
+    [captureSession removeOutput:movieFileOutput];
+    [_videoPreviewLayer removeFromSuperlayer];
+    [playerViewController.view removeFromSuperview];
+    
+    _videoPreviewLayer = nil;
+    playerViewController = nil;
+    videoInputDevice = nil;
+    captureSession = nil;
+    movieFileOutput = nil;
+    myTimer = nil;
+}
+
+-(void)expand_video:(UIButton*)button{
+    NSLog(@"expand_video");
+    CGRect layerRect = [[[self view] layer] bounds];
+    if(!isMinimized) {
+        
+        isMinimized = true;
+        int x = layerRect.size.width*65/100;
+        int y = 0;
+        int w = layerRect.size.width-x;
+        int h = layerRect.size.height*35/100;
+        //TODO
+        layerRect = CGRectMake(x, y, w, h);
+        
+        [_videoPreviewLayer setBounds:layerRect];
+        [_videoPreviewLayer setPosition:CGPointMake(CGRectGetMidX(layerRect),
+                                                    CGRectGetMidY(layerRect))];
+        if(nil != playerViewController) {
+            playerViewController.view.frame = CGRectMake(x,y,w,h);
+            [self.view bringSubviewToFront:recordingButton];
+        }
+        
+        [_webView setHidden:NO];
+        [self.view sendSubviewToBack:_webView];
+        
+        float height = _videoPreviewLayer.bounds.size.height;
+        float width = _videoPreviewLayer.bounds.size.width;
+        int screenHeight = self.view.frame.size.height;
+        int centerX = width/2;
+        int buttonWidhHeight = 100;
+        int progressPadding = 40;
+        if(screenHeight <= 623) {
+            buttonWidhHeight = 50;
+            progressPadding = 20;
+        }
+        [recordingButton setFrame:CGRectMake(_videoPreviewLayer.bounds.origin.x + centerX-(buttonWidhHeight/2), height-buttonWidhHeight, buttonWidhHeight, buttonWidhHeight)];
+        
+        [progressView setFrame:CGRectMake(_videoPreviewLayer.bounds.origin.x + 2, height-buttonWidhHeight - progressPadding, width, buttonWidhHeight)];
+        fullScreen = false;
+        [self refreshVideoRecordingScreen];
+        [expandVideo setImage:[UIImage imageNamed:@"maximize.png"] forState:UIControlStateNormal];
+        
+    } else {
+        isMinimized = false;
+        [_videoPreviewLayer setBounds:layerRect];
+        [_videoPreviewLayer setPosition:CGPointMake(CGRectGetMidX(layerRect),
+                                                    CGRectGetMidY(layerRect))];
+        if(nil != playerViewController) {
+            int x = 50;
+            int y = 110;
+            if(layerRect.size.height <= 623) {
+                x = 25;
+                y = 60;
+            }
+            playerViewController.view.frame = CGRectMake(x,y,self.view.frame.size.width-x-x,self.view.frame.size.height-y-y);
+        }
+        [_webView setHidden:YES];
+        float navigationheight = self.navigationController.navigationBar.frame.size.height;
+        int height = self.view.frame.size.height;
+        int width = self.view.frame.size.width;
+        int centerX = width/2;
+        int centerY = height/2;
+        int buttonWidhHeight = 100;
+        int progressPadding = 40;
+        if(height <= 623) {
+            buttonWidhHeight = 50;
+            progressPadding = 20;
+        }
+        int padding = 10;
+        int botPadding = 0;
+        
+        [recordingButton setFrame:CGRectMake(centerX-(buttonWidhHeight/2), height-buttonWidhHeight - botPadding, buttonWidhHeight, buttonWidhHeight)];
+        
+        [progressView setFrame:CGRectMake(0, height-buttonWidhHeight - botPadding - progressPadding, width, buttonWidhHeight)];
+        
+        fullScreen = true;
+        [self refreshVideoRecordingScreen];
+        [expandVideo setImage:[UIImage imageNamed:@"minimize.png"] forState:UIControlStateNormal];
+    }
+}
+
+-(BOOL)toggleVideoRecording{
+    
+    if (!recordingInProgress){
+        
+        NSLog(@"START RECORDING");
+        [progressView setProgress:0.0];
+        recordingInProgress = YES;
+        
+        //Create temporary URL to record to
+        NSString *outputPath = [[NSString alloc] initWithFormat:@"%@%@", NSTemporaryDirectory(), @"output.mov"];
+        
+        NSURL *outputURL = [[NSURL alloc] initFileURLWithPath:outputPath];
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        if ([fileManager fileExistsAtPath:outputPath]){
+            NSError *error;
+            if ([fileManager removeItemAtPath:outputPath error:&error] == NO){
+                //Error - handle if requried
+            }
+        }
+        
+        //Start recording
+        [movieFileOutput startRecordingToOutputFileURL:outputURL recordingDelegate:self];
+        count = 0;
+        minute=0;
+        [self startProgress];
+        
+    }else{
+        NSLog(@"STOP RECORDING");
+        recordingInProgress = NO;
+        [movieFileOutput stopRecording];
+        [myTimer invalidate];
+    }
+    return recordingInProgress;
+}
+
+- (BOOL)toggleCameraPosition{
+    
+    BOOL isBackCamera = YES;
+    //Only do if device has multiple cameras
+    if ([[AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo] count] > 1){
+        NSLog(@"Toggle camera");
+        NSError *error;
+        //AVCaptureDeviceInput *videoInput = [self videoInput];
+        AVCaptureDeviceInput *newVideoInput;
+        AVCaptureDevicePosition position = [[videoInputDevice device] position];
+        if (position == AVCaptureDevicePositionBack){
+            newVideoInput = [[AVCaptureDeviceInput alloc] initWithDevice:[self cameraWithPosition:AVCaptureDevicePositionFront] error:&error];
+            isBackCamera = NO;
+        }else if (position == AVCaptureDevicePositionFront){
+            newVideoInput = [[AVCaptureDeviceInput alloc] initWithDevice:[self cameraWithPosition:AVCaptureDevicePositionBack] error:&error];
+            isBackCamera = YES;
+        }
+        
+        if (newVideoInput != nil){
+            [captureSession beginConfiguration];//We can now change the inputs and output configuration.  Use commitConfiguration to end
+            [captureSession removeInput:videoInputDevice];
+            if ([captureSession canAddInput:newVideoInput]){
+                [captureSession addInput:newVideoInput];
+                videoInputDevice = newVideoInput;
+            }else{
+                [captureSession addInput:videoInputDevice];
+            }
+            
+            [captureSession commitConfiguration];
+        }
+    }
+    return isBackCamera;
+}
+
+-(void)startProgress {
+    
+    myTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 repeats:YES block:^(NSTimer * _Nonnull timer) {
+        count++;
+        if(count <=recordingDuration) {
+            progressView.progress =(float)count/recordingDuration;
+            if(count==60){ //second
+                minute++;
+                count = 0;
+            }
+            NSString *time = [[NSString alloc]
+                              initWithFormat:@"%02d:%02d",minute,count];
+            recordingTimeLabel.text = time;
+        } else {
+            [myTimer invalidate];
+            myTimer = nil;
+        }
+    }];
+}
+
+- (AVCaptureDevice *) cameraWithPosition:(AVCaptureDevicePosition) position{
+    NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+    for (AVCaptureDevice *device in devices){
+        if ([device position] == position){
+            return device;
+        }
+    }
+    return nil;
+}
+
+- (void)download_templates {
+    NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
+    NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
+    NSArray *templateDownloadArray = [dataToAppit objectForKey:@"templateDownload"];
+    NSDictionary *templateDownload = [templateDownloadArray objectAtIndex:0];
+    //NSArray *templateIdsArray = [templateDownload objectForKey:@"TemplateIds"];
+    NSString* downloadStatus;
+    
+    if(templateDownloadStatus == 0){
+        idServerInterface = [IDServerInterface alloc];
+        idServerInterface.currentTemplateLocation = currentTemplateLocation;
+        
+        BOOL status = [idServerInterface isTemplateDownloadingRequire:templateDownload];
+        if(status){
+            NSLog(@"download_templates : Templates update require...");
+            NSString* statusCode = [idServerInterface downloadTemplates:templateDownload];
+            templateDownloadStatus = 1;
+            downloadStatus = @"23";
+        }else{
+            NSLog(@"download_templates : Templates are updated...");
+            templateDownloadStatus = 0;
+            downloadStatus = @"38";
+        }
+    }else{
+        if ([idServerInterface getTemplateDownloadStatus] == 2){
+            templateDownloadStatus = 2;
+        }
+        
+        if(templateDownloadStatus == 1){
+            downloadStatus = @"23";
+        }else if(templateDownloadStatus == 2){
+            templateDownloadStatus = 0;
+            downloadStatus = @"0";
+        }
+    }
+    //NSLog(@"templateDownloadStatus: %d", templateDownloadStatus);
+    
+    //build a config object and convert to json
+    NSMutableDictionary *config = [self build_common_return_data];
+    [config setObject:downloadStatus forKey:@"status"];
+    //convert object to data
+    NSString *encodedJsonString = [self get_encoded_json_string:config];
+    //call inform
+    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
+}
+
+- (void)download_templates_old {
+    //build a config object and convert to json
+    NSMutableDictionary *config = [self build_common_return_data];
+    
+    NSString *dataFile = [[NSBundle mainBundle] pathForResource:@"colorado_id_front" ofType:@"xml" inDirectory:@"/templates/xml"];
+    NSFileManager *filemgr = [NSFileManager defaultManager];
+    NSData *databuffer = [filemgr contentsAtPath: dataFile];
+    NSString *docPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/colorado_id_front_new.xml"];
+    NSString *fileData = [[NSString alloc] initWithData:databuffer encoding:NSUTF8StringEncoding];
+    [fileData writeToFile:docPath
+               atomically:YES
+                 encoding:NSUTF8StringEncoding
+                    error:NULL];
+    
+    [config setObject:@"TemplateDownloadCompleted" forKey:@"dataFromAppit"];
+    
+    
+    //convert object to data
+    NSString *encodedJsonString = [self get_encoded_json_string:config];
+    
+    //call inform
+    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
+}
+
+- (void)handle_opencv_callback:(UIViewController *)sourceViewController callbackFrom:(NSString*)callbackFrom {
+    
+    UIImage* image;
+    NSString* summary;
+    
+    //build a config object and convert to json
+    NSMutableDictionary *config = [self build_common_return_data];
+    if (image != nil) {
+        //0 = Success
+        [config setObject:@"0" forKey:@"status"];
+        [config setObject:summary forKey:@"dataFromAppit"];
+    }else{
+        if ([callbackFrom isEqualToString:@"BackButton"]) {
+            //2 = Error
+            [config setObject:@"2" forKey:@"status"];
+            callbackExecuted = true;
+        }else{
+            if (!callbackExecuted) {
+                //1 = Error
+                [config setObject:@"1" forKey:@"status"];
+            }else{
+                [config setObject:@"2" forKey:@"status"];
+            }
+        }
     }
     
     //convert object to data
-    NSString *encodedJsonStringOriginal = [self get_encoded_json_string:config];
+    NSString *encodedJsonString = [self get_encoded_json_string:config];
     
     //call inform
-    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonStringOriginal];
+    [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
 }
 
--(void)initializeSDKResponse : (NSMutableDictionary*) result{
-    NSLog(@"initializeSDKResponse ::: %@", result);
+- (void)testOutputEqualsInput {
+    //set up data
+    NSString *inputString = @"Hello World!";
+    NSData *inputData = [inputString dataUsingEncoding:NSUTF8StringEncoding];
+    
+    //compress
+    NSData *compressedData = [inputData gzippedData];
+    
+    NSString *compressedString = [compressedData base64EncodedStringWithOptions:0];
+    NSLog(@"compressedString: %@",compressedString);
+    //decode
+    //NSData *outputData = [compressedData gunzippedData];
+    //NSString *outputString = [[NSString alloc] initWithData:outputData encoding:NSUTF8StringEncoding];
 }
 
--(void)getCameraPermission:(NSMutableDictionary*)videoConferenceDictionary{
-    
-    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-    switch (authStatus) {
-        case AVAuthorizationStatusAuthorized: { // camera authorized
-            // do camera intensive stuff
-            [self notifyUserOfCameraAccessAccept:videoConferenceDictionary];
-        }
-            break;
-        case AVAuthorizationStatusNotDetermined: { // request authorization
-            
-            [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    
-                    if(granted) {
-                        // do camera intensive stuff
-                        [self notifyUserOfCameraAccessAccept:videoConferenceDictionary];
-                    } else {
-                        [self notifyUserOfCameraAccessDenial];
-                    }
-                });
-            }];
-        }
-            break;
-        case AVAuthorizationStatusRestricted:
-        case AVAuthorizationStatusDenied: {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self notifyUserOfCameraAccessDenial];
-            });
-        }
-            break;
-        default:
-            break;
-    }
+-(void) setresettingUrl:(NSString*) resettingUrl {
+    urlRelode = resettingUrl;
 }
 
-- (void)notifyUserOfCameraAccessDenial {
-    NSLog(@"VideoConference ::: Camera access denial");
-    // display a useful message asking the user to grant permissions from within Settings > Privacy > Camera
-    [self sendCancelResponse];
-}
-
-- (void)notifyUserOfCameraAccessAccept:(NSMutableDictionary*)videoConferenceDictionary{
-    //Ask Microphone permission
-    NSLog(@"VideoConference ::: Camera access granted");
-    [self getMicrophonePermission:videoConferenceDictionary];
-}
-
--(void)getMicrophonePermission:(NSMutableDictionary*)videoConferenceDictionary{
+-(BOOL)initVideoCameraSession{
     
-    [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
-        if (granted) {
-            [self notifyUserOfMicrophoneAccessAccept:videoConferenceDictionary];
-        }else {
-            [self notifyUserOfMicrophoneAccessDenial];
-        }
-    }];
-}
-
-- (void)notifyUserOfMicrophoneAccessDenial {
-    // display a useful message asking the user to grant permissions from within Settings > Privacy > Microphone
-    NSLog(@"VideoConference ::: Microphone access denial");
-    [self sendCancelResponse];
-}
-
-- (void)notifyUserOfMicrophoneAccessAccept:(NSMutableDictionary*)videoConferenceDictionary{
-    NSLog(@"VideoConference ::: Microphone access granted");
-
-    [AppItSDK startVideoConferencing:self videoConferenceData:videoConferenceDictionary];
-}
-
--(void)sendCancelResponse{
-    NSMutableDictionary *_resultDictionary = [NSMutableDictionary new];
-    [_resultDictionary setObject:@"1" forKey:@"statusCode"];
-    [self videoConferencingResponse: _resultDictionary];
-}
-
-- (void) setUpWebViewForPDF:(NSString *)url {
+    NSLog(@"initVideoCameraSession - Start");
     
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
-    dispatch_async(queue, ^{
-        
-        [self URL_download_Process_pdf:url];
-        
-    });
+    captureSession = [[AVCaptureSession alloc] init];
     
-    [_top_buttons_viewHolder_pdf setHidden:NO];
-    [_another_wkWebview_viewHolder_pdf setHidden:NO];
-    [_file_name_label_pdf setText:[url lastPathComponent]];
-    
-    pdf_webView = [[WKWebView alloc] initWithFrame: CGRectZero
-                                      configuration: [self setJS]];
-//    self.webView.UIDelegate = self;
-//    self.webView.navigationDelegate = self;
-    pdf_webView.allowsBackForwardNavigationGestures = YES;
-    pdf_webView.configuration.preferences.javaScriptEnabled = YES;
-    [_another_wkWebview_viewHolder_pdf addSubview: pdf_webView];
-    [self setConstraints_for_PDF_WkWebView:pdf_webView parentView:_another_wkWebview_viewHolder_pdf];
-    
-//    [pdf_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://demo.idmission.com/Faysal-Bank-Demo/images/downloadFormPDFPrd-1.pdf"]]];
-    [pdf_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
-}
-
--(void) setConstraints_for_PDF_WkWebView:(WKWebView *)webView parentView:(UIView *)parentView{
-    
-    webView.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    NSLayoutConstraint *trailing =[NSLayoutConstraint
-    constraintWithItem:webView
-    attribute:NSLayoutAttributeTrailing
-    relatedBy:NSLayoutRelationEqual
-    toItem:parentView
-    attribute:NSLayoutAttributeTrailing
-    multiplier:1.0f
-    constant:0.f];
-    
-    NSLayoutConstraint *leading = [NSLayoutConstraint
-    constraintWithItem:webView
-    attribute:NSLayoutAttributeLeading
-    relatedBy:NSLayoutRelationEqual
-    toItem:parentView
-    attribute:NSLayoutAttributeLeading
-    multiplier:1.0f
-    constant:0.f];
-    
-    NSLayoutConstraint *bottom =[NSLayoutConstraint
-    constraintWithItem:webView
-    attribute:NSLayoutAttributeBottom
-    relatedBy:NSLayoutRelationEqual
-    toItem:parentView
-    attribute:NSLayoutAttributeBottom
-    multiplier:1.0f
-    constant:0.f];
-
-    NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:webView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:parentView attribute:NSLayoutAttributeTop multiplier:1.0f constant:0.f];
-    
-    [parentView addConstraint:trailing];
-    [parentView addConstraint:leading];
-    [parentView addConstraint:top];
-    [parentView addConstraint:bottom];
-    
-}
-
-
-- (IBAction)closeWkWebviewButtonClicked:(id)sender {
-    
-    [self.webView setHidden:NO];
-    [pdf_webView removeFromSuperview];
-    pdf_webView = nil;
-    [_top_buttons_viewHolder_pdf setHidden:YES];
-    [_another_wkWebview_viewHolder_pdf setHidden:YES];
-}
-- (IBAction)shareDataButtonClicked:(id)sender {
-    if(![NS_String_Utils stringIsNilOrEmpty:content_file_name]) {
-        NSString *documentsDirectory = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
-        
-        NSString *resourcePath = [documentsDirectory stringByAppendingPathComponent:@"/Content_Folder/"];
-        
-        resourcePath = [resourcePath stringByAppendingPathComponent:content_file_name];
-        
-        if ([[NSFileManager defaultManager] fileExistsAtPath:resourcePath]) {
-            NSURL *URL = [NSURL fileURLWithPath:resourcePath];
-            
-            if (URL) {
-                self->documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:URL];
-                
-                [self->documentInteractionController setDelegate:self];
-                
-                [self->documentInteractionController presentOptionsMenuFromRect:[_top_buttons_viewHolder_pdf frame] inView:self.view animated:YES];
+    //Adding Video Input
+    AVCaptureDevice *videoDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    if (videoDevice){
+        NSError *error;
+        videoInputDevice = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice error:&error];
+        if (!error){
+            if ([captureSession canAddInput:videoInputDevice]){
+                [captureSession addInput:videoInputDevice];
+            }else{
+                NSLog(@"Couldn't add video input");
             }
-        }
-    
-    }
-    
-}
-
--(void) URL_download_Process_pdf:(NSString *)url_string_data {
-    
-    NSDate *executionStart = [NSDate date];
-    
-    NSURL *url = [NSURL URLWithString:url_string_data];
-    
-    
-    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    sessionConfiguration.HTTPAdditionalHeaders = @{
-        @"Content-Type":@"application/xml; charset=utf-8",
-    };
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:self delegateQueue:nil];
-
-    NSURLSessionDataTask *downloadDataTask = [session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        
-        NSDate *executionFinish = [NSDate date];
-        NSTimeInterval executionTime = [executionFinish timeIntervalSinceDate:executionStart];
-        
-        if(error != nil){
-            NSLog(@"Error while downloading content = %@", error);
         }else{
-            if(nil != data) {
-                NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-                NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
-                NSString *outFileDirectoryPath = [documentsDirectory stringByAppendingPathComponent:@"/Content_Folder/"];
-                
-                if (![[NSFileManager defaultManager] fileExistsAtPath:outFileDirectoryPath]) {
-                    [[NSFileManager defaultManager] createDirectoryAtPath:outFileDirectoryPath withIntermediateDirectories:YES attributes:nil error:&error];
-                }
-                
-                content_file_name = [url_string_data lastPathComponent];
-                
-                if(![NS_String_Utils stringIsNilOrEmpty:content_file_name]) {
-                    NSString *content_file_path = [NSString stringWithFormat:@"%@/%@", outFileDirectoryPath, content_file_name];
-                    
-                    if ([[NSFileManager defaultManager] fileExistsAtPath:content_file_path]) {
-                        // delete if exist
-                        [[NSFileManager defaultManager] removeItemAtPath:content_file_path error:nil];
-                    }
-                    
-                    [data writeToFile:content_file_path atomically:YES];
-                    
-                    NSLog(@"");
-                }
-               
-            }
-            
+            NSLog(@"Couldn't create video input");
         }
-    }];
+    }else{
+        NSLog(@"Couldn't create video capture device");
+    }
     
-    [downloadDataTask resume];
-}
-
-- (UIViewController *) documentInteractionControllerViewControllerForPreview: (UIDocumentInteractionController *) controller {
-    return self;
+    
+    //Adding Audio Input
+    AVCaptureDevice *audioCaptureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeAudio];
+    NSError *error = nil;
+    AVCaptureDeviceInput *audioInput = [AVCaptureDeviceInput deviceInputWithDevice:audioCaptureDevice error:&error];
+    if (audioInput){
+        [captureSession addInput:audioInput];
+    }
+    
+    
+    //Adding Movie File Output
+    movieFileOutput = [[AVCaptureMovieFileOutput alloc] init];
+    //    Float64 totalSeconds = 120;            //Total seconds
+    Float64 totalSeconds = recordingDuration;
+    int32_t preferredTimeScale = 30;    //Frames per second
+    CMTime maxDuration = CMTimeMakeWithSeconds(totalSeconds, preferredTimeScale);    //<<SET MAX DURATION
+    [movieFileOutput setMaxRecordedDuration:maxDuration];
+    //    [movieFileOutput setMinFreeDiskSpaceLimit:1024*1024];
+    
+    if ([captureSession canAddOutput:movieFileOutput]){
+        [captureSession addOutput:movieFileOutput];
+    }
+    
+    
+    //Setting image quality
+    [captureSession setSessionPreset:AVCaptureSessionPresetLow];
+    if ([captureSession canSetSessionPreset:AVCaptureSessionPreset640x480]){
+        [captureSession setSessionPreset:AVCaptureSessionPreset640x480];
+    }
+    
+    
+    //Adding Video Preview Layer
+    _videoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:captureSession];
+    [_videoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+    
+    //Frame Rate
+    
+    BOOL isFPSSupported = NO;
+    AVCaptureDeviceFormat *currentFormat = [videoDevice activeFormat];
+    for ( AVFrameRateRange *range in currentFormat.videoSupportedFrameRateRanges ) {
+        if ( range.maxFrameRate >= 20 && range.minFrameRate <= 20 )        {
+            isFPSSupported = YES;
+            break;
+        }
+    }
+    
+    if( isFPSSupported ) {
+        if ( [videoDevice lockForConfiguration:NULL] ) {
+            videoDevice.activeVideoMaxFrameDuration = CMTimeMake( 1, 15 );
+            videoDevice.activeVideoMinFrameDuration = CMTimeMake( 1, 15 );
+            [videoDevice unlockForConfiguration];
+        }
+    }
+    
+    //Screen size according to current orientation
+    CGRect layerRect = [[[self view] layer] bounds];
+    //Creating CGRect of landscape and portrait mode...according to current screen size
+    if(layerRect.size.height > layerRect.size.width){ //Launched in portrait mode
+        portraitLayerRect = layerRect;
+        landscapeLayerRect = CGRectMake(layerRect.origin.x, layerRect.origin.y, layerRect.size.height, layerRect.size.width);
+    }else{                                            //Launched in landscape mode
+        landscapeLayerRect = layerRect;
+        portraitLayerRect = CGRectMake(layerRect.origin.x, layerRect.origin.y, layerRect.size.height, layerRect.size.width);
+    }
+    //Display Preview Layer
+    [_videoPreviewLayer setBounds:layerRect];
+    [_videoPreviewLayer setPosition:CGPointMake(CGRectGetMidX(layerRect), CGRectGetMidY(layerRect))];
+    //[[[self view] layer] addSublayer:[[self CaptureManager] previewLayer]];
+    //We use this instead so it goes on a layer behind our UI controls (avoids us having to manually bring each control to the front):
+    UIView *cameraView = [[UIView alloc] init];
+    [[self view] addSubview:cameraView];
+    [self.view sendSubviewToBack:cameraView];
+    
+    
+    [[cameraView layer] addSublayer:_videoPreviewLayer];
+    
+    
+    //Start The Capture Session Running
+    [captureSession startRunning];
+    
+    NSLog(@"initVideoCameraSession - End");
+    
+    [_webView setHidden:YES];
+    
+    return TRUE;
 }
 
 @end

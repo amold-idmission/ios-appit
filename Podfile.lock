@@ -61,7 +61,7 @@ PODS:
   - nanopb/encode (2.30906.0)
   - OpenCV (3.0.0)
   - PromisesObjC (1.2.11)
-  - Protobuf (3.13.0)
+  - Protobuf (3.14.0)
   - SocketRocket (0.5.1)
   - SSZipArchive (2.2.3)
   - TensorFlowLiteC (2.3.0):
@@ -124,7 +124,7 @@ SPEC CHECKSUMS:
   nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53
   OpenCV: be07c02f0d8f125f1d40d261e66a66cb66ece3b3
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
-  Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
+  Protobuf: 0cde852566359049847168e51bd1c690e0f70056
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   TensorFlowLiteC: 51f50caf5777f740a70e2c1a5dbdc149e7aeb50b

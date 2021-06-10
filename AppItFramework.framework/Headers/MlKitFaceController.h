@@ -16,6 +16,8 @@
     IBOutlet UILabel *thresholdLabel, *titleUiLableBottom,*titleMsgUiLabelTop;
 }
 
+@property (weak, nonatomic) IBOutlet UIButton *manual_Capture_Button;
+
 //Property define for adding configured value
 @property(nonatomic) int light_threshold;
 @property(nonatomic) int focus_threshold;
@@ -66,5 +68,6 @@
 @property(nonatomic, assign) NSString* left_turn_arrow_custom, *up_move_arrow_custom, *right_turn_arrow_custom, *down_move_arrow_custom;
 @property(nonatomic, assign) NSString* toggle_camera_button_icon;
 
+- (IBAction)manual_Capture_Action:(id)sender;
 
 @end
