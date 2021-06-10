@@ -22,6 +22,7 @@
 +(UIConfiguration *)getDefaultSecondaryIDCaptureBackConfig;
 +(UIConfiguration *)getDefaultBarcodeCaptureConfig;
 +(UIConfiguration *)getDefaultVoiceRecordingConfig;
++(UIConfiguration *)getDefaultSignatureCaptureConfig;
 
 +(UIConfiguration *)getCustomIDCaptureFrontUIConfig;
 +(UIConfiguration *)getCustomIDCaptureBackUIConfig;
@@ -34,6 +35,8 @@
 +(UIConfiguration *)getCustomSecondaryIDCaptureBackUIConfig;
 +(UIConfiguration *)getCustomBarcodeCaptureUIConfig;
 +(UIConfiguration *)getCustomVoiceRecordingUIConfig;
++(UIConfiguration *)getCustomSignatureCaptureUIConfig;
+
 
 +(void) initDefaultUIConfig;
 +(void) initCustomUIConfig:(NSMutableDictionary *)uiConfigJsonString;

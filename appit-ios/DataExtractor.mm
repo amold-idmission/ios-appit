@@ -14,7 +14,7 @@
 #include <sys/stat.h>
 //#include <GoogleMobileVision/GoogleMobileVision.h>
 #include "ImageUtils.h"
-#include "NSStringUtils.h"
+//#include "NSStringUtils.h"
 
 DataExtractor::DataExtractor(const Document &doc,
                              tesseract::TessBaseAPI &tesseract,

@@ -27,6 +27,7 @@
 @property(nonatomic) NSMutableDictionary *resultDictionary;
 @property(nonatomic,assign)id delegate;
 @property(nonatomic,assign)int recordingTime;
+@property(nonatomic,assign)BOOL isEnableBgVideoRecording;
 @property(nonatomic,assign)NSString* textDatatoScrolled;
 @property (retain) AVCaptureVideoPreviewLayer *videoPreviewLayer;
 +(NSString*)createVideoJSONString:(NSString*)fileContent formKey:(NSString*)formKey;

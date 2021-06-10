@@ -27,5 +27,4 @@
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import <AppItConstants.h>
-#import <Firebase.h>
 #endif
