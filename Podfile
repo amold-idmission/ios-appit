@@ -1,7 +1,8 @@
-platform :ios, ‘9.0’
+platform :ios, ‘11.0’
 inhibit_all_warnings!
 
-def required_pods   
+def required_pods
+use_frameworks!   
 #     pod 'ZXingObjC', '~> 3.2.2'
 #    pod 'ZXingObjC'
     pod 'OpenCV', '3.0.0'
@@ -17,10 +18,9 @@ def required_pods
     pod 'SocketRocket'
     pod 'ZXingObjC', '~> 3.2.2'
     pod 'SSZipArchive'
-    pod 'Firebase/MLVision', '~> 6.28.0'
-    pod 'Firebase/MLModelInterpreter', '~> 6.28.0'
-    pod 'Firebase/MLVisionTextModel', '~> 6.28.0'
-    pod 'Firebase/MLVisionFaceModel', '~> 6.28.0'
+    pod 'TensorFlowLiteObjC'
+    pod 'GoogleMLKit/TextRecognition'
+    pod 'GoogleMLKit/FaceDetection'
     
 end
 

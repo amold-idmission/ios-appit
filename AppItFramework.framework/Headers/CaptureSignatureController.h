@@ -13,6 +13,7 @@
 
 @property(nonatomic,assign)id delegate;
 @property(nonatomic) NSMutableDictionary *resultDictionary;
+@property(nonatomic) BOOL capture_in_portrait_mode;
 
 +(NSString *)getsignatureCaptureNode;
 

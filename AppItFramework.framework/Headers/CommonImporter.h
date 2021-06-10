@@ -27,6 +27,7 @@
 #import "FingerDetectionViewController.h"
 #import "GPSManager.h"
 #import "VoiceRecordingController.h"
+#import "VoiceRecordingVC.h"
 #import "VideoRecordingController.h"
 #import "FingerprintEnrolmentTask.h"
 #import "FingerPrintVerificationTask.h"
@@ -65,6 +66,12 @@
 #import "GetTemplateInfoTask.h"
 #import "TBXML.h"
 #import "TBXMLParser.h"
+#import "NSData+GZIP.h"
+#import "CardViewController.h"
+#import "IDCaptureModelController.h"
+#import "FillFastModelController.h"
+#import "DocumentUploadController.h"
+
 
 @interface CommonImporter : NSObject
 

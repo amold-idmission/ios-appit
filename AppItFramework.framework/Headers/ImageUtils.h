@@ -37,6 +37,10 @@
 
 +(NSString*)createImageJSONString:(NSString*)fileBase64 formKey:(NSString*)formKey;
 
++(NSString*)createFaceImageJSONString:(NSString*)fileBase64 formKey:(NSString*)formKey face_autoCapture:(NSString *)face_autoCapture;
+
 +(NSString*)createVoiceJSONString:(NSString*)fileBase64 formKey:(NSString*)formKey;
+
++(NSString*)createPDFDocumentJSONString:(NSString*)fileBase64 formKey:(NSString*)formKey;
 
 @end
