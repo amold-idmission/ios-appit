@@ -79,29 +79,30 @@ static bool idfaceshowInstruction = true;
     
     //ADDED MA
     [super viewDidLoad];
+    self.navigationItem.hidesBackButton = YES;
     [AppItSDK setIsSDKForAppIT:true];
     [self setupWebView];
     [self reloadURL];
     
-    self.navigationItem.hidesBackButton = YES;
-    //[self initViews];
     first_launch = true;
     isBackPressed = false;
     isImageSnippetCapture = @"N";
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
     [super viewWillAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
     [super viewWillDisappear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
-//    [self changeLanguage];
+    [super viewDidAppear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -236,13 +237,19 @@ static bool idfaceshowInstruction = true;
 }
 
 -(void) reloadURL{
-    NSString* url = [Settings getCurrentURL];
-    //    self.webView.allowsInlineMediaPlayback = YES;
-    //    self.webView.mediaPlaybackRequiresUserAction = NO;
-    //    self.webView.allowsPictureInPictureMediaPlayback = NO;
+//    NSString* url = [Settings getCurrentURL];
+//    [self setCurrentTemplateLocation:url];
+//    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
     
-    [self setCurrentTemplateLocation:url];
-    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
+    NSString* urlString = [Settings getCurrentURL];
+    [self setCurrentTemplateLocation:urlString];
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSURLRequest *requestObj = [NSURLRequest requestWithURL:url cachePolicy: NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:20];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.webView loadRequest:requestObj];
+    });
+
 }
 
 -(void) setCurrentTemplateLocation: (NSString*) currentURL{
@@ -447,19 +454,7 @@ static bool idfaceshowInstruction = true;
         }else if([operation isEqualToString:@"getSpecification"]) {
             [self handle_get_spectification_callback];
         }else if([operation isEqualToString:@"downloadXslt"]) {
-            NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
-            NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
-            
-            NSDictionary *xsltDownloadDataDictionary = [dataToAppit objectForKey:@"xsltDownload"];
-            
-            NSMutableDictionary *downloadXSLTDictionary = [[NSMutableDictionary alloc] init];
-            [downloadXSLTDictionary setObject:[xsltDownloadDataDictionary objectForKey:@"IDServerUrl"] forKey:@"url"];
-            [downloadXSLTDictionary setObject:[xsltDownloadDataDictionary objectForKey:@"loginId"]  forKey:@"login_ID"];
-            [downloadXSLTDictionary setObject:[xsltDownloadDataDictionary objectForKey:@"password"] forKey:@"password"];
-            [downloadXSLTDictionary setObject:[xsltDownloadDataDictionary objectForKey:@"merchantId"] forKey:@"merchant_id"];
-            [downloadXSLTDictionary setObject:[xsltDownloadDataDictionary objectForKey:@"applicationCode"] forKey:@"appCode"];
-            
-            [AppItSDK downloadXslt:self downloadCredentials:downloadXSLTDictionary];
+            [self downloadXslt];
         }else if([operation isEqualToString:@"videoRecording"]) {
             NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
             NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
@@ -614,6 +609,34 @@ static bool idfaceshowInstruction = true;
 }
 
 #pragma mark - WKWebKit Handler Methods
+
+/* Download XSLT & SDKInitialize Call */
+-(void)downloadXslt {
+    
+    NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
+    NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
+    
+    NSDictionary *xsltDownloadDataDictionary = [dataToAppit objectForKey:@"xsltDownload"];
+    
+    NSMutableDictionary *downloadXSLTDictionary = [[NSMutableDictionary alloc] init];
+    [downloadXSLTDictionary setObject:[xsltDownloadDataDictionary objectForKey:@"IDServerUrl"] forKey:@"url"];
+    [downloadXSLTDictionary setObject:[xsltDownloadDataDictionary objectForKey:@"loginId"]  forKey:@"login_ID"];
+    [downloadXSLTDictionary setObject:[xsltDownloadDataDictionary objectForKey:@"password"] forKey:@"password"];
+    [downloadXSLTDictionary setObject:[xsltDownloadDataDictionary objectForKey:@"merchantId"] forKey:@"merchant_id"];
+    [downloadXSLTDictionary setObject:[xsltDownloadDataDictionary objectForKey:@"applicationCode"] forKey:@"appCode"];
+    
+    /*START Language Change*/
+    NSString *ApplanguageString = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppLanguage"];
+    if ([ApplanguageString isEqualToString:@"en_US"]) {
+        ApplanguageString = @"en";
+    } else {
+        ApplanguageString = @"es";
+    }
+    [downloadXSLTDictionary setObject:ApplanguageString forKey:@"language"];
+    /*END Language Change*/
+
+    [AppItSDK downloadXslt:self downloadCredentials:downloadXSLTDictionary];
+}
 
 /* SetLanguage Call */
 -(void)setAppLanguage {
@@ -1153,130 +1176,103 @@ static bool idfaceshowInstruction = true;
 }
 
 -(void) prepare_data_for_fingerprint{
-    
-//    int mAlpha = 1;
-    
-//    NSString *dOutsideFaceOutlineColor = @"487D95", *dFontStyle=@"Default", *hintMessageColor = @"FFFFFF", *hintMessageSize = @"", *instContinueButtonColor = @"FFFFFF", *instContinueButtonTextColor = @"487D95";
-    
-//    int hintMessageColorAlpha = mAlpha, instContinueButtonAlpha = mAlpha, instContinueButtonTextAlpha = mAlpha;
-    
+        
     NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
     imageProcessingData = [NSMutableDictionary dictionary];
     NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
     NSArray *imageProcessingArray = [dataToAppit objectForKey:@"scanFingerprint"];
     imageProcessingData = [imageProcessingArray objectAtIndex:0];
-//    NSString *imageProcessingArray2 = [imageProcessingData objectForKey:@"FocusThreshold"];
     
     NSMutableDictionary *uiDictionary = [[NSMutableDictionary alloc] init];
-    
     NSMutableDictionary *nonUIDictionary = [[NSMutableDictionary alloc] init];
     
     if([imageProcessingData objectForKey:@"styleIOS"]){
-        
         [uiDictionary setObject:[imageProcessingData objectForKey:@"styleIOS"] forKey:@"cfc_label_text_style"];
     }
     
     if([imageProcessingData objectForKey:@"textLabelColor"]) {
-        
         [uiDictionary setObject:[imageProcessingData objectForKey:@"textLabelColor"] forKey:@"cfc_label_text_color"];
     }
     
     if([imageProcessingData objectForKey:@"textLabelAlpha"]) {
-        
         [uiDictionary setObject:[imageProcessingData objectForKey:@"textLabelAlpha"] forKey:@"cfc_label_text_color_alpha"];
     }
     
     if([imageProcessingData objectForKey:@"instructionButtonColor"]) {
-        
         [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonColor"] forKey:@"cfc_instruction_button_color"];
     }
     
     if([imageProcessingData objectForKey:@"instructionButtonColorAlpha"]) {
-        
         [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonColorAlpha"] forKey:@"cfc_instruction_button_alpha"];
     }
     
     if([imageProcessingData objectForKey:@"instructionButtonTXTColor"]) {
-        
         [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonTXTColor"] forKey:@"cfc_instruction_button_txt_color"];
     }
     
     if([imageProcessingData objectForKey:@"instructionButtonTXTColorAlpha"]) {
-        
         [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonTXTColorAlpha"] forKey:@"cfc_instruction_button_txt_alpha"];
     }
     
     if([imageProcessingData objectForKey:@"showInstruction"]) {
-        
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"showInstruction"] forKey:@"cfc_show_instruction_screen"];
     }
         
     // Index Finger
     if([imageProcessingData objectForKey:@"indexFingerMinThreshold"]) {
-
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"indexFingerMinThreshold"] forKey:@"cfc_indexfinger_min_threshold"];
     }
     if([imageProcessingData objectForKey:@"indexFingerThreshold"]) {
-
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"indexFingerThreshold"] forKey:@"cfc_indexfinger_threshold"];
     }
     
     // Middle Finger
     if([imageProcessingData objectForKey:@"middleFingerMinThreshold"]) {
-
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"middleFingerMinThreshold"] forKey:@"cfc_middlefinger_min_threshold"];
     }
     if([imageProcessingData objectForKey:@"middleFingerThreshold"]) {
-
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"middleFingerThreshold"] forKey:@"cfc_middlefinger_threshold"];
     }
     
     // Ring FInger
     if([imageProcessingData objectForKey:@"ringFingerMinThreshold"]) {
-
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"ringFingerMinThreshold"] forKey:@"cfc_ringfinger_min_threshold"];
     }
     if([imageProcessingData objectForKey:@"ringFingerThreshold"]) {
-
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"ringFingerThreshold"] forKey:@"cfc_ringfinger_threshold"];
     }
     
     // Baby FInger
     if([imageProcessingData objectForKey:@"babyFingerMinThreshold"]) {
-
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"babyFingerMinThreshold"] forKey:@"cfc_babyfinger_min_threshold"];
     }
     if([imageProcessingData objectForKey:@"babyFingerThreshold"]) {
-
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"babyFingerThreshold"] forKey:@"cfc_babyfinger_threshold"];
     }
     
     // Finger to be Capture
     if([imageProcessingData objectForKey:@"processIndexFinger"]) {
-
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processIndexFinger"] forKey:@"cfc_keep_index_finger"];
     }
     if([imageProcessingData objectForKey:@"processMiddleFinger"]) {
-
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processMiddleFinger"] forKey:@"cfc_keep_middle_finger"];
     }
     if([imageProcessingData objectForKey:@"processRingFinger"]) {
-
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processRingFinger"] forKey:@"cfc_keep_ring_finger"];
     }
     if([imageProcessingData objectForKey:@"processBabyFinger"]) {
-
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processBabyFinger"] forKey:@"cfc_keep_baby_finger"];
     }
     
+    // Other Factor
     if([imageProcessingData objectForKey:@"aggressivenessFactor4F"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"aggressivenessFactor4F"] forKey:@"cfc_aggressiveness_factor"];
     }
     if([imageProcessingData objectForKey:@"imageWidth4f"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"imageWidth4f"] forKey:@"cfc_image_width"];
     }
-    if([imageProcessingData objectForKey:@"cfc_ridge_width"]) {
-        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"cfc_ridge_width"] forKey:@"ridgeWidth"];
+    if([imageProcessingData objectForKey:@"ridgeWidth"]) {
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"ridgeWidth"] forKey:@"cfc_ridge_width"];
     }
     if([imageProcessingData objectForKey:@"type"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"type"] forKey:@"cfc_label_text_type"];
@@ -1285,6 +1281,7 @@ static bool idfaceshowInstruction = true;
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"style"] forKey:@"cfc_label_text_style"];
     }
 
+    // Focus Threshold
     if([imageProcessingData objectForKey:@"FocusThreshold"]) {
         [AppItSDK setFPFocusThreshold:[[imageProcessingData objectForKey:@"FocusThreshold"] intValue]];
     }
@@ -1963,6 +1960,11 @@ static bool idfaceshowInstruction = true;
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_title_image_on_top"] forKey:@"fd_title_image_on_top"];
     }
 
+    //Face Camera MegaPixel
+    if([imageProcessingData objectForKey:@"fd_minimum_camera_megapixel"]) {
+        [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_minimum_camera_megapixel"] forKey:@"fd_minimum_camera_megapixel"];
+    }
+    
     NSMutableDictionary *selfieCapDic = [[NSMutableDictionary alloc] init];
     [selfieCapDic setObject:uiDictionary forKey:@"face_capture"];
     [AppItSDK customizeUserInterface:selfieCapDic];
@@ -2947,20 +2949,19 @@ static bool idfaceshowInstruction = true;
     UIAlertController * alertController = [UIAlertController alertControllerWithTitle: nil
                                                                               message: nil
                                                                        preferredStyle: UIAlertControllerStyleActionSheet];
-    //Added cancel button...it will be display in iPhones only
-    [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-        NSLog(@"User clicked button called %@ or tapped elsewhere",action.title);
-    }]];
     
+    // Settings Button
     [alertController addAction: [UIAlertAction actionWithTitle: @"Settings" style: UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [self performSegueWithIdentifier:@"showPasswordSegue" sender:self];
         
     }]];
     
+    // Refresh Button
     [alertController addAction: [UIAlertAction actionWithTitle: @"Refresh" style: UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [self reloadURL];
     }]];
     
+    // Clear Data Button
     [alertController addAction: [UIAlertAction actionWithTitle: @"Clear Data" style: UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
         UIAlertController *alertController = [UIAlertController
@@ -2986,6 +2987,7 @@ static bool idfaceshowInstruction = true;
         
     }]];
     
+    // About Appit Button
     [alertController addAction: [UIAlertAction actionWithTitle: @"About Appit" style: UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
         NSString * version = nil;
@@ -3014,6 +3016,7 @@ static bool idfaceshowInstruction = true;
         [self presentViewController:alertController animated:YES completion:nil];
     }]];
     
+    // Exit Button
     [alertController addAction: [UIAlertAction actionWithTitle: @"Exit" style: UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         // Handle Exit here
         //show confirmation message to user
@@ -3026,6 +3029,11 @@ static bool idfaceshowInstruction = true;
         
     }]];
     
+    //Added cancel button...it will be display in iPhones only
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        NSLog(@"User clicked button called %@ or tapped elsewhere",action.title);
+    }]];
+
     alertController.modalPresentationStyle = UIModalPresentationPopover;
     
     UIPopoverPresentationController * popover = alertController.popoverPresentationController;
