@@ -1499,7 +1499,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/appit-ios",
 				);
-				MARKETING_VERSION = 8.2.6;
+				MARKETING_VERSION = 8.2.7;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lc++",
@@ -1564,7 +1564,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/appit-ios",
 				);
-				MARKETING_VERSION = 8.2.6;
+				MARKETING_VERSION = 8.2.7;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lc++",
