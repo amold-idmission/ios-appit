@@ -81,6 +81,7 @@ static bool idfaceshowInstruction = true;
     [super viewDidLoad];
     self.navigationItem.hidesBackButton = YES;
     [AppItSDK setIsSDKForAppIT:true];
+    [self SDK_Initilialize];
     [self setupWebView];
     [self reloadURL];
     
@@ -610,6 +611,54 @@ static bool idfaceshowInstruction = true;
 
 #pragma mark - WKWebKit Handler Methods
 
+/* SDKInitialize Call */
+-(void)SDK_Initilialize {
+    
+    // Use Default credentials As Demo if Nothing is matchd
+    NSString *enviromnet_URl = @"";
+    NSString *IDM_EVol_LoginID = @"";
+    NSString *IDM_EVol_Password = @"";
+    NSString *IDM_EVol_MerchantID = @"";
+    NSString *IDM_EVol_ProductID = @"";
+    
+    NSString* urlString = [Settings getCurrentURL];
+    if ([urlString containsString:@"demo.idmission.com"]) {
+        
+        enviromnet_URl = @"https://demo.idmission.com/IDS/service/integ/idm/thirdparty/upsert";
+        IDM_EVol_LoginID = @"Appit_Integ";
+        IDM_EVol_Password = @"App#1nteg";
+        IDM_EVol_MerchantID = @"12511";
+        IDM_EVol_ProductID = @"4130";
+
+    } else if ([urlString containsString:@"uat.idmission.com"]) {
+        
+        enviromnet_URl = @"https://uat.idmission.com/IDS/service/integ/idm/thirdparty/upsert";
+        IDM_EVol_LoginID = @"Appit_Integ";
+        IDM_EVol_Password = @"App#1nteg";
+        IDM_EVol_MerchantID = @"28632";
+        IDM_EVol_ProductID = @"1523";
+
+    } else if ([urlString containsString:@"kyc.idmission.com"]) {
+        
+        enviromnet_URl = @"https://kyc.idmission.com/IDS/service/integ/idm/thirdparty/upsert";
+        IDM_EVol_LoginID = @"Appit_Integ";
+        IDM_EVol_Password = @"App#1nteg";
+        IDM_EVol_MerchantID = @"12511";
+        IDM_EVol_ProductID = @"4130";
+        
+    } else {
+        
+        enviromnet_URl = @"https://demo.idmission.com/IDS/service/integ/idm/thirdparty/upsert";
+        IDM_EVol_LoginID = @"Appit_Integ";
+        IDM_EVol_Password = @"App#1nteg";
+        IDM_EVol_MerchantID = @"12511";
+        IDM_EVol_ProductID = @"4130";
+    }
+    
+    NSString *IDM_EVol_ProductName = @"Identity_Validation_and_Face_Matching";
+
+    [AppItSDK initializeAppItSDK:self url:enviromnet_URl loginId:IDM_EVol_LoginID password:IDM_EVol_Password merchantID:IDM_EVol_MerchantID productID:IDM_EVol_ProductID productName:IDM_EVol_ProductName Language:@"en"];
+}
 /* Download XSLT & SDKInitialize Call */
 -(void)downloadXslt {
     
@@ -621,10 +670,14 @@ static bool idfaceshowInstruction = true;
     NSMutableDictionary *downloadXSLTDictionary = [[NSMutableDictionary alloc] init];
     [downloadXSLTDictionary setObject:[xsltDownloadDataDictionary objectForKey:@"IDServerUrl"] forKey:@"url"];
     [downloadXSLTDictionary setObject:[xsltDownloadDataDictionary objectForKey:@"loginId"]  forKey:@"login_ID"];
-    [downloadXSLTDictionary setObject:[xsltDownloadDataDictionary objectForKey:@"password"] forKey:@"password"];
     [downloadXSLTDictionary setObject:[xsltDownloadDataDictionary objectForKey:@"merchantId"] forKey:@"merchant_id"];
     [downloadXSLTDictionary setObject:[xsltDownloadDataDictionary objectForKey:@"applicationCode"] forKey:@"appCode"];
-    
+    if ([xsltDownloadDataDictionary objectForKey:@"password"]) {
+        [downloadXSLTDictionary setObject:[xsltDownloadDataDictionary objectForKey:@"password"] forKey:@"password"];
+    } else {
+        [downloadXSLTDictionary setObject:[xsltDownloadDataDictionary objectForKey:@"authToken"] forKey:@"password"];
+    }
+
     /*START Language Change*/
     NSString *ApplanguageString = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppLanguage"];
     if ([ApplanguageString isEqualToString:@"en_US"]) {
@@ -3048,6 +3101,15 @@ static bool idfaceshowInstruction = true;
 }
 
 -(void)clearAppDataAndRefresh{
+    
+    // All kinds of data
+     NSSet *websiteDataTypes = [WKWebsiteDataStore allWebsiteDataTypes];
+    // Date from
+    NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
+    // Execute
+    [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes modifiedSince:dateFrom completionHandler:^{
+        NSLog(@"clear All WKWebsiteDataStore");
+    }];
     
     NSFileManager *defaultManager = [NSFileManager defaultManager];
     
