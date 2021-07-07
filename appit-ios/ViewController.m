@@ -718,657 +718,6 @@ static bool idfaceshowInstruction = true;
     /*END Language Change*/
 }
 
--(void) prepare_data_for_third_party_response_result {
-    NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
-    
-    NSMutableString *responseResultThirdParty = [NSMutableString stringWithString:@"thirdparty://"];
-    
-    NSCharacterSet *allowedCharacters = [NSCharacterSet URLFragmentAllowedCharacterSet];
-    NSString *percentEncodedString = [dataToAppitString stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacters];
-    
-    [responseResultThirdParty appendString:@"?response="];
-    [responseResultThirdParty appendString:[NSString stringWithFormat:@"%@",percentEncodedString]];
-    
-    NSURL* invokeAppitURL = [NSURL URLWithString:responseResultThirdParty];
-    if([[UIApplication sharedApplication]canOpenURL:invokeAppitURL]) {
-        [Settings setCurrentURL:urlRelode];
-        [[UIApplication sharedApplication]openURL:invokeAppitURL];
-    }else
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[NSString stringWithFormat:@"Cant Open Third Party  Application "]
-                                                       delegate:self cancelButtonTitle:@"Ok"
-                                              otherButtonTitles:nil];
-        [alert show];
-    }
-}
-
--(void) prepare_data_for_image_proc{
-    int mAlpha = 1;
-    
-    
-    NSString *dFontStyle = @"Default", *hintMessageColor = @"606060", *instContinueButtonColor = @"FFFFFF", *instContinueButtonTextColor = @"487D95", *hintMessageSize = @"", *instructionTextColor = @"FFFFFF";
-    
-    int hintMessageColorAlpha = mAlpha, instContinueButtonAlpha = mAlpha, instContinueButtonTextAlpha = mAlpha, dOutsideFaceOutlineColorAlpha =mAlpha;
-    
-    NSMutableDictionary *uiDictionary = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *nonUIDictionary = [[NSMutableDictionary alloc] init];
-    
-    NSString *dOutsideFaceOutlineColor = @"487D95";
-    NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
-    NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
-    NSArray *imageProcessingArray = [dataToAppit objectForKey:@"imageProcessing"];
-    imageProcessingData = [imageProcessingArray objectAtIndex:0];
-    
-    NSString *highResolutionImageMode = [imageProcessingData objectForKey:@"HighResolutionImageMode"];
-    
-    if([@"Y" isEqualToString:highResolutionImageMode]) {
-        
-        if([imageProcessingData objectForKey:@"instructionButtonColor"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonColor"] forKey:@"id_instruction_button_color"];
-        }
-        
-        if([imageProcessingData objectForKey:@"instructionButtonColorAlpha"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonColorAlpha"] forKey:@"id_instruction_button_alpha"];
-        }
-        
-        if([imageProcessingData objectForKey:@"instructionButtonTXTColor"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonTXTColor"] forKey:@"id_instruction_button_txt_color"];
-        }
-        
-        if([imageProcessingData objectForKey:@"instructionButtonTXTColorAlpha"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonTXTColorAlpha"] forKey:@"id_instruction_button_txt_alpha"];
-        }
-        
-        if([imageProcessingData objectForKey:@"EnableCaptureButton"]) {
-            if([@"Y" isEqualToString:[imageProcessingData objectForKey:@"EnableCaptureButton"]]) {
-                [nonUIDictionary setObject:@"Y" forKey:@"id_capture_enable"];
-            } else {
-                [nonUIDictionary setObject:@"N" forKey:@"id_capture_enable"];
-            }
-        } else {
-            [nonUIDictionary setObject:@"N" forKey:@"id_capture_enable"];
-        }
-        
-        if([imageProcessingData objectForKey:@"ShowInstructionScreen"]) {
-            [nonUIDictionary setObject:[imageProcessingData objectForKey:@"ShowInstructionScreen"] forKey:@"id_show_instruction"];
-        }
-        
-        if([imageProcessingData objectForKey:@"OCRMinimumLightThreshold"]) {
-            [nonUIDictionary setObject:[imageProcessingData objectForKey:@"OCRMinimumLightThreshold"] forKey:@"id_light_threshold"];
-        }
-        
-        if([imageProcessingData objectForKey:@"MinFocusScoreThreshold"]) {
-            [nonUIDictionary setObject:[imageProcessingData objectForKey:@"MinFocusScoreThreshold"] forKey:@"id_min_focus_threshold"];
-        }
-        
-        if([imageProcessingData objectForKey:@"GlarePercentageThreshold"]) {
-            NSString *glarePercentageThreshold = [imageProcessingData objectForKey:@"GlarePercentageThreshold"];
-            if([NS_String_Utils stringIsNilOrEmpty:glarePercentageThreshold]) {
-                [nonUIDictionary setObject:@"" forKey:@"id_glare_percentage"];
-            }  else {
-                [nonUIDictionary setObject:[imageProcessingData objectForKey:@"GlarePercentageThreshold"] forKey:@"id_glare_percentage"];
-            }
-        }
-        
-        if([imageProcessingData objectForKey:@"EnableCaptureButtonTime"]) {
-            [nonUIDictionary setObject:[imageProcessingData objectForKey:@"EnableCaptureButtonTime"] forKey:@"id_enable_capture_button_time"];
-        }
-        
-        if([imageProcessingData objectForKey:@"CapturePortrait"]) {
-            [nonUIDictionary setObject:[imageProcessingData objectForKey:@"CapturePortrait"] forKey:@"id_capture_portrait"];
-        }
-        
-        if([imageProcessingData objectForKey:@"HighResolutionImageHeight"]) {
-            //           [nonUIDictionary setObject:[imageProcessingData objectForKey:@"HighResolutionImageHeight"] forKey:@"id_image_height"];
-            [nonUIDictionary setObject:[imageProcessingData objectForKey:@"HighResolutionImageHeight"] forKey:@"id_image_width"];
-            //             [nonUIDictionary setObject:@"1170" forKey:@"id_image_height"];
-        }
-        
-        if([imageProcessingData objectForKey:@"HighResolutionImageWidth"]) {
-            //            [nonUIDictionary setObject:[imageProcessingData objectForKey:@"HighResolutionImageWidth"] forKey:@"id_image_width"];
-            [nonUIDictionary setObject:[imageProcessingData objectForKey:@"HighResolutionImageWidth"] forKey:@"id_image_height"];
-            //            [nonUIDictionary setObject:@"800" forKey:@"id_image_width"];
-        }
-        
-        NSString *dIdOutlineColor = @"FFFFFF", *dDetectedIdOutlineColor = @"6EB24C", *dOutsideIdOutlineColor = @"FFFFFF",*dDetectedPOAOutlineColor = @"6EB24C",*dDetectedOutsideIdOutlineColor = @"FFFFFF",*titleMessageStyle = @"Normal", *hintMessageStyle = @"Normal" ,*titleMessageColor = @"FFFFFF", *backButtonColor = @"FEAD36", *titleTextFontSize=@"", *hintTextFontSize=@"", *idCaptureBorderType = @"Thick", *retryButtonColor = @"606060", *confirmButtonColor = @"606060", *retryButtonBordorColor = @"FFFFFF", *confirmButtonStyleColor = @"FFFFFF";
-        
-        NSString *idOutlineColor = dIdOutlineColor, *detectedidoutlinecolor = dDetectedIdOutlineColor, *idOutsideOutlineColor = dOutsideIdOutlineColor;
-        
-        int idOutlineColorAlpha = mAlpha,detectedidoutlinetransparency = mAlpha, idOutsideOutlineColorAlpha = mAlpha,titleMessageColorAlpha = mAlpha,backButtonColorAlpha = mAlpha, confirmButtonColorAlpha = mAlpha, retryButtonColorAlpha = mAlpha, retryButtonBorderColorAlpha = mAlpha, confirmButtonStyleColorAlpha = mAlpha;
-        
-        if([imageProcessingData objectForKey:@"IdOutlineColor"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"IdOutlineColor"] forKey:@"id_outline_color"];
-        } else {
-            [uiDictionary setObject:idOutlineColor forKey:@"id_outline_color"];
-        }
-        
-        if([imageProcessingData objectForKey:@"idOutlineColorAlpha"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"idOutlineColorAlpha"] forKey:@"id_outline_color_alpha"];
-        } else {
-            [uiDictionary setObject:@"1" forKey:@"id_outline_color_alpha"];
-        }
-        
-        if([imageProcessingData objectForKey:@"ColorOutsideOutline"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"ColorOutsideOutline"] forKey:@"id_outside_outline_color"];
-        } else {
-            [uiDictionary setObject:idOutsideOutlineColor forKey:@"id_outside_outline_color"];
-        }
-        
-        if([imageProcessingData objectForKey:@"idOutsideOutlineColorAlpha"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"idOutsideOutlineColorAlpha"] forKey:@"id_outside_outline_color_aplha"];
-        } else {
-            [uiDictionary setObject:@"1" forKey:@"id_outside_outline_color_aplha"];
-        }
-        
-        if([imageProcessingData objectForKey:@"DetectedIdOutlineColor"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"DetectedIdOutlineColor"] forKey:@"id_detected_id_outline_color"];
-        } else {
-            [uiDictionary setObject:dDetectedIdOutlineColor forKey:@"id_detected_id_outline_color"];
-        }
-        
-        if([imageProcessingData objectForKey:@"detectedIdOutlineColorAlpha"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"detectedIdOutlineColorAlpha"] forKey:@"id_detected_id_outline_color_alpha"];
-        } else {
-            [uiDictionary setObject:@"1" forKey:@"id_detected_id_outline_color_alpha"];
-        }
-        
-        if([imageProcessingData objectForKey:@"DetectedColorOutsideOutline"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"DetectedColorOutsideOutline"] forKey:@"id_detected_id_outside_outline_color"];
-        } else {
-            [uiDictionary setObject:dDetectedOutsideIdOutlineColor forKey:@"id_detected_id_outside_outline_color"];
-        }
-        
-        if([imageProcessingData objectForKey:@"detectedIdOutsideOutlineColorAlpha"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"detectedIdOutsideOutlineColorAlpha"] forKey:@"id_detected_id_outside_outline_color_alpha"];
-        } else {
-            [uiDictionary setObject:@"1" forKey:@"id_detected_id_outside_outline_color_alpha"];
-        }
-        
-        if([imageProcessingData objectForKey:@"headerStyleIOS"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"headerStyleIOS"] forKey:@"id_header_text_style"];
-        } else {
-            [uiDictionary setObject:titleMessageStyle forKey:@"id_header_text_style"];
-        }
-        
-        if([imageProcessingData objectForKey:@"styleIOS"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"styleIOS"] forKey:@"id_label_text_style"];
-        } else {
-            [uiDictionary setObject:hintMessageStyle forKey:@"id_label_text_style"];
-        }
-        
-        if([imageProcessingData objectForKey:@"headerTextLabelColor"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"headerTextLabelColor"] forKey:@"id_header_text_label_color"];
-        } else {
-            [uiDictionary setObject:titleMessageColor forKey:@"id_header_text_label_color"];
-        }
-        
-        if([imageProcessingData objectForKey:@"headerTextLabelAlpha"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"headerTextLabelAlpha"] forKey:@"id_header_text_label_alpha"];
-        } else {
-            [uiDictionary setObject:@"1" forKey:@"id_header_text_label_alpha"];
-        }
-        
-        if([imageProcessingData objectForKey:@"textLabelColor"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"textLabelColor"] forKey:@"id_label_text_color"];
-        } else {
-            [uiDictionary setObject:hintMessageColor forKey:@"id_label_text_color"];
-        }
-        
-        if([imageProcessingData objectForKey:@"textLabelAlpha"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"textLabelAlpha"] forKey:@"id_label_text_alpha"];
-        } else {
-            [uiDictionary setObject:@"1" forKey:@"id_label_text_alpha"];
-        }
-        
-        if([imageProcessingData objectForKey:@"backButtonColor"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"backButtonColor"] forKey:@"id_back_button_color"];
-        } else {
-            [uiDictionary setObject:backButtonColor forKey:@"id_back_button_color"];
-        }
-        
-        if([imageProcessingData objectForKey:@"backButtonColorAlpha"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"backButtonColorAlpha"] forKey:@"id_back_button_color_alpha"];
-        } else {
-            [uiDictionary setObject:@"1" forKey:@"id_back_button_color_alpha"];
-        }
-        
-        if([imageProcessingData objectForKey:@"headerTextLabelSize"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"headerTextLabelSize"] forKey:@"id_header_text_label_size"];
-        } else {
-            [uiDictionary setObject:titleTextFontSize forKey:@"id_header_text_label_size"];
-        }
-        
-        if([imageProcessingData objectForKey:@"textLabelSize"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"textLabelSize"] forKey:@"id_label_text_size"];
-        } else {
-            [uiDictionary setObject:titleTextFontSize forKey:@"id_label_text_size"];
-        }
-        
-        if([imageProcessingData objectForKey:@"idCaptureBorder"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"idCaptureBorder"] forKey:@"id_capture_border_style"];
-        } else {
-            [uiDictionary setObject:idCaptureBorderType forKey:@"id_capture_border_style"];
-        }
-        
-        if([imageProcessingData objectForKey:@"IdAlignmentValue"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"IdAlignmentValue"] forKey:@"id_title_label_alignment"];
-        } else {
-            [uiDictionary setObject:@"Top" forKey:@"id_title_label_alignment"];
-        }
-        
-        if([imageProcessingData objectForKey:@"IdHintMessageAlignmentValue"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"IdHintMessageAlignmentValue"] forKey:@"id_hint_message_alignment"];
-        } else {
-            [uiDictionary setObject:@"Center" forKey:@"id_hint_message_alignment"];
-        }
-        
-        if([imageProcessingData objectForKey:@"IdTitleAlignment"]) {
-            if([@"Y" isEqualToString:[imageProcessingData objectForKey:@"IdTitleAlignment"]]) {
-                [uiDictionary setObject:@"N" forKey:@"id_hide_id_title_label"];
-            } else {
-                [uiDictionary setObject:@"Y" forKey:@"id_hide_id_title_label"];
-            }
-        } else {
-            [uiDictionary setObject:@"N" forKey:@"id_hide_id_title_label"];
-        }
-        
-        if([imageProcessingData objectForKey:@"IdHintMessageAlignment"]) {
-            if([@"Y" isEqualToString:[imageProcessingData objectForKey:@"IdHintMessageAlignment"]]) {
-                [uiDictionary setObject:@"N" forKey:@"id_hide_id_hint_message"];
-            } else {
-                [uiDictionary setObject:@"Y" forKey:@"id_hide_id_hint_message"];
-            }
-        } else {
-            [uiDictionary setObject:@"N" forKey:@"id_hide_id_hint_message"];
-        }
-        
-        if([imageProcessingData objectForKey:@"confirmButtonColor"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"confirmButtonColor"] forKey:@"id_confirm_button_color"];
-        } else {
-            [uiDictionary setObject:confirmButtonColor forKey:@"id_confirm_button_color"];
-        }
-        
-        if([imageProcessingData objectForKey:@"confirmButtonColorAlpha"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"confirmButtonColorAlpha"] forKey:@"id_confirm_button_color_alpha"];
-        } else {
-            [uiDictionary setObject:@"1" forKey:@"id_confirm_button_color_alpha"];
-        }
-        
-        if([imageProcessingData objectForKey:@"retryButtonColor"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"retryButtonColor"] forKey:@"id_retry_button_color"];
-        } else {
-            [uiDictionary setObject:retryButtonColor forKey:@"id_retry_button_color"];
-        }
-        
-        if([imageProcessingData objectForKey:@"retryButtonColorAlpha"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"retryButtonColorAlpha"] forKey:@"id_retry_button_color_alpha"];
-        } else {
-            [uiDictionary setObject:@"1" forKey:@"id_retry_button_color_alpha"];
-        }
-        
-        if([imageProcessingData objectForKey:@"retryButtonBorderColor"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"retryButtonBorderColor"] forKey:@"id_retry_button_border_color"];
-        } else {
-            [uiDictionary setObject:retryButtonBordorColor forKey:@"id_retry_button_border_color"];
-        }
-        
-        if([imageProcessingData objectForKey:@"retryButtonColorBorderAlpha"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"retryButtonColorBorderAlpha"] forKey:@"id_retry_button_border_color_alpha"];
-        } else {
-            [uiDictionary setObject:@"1" forKey:@"id_retry_button_border_color_alpha"];
-        }
-        
-        if([imageProcessingData objectForKey:@"confirmButtonStyle"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"confirmButtonStyle"] forKey:@"id_confirm_button_background_color"];
-        } else {
-            [uiDictionary setObject:confirmButtonStyleColor forKey:@"id_confirm_button_background_color"];
-        }
-        
-        if([imageProcessingData objectForKey:@"confirmButtonStyleAlpha"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"confirmButtonStyleAlpha"] forKey:@"id_confirm_button_background_color_alpha"];
-        } else {
-            [uiDictionary setObject:@"1" forKey:@"id_confirm_button_background_color_alpha"];
-        }
-        
-        //IdCaptureBackGroundColor
-        if([imageProcessingData objectForKey:@"id_capture_background_color"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_capture_background_color"] forKey:@"id_capture_background_color"];
-        }
-        
-        if([imageProcessingData objectForKey:@"id_capture_background_color_alpha"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_capture_background_color_alpha"] forKey:@"id_capture_background_color_alpha"];
-        }
-        
-        // IdCapture Success message color
-        if([imageProcessingData objectForKey:@"id_capture_success_message_color"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_capture_success_message_color"] forKey:@"id_capture_success_message_color"];
-        }
-        
-        if([imageProcessingData objectForKey:@"id_capture_success_message_color_alpha"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_capture_success_message_color_alpha"] forKey:@"id_capture_success_message_color_alpha"];
-        }
-        
-        //IdCapture Button Color
-        if([imageProcessingData objectForKey:@"id_capture_button_color"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_capture_button_color"] forKey:@"id_capture_button_color"];
-        }
-        
-        if([imageProcessingData objectForKey:@"id_capture_button_alpha"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_capture_button_alpha"] forKey:@"id_capture_button_alpha"];
-        }
-        
-        //ShadowColor
-        if([imageProcessingData objectForKey:@"id_enable_label_shadow"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_enable_label_shadow"] forKey:@"id_enable_label_shadow"];
-        }
-        
-        if([imageProcessingData objectForKey:@"id_label_shadow_enable"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_label_shadow_enable"] forKey:@"id_enable_label_shadow"];
-        }
-        
-        //Disable Drawing Rect
-        if([imageProcessingData objectForKey:@"id_disable_rectangle_drawing"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_disable_rectangle_drawing"] forKey:@"id_disable_rectangle_drawing"];
-        }
-        
-        //Inst Img resource id
-        if([imageProcessingData objectForKey:@"id_instruction_img_resource_id"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_instruction_img_resource_id"] forKey:@"id_instruction_img_resource_id"];
-        }
-        
-        // Image edge threshold
-        if([imageProcessingData objectForKey:@"id_image_edgethresh"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_image_edgethresh"] forKey:@"id_image_edgethresh"];
-        }
-        
-        //Barcode Scan limi
-        if([imageProcessingData objectForKey:@"barcode_scan_max_limit"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"barcode_scan_max_limit"] forKey:@"barcode_scan_max_limit"];
-        }
-        
-        //MRZ Scan Limit
-        if([imageProcessingData objectForKey:@"mrz_scan_max_limit"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"mrz_scan_max_limit"] forKey:@"mrz_scan_max_limit"];
-        }
-        
-        //MRZ and Barcode Scan limit
-        if([imageProcessingData objectForKey:@"mrz_and_barcode_scan_max_limit"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"mrz_and_barcode_scan_max_limit"] forKey:@"mrz_and_barcode_scan_max_limit"];
-        }
-        
-        //Id focus score
-        if([imageProcessingData objectForKey:@"id_focus_score"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_focus_score"] forKey:@"id_focus_score"];
-        }
-        
-        // Id Saturation score
-        if([imageProcessingData objectForKey:@"id_saturation_score"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_saturation_score"] forKey:@"id_saturation_score"];
-        }
-        
-        // Id Zoom score
-        if([imageProcessingData objectForKey:@"id_zoom_score"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_zoom_score"] forKey:@"id_zoom_score"];
-        }
-        
-        // Title image bitmap
-        if([imageProcessingData objectForKey:@"id_title_img_bitmap_base64"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_title_img_bitmap_base64"] forKey:@"id_title_img_bitmap_base64"];
-        }
-        
-        // Id Open Camera
-        if([imageProcessingData objectForKey:@"id_open_camera"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_open_camera"] forKey:@"id_open_camera"];
-        }
-        
-        //Generic Document Field name
-        if([imageProcessingData objectForKey:@"id_generic_doc_fieldname"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_generic_doc_fieldname"] forKey:@"id_generic_doc_fieldname"];
-        }
-        
-        //label Text Type
-        if([imageProcessingData objectForKey:@"id_label_text_type"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_label_text_type"] forKey:@"id_label_text_type"];
-        }
-        
-        //Header Text Type
-        if([imageProcessingData objectForKey:@"id_header_text_type"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_header_text_type"] forKey:@"id_header_text_type"];
-        }
-        
-        //Title Image Alignment
-        if([imageProcessingData objectForKey:@"id_title_image_alignment"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_title_image_alignment"] forKey:@"id_title_image_alignment"];
-        }
-        
-        //Hide Title Image
-        if([imageProcessingData objectForKey:@"id_hide_id_title_image"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_hide_id_title_image"] forKey:@"id_hide_id_title_image"];
-        }
-        
-        //Face Camera MegaPixel
-        if([imageProcessingData objectForKey:@"id_image_resolution"]) {
-            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_image_resolution"] forKey:@"id_image_resolution"];
-        }
-
-        /* Need to check
-         id_label_text_type
-         "id_header_text_type": "Default",
-         "id_title_image_alignment": "Bottom",
-         "id_hide_id_title_image": "N",*/
-        
-        if([imageProcessingData objectForKey:@"imageSnippetPresentFlag"] && [@"Y" isEqualToString:[imageProcessingData objectForKey:@"imageSnippetPresentFlag"]]) {
-            
-            NSMutableDictionary *snippetConfig = [[NSMutableDictionary alloc] init];
-            
-            NSMutableDictionary *snippetDict = [[NSMutableDictionary alloc] init];
-            
-            snippetConfig = [imageProcessingData objectForKey:@"imageSnippetConfig"];
-            NSArray *snippetArray  = [snippetConfig objectForKey:@"ImageSnippetReverseMapping"];
-            NSMutableArray *snippetNameArray = [ [NSMutableArray alloc] init];
-            
-            psgfKeyValueSnippetDictionary = [[NSMutableDictionary alloc] init];
-            
-            for(int i = 0; i < [snippetArray count]; i++)  {
-                NSMutableDictionary *objectDictionary = [snippetArray objectAtIndex:i];
-                NSString *responseFormFieldKey = [objectDictionary objectForKey:@"ResponseFormFieldKey"];
-                NSString *snippetName = [objectDictionary objectForKey:@"SnippetName"];
-                NSString *isMandatory = [objectDictionary objectForKey:@"IsMandatory"];
-                
-                if([@"Y" isEqualToString:isMandatory]) {
-                    snippetName = [snippetName stringByAppendingString:@"*"];
-                }
-                [snippetDict setObject:snippetName forKey:snippetName];
-                [psgfKeyValueSnippetDictionary setObject:responseFormFieldKey forKey:snippetName];
-            }
-            
-            
-            NSMutableDictionary *selfieCapDic = [[NSMutableDictionary alloc] init];
-            [selfieCapDic setObject:uiDictionary forKey:@"snippet_capture"];
-            [AppItSDK customizeUserInterface:selfieCapDic];
-            
-            [AppItSDK snippetCapture:self additionalDictionary:nil uiConfigDictionary:nonUIDictionary snippetFieldsDictionary:snippetDict isIdCaptureCall:true];
-            
-        } else {
-            
-            NSMutableDictionary *selfieCapDic = [[NSMutableDictionary alloc] init];
-            //            [selfieCapDic setObject:uiDictionary forKey:@"id_capture_back"];
-            NSString *docSide = [imageProcessingData objectForKey:@"documentSide"];
-            NSString *country = [imageProcessingData objectForKey:@"country"];
-            NSString *state = [imageProcessingData objectForKey:@"state"];
-            NSString *IDType = [imageProcessingData objectForKey:@"idType"];
-            
-            if(![NS_String_Utils stringIsNilOrEmpty:country]){
-                [nonUIDictionary setObject:country forKey:@"country_code"];
-            }
-            
-            if(![NS_String_Utils stringIsNilOrEmpty:state]){
-                [nonUIDictionary setObject:state forKey:@"state_code"];
-            }
-            
-            if(![NS_String_Utils stringIsNilOrEmpty:IDType]){
-                [nonUIDictionary setObject:IDType forKey:@"id_type"];
-            }
-            
-            if([[docSide uppercaseString] isEqualToString:[@"ID_BACK" uppercaseString]]) {
-                
-                [selfieCapDic setObject:uiDictionary forKey:@"id_capture_back"];
-                [AppItSDK customizeUserInterface:selfieCapDic];
-                [AppItSDK captureBackImage:self additionalDictionary:nil uiConfigDictionary:nonUIDictionary];
-                
-            } else {
-                [selfieCapDic setObject:uiDictionary forKey:@"id_capture_front"];
-                [AppItSDK customizeUserInterface:selfieCapDic];
-                [AppItSDK captureFrontImage:self additionalDictionary:nil uiConfigDictionary:nonUIDictionary];
-            }
-            
-            
-            
-            
-        }
-        
-    } else {
-        callbackExecuted = false;
-        [self performSegueWithIdentifier:@"showOpenCvSeque" sender:self];
-    }
-}
-
--(void) prepare_data_for_fingerprint{
-        
-    NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
-    imageProcessingData = [NSMutableDictionary dictionary];
-    NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
-    NSArray *imageProcessingArray = [dataToAppit objectForKey:@"scanFingerprint"];
-    imageProcessingData = [imageProcessingArray objectAtIndex:0];
-    
-    NSMutableDictionary *uiDictionary = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *nonUIDictionary = [[NSMutableDictionary alloc] init];
-    
-    if([imageProcessingData objectForKey:@"styleIOS"]){
-        [uiDictionary setObject:[imageProcessingData objectForKey:@"styleIOS"] forKey:@"cfc_label_text_style"];
-    }
-    
-    if([imageProcessingData objectForKey:@"textLabelColor"]) {
-        [uiDictionary setObject:[imageProcessingData objectForKey:@"textLabelColor"] forKey:@"cfc_label_text_color"];
-    }
-    
-    if([imageProcessingData objectForKey:@"textLabelAlpha"]) {
-        [uiDictionary setObject:[imageProcessingData objectForKey:@"textLabelAlpha"] forKey:@"cfc_label_text_color_alpha"];
-    }
-    
-    if([imageProcessingData objectForKey:@"instructionButtonColor"]) {
-        [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonColor"] forKey:@"cfc_instruction_button_color"];
-    }
-    
-    if([imageProcessingData objectForKey:@"instructionButtonColorAlpha"]) {
-        [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonColorAlpha"] forKey:@"cfc_instruction_button_alpha"];
-    }
-    
-    if([imageProcessingData objectForKey:@"instructionButtonTXTColor"]) {
-        [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonTXTColor"] forKey:@"cfc_instruction_button_txt_color"];
-    }
-    
-    if([imageProcessingData objectForKey:@"instructionButtonTXTColorAlpha"]) {
-        [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonTXTColorAlpha"] forKey:@"cfc_instruction_button_txt_alpha"];
-    }
-    
-    if([imageProcessingData objectForKey:@"showInstruction"]) {
-        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"showInstruction"] forKey:@"cfc_show_instruction_screen"];
-    }
-        
-    // Index Finger
-    if([imageProcessingData objectForKey:@"indexFingerMinThreshold"]) {
-        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"indexFingerMinThreshold"] forKey:@"cfc_indexfinger_min_threshold"];
-    }
-    if([imageProcessingData objectForKey:@"indexFingerThreshold"]) {
-        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"indexFingerThreshold"] forKey:@"cfc_indexfinger_threshold"];
-    }
-    
-    // Middle Finger
-    if([imageProcessingData objectForKey:@"middleFingerMinThreshold"]) {
-        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"middleFingerMinThreshold"] forKey:@"cfc_middlefinger_min_threshold"];
-    }
-    if([imageProcessingData objectForKey:@"middleFingerThreshold"]) {
-        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"middleFingerThreshold"] forKey:@"cfc_middlefinger_threshold"];
-    }
-    
-    // Ring FInger
-    if([imageProcessingData objectForKey:@"ringFingerMinThreshold"]) {
-        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"ringFingerMinThreshold"] forKey:@"cfc_ringfinger_min_threshold"];
-    }
-    if([imageProcessingData objectForKey:@"ringFingerThreshold"]) {
-        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"ringFingerThreshold"] forKey:@"cfc_ringfinger_threshold"];
-    }
-    
-    // Baby FInger
-    if([imageProcessingData objectForKey:@"babyFingerMinThreshold"]) {
-        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"babyFingerMinThreshold"] forKey:@"cfc_babyfinger_min_threshold"];
-    }
-    if([imageProcessingData objectForKey:@"babyFingerThreshold"]) {
-        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"babyFingerThreshold"] forKey:@"cfc_babyfinger_threshold"];
-    }
-    
-    // Finger to be Capture
-    if([imageProcessingData objectForKey:@"processIndexFinger"]) {
-        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processIndexFinger"] forKey:@"cfc_keep_index_finger"];
-    }
-    if([imageProcessingData objectForKey:@"processMiddleFinger"]) {
-        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processMiddleFinger"] forKey:@"cfc_keep_middle_finger"];
-    }
-    if([imageProcessingData objectForKey:@"processRingFinger"]) {
-        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processRingFinger"] forKey:@"cfc_keep_ring_finger"];
-    }
-    if([imageProcessingData objectForKey:@"processBabyFinger"]) {
-        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processBabyFinger"] forKey:@"cfc_keep_baby_finger"];
-    }
-    
-    // Other Factor
-    if([imageProcessingData objectForKey:@"aggressivenessFactor4F"]) {
-        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"aggressivenessFactor4F"] forKey:@"cfc_aggressiveness_factor"];
-    }
-    if([imageProcessingData objectForKey:@"imageWidth4f"]) {
-        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"imageWidth4f"] forKey:@"cfc_image_width"];
-    }
-    if([imageProcessingData objectForKey:@"ridgeWidth"]) {
-        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"ridgeWidth"] forKey:@"cfc_ridge_width"];
-    }
-    if([imageProcessingData objectForKey:@"type"]) {
-        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"type"] forKey:@"cfc_label_text_type"];
-    }
-    if([imageProcessingData objectForKey:@"style"]) {
-        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"style"] forKey:@"cfc_label_text_style"];
-    }
-
-    // Focus Threshold
-    if([imageProcessingData objectForKey:@"FocusThreshold"]) {
-        [AppItSDK setFPFocusThreshold:[[imageProcessingData objectForKey:@"FocusThreshold"] intValue]];
-    }
-
-    [nonUIDictionary setObject:@"1" forKey:@"cfc_zoom_camera"];
-
-    /* Following Extra VAlues Come From Config Side
-        zoomCamera4F = 20;
-        cameraBiometrics = Y;
-    */
-    
-    /* Following Value from SDK side not configured
-        "cfc_label_text_color": "FFFFFF",
-        "cfc_label_text_color_alpha": "1",
-        "cfc_instruction_button_color": "FFFFFF",
-        "cfc_instruction_button_alpha": "1",
-        "labels": {
-          "camera_finger_capture_title": "Capture Fingerprint"
-        }
-     */
-    
-    NSMutableDictionary *fingCapDict = [[NSMutableDictionary alloc] init];
-    [fingCapDict setObject:uiDictionary forKey:@"camera_finger_capture"];
-    [AppItSDK customizeUserInterface:fingCapDict];
-    
-    [AppItSDK captureFourFingerprint:self cameraFingerCaptureConfig:nonUIDictionary];
-    
-}
-
 -(void) checkCameraPermission {
     
     AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
@@ -1422,70 +771,6 @@ static bool idfaceshowInstruction = true;
             }
         }];
     }
-}
-
--(void) prepare_data_for_barcodeScan {
-    BarcodeViewController *controller = [[BarcodeViewController alloc] init];
-    controller.delegate = self;
-    controller.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self presentModalViewController:controller animated:YES];
-}
-
-- (void) prepare_data_for_snippet_capture {
-    
-    NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
-    NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
-    NSArray *imageProcessingArray = [dataToAppit objectForKey:@"imageProcessing"];
-    imageProcessingData = [imageProcessingArray objectAtIndex:0];
-    
-    NSMutableArray *snippetArrayList = [[NSMutableArray alloc] init];
-    
-    NSMutableDictionary *snippetDict = [imageProcessingData objectForKey:@"imageSnippetConfig"];
-    NSArray *snippetArray  = [requestParamJson objectForKey:@"snippetMappingList"];
-    NSString *imageData = [requestParamJson objectForKey:@"capturedImageData"];
-    
-    NSURL *url = [NSURL URLWithString:imageData];
-    NSData *imageNSData = [NSData dataWithContentsOfURL:url];
-    UIImage *snippetImage = [UIImage imageWithData:imageNSData];
-    
-    NSMutableArray *snippetNameArray = [ [NSMutableArray alloc] init];
-    
-    NSMutableDictionary *snippetNameDictionary = [[NSMutableDictionary alloc] init];
-    
-    psgfKeyValueSnippetDictionary = [[NSMutableDictionary alloc] init];
-    
-    for(int i = 0; i < [snippetArray count]; i++)  {
-        NSMutableDictionary *objectDictionary = [snippetArray objectAtIndex:i];
-        NSString *responseFormFieldKey = [objectDictionary objectForKey:@"ResponseFormFieldKey"];
-        NSString *snippetName = [objectDictionary objectForKey:@"SnippetName"];
-        NSString *isMandatory = [objectDictionary objectForKey:@"IsMandatory"];
-        if([@"Y" isEqualToString:isMandatory]) {
-            snippetName = [snippetName stringByAppendingString:@"*"];
-        }
-        
-        [snippetNameDictionary setObject:snippetName forKey:snippetName];
-        
-        [psgfKeyValueSnippetDictionary setObject:responseFormFieldKey forKey:snippetName];
-    }
-    
-    NSData *imageSnippetData = UIImagePNGRepresentation(snippetImage);
-    NSString *snippetStringImage =  [imageSnippetData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-    
-    NSMutableDictionary *setSnippetImage = [[NSMutableDictionary alloc] init];
-    
-    //    [setSnippetImage setObject:imageData forKey:@"SNIPPET"];
-    [setSnippetImage setObject:snippetStringImage forKey:@"SNIPPET"];
-    
-    [AppItSDK setImages:setSnippetImage];
-    
-    [AppItSDK snippetCapture:self additionalDictionary:nil uiConfigDictionary:nil snippetFieldsDictionary:snippetNameDictionary isIdCaptureCall:false];
-}
-
--(void) prepare_data_for_signatureCapture {
-    CaptureSignatureController *controller = [[CaptureSignatureController alloc] init];
-    controller.delegate = self;
-    controller.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self presentModalViewController:controller animated:YES];
 }
 
 -(void) prepare_data_for_face_detection{
@@ -2028,6 +1313,721 @@ static bool idfaceshowInstruction = true;
     [AppItSDK customizeUserInterface:selfieCapDic];
 
     [AppItSDK detectFace:self faceCaptureConfig:nonUIDictionary];
+}
+
+-(void) prepare_data_for_image_proc{
+    int mAlpha = 1;
+    
+    
+    NSString *dFontStyle = @"Default", *hintMessageColor = @"606060", *instContinueButtonColor = @"FFFFFF", *instContinueButtonTextColor = @"487D95", *hintMessageSize = @"", *instructionTextColor = @"FFFFFF";
+    
+    int hintMessageColorAlpha = mAlpha, instContinueButtonAlpha = mAlpha, instContinueButtonTextAlpha = mAlpha, dOutsideFaceOutlineColorAlpha =mAlpha;
+    
+    NSMutableDictionary *uiDictionary = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *nonUIDictionary = [[NSMutableDictionary alloc] init];
+    
+    NSString *dOutsideFaceOutlineColor = @"487D95";
+    NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
+    NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
+    NSArray *imageProcessingArray = [dataToAppit objectForKey:@"imageProcessing"];
+    imageProcessingData = [imageProcessingArray objectAtIndex:0];
+    
+    NSString *highResolutionImageMode = [imageProcessingData objectForKey:@"HighResolutionImageMode"];
+    
+    if([@"Y" isEqualToString:highResolutionImageMode]) {
+        
+        if([imageProcessingData objectForKey:@"instructionButtonColor"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonColor"] forKey:@"id_instruction_button_color"];
+        }
+        
+        if([imageProcessingData objectForKey:@"instructionButtonColorAlpha"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonColorAlpha"] forKey:@"id_instruction_button_alpha"];
+        }
+        
+        if([imageProcessingData objectForKey:@"instructionButtonTXTColor"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonTXTColor"] forKey:@"id_instruction_button_txt_color"];
+        }
+        
+        if([imageProcessingData objectForKey:@"instructionButtonTXTColorAlpha"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonTXTColorAlpha"] forKey:@"id_instruction_button_txt_alpha"];
+        }
+        
+        if([imageProcessingData objectForKey:@"EnableCaptureButton"]) {
+            if([@"Y" isEqualToString:[imageProcessingData objectForKey:@"EnableCaptureButton"]]) {
+                [nonUIDictionary setObject:@"Y" forKey:@"id_capture_enable"];
+            } else {
+                [nonUIDictionary setObject:@"N" forKey:@"id_capture_enable"];
+            }
+        } else {
+            [nonUIDictionary setObject:@"N" forKey:@"id_capture_enable"];
+        }
+        
+        if([imageProcessingData objectForKey:@"ShowInstructionScreen"]) {
+            [nonUIDictionary setObject:[imageProcessingData objectForKey:@"ShowInstructionScreen"] forKey:@"id_show_instruction"];
+        }
+        
+        if([imageProcessingData objectForKey:@"OCRMinimumLightThreshold"]) {
+            [nonUIDictionary setObject:[imageProcessingData objectForKey:@"OCRMinimumLightThreshold"] forKey:@"id_light_threshold"];
+        }
+        
+        if([imageProcessingData objectForKey:@"MinFocusScoreThreshold"]) {
+            [nonUIDictionary setObject:[imageProcessingData objectForKey:@"MinFocusScoreThreshold"] forKey:@"id_min_focus_threshold"];
+        }
+        
+        if([imageProcessingData objectForKey:@"GlarePercentageThreshold"]) {
+            NSString *glarePercentageThreshold = [imageProcessingData objectForKey:@"GlarePercentageThreshold"];
+            if([NS_String_Utils stringIsNilOrEmpty:glarePercentageThreshold]) {
+                [nonUIDictionary setObject:@"" forKey:@"id_glare_percentage"];
+            }  else {
+                [nonUIDictionary setObject:[imageProcessingData objectForKey:@"GlarePercentageThreshold"] forKey:@"id_glare_percentage"];
+            }
+        }
+        
+        if([imageProcessingData objectForKey:@"EnableCaptureButtonTime"]) {
+            [nonUIDictionary setObject:[imageProcessingData objectForKey:@"EnableCaptureButtonTime"] forKey:@"id_enable_capture_button_time"];
+        }
+        
+        if([imageProcessingData objectForKey:@"CapturePortrait"]) {
+            [nonUIDictionary setObject:[imageProcessingData objectForKey:@"CapturePortrait"] forKey:@"id_capture_portrait"];
+        }
+        
+        if([imageProcessingData objectForKey:@"HighResolutionImageHeight"]) {
+            //           [nonUIDictionary setObject:[imageProcessingData objectForKey:@"HighResolutionImageHeight"] forKey:@"id_image_height"];
+            [nonUIDictionary setObject:[imageProcessingData objectForKey:@"HighResolutionImageHeight"] forKey:@"id_image_width"];
+            //             [nonUIDictionary setObject:@"1170" forKey:@"id_image_height"];
+        }
+        
+        if([imageProcessingData objectForKey:@"HighResolutionImageWidth"]) {
+            //            [nonUIDictionary setObject:[imageProcessingData objectForKey:@"HighResolutionImageWidth"] forKey:@"id_image_width"];
+            [nonUIDictionary setObject:[imageProcessingData objectForKey:@"HighResolutionImageWidth"] forKey:@"id_image_height"];
+            //            [nonUIDictionary setObject:@"800" forKey:@"id_image_width"];
+        }
+        
+        NSString *dIdOutlineColor = @"FFFFFF", *dDetectedIdOutlineColor = @"6EB24C", *dOutsideIdOutlineColor = @"FFFFFF",*dDetectedPOAOutlineColor = @"6EB24C",*dDetectedOutsideIdOutlineColor = @"FFFFFF",*titleMessageStyle = @"Normal", *hintMessageStyle = @"Normal" ,*titleMessageColor = @"FFFFFF", *backButtonColor = @"FEAD36", *titleTextFontSize=@"", *hintTextFontSize=@"", *idCaptureBorderType = @"Thick", *retryButtonColor = @"606060", *confirmButtonColor = @"606060", *retryButtonBordorColor = @"FFFFFF", *confirmButtonStyleColor = @"FFFFFF";
+        
+        NSString *idOutlineColor = dIdOutlineColor, *detectedidoutlinecolor = dDetectedIdOutlineColor, *idOutsideOutlineColor = dOutsideIdOutlineColor;
+        
+        int idOutlineColorAlpha = mAlpha,detectedidoutlinetransparency = mAlpha, idOutsideOutlineColorAlpha = mAlpha,titleMessageColorAlpha = mAlpha,backButtonColorAlpha = mAlpha, confirmButtonColorAlpha = mAlpha, retryButtonColorAlpha = mAlpha, retryButtonBorderColorAlpha = mAlpha, confirmButtonStyleColorAlpha = mAlpha;
+        
+        if([imageProcessingData objectForKey:@"IdOutlineColor"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"IdOutlineColor"] forKey:@"id_outline_color"];
+        } else {
+            [uiDictionary setObject:idOutlineColor forKey:@"id_outline_color"];
+        }
+        
+        if([imageProcessingData objectForKey:@"idOutlineColorAlpha"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"idOutlineColorAlpha"] forKey:@"id_outline_color_alpha"];
+        } else {
+            [uiDictionary setObject:@"1" forKey:@"id_outline_color_alpha"];
+        }
+        
+        if([imageProcessingData objectForKey:@"ColorOutsideOutline"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"ColorOutsideOutline"] forKey:@"id_outside_outline_color"];
+        } else {
+            [uiDictionary setObject:idOutsideOutlineColor forKey:@"id_outside_outline_color"];
+        }
+        
+        if([imageProcessingData objectForKey:@"idOutsideOutlineColorAlpha"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"idOutsideOutlineColorAlpha"] forKey:@"id_outside_outline_color_aplha"];
+        } else {
+            [uiDictionary setObject:@"1" forKey:@"id_outside_outline_color_aplha"];
+        }
+        
+        if([imageProcessingData objectForKey:@"DetectedIdOutlineColor"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"DetectedIdOutlineColor"] forKey:@"id_detected_id_outline_color"];
+        } else {
+            [uiDictionary setObject:dDetectedIdOutlineColor forKey:@"id_detected_id_outline_color"];
+        }
+        
+        if([imageProcessingData objectForKey:@"detectedIdOutlineColorAlpha"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"detectedIdOutlineColorAlpha"] forKey:@"id_detected_id_outline_color_alpha"];
+        } else {
+            [uiDictionary setObject:@"1" forKey:@"id_detected_id_outline_color_alpha"];
+        }
+        
+        if([imageProcessingData objectForKey:@"DetectedColorOutsideOutline"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"DetectedColorOutsideOutline"] forKey:@"id_detected_id_outside_outline_color"];
+        } else {
+            [uiDictionary setObject:dDetectedOutsideIdOutlineColor forKey:@"id_detected_id_outside_outline_color"];
+        }
+        
+        if([imageProcessingData objectForKey:@"detectedIdOutsideOutlineColorAlpha"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"detectedIdOutsideOutlineColorAlpha"] forKey:@"id_detected_id_outside_outline_color_alpha"];
+        } else {
+            [uiDictionary setObject:@"1" forKey:@"id_detected_id_outside_outline_color_alpha"];
+        }
+        
+        if([imageProcessingData objectForKey:@"headerStyleIOS"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"headerStyleIOS"] forKey:@"id_header_text_style"];
+        } else {
+            [uiDictionary setObject:titleMessageStyle forKey:@"id_header_text_style"];
+        }
+        
+        if([imageProcessingData objectForKey:@"styleIOS"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"styleIOS"] forKey:@"id_label_text_style"];
+        } else {
+            [uiDictionary setObject:hintMessageStyle forKey:@"id_label_text_style"];
+        }
+        
+        if([imageProcessingData objectForKey:@"headerTextLabelColor"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"headerTextLabelColor"] forKey:@"id_header_text_label_color"];
+        } else {
+            [uiDictionary setObject:titleMessageColor forKey:@"id_header_text_label_color"];
+        }
+        
+        if([imageProcessingData objectForKey:@"headerTextLabelAlpha"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"headerTextLabelAlpha"] forKey:@"id_header_text_label_alpha"];
+        } else {
+            [uiDictionary setObject:@"1" forKey:@"id_header_text_label_alpha"];
+        }
+        
+        if([imageProcessingData objectForKey:@"textLabelColor"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"textLabelColor"] forKey:@"id_label_text_color"];
+        } else {
+            [uiDictionary setObject:hintMessageColor forKey:@"id_label_text_color"];
+        }
+        
+        if([imageProcessingData objectForKey:@"textLabelAlpha"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"textLabelAlpha"] forKey:@"id_label_text_alpha"];
+        } else {
+            [uiDictionary setObject:@"1" forKey:@"id_label_text_alpha"];
+        }
+        
+        if([imageProcessingData objectForKey:@"backButtonColor"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"backButtonColor"] forKey:@"id_back_button_color"];
+        } else {
+            [uiDictionary setObject:backButtonColor forKey:@"id_back_button_color"];
+        }
+        
+        if([imageProcessingData objectForKey:@"backButtonColorAlpha"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"backButtonColorAlpha"] forKey:@"id_back_button_color_alpha"];
+        } else {
+            [uiDictionary setObject:@"1" forKey:@"id_back_button_color_alpha"];
+        }
+        
+        if([imageProcessingData objectForKey:@"headerTextLabelSize"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"headerTextLabelSize"] forKey:@"id_header_text_label_size"];
+        } else {
+            [uiDictionary setObject:titleTextFontSize forKey:@"id_header_text_label_size"];
+        }
+        
+        if([imageProcessingData objectForKey:@"textLabelSize"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"textLabelSize"] forKey:@"id_label_text_size"];
+        } else {
+            [uiDictionary setObject:titleTextFontSize forKey:@"id_label_text_size"];
+        }
+        
+        if([imageProcessingData objectForKey:@"idCaptureBorder"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"idCaptureBorder"] forKey:@"id_capture_border_style"];
+        } else {
+            [uiDictionary setObject:idCaptureBorderType forKey:@"id_capture_border_style"];
+        }
+        
+        if([imageProcessingData objectForKey:@"IdAlignmentValue"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"IdAlignmentValue"] forKey:@"id_title_label_alignment"];
+        } else {
+            [uiDictionary setObject:@"Top" forKey:@"id_title_label_alignment"];
+        }
+        
+        if([imageProcessingData objectForKey:@"IdHintMessageAlignmentValue"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"IdHintMessageAlignmentValue"] forKey:@"id_hint_message_alignment"];
+        } else {
+            [uiDictionary setObject:@"Center" forKey:@"id_hint_message_alignment"];
+        }
+        
+        if([imageProcessingData objectForKey:@"IdTitleAlignment"]) {
+            if([@"Y" isEqualToString:[imageProcessingData objectForKey:@"IdTitleAlignment"]]) {
+                [uiDictionary setObject:@"N" forKey:@"id_hide_id_title_label"];
+            } else {
+                [uiDictionary setObject:@"Y" forKey:@"id_hide_id_title_label"];
+            }
+        } else {
+            [uiDictionary setObject:@"N" forKey:@"id_hide_id_title_label"];
+        }
+        
+        if([imageProcessingData objectForKey:@"IdHintMessageAlignment"]) {
+            if([@"Y" isEqualToString:[imageProcessingData objectForKey:@"IdHintMessageAlignment"]]) {
+                [uiDictionary setObject:@"N" forKey:@"id_hide_id_hint_message"];
+            } else {
+                [uiDictionary setObject:@"Y" forKey:@"id_hide_id_hint_message"];
+            }
+        } else {
+            [uiDictionary setObject:@"N" forKey:@"id_hide_id_hint_message"];
+        }
+        
+        if([imageProcessingData objectForKey:@"confirmButtonColor"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"confirmButtonColor"] forKey:@"id_confirm_button_color"];
+        } else {
+            [uiDictionary setObject:confirmButtonColor forKey:@"id_confirm_button_color"];
+        }
+        
+        if([imageProcessingData objectForKey:@"confirmButtonColorAlpha"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"confirmButtonColorAlpha"] forKey:@"id_confirm_button_color_alpha"];
+        } else {
+            [uiDictionary setObject:@"1" forKey:@"id_confirm_button_color_alpha"];
+        }
+        
+        if([imageProcessingData objectForKey:@"retryButtonColor"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"retryButtonColor"] forKey:@"id_retry_button_color"];
+        } else {
+            [uiDictionary setObject:retryButtonColor forKey:@"id_retry_button_color"];
+        }
+        
+        if([imageProcessingData objectForKey:@"retryButtonColorAlpha"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"retryButtonColorAlpha"] forKey:@"id_retry_button_color_alpha"];
+        } else {
+            [uiDictionary setObject:@"1" forKey:@"id_retry_button_color_alpha"];
+        }
+        
+        if([imageProcessingData objectForKey:@"retryButtonBorderColor"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"retryButtonBorderColor"] forKey:@"id_retry_button_border_color"];
+        } else {
+            [uiDictionary setObject:retryButtonBordorColor forKey:@"id_retry_button_border_color"];
+        }
+        
+        if([imageProcessingData objectForKey:@"retryButtonColorBorderAlpha"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"retryButtonColorBorderAlpha"] forKey:@"id_retry_button_border_color_alpha"];
+        } else {
+            [uiDictionary setObject:@"1" forKey:@"id_retry_button_border_color_alpha"];
+        }
+        
+        if([imageProcessingData objectForKey:@"confirmButtonStyle"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"confirmButtonStyle"] forKey:@"id_confirm_button_background_color"];
+        } else {
+            [uiDictionary setObject:confirmButtonStyleColor forKey:@"id_confirm_button_background_color"];
+        }
+        
+        if([imageProcessingData objectForKey:@"confirmButtonStyleAlpha"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"confirmButtonStyleAlpha"] forKey:@"id_confirm_button_background_color_alpha"];
+        } else {
+            [uiDictionary setObject:@"1" forKey:@"id_confirm_button_background_color_alpha"];
+        }
+        
+        //IdCaptureBackGroundColor
+        if([imageProcessingData objectForKey:@"id_capture_background_color"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_capture_background_color"] forKey:@"id_capture_background_color"];
+        }
+        
+        if([imageProcessingData objectForKey:@"id_capture_background_color_alpha"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_capture_background_color_alpha"] forKey:@"id_capture_background_color_alpha"];
+        }
+        
+        // IdCapture Success message color
+        if([imageProcessingData objectForKey:@"id_capture_success_message_color"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_capture_success_message_color"] forKey:@"id_capture_success_message_color"];
+        }
+        
+        if([imageProcessingData objectForKey:@"id_capture_success_message_color_alpha"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_capture_success_message_color_alpha"] forKey:@"id_capture_success_message_color_alpha"];
+        }
+        
+        //IdCapture Button Color
+        if([imageProcessingData objectForKey:@"id_capture_button_color"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_capture_button_color"] forKey:@"id_capture_button_color"];
+        }
+        
+        if([imageProcessingData objectForKey:@"id_capture_button_alpha"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_capture_button_alpha"] forKey:@"id_capture_button_alpha"];
+        }
+        
+        //ShadowColor
+        if([imageProcessingData objectForKey:@"id_enable_label_shadow"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_enable_label_shadow"] forKey:@"id_enable_label_shadow"];
+        }
+        
+        if([imageProcessingData objectForKey:@"id_label_shadow_enable"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_label_shadow_enable"] forKey:@"id_enable_label_shadow"];
+        }
+        
+        //Disable Drawing Rect
+        if([imageProcessingData objectForKey:@"id_disable_rectangle_drawing"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_disable_rectangle_drawing"] forKey:@"id_disable_rectangle_drawing"];
+        }
+        
+        //Inst Img resource id
+        if([imageProcessingData objectForKey:@"id_instruction_img_resource_id"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_instruction_img_resource_id"] forKey:@"id_instruction_img_resource_id"];
+        }
+        
+        // Image edge threshold
+        if([imageProcessingData objectForKey:@"id_image_edgethresh"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_image_edgethresh"] forKey:@"id_image_edgethresh"];
+        }
+        
+        //Barcode Scan limi
+        if([imageProcessingData objectForKey:@"barcode_scan_max_limit"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"barcode_scan_max_limit"] forKey:@"barcode_scan_max_limit"];
+        }
+        
+        //MRZ Scan Limit
+        if([imageProcessingData objectForKey:@"mrz_scan_max_limit"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"mrz_scan_max_limit"] forKey:@"mrz_scan_max_limit"];
+        }
+        
+        //MRZ and Barcode Scan limit
+        if([imageProcessingData objectForKey:@"mrz_and_barcode_scan_max_limit"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"mrz_and_barcode_scan_max_limit"] forKey:@"mrz_and_barcode_scan_max_limit"];
+        }
+        
+        //Id focus score
+        if([imageProcessingData objectForKey:@"id_focus_score"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_focus_score"] forKey:@"id_focus_score"];
+        }
+        
+        // Id Saturation score
+        if([imageProcessingData objectForKey:@"id_saturation_score"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_saturation_score"] forKey:@"id_saturation_score"];
+        }
+        
+        // Id Zoom score
+        if([imageProcessingData objectForKey:@"id_zoom_score"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_zoom_score"] forKey:@"id_zoom_score"];
+        }
+        
+        // Title image bitmap
+        if([imageProcessingData objectForKey:@"id_title_img_bitmap_base64"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_title_img_bitmap_base64"] forKey:@"id_title_img_bitmap_base64"];
+        }
+        
+        // Id Open Camera
+        if([imageProcessingData objectForKey:@"id_open_camera"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_open_camera"] forKey:@"id_open_camera"];
+        }
+        
+        //Generic Document Field name
+        if([imageProcessingData objectForKey:@"id_generic_doc_fieldname"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_generic_doc_fieldname"] forKey:@"id_generic_doc_fieldname"];
+        }
+        
+        //label Text Type
+        if([imageProcessingData objectForKey:@"id_label_text_type"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_label_text_type"] forKey:@"id_label_text_type"];
+        }
+        
+        //Header Text Type
+        if([imageProcessingData objectForKey:@"id_header_text_type"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_header_text_type"] forKey:@"id_header_text_type"];
+        }
+        
+        //Title Image Alignment
+        if([imageProcessingData objectForKey:@"id_title_image_alignment"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_title_image_alignment"] forKey:@"id_title_image_alignment"];
+        }
+        
+        //Hide Title Image
+        if([imageProcessingData objectForKey:@"id_hide_id_title_image"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_hide_id_title_image"] forKey:@"id_hide_id_title_image"];
+        }
+        
+        //ID Camera Resolution
+        if([imageProcessingData objectForKey:@"id_image_resolution"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_image_resolution"] forKey:@"id_image_resolution"];
+        }
+
+        /* Need to check
+         id_label_text_type
+         "id_header_text_type": "Default",
+         "id_title_image_alignment": "Bottom",
+         "id_hide_id_title_image": "N",*/
+        
+        if([imageProcessingData objectForKey:@"imageSnippetPresentFlag"] && [@"Y" isEqualToString:[imageProcessingData objectForKey:@"imageSnippetPresentFlag"]]) {
+            
+            NSMutableDictionary *snippetConfig = [[NSMutableDictionary alloc] init];
+            
+            NSMutableDictionary *snippetDict = [[NSMutableDictionary alloc] init];
+            
+            snippetConfig = [imageProcessingData objectForKey:@"imageSnippetConfig"];
+            NSArray *snippetArray  = [snippetConfig objectForKey:@"ImageSnippetReverseMapping"];
+            NSMutableArray *snippetNameArray = [ [NSMutableArray alloc] init];
+            
+            psgfKeyValueSnippetDictionary = [[NSMutableDictionary alloc] init];
+            
+            for(int i = 0; i < [snippetArray count]; i++)  {
+                NSMutableDictionary *objectDictionary = [snippetArray objectAtIndex:i];
+                NSString *responseFormFieldKey = [objectDictionary objectForKey:@"ResponseFormFieldKey"];
+                NSString *snippetName = [objectDictionary objectForKey:@"SnippetName"];
+                NSString *isMandatory = [objectDictionary objectForKey:@"IsMandatory"];
+                
+                if([@"Y" isEqualToString:isMandatory]) {
+                    snippetName = [snippetName stringByAppendingString:@"*"];
+                }
+                [snippetDict setObject:snippetName forKey:snippetName];
+                [psgfKeyValueSnippetDictionary setObject:responseFormFieldKey forKey:snippetName];
+            }
+            
+            
+            NSMutableDictionary *selfieCapDic = [[NSMutableDictionary alloc] init];
+            [selfieCapDic setObject:uiDictionary forKey:@"snippet_capture"];
+            [AppItSDK customizeUserInterface:selfieCapDic];
+            
+            [AppItSDK snippetCapture:self additionalDictionary:nil uiConfigDictionary:nonUIDictionary snippetFieldsDictionary:snippetDict isIdCaptureCall:true];
+            
+        } else {
+            
+            NSMutableDictionary *selfieCapDic = [[NSMutableDictionary alloc] init];
+            //            [selfieCapDic setObject:uiDictionary forKey:@"id_capture_back"];
+            NSString *docSide = [imageProcessingData objectForKey:@"documentSide"];
+            NSString *country = [imageProcessingData objectForKey:@"country"];
+            NSString *state = [imageProcessingData objectForKey:@"state"];
+            NSString *IDType = [imageProcessingData objectForKey:@"idType"];
+            
+            if(![NS_String_Utils stringIsNilOrEmpty:country]){
+                [nonUIDictionary setObject:country forKey:@"country_code"];
+            }
+            
+            if(![NS_String_Utils stringIsNilOrEmpty:state]){
+                [nonUIDictionary setObject:state forKey:@"state_code"];
+            }
+            
+            if(![NS_String_Utils stringIsNilOrEmpty:IDType]){
+                [nonUIDictionary setObject:IDType forKey:@"id_type"];
+            }
+            
+            if([[docSide uppercaseString] isEqualToString:[@"ID_BACK" uppercaseString]]) {
+                
+                [selfieCapDic setObject:uiDictionary forKey:@"id_capture_back"];
+                [AppItSDK customizeUserInterface:selfieCapDic];
+                [AppItSDK captureBackImage:self additionalDictionary:nil uiConfigDictionary:nonUIDictionary];
+                
+            } else {
+                [selfieCapDic setObject:uiDictionary forKey:@"id_capture_front"];
+                [AppItSDK customizeUserInterface:selfieCapDic];
+                [AppItSDK captureFrontImage:self additionalDictionary:nil uiConfigDictionary:nonUIDictionary];
+            }
+            
+            
+            
+            
+        }
+        
+    } else {
+        callbackExecuted = false;
+        [self performSegueWithIdentifier:@"showOpenCvSeque" sender:self];
+    }
+}
+
+-(void) prepare_data_for_third_party_response_result {
+    NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
+    
+    NSMutableString *responseResultThirdParty = [NSMutableString stringWithString:@"thirdparty://"];
+    
+    NSCharacterSet *allowedCharacters = [NSCharacterSet URLFragmentAllowedCharacterSet];
+    NSString *percentEncodedString = [dataToAppitString stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacters];
+    
+    [responseResultThirdParty appendString:@"?response="];
+    [responseResultThirdParty appendString:[NSString stringWithFormat:@"%@",percentEncodedString]];
+    
+    NSURL* invokeAppitURL = [NSURL URLWithString:responseResultThirdParty];
+    if([[UIApplication sharedApplication]canOpenURL:invokeAppitURL]) {
+        [Settings setCurrentURL:urlRelode];
+        [[UIApplication sharedApplication]openURL:invokeAppitURL];
+    }else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[NSString stringWithFormat:@"Cant Open Third Party  Application "]
+                                                       delegate:self cancelButtonTitle:@"Ok"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
+}
+
+-(void) prepare_data_for_fingerprint{
+        
+    NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
+    imageProcessingData = [NSMutableDictionary dictionary];
+    NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
+    NSArray *imageProcessingArray = [dataToAppit objectForKey:@"scanFingerprint"];
+    imageProcessingData = [imageProcessingArray objectAtIndex:0];
+    
+    NSMutableDictionary *uiDictionary = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *nonUIDictionary = [[NSMutableDictionary alloc] init];
+    
+    if([imageProcessingData objectForKey:@"styleIOS"]){
+        [uiDictionary setObject:[imageProcessingData objectForKey:@"styleIOS"] forKey:@"cfc_label_text_style"];
+    }
+    
+    if([imageProcessingData objectForKey:@"textLabelColor"]) {
+        [uiDictionary setObject:[imageProcessingData objectForKey:@"textLabelColor"] forKey:@"cfc_label_text_color"];
+    }
+    
+    if([imageProcessingData objectForKey:@"textLabelAlpha"]) {
+        [uiDictionary setObject:[imageProcessingData objectForKey:@"textLabelAlpha"] forKey:@"cfc_label_text_color_alpha"];
+    }
+    
+    if([imageProcessingData objectForKey:@"instructionButtonColor"]) {
+        [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonColor"] forKey:@"cfc_instruction_button_color"];
+    }
+    
+    if([imageProcessingData objectForKey:@"instructionButtonColorAlpha"]) {
+        [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonColorAlpha"] forKey:@"cfc_instruction_button_alpha"];
+    }
+    
+    if([imageProcessingData objectForKey:@"instructionButtonTXTColor"]) {
+        [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonTXTColor"] forKey:@"cfc_instruction_button_txt_color"];
+    }
+    
+    if([imageProcessingData objectForKey:@"instructionButtonTXTColorAlpha"]) {
+        [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonTXTColorAlpha"] forKey:@"cfc_instruction_button_txt_alpha"];
+    }
+    
+    if([imageProcessingData objectForKey:@"showInstruction"]) {
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"showInstruction"] forKey:@"cfc_show_instruction_screen"];
+    }
+        
+    // Index Finger
+    if([imageProcessingData objectForKey:@"indexFingerMinThreshold"]) {
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"indexFingerMinThreshold"] forKey:@"cfc_indexfinger_min_threshold"];
+    }
+    if([imageProcessingData objectForKey:@"indexFingerThreshold"]) {
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"indexFingerThreshold"] forKey:@"cfc_indexfinger_threshold"];
+    }
+    
+    // Middle Finger
+    if([imageProcessingData objectForKey:@"middleFingerMinThreshold"]) {
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"middleFingerMinThreshold"] forKey:@"cfc_middlefinger_min_threshold"];
+    }
+    if([imageProcessingData objectForKey:@"middleFingerThreshold"]) {
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"middleFingerThreshold"] forKey:@"cfc_middlefinger_threshold"];
+    }
+    
+    // Ring FInger
+    if([imageProcessingData objectForKey:@"ringFingerMinThreshold"]) {
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"ringFingerMinThreshold"] forKey:@"cfc_ringfinger_min_threshold"];
+    }
+    if([imageProcessingData objectForKey:@"ringFingerThreshold"]) {
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"ringFingerThreshold"] forKey:@"cfc_ringfinger_threshold"];
+    }
+    
+    // Baby FInger
+    if([imageProcessingData objectForKey:@"babyFingerMinThreshold"]) {
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"babyFingerMinThreshold"] forKey:@"cfc_babyfinger_min_threshold"];
+    }
+    if([imageProcessingData objectForKey:@"babyFingerThreshold"]) {
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"babyFingerThreshold"] forKey:@"cfc_babyfinger_threshold"];
+    }
+    
+    // Finger to be Capture
+    if([imageProcessingData objectForKey:@"processIndexFinger"]) {
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processIndexFinger"] forKey:@"cfc_keep_index_finger"];
+    }
+    if([imageProcessingData objectForKey:@"processMiddleFinger"]) {
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processMiddleFinger"] forKey:@"cfc_keep_middle_finger"];
+    }
+    if([imageProcessingData objectForKey:@"processRingFinger"]) {
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processRingFinger"] forKey:@"cfc_keep_ring_finger"];
+    }
+    if([imageProcessingData objectForKey:@"processBabyFinger"]) {
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processBabyFinger"] forKey:@"cfc_keep_baby_finger"];
+    }
+    
+    // Other Factor
+    if([imageProcessingData objectForKey:@"aggressivenessFactor4F"]) {
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"aggressivenessFactor4F"] forKey:@"cfc_aggressiveness_factor"];
+    }
+    if([imageProcessingData objectForKey:@"imageWidth4f"]) {
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"imageWidth4f"] forKey:@"cfc_image_width"];
+    }
+    if([imageProcessingData objectForKey:@"ridgeWidth"]) {
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"ridgeWidth"] forKey:@"cfc_ridge_width"];
+    }
+    if([imageProcessingData objectForKey:@"type"]) {
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"type"] forKey:@"cfc_label_text_type"];
+    }
+    if([imageProcessingData objectForKey:@"style"]) {
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"style"] forKey:@"cfc_label_text_style"];
+    }
+
+    // Focus Threshold
+    if([imageProcessingData objectForKey:@"FocusThreshold"]) {
+        [AppItSDK setFPFocusThreshold:[[imageProcessingData objectForKey:@"FocusThreshold"] intValue]];
+    }
+
+    [nonUIDictionary setObject:@"1" forKey:@"cfc_zoom_camera"];
+
+    /* Following Extra VAlues Come From Config Side
+        zoomCamera4F = 20;
+        cameraBiometrics = Y;
+    */
+    
+    /* Following Value from SDK side not configured
+        "cfc_label_text_color": "FFFFFF",
+        "cfc_label_text_color_alpha": "1",
+        "cfc_instruction_button_color": "FFFFFF",
+        "cfc_instruction_button_alpha": "1",
+        "labels": {
+          "camera_finger_capture_title": "Capture Fingerprint"
+        }
+     */
+    
+    NSMutableDictionary *fingCapDict = [[NSMutableDictionary alloc] init];
+    [fingCapDict setObject:uiDictionary forKey:@"camera_finger_capture"];
+    [AppItSDK customizeUserInterface:fingCapDict];
+    
+    [AppItSDK captureFourFingerprint:self cameraFingerCaptureConfig:nonUIDictionary];
+    
+}
+
+-(void) prepare_data_for_barcodeScan {
+    BarcodeViewController *controller = [[BarcodeViewController alloc] init];
+    controller.delegate = self;
+    controller.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentModalViewController:controller animated:YES];
+}
+
+- (void) prepare_data_for_snippet_capture {
+    
+    NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
+    NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
+    NSArray *imageProcessingArray = [dataToAppit objectForKey:@"imageProcessing"];
+    imageProcessingData = [imageProcessingArray objectAtIndex:0];
+    
+    NSMutableArray *snippetArrayList = [[NSMutableArray alloc] init];
+    
+    NSMutableDictionary *snippetDict = [imageProcessingData objectForKey:@"imageSnippetConfig"];
+    NSArray *snippetArray  = [requestParamJson objectForKey:@"snippetMappingList"];
+    NSString *imageData = [requestParamJson objectForKey:@"capturedImageData"];
+    
+    NSURL *url = [NSURL URLWithString:imageData];
+    NSData *imageNSData = [NSData dataWithContentsOfURL:url];
+    UIImage *snippetImage = [UIImage imageWithData:imageNSData];
+    
+    NSMutableArray *snippetNameArray = [ [NSMutableArray alloc] init];
+    
+    NSMutableDictionary *snippetNameDictionary = [[NSMutableDictionary alloc] init];
+    
+    psgfKeyValueSnippetDictionary = [[NSMutableDictionary alloc] init];
+    
+    for(int i = 0; i < [snippetArray count]; i++)  {
+        NSMutableDictionary *objectDictionary = [snippetArray objectAtIndex:i];
+        NSString *responseFormFieldKey = [objectDictionary objectForKey:@"ResponseFormFieldKey"];
+        NSString *snippetName = [objectDictionary objectForKey:@"SnippetName"];
+        NSString *isMandatory = [objectDictionary objectForKey:@"IsMandatory"];
+        if([@"Y" isEqualToString:isMandatory]) {
+            snippetName = [snippetName stringByAppendingString:@"*"];
+        }
+        
+        [snippetNameDictionary setObject:snippetName forKey:snippetName];
+        
+        [psgfKeyValueSnippetDictionary setObject:responseFormFieldKey forKey:snippetName];
+    }
+    
+    NSData *imageSnippetData = UIImagePNGRepresentation(snippetImage);
+    NSString *snippetStringImage =  [imageSnippetData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    
+    NSMutableDictionary *setSnippetImage = [[NSMutableDictionary alloc] init];
+    
+    //    [setSnippetImage setObject:imageData forKey:@"SNIPPET"];
+    [setSnippetImage setObject:snippetStringImage forKey:@"SNIPPET"];
+    
+    [AppItSDK setImages:setSnippetImage];
+    
+    [AppItSDK snippetCapture:self additionalDictionary:nil uiConfigDictionary:nil snippetFieldsDictionary:snippetNameDictionary isIdCaptureCall:false];
+}
+
+-(void) prepare_data_for_signatureCapture {
+    CaptureSignatureController *controller = [[CaptureSignatureController alloc] init];
+    controller.delegate = self;
+    controller.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentModalViewController:controller animated:YES];
 }
 
 - (void)handle_opencv_result_callback {
