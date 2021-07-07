@@ -1146,6 +1146,11 @@ static bool idfaceshowInstruction = true;
             [uiDictionary setObject:[imageProcessingData objectForKey:@"id_hide_id_title_image"] forKey:@"id_hide_id_title_image"];
         }
         
+        //Face Camera MegaPixel
+        if([imageProcessingData objectForKey:@"id_image_resolution"]) {
+            [uiDictionary setObject:[imageProcessingData objectForKey:@"id_image_resolution"] forKey:@"id_image_resolution"];
+        }
+
         /* Need to check
          id_label_text_type
          "id_header_text_type": "Default",
@@ -3102,35 +3107,36 @@ static bool idfaceshowInstruction = true;
 
 -(void)clearAppDataAndRefresh{
     
+    NSFileManager *defaultManager = [NSFileManager defaultManager];
+
     // All kinds of data
      NSSet *websiteDataTypes = [WKWebsiteDataStore allWebsiteDataTypes];
     // Date from
     NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
     // Execute
     [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes modifiedSince:dateFrom completionHandler:^{
-        NSLog(@"clear All WKWebsiteDataStore");
-    }];
-    
-    NSFileManager *defaultManager = [NSFileManager defaultManager];
-    
-    //Clearing cache directoty for clearing webview related data
-    NSArray *cacheBasePath = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    if(cacheBasePath != nil){
-        NSString *cacheDirectory = ([cacheBasePath count] > 0) ? [cacheBasePath objectAtIndex:0] : nil;
-        if(cacheDirectory != nil){
-            NSArray *cacheDirectoryItems = [defaultManager contentsOfDirectoryAtPath:cacheDirectory error:nil];
-            if(cacheDirectoryItems != nil){
-                for (int i=0; i<cacheDirectoryItems.count; i++) {
-                    NSString *item = [cacheDirectoryItems objectAtIndex:i];
-                    NSString *itemPath = [NSString stringWithFormat:@"%@/%@",cacheDirectory, item];
-                    if([item containsString:@"http"]){
-                        BOOL isDeleted = [defaultManager removeItemAtPath:itemPath error:nil];
-                        NSLog(@"clearAppDataAndRefresh>Deleting cache: filename: %@, isDeleted: %d", item, isDeleted);
+        NSLog(@"clearAppDataAndRefresh -> clear All WKWebsiteDataStore");
+        
+        //Clearing cache directoty for clearing webview related data
+        NSArray *cacheBasePath = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+        if(cacheBasePath != nil){
+            NSString *cacheDirectory = ([cacheBasePath count] > 0) ? [cacheBasePath objectAtIndex:0] : nil;
+            if(cacheDirectory != nil){
+                NSArray *cacheDirectoryItems = [defaultManager contentsOfDirectoryAtPath:cacheDirectory error:nil];
+                if(cacheDirectoryItems != nil){
+                    for (int i=0; i<cacheDirectoryItems.count; i++) {
+                        NSString *item = [cacheDirectoryItems objectAtIndex:i];
+                        NSString *itemPath = [NSString stringWithFormat:@"%@/%@",cacheDirectory, item];
+                        if([item containsString:@"http"] || [item containsString:@"WebKit"]){
+                            BOOL isDeleted = [defaultManager removeItemAtPath:itemPath error:nil];
+                            NSLog(@"clearAppDataAndRefresh -> Deleting cache: filename: %@, isDeleted: %d", item, isDeleted);
+                        }
                     }
                 }
             }
         }
-    }
+    }];
+    
     
     //Clearing templates folder for removing downloaded template
     NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -3145,7 +3151,7 @@ static bool idfaceshowInstruction = true;
                         NSString *item = [templatesDirectoryItems objectAtIndex:i];
                         NSString *itemPath = [NSString stringWithFormat:@"%@/%@",templatesDirectory, item];
                         BOOL isDeleted = [defaultManager removeItemAtPath:itemPath error:nil];
-                        NSLog(@"clearAppDataAndRefresh>Deleting template: filename: %@, isDeleted: %d", item, isDeleted);
+                        NSLog(@"clearAppDataAndRefresh -> Deleting template: filename: %@, isDeleted: %d", item, isDeleted);
                     }
                 }
             }
