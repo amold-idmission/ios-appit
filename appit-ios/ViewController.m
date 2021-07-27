@@ -550,10 +550,8 @@ static bool idfaceshowInstruction = true;
             [self.webView setHidden:YES];
             [self setUpWebViewForPDF:navigationAction.request.URL.absoluteString];
         }
-        
         decisionHandler(WKNavigationActionPolicyAllow);
     }
-    //    webView.scalesPageToFit = YES;
     
     webView.contentMode = UIViewContentModeScaleAspectFit;
     
@@ -2264,7 +2262,7 @@ static bool idfaceshowInstruction = true;
     [self videoConferencingResponse: _resultDictionary];
 }
 
--(void) setUpWebViewForPDF:(NSString *)url {
+-(void)setUpWebViewForPDF:(NSString *)url {
     
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
     dispatch_async(queue, ^{

@@ -1207,6 +1207,10 @@ enum SDKIDType{
 
 +(int)getSignatureTitleLabelColorAlpha;
 +(void)setSignatureTitleLabelColorAlpha:(int)signature_title_label_color_alpha;
+
++(bool)getIsDigitalSignatureEnabled;
++(void)setIsDigitalSignatureEnabled:(bool)IsDigitalSignaturEnabled;
+
 //
 
 // Face Data Upload Changes

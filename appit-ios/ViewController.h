@@ -26,23 +26,19 @@
 }
 
 @property (weak, nonatomic) IBOutlet UILabel *labelRunningOn;
-//@property (weak, nonatomic) WKWebView *webView;
 @property (nonatomic) WKWebView *webView;
-
-- (UIImage *)imageWithImage:(UIImage *)image convertToSize:(CGSize)size;
-- (IBAction)unwindToList:(UIStoryboardSegue *)segue;
-- (IBAction)unwindToListBack:(UIStoryboardSegue *)segue;
 @property(nonatomic) NSString *currentTemplateLocation;
-- (IBAction)optionsButtonClicked:(id)sender;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *optionsButton;
--(void) setresettingUrl:(NSString*) resettingUrl;
-
 @property (retain) AVCaptureVideoPreviewLayer *videoPreviewLayer;
-
 @property (weak, nonatomic) IBOutlet UIView *top_buttons_viewHolder_pdf;
 @property (weak, nonatomic) IBOutlet UIView *another_wkWebview_viewHolder_pdf;
 @property (weak, nonatomic) IBOutlet UILabel *file_name_label_pdf;
 
+-(UIImage *)imageWithImage:(UIImage *)image convertToSize:(CGSize)size;
+-(IBAction)unwindToList:(UIStoryboardSegue *)segue;
+-(IBAction)unwindToListBack:(UIStoryboardSegue *)segue;
+-(IBAction)optionsButtonClicked:(id)sender;
+-(void) setresettingUrl:(NSString*) resettingUrl;
 - (IBAction)closeWkWebviewButtonClicked:(id)sender;
 - (IBAction)shareDataButtonClicked:(id)sender;
 

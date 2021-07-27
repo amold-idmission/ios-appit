@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C8171A926B05E2C00BDBDDC /* AppItFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C8171A726B05E2300BDBDDC /* AppItFramework.framework */; };
+		0C8171AA26B05E2C00BDBDDC /* AppItFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0C8171A726B05E2300BDBDDC /* AppItFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1F02EC011A7A929B0081C599 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F02EC001A7A929B0081C599 /* main.m */; };
 		1F02EC041A7A929B0081C599 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F02EC031A7A929B0081C599 /* AppDelegate.mm */; };
 		1F02EC071A7A929B0081C599 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F02EC061A7A929B0081C599 /* ViewController.m */; };
@@ -98,8 +100,6 @@
 		783BAB961FB4353900432C8D /* retry.png in Resources */ = {isa = PBXBuildFile; fileRef = 783BAB941FB4353800432C8D /* retry.png */; };
 		78AB4EF41FC41B100026C7BD /* right_hand_start.png in Resources */ = {isa = PBXBuildFile; fileRef = 78AB4EF21FC41B100026C7BD /* right_hand_start.png */; };
 		78AB4EF51FC41B100026C7BD /* left_hand_start.png in Resources */ = {isa = PBXBuildFile; fileRef = 78AB4EF31FC41B100026C7BD /* left_hand_start.png */; };
-		9DA3662F2683B3C300E34308 /* AppItFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DA366082683B28100E34308 /* AppItFramework.framework */; };
-		9DA366302683B3C300E34308 /* AppItFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9DA366082683B28100E34308 /* AppItFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9EF7C3AD5B6296CE56DFA15B /* Pods_appit_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C112A0E1D86E1F4FB8B7F77E /* Pods_appit_ios.framework */; };
 		C407B0D7225B48F300320E3E /* circle.png in Resources */ = {isa = PBXBuildFile; fileRef = C407B0D3225B48F300320E3E /* circle.png */; };
 		C40D888B21FF0B4800B43E9D /* arrow_left.png in Resources */ = {isa = PBXBuildFile; fileRef = C40D888721FF0B4700B43E9D /* arrow_left.png */; };
@@ -188,7 +188,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				9DA366302683B3C300E34308 /* AppItFramework.framework in Embed Frameworks */,
+				0C8171AA26B05E2C00BDBDDC /* AppItFramework.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -196,6 +196,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0C8171A726B05E2300BDBDDC /* AppItFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppItFramework.framework; sourceTree = "<group>"; };
 		1ECF16173843E86C0A2CD48A /* Pods-appit-iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-appit-iosTests.release.xcconfig"; path = "Target Support Files/Pods-appit-iosTests/Pods-appit-iosTests.release.xcconfig"; sourceTree = "<group>"; };
 		1F02EBFB1A7A929B0081C599 /* Inform.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Inform.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F02EBFF1A7A929B0081C599 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -367,7 +368,6 @@
 		783BAB941FB4353800432C8D /* retry.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = retry.png; sourceTree = "<group>"; };
 		78AB4EF21FC41B100026C7BD /* right_hand_start.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = right_hand_start.png; sourceTree = "<group>"; };
 		78AB4EF31FC41B100026C7BD /* left_hand_start.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_hand_start.png; sourceTree = "<group>"; };
-		9DA366082683B28100E34308 /* AppItFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppItFramework.framework; sourceTree = "<group>"; };
 		BC3218771A3E3554B77A4975 /* Pods-appit-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-appit-ios.debug.xcconfig"; path = "Target Support Files/Pods-appit-ios/Pods-appit-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		C112A0E1D86E1F4FB8B7F77E /* Pods_appit_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_appit_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C407B0D3225B48F300320E3E /* circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circle.png; sourceTree = "<group>"; };
@@ -449,7 +449,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9DA3662F2683B3C300E34308 /* AppItFramework.framework in Frameworks */,
+				0C8171A926B05E2C00BDBDDC /* AppItFramework.framework in Frameworks */,
 				C45D21E725D3F752004212A8 /* liblept.a in Frameworks */,
 				C45D21E625D3F752004212A8 /* libtesseract_all.a in Frameworks */,
 				9EF7C3AD5B6296CE56DFA15B /* Pods_appit_ios.framework in Frameworks */,
@@ -470,7 +470,7 @@
 		1F02EBF21A7A929B0081C599 = {
 			isa = PBXGroup;
 			children = (
-				9DA366082683B28100E34308 /* AppItFramework.framework */,
+				0C8171A726B05E2300BDBDDC /* AppItFramework.framework */,
 				1F02EBFD1A7A929B0081C599 /* appit-ios */,
 				1F02EC171A7A929B0081C599 /* Unit Tests */,
 				1F02EC331A7A9F540081C599 /* Frameworks */,
@@ -1471,7 +1471,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = SXB7K82DRL;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1499,7 +1499,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/appit-ios",
 				);
-				MARKETING_VERSION = 8.2.7;
+				MARKETING_VERSION = 8.3.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lc++",
@@ -1536,7 +1536,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = SXB7K82DRL;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1564,7 +1564,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/appit-ios",
 				);
-				MARKETING_VERSION = 8.2.7;
+				MARKETING_VERSION = 8.3.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lc++",

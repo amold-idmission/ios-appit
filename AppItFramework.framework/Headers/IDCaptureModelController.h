@@ -45,6 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,assign)id delegate;
 
+@property(nonatomic) BOOL isInstructionScreenEnabled;
 @property(nonatomic) BOOL capture_in_portrait_mode;
 @property(nonatomic) BOOL capturedImagePressed;
 @property(nonatomic) int imageWidth;
