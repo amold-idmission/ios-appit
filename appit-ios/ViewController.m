@@ -42,7 +42,7 @@
     NSString *isImageSnippetCapture;
     NSMutableDictionary *barcodeDataDictionary, *mrzDataDictionary;
     BOOL videoCallbackExecuted;
-    WKWebView *pdf_webView;
+//    WKWebView *pdf_webView;
     NSString *content_file_name;
     UIDocumentInteractionController *documentInteractionController;
 }
@@ -141,7 +141,7 @@ static bool idfaceshowInstruction = true;
     if([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
         NSLog(@"iPhone");
         int height = (int)[[UIScreen mainScreen] nativeBounds].size.height;
-        int width = (int)[[UIScreen mainScreen] nativeBounds].size.width;
+//        int width = (int)[[UIScreen mainScreen] nativeBounds].size.width;
         
         switch (height) {
                 
@@ -238,9 +238,9 @@ static bool idfaceshowInstruction = true;
 }
 
 -(void) reloadURL{
-//    NSString* url = [Settings getCurrentURL];
-//    [self setCurrentTemplateLocation:url];
-//    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
+    //    NSString* url = [Settings getCurrentURL];
+    //    [self setCurrentTemplateLocation:url];
+    //    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
     
     NSString* urlString = [Settings getCurrentURL];
     [self setCurrentTemplateLocation:urlString];
@@ -250,7 +250,7 @@ static bool idfaceshowInstruction = true;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.webView loadRequest:requestObj];
     });
-
+    
 }
 
 -(void) setCurrentTemplateLocation: (NSString*) currentURL{
@@ -383,7 +383,9 @@ static bool idfaceshowInstruction = true;
         return;
     }
     
-    if ( [navigationAction.request.URL.scheme isEqualToString: @"idmission" ]) {
+    NSString *urlScheme = navigationAction.request.URL.scheme;
+    
+    if ( [urlScheme isEqualToString: @"idmission" ]) {
         
         NSString *requestParam = @"";
         
@@ -411,30 +413,29 @@ static bool idfaceshowInstruction = true;
                                                              error:&jsonError];
         operation = [requestParamJson objectForKey:@"operation"];
         NSLog(@"Operation = %@", [NSString stringWithFormat:@"%@", operation]);
-
+        
         if ([operation isEqualToString: @"imageProc"] ) {
             idfaceshowInstruction = true;
             [self restrictRotation_toMaskAll:YES];
             [self prepare_data_for_image_proc];
-        } else if ([operation isEqualToString: @"setLang"] ) {
+        }else if ([operation isEqualToString: @"setLang"] ) {
             [self setAppLanguage];
-        } else if ([operation isEqualToString: @"imageProcResult"] ) {
+        }else if([operation isEqualToString:@"downloadXslt"]) {
+            [self downloadXslt];
+        }else if ([operation isEqualToString: @"faceDetection"] ) {
+            idfaceshowInstruction = true;
+            [self prepare_data_for_face_detection];
+        }else if ([operation isEqualToString: @"imageProcResult"] ) {
             [self handle_opencv_result_callback];
-        } else if ([operation isEqualToString: @"templateDownload"] ) {
-//            [self download_templates];
         }else if ([operation isEqualToString: @"scanFingerprint"] ) {
             idfaceshowInstruction = true;
             [self prepare_data_for_fingerprint];
-        }else if ([operation isEqualToString: @"cancelScan"] ) {
-            
-        } else if ([operation isEqualToString: @"imageSnippetCapture"] ) {
+        }else if ([operation isEqualToString: @"imageSnippetCapture"] ) {
             [self restrictRotation_toMaskAll:YES];
             [self prepare_data_for_snippet_capture];
-        } else if ([operation isEqualToString: @"faceDetection"] ) {
-            idfaceshowInstruction = true;
-            [self prepare_data_for_face_detection];
+        }else if ([operation isEqualToString: @"cardIO"] ) {
+            [AppItSDK detectCard:self];
         }else if ([operation isEqualToString:@"scanBarcode"]) {
-            // [self prepare_data_for_barcodeScan];
             [self checkCameraPermission];
         }else if ([operation isEqualToString:@"signaturecapture"]) {
             [self restrictRotation_toMaskAll:YES];
@@ -443,98 +444,27 @@ static bool idfaceshowInstruction = true;
             NSMutableDictionary *voiceRecordingConfig = [[self getVoiceRecordingConfigData] mutableCopy];
             [AppItSDK startVoiceRecording:self voiceRecordingConfig:voiceRecordingConfig];
         }else if ([operation isEqualToString: @"stopVoiceRecording"] ) {
-            // [voiceRecorder stopRecording];
-            // NSLog(@"Need to add pause");
             [AppItSDK stopVoiceRecording];
-        }else if ([operation isEqualToString: @"cardIO"] ) {
-            [AppItSDK detectCard:self];
+        }else if([operation isEqualToString:@"videoRecording"]) {
+            [self videoRecordingCallback];
         }else if ([operation isEqualToString: @"getAppitVersion"] ) {
             [self handle_appit_version_callback];
+        }else if([operation isEqualToString:@"startVideoConference"]) {
+            [self videoConferenceCallback];
+        }else if ([operation isEqualToString: @"openAppitIframe"] ) {
+            [self openAppitIframeCallback];
         }else if([operation isEqualToString:@"thirdPartyResult"]) {
             [self prepare_data_for_third_party_response_result];
         }else if([operation isEqualToString:@"getSpecification"]) {
             [self handle_get_spectification_callback];
-        }else if([operation isEqualToString:@"downloadXslt"]) {
-            [self downloadXslt];
-        }else if([operation isEqualToString:@"videoRecording"]) {
-            NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
-            NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
-            NSDictionary* videoRecordingDictionary = [dataToAppit objectForKey:@"videoRecording"];
-            NSString* videoRecordingRequestType = [videoRecordingDictionary objectForKey:@"RequestType"];
-            isBackPressed = false;
-            if(![videoRecordingRequestType isEqualToString:@"Polling"]) {
-                [self.navigationController setNavigationBarHidden:YES animated:YES];
-                if (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation))
-                {
-                    [[UIDevice currentDevice] setValue:
-                     [NSNumber numberWithInteger: UIInterfaceOrientationPortrait]
-                                                forKey:@"orientation"];
-                }
-                if(first_launch) {
-                    //  [self initViews];
-                    first_launch = false;
-                }
-                count=0;
-                minute=0;
-                
-                videoRecSeconds = 0;
-                divideInSecond = 0.0;
-                numberOfPart = 0;
-                videoChunkSize = 0;
-                startChunkPosition = 0;
-                fullScreen = true;
-                recordingStarted = @"nil";
-                NSString* recordingStringDuration = [videoRecordingDictionary objectForKey:@"duration"];
-                recordingDuration = [recordingStringDuration integerValue];
-                NSString *textOnVideoScreen;
-                if([videoRecordingDictionary objectForKey:@"textOnVideoScreen"]) {
-                    //                    [labelScrolledData setText:[videoRecordingDictionary objectForKey:@"textOnVideoScreen"]];
-                    textOnVideoScreen = [videoRecordingDictionary objectForKey:@"textOnVideoScreen"];
-                } else {
-                    //  [labelScrolledData setText:@""];
-                    textOnVideoScreen = @"";
-                }
-                
-                NSString *showVideoFeedback = [videoRecordingDictionary objectForKey:@"showVideoFeedback"];
-                BOOL enableBgVideoRecording = [@"N" isEqualToString:showVideoFeedback];
-                
-                videoCallbackExecuted = false;
-                //                [AppItSDK startVideoRecording:self recordingTime:recordingDuration additionalDictionary:nil textDatatoScrolled:textOnVideoScreen];
-                [AppItSDK startVideoRecording:self recordingTime:recordingDuration additionalDictionary:nil textDatatoScrolled:textOnVideoScreen isEnableBgVideoRecording:enableBgVideoRecording];
-            } else {
-                NSMutableDictionary *config = [self build_common_return_data];
-                NSMutableDictionary *result = [NSMutableDictionary new];
-                NSString* chunkBase64 = @"";
-                int endChunkPosition = startChunkPosition + videoChunkSize;
-                
-                if(endChunkPosition >= base64Encoded.length) {
-                    long fullLength = base64Encoded.length;
-                    chunkBase64 = [base64Encoded substringWithRange:NSMakeRange(startChunkPosition,base64Encoded.length - startChunkPosition)];
-                    [result setObject:@"FINISH" forKey:@"FileStatus"];
-                }else {
-                    long fullLength = base64Encoded.length;
-                    chunkBase64 = [base64Encoded substringWithRange:NSMakeRange(startChunkPosition, endChunkPosition - startChunkPosition)];
-                    [result setObject:@"PENDING" forKey:@"FileStatus"];
-                }
-                startChunkPosition = endChunkPosition;
-                [config setObject:@"51" forKey:@"status"];
-                [result setObject:chunkBase64 forKey:@"VideoData"];
-                [config setObject:[self get_json_string:result] forKey:@"dataFromAppit"];
-                
-                NSString *encodedJsonString = [self get_encoded_json_string:config];
-                
-                [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
-            }
-        }else if([operation isEqualToString:@"startVideoConference"]) {
-            NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
-            NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
+        }else if ([operation isEqualToString: @"cancelScan"] ) {
             
-            NSDictionary *videoConferencingDataDictionary = [dataToAppit objectForKey:@"videoConference"];
-            
-            [self checkCameraPermission_videoConference:videoConferencingDataDictionary];
+        }else if ([operation isEqualToString: @"templateDownload"] ) {
+//            [self download_templates];
         }
         decisionHandler(WKNavigationActionPolicyCancel);
-    } else if ([navigationAction.request.URL.scheme isEqualToString: @"tel" ] || [navigationAction.request.URL.scheme.lowercaseString isEqualToString: @"mailto" ]) {
+        
+    } else if ([urlScheme isEqualToString: @"tel" ] || [urlScheme.lowercaseString isEqualToString: @"mailto" ]) {
         
         if([[UIApplication sharedApplication] canOpenURL:navigationAction.request.URL]) {
             [[UIApplication sharedApplication] openURL:navigationAction.request.URL];
@@ -548,7 +478,9 @@ static bool idfaceshowInstruction = true;
         NSString *extensionOfPath = navigationAction.request.URL.pathExtension;
         if(![NS_String_Utils stringIsNilOrEmpty:extensionOfPath] && [@"pdf" isEqualToString:extensionOfPath]) {
             [self.webView setHidden:YES];
-            [self setUpWebViewForPDF:navigationAction.request.URL.absoluteString];
+            NSString *urlString = navigationAction.request.URL.absoluteString;
+//            [self setUpWebViewForPDF:urlString];
+            [self setUpWebViewForPDF:urlString titleString:[urlString lastPathComponent]];
         }
         decisionHandler(WKNavigationActionPolicyAllow);
     }
@@ -627,7 +559,7 @@ static bool idfaceshowInstruction = true;
         IDM_EVol_Password = @"App#1nteg";
         IDM_EVol_MerchantID = @"12511";
         IDM_EVol_ProductID = @"4130";
-
+        
     } else if ([urlString containsString:@"uat.idmission.com"]) {
         
         enviromnet_URl = @"https://uat.idmission.com/IDS/service/integ/idm/thirdparty/upsert";
@@ -635,7 +567,7 @@ static bool idfaceshowInstruction = true;
         IDM_EVol_Password = @"App#1nteg";
         IDM_EVol_MerchantID = @"28632";
         IDM_EVol_ProductID = @"1523";
-
+        
     } else if ([urlString containsString:@"kyc.idmission.com"]) {
         
         enviromnet_URl = @"https://kyc.idmission.com/IDS/service/integ/idm/thirdparty/upsert";
@@ -654,7 +586,7 @@ static bool idfaceshowInstruction = true;
     }
     
     NSString *IDM_EVol_ProductName = @"Identity_Validation_and_Face_Matching";
-
+    
     [AppItSDK initializeAppItSDK:self url:enviromnet_URl loginId:IDM_EVol_LoginID password:IDM_EVol_Password merchantID:IDM_EVol_MerchantID productID:IDM_EVol_ProductID productName:IDM_EVol_ProductName Language:@"en"];
 }
 /* Download XSLT & SDKInitialize Call */
@@ -675,7 +607,7 @@ static bool idfaceshowInstruction = true;
     } else {
         [downloadXSLTDictionary setObject:[xsltDownloadDataDictionary objectForKey:@"authToken"] forKey:@"password"];
     }
-
+    
     /*START Language Change*/
     NSString *ApplanguageString = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppLanguage"];
     if ([ApplanguageString isEqualToString:@"en_US"]) {
@@ -685,7 +617,7 @@ static bool idfaceshowInstruction = true;
     }
     [downloadXSLTDictionary setObject:ApplanguageString forKey:@"language"];
     /*END Language Change*/
-
+    
     [AppItSDK downloadXslt:self downloadCredentials:downloadXSLTDictionary];
 }
 
@@ -695,16 +627,16 @@ static bool idfaceshowInstruction = true;
     NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
     NSString *ApplanguageString = [[dataToAppit objectForKey:@"appitlang"] objectForKey:@"lang"];
     NSLog(@"Application Language :%@", ApplanguageString);
-
+    
     // Store Value for Local Use
     [[NSUserDefaults standardUserDefaults] setObject:ApplanguageString forKey:@"AppLanguage"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-
+    
     // Store Value to use in Extension
     NSUserDefaults * usrInfo = [[NSUserDefaults alloc] initWithSuiteName:@"group.idmission.dilo.NotificationService"];
     [usrInfo setObject:ApplanguageString forKey:@"ApplicationLanguage"];
     [usrInfo synchronize];
-
+    
     /*START Language Change*/
     if ([ApplanguageString isEqualToString:@"en_US"]) {
         ApplanguageString = @"en";
@@ -772,89 +704,89 @@ static bool idfaceshowInstruction = true;
 }
 
 -(void) prepare_data_for_face_detection{
-
-//    int mAlpha = 1, dOutsideFaceOutlineColorAlpha = 1;
-
+    
+    //    int mAlpha = 1, dOutsideFaceOutlineColorAlpha = 1;
+    
     NSString *dFaceOutlineColor = @"FFAD36", *dDetectedFaceOutlineColor = @"6EB24C", *dOutsideFaceOutlineColor = @"487D95",*dDetectedOutsideFaceOutlineColor = @"FFFFFF", *retryButtonColor = @"FEAD36", *confirmButtonColor = @"FEAD36", *retryButtonBorderColor = @"FEAD36", *confirmButtonBackgroundColor = @"FFFFFF", *defaultFaceContour = @"Zero";
-
-//    NSString *dFaceOutlineColor = @"FFAD36", *dDetectedFaceOutlineColor = @"6EB24C", *dOutsideFaceOutlineColor = @"FFFFFF",*dDetectedOutsideFaceOutlineColor = @"FFFFFF", *retryButtonColor = @"606060", *confirmButtonColor = @"606060", *retryButtonBorderColor = @"FFFFFF", *confirmButtonBackgroundColor = @"FFFFFF", *defaultFaceContour = @"Zero", *defaultPassiveFaceCapture = @"Y", *defaultManualCaptureEnable = @"Y", *defaultManualCaptureTime = @"60", *defaultManualCaptureButtonRetryCount = @"2";;
-//    NSString *dHeaderFontStyle=@"Default", *dFontStyle=@"Default", *titleMessageColor = @"FFFFFF", *hintMessageColor = @"FFFFFF", *backButtonColor= @"FEAD36", *titleMessageSize = @"", *hintMessageSize = @"", *instContinueButtonColor = @"FFFFFF", *instContinueButtonTextColor = @"487D95";
-
-//    int faceoutlinetransparency = mAlpha, detectedfaceoutlinetransparency = mAlpha, outsideoutlinetransparency = mAlpha,detectedoutsideoutlinetransparency = mAlpha, titleMessageColorAlpha = mAlpha, hintMessageColorAlpha = mAlpha, backButtonColorAlpha = mAlpha, instContinueButtonAlpha = mAlpha, instContinueButtonTextAlpha = mAlpha, retryButtonAlpha = mAlpha,
-//    confirmButtonAlpha = mAlpha, retryButtonBorderAlpha = mAlpha, confirmButtonBackgroundAlpha = mAlpha;
-
+    
+    //    NSString *dFaceOutlineColor = @"FFAD36", *dDetectedFaceOutlineColor = @"6EB24C", *dOutsideFaceOutlineColor = @"FFFFFF",*dDetectedOutsideFaceOutlineColor = @"FFFFFF", *retryButtonColor = @"606060", *confirmButtonColor = @"606060", *retryButtonBorderColor = @"FFFFFF", *confirmButtonBackgroundColor = @"FFFFFF", *defaultFaceContour = @"Zero", *defaultPassiveFaceCapture = @"Y", *defaultManualCaptureEnable = @"Y", *defaultManualCaptureTime = @"60", *defaultManualCaptureButtonRetryCount = @"2";;
+    //    NSString *dHeaderFontStyle=@"Default", *dFontStyle=@"Default", *titleMessageColor = @"FFFFFF", *hintMessageColor = @"FFFFFF", *backButtonColor= @"FEAD36", *titleMessageSize = @"", *hintMessageSize = @"", *instContinueButtonColor = @"FFFFFF", *instContinueButtonTextColor = @"487D95";
+    
+    //    int faceoutlinetransparency = mAlpha, detectedfaceoutlinetransparency = mAlpha, outsideoutlinetransparency = mAlpha,detectedoutsideoutlinetransparency = mAlpha, titleMessageColorAlpha = mAlpha, hintMessageColorAlpha = mAlpha, backButtonColorAlpha = mAlpha, instContinueButtonAlpha = mAlpha, instContinueButtonTextAlpha = mAlpha, retryButtonAlpha = mAlpha,
+    //    confirmButtonAlpha = mAlpha, retryButtonBorderAlpha = mAlpha, confirmButtonBackgroundAlpha = mAlpha;
+    
     NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
-
+    
     if([dataToAppitString containsString:@"APPIT"]){
-
+        
         NSArray *dataArray = [dataToAppitString componentsSeparatedByString:@"APPIT"];
         dataToAppitString = [dataArray objectAtIndex:7];
     }
-
+    
     imageProcessingData = [NSMutableDictionary dictionary];
-
+    
     NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
     NSArray *imageProcessingArray = [dataToAppit objectForKey:@"faceDetection"];
     imageProcessingData = [imageProcessingArray objectAtIndex:0];
-
+    
     NSMutableDictionary *uiDictionary = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *nonUIDictionary = [[NSMutableDictionary alloc] init];
-
+    
     if([imageProcessingData objectForKey:@"instructionButtonColor"]) {
-
+        
         [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonColor"] forKey:@"fd_instruction_button_color"];
     } else {
         [uiDictionary setObject:@"000000" forKey:@"fd_instruction_button_color"];
     }
-
-//    if([imageProcessingData objectForKey:@"instructionButtonColorAlpha"]) {
-//
-//        [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonColorAlpha"] forKey:@"fd_instruction_button_alpha"];
-//
-//    }
-
+    
+    //    if([imageProcessingData objectForKey:@"instructionButtonColorAlpha"]) {
+    //
+    //        [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonColorAlpha"] forKey:@"fd_instruction_button_alpha"];
+    //
+    //    }
+    
     if([imageProcessingData objectForKey:@"instructionButtonTXTColor"]) {
-
+        
         [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonTXTColor"] forKey:@"fd_instruction_button_txt_color"];
-
+        
     } else {
         [uiDictionary setObject:@"FFFFFF" forKey:@"fd_instruction_button_txt_color"];
-
+        
     }
-
-//    if([imageProcessingData objectForKey:@"instructionButtonTXTColorAlpha"]) {
-//
-//        [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonTXTColorAlpha"] forKey:@"fd_instruction_button_txt_alpha"];
-//
-//    }
-
+    
+    //    if([imageProcessingData objectForKey:@"instructionButtonTXTColorAlpha"]) {
+    //
+    //        [uiDictionary setObject:[imageProcessingData objectForKey:@"instructionButtonTXTColorAlpha"] forKey:@"fd_instruction_button_txt_alpha"];
+    //
+    //    }
+    
     if([imageProcessingData objectForKey:@"ShowInstructionScreen"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"ShowInstructionScreen"] forKey:@"fd_show_instruction_screen"];
     }
-
+    
     NSString *faceoutlinecolor = dFaceOutlineColor; //*detectedfaceoutlinecolor = dDetectedFaceOutlineColor, *outsideoutlinecolor = dOutsideFaceOutlineColor;
-
-//    BOOL isFaceTitleOnTop = false , isFaceHintMessageOnTop = true;
-
+    
+    //    BOOL isFaceTitleOnTop = false , isFaceHintMessageOnTop = true;
+    
     if([imageProcessingData objectForKey:@"MinLightThreshold"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"MinLightThreshold"] forKey:@"fd_light_threshold"];
     }
-
+    
     if([imageProcessingData objectForKey:@"FocusThreshold"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"FocusThreshold"] forKey:@"fd_focus_threshold"];
     }
-
+    
     NSString *cameraType = [[imageProcessingData objectForKey:@"CameraType"] uppercaseString];
-
+    
     if([cameraType isEqualToString:@"FRONT"]) {
-
+        
         [nonUIDictionary setObject:@"Y" forKey:@"fd_launch_front_camera"];
         [nonUIDictionary setObject:@"N" forKey:@"fd_toggle_camera"];
-
+        
     } else if([cameraType isEqualToString:@"BOTH"]) {
-
+        
         [nonUIDictionary setObject:@"Y" forKey:@"fd_toggle_camera"];
-
+        
         if([@"Y" isEqualToString:[imageProcessingData objectForKey:@"LaunchFrontCamera"]]) {
             [nonUIDictionary setObject:@"Y" forKey:@"fd_launch_front_camera"];
         } else {
@@ -867,11 +799,11 @@ static bool idfaceshowInstruction = true;
         [nonUIDictionary setObject:@"Y" forKey:@"fd_launch_front_camera"];
         [nonUIDictionary setObject:@"Y" forKey:@"fd_toggle_camera"];
     } else {
-
+        
         [nonUIDictionary setObject:@"N" forKey:@"fd_launch_front_camera"];
         [nonUIDictionary setObject:@"N" forKey:@"fd_toggle_camera"];
     }
-
+    
     if([imageProcessingData objectForKey:@"FaceTitleAlignment"]) {
         if([@"top" isEqualToString:[imageProcessingData objectForKey:@"FaceTitleAlignment"]]) {
             [uiDictionary setObject:@"Y" forKey:@"fd_face_title_label_on_top"];
@@ -879,10 +811,10 @@ static bool idfaceshowInstruction = true;
             [uiDictionary setObject:@"N" forKey:@"fd_face_title_label_on_top"];
         }
     }
-//    else {
-//        [uiDictionary setObject:@"N" forKey:@"fd_face_title_label_on_top"];
-//    }
-
+    //    else {
+    //        [uiDictionary setObject:@"N" forKey:@"fd_face_title_label_on_top"];
+    //    }
+    
     if([imageProcessingData objectForKey:@"FaceHintMessageAlignment"]) {
         if([@"top" isEqualToString:[imageProcessingData objectForKey:@"FaceHintMessageAlignment"]]) {
             [uiDictionary setObject:@"Y" forKey:@"fd_face_hint_message_on_top"];
@@ -890,119 +822,119 @@ static bool idfaceshowInstruction = true;
             [uiDictionary setObject:@"N" forKey:@"fd_face_hint_message_on_top"];
         }
     }
-//    else {
-//        [uiDictionary setObject:@"Y" forKey:@"fd_face_hint_message_on_top"];
-//    }
-
+    //    else {
+    //        [uiDictionary setObject:@"Y" forKey:@"fd_face_hint_message_on_top"];
+    //    }
+    
     //Always need to show preview screen in case ok FaceDetection
     if([@"Y" isEqualToString:[imageProcessingData objectForKey:@"ShowPreviewScreen"]]) {
         [nonUIDictionary setObject:@"Y" forKey:@"fd_show_preview_screen"];
     }
-//    else {
-//        [nonUIDictionary setObject:@"Y" forKey:@"fd_show_preview_screen"];
-//    }
-
+    //    else {
+    //        [nonUIDictionary setObject:@"Y" forKey:@"fd_show_preview_screen"];
+    //    }
+    
     //***
     //TitleMessageStyle
     if([imageProcessingData objectForKey:@"headerStyleIOS"]) // headerStyle
     {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"headerStyleIOS"] forKey:@"fd_header_text_style"];
-
+        
     }
-
+    
     if([imageProcessingData objectForKey:@"headerTextLabelColor"]) {
-
+        
         [uiDictionary setObject:[imageProcessingData objectForKey:@"headerTextLabelColor"] forKey:@"fd_header_text_label_color"];
     }
-
+    
     if([imageProcessingData objectForKey:@"headerTextLabelAlpha"]) {
-
+        
         [uiDictionary setObject:[imageProcessingData objectForKey:@"headerTextLabelAlpha"] forKey:@"fd_header_text_label_alpha"];
     }
-
+    
     if([imageProcessingData objectForKey:@"headerTextLabelSize"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"headerTextLabelSize"] forKey:@"fd_header_text_label_size"];
     }
-
+    
     //HintMessageStyle
     if([imageProcessingData objectForKey:@"styleIOS"]) //style
     {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"styleIOS"] forKey:@"fd_label_text_style"];
     }
-
+    
     if([imageProcessingData objectForKey:@"textLabelColor"]) {
-
+        
         [uiDictionary setObject:[imageProcessingData objectForKey:@"textLabelColor"] forKey:@"fd_label_text_color"];
     } else {
         [uiDictionary setObject:@"909090" forKey:@"fd_label_text_color"];
-
+        
     }
-
+    
     if([imageProcessingData objectForKey:@"textLabelAlpha"]) {
-
+        
         [uiDictionary setObject:[imageProcessingData objectForKey:@"textLabelAlpha"] forKey:@"fd_label_text_alpha"];
     }
-
+    
     if([imageProcessingData objectForKey:@"textLabelSize"]) {
-
+        
         [uiDictionary setObject:[imageProcessingData objectForKey:@"textLabelSize"] forKey:@"fd_label_text_size"];
     }
-
+    
     //BackButtonColor-Alpha
     if([imageProcessingData objectForKey:@"backButtonColor"]) {
-
+        
         [uiDictionary setObject:[imageProcessingData objectForKey:@"backButtonColor"] forKey:@"fd_back_button_color"];
     }
-
+    
     if([imageProcessingData objectForKey:@"backButtonColorAlpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"backButtonColorAlpha"] forKey:@"fd_back_button_color_alpha"];
     }
-
+    
     if([imageProcessingData objectForKey:@"FaceDetectionThreshold"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"FaceDetectionThreshold"] forKey:@"fd_detection_threshold"];
     }
-
+    
     if([imageProcessingData objectForKey:@"ImageSize"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"ImageSize"] forKey:@"fd_max_image_size"];
     }
-
+    
     if([imageProcessingData objectForKey:@"FaceOutlineColor"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"FaceOutlineColor"] forKey:@"fd_outline_color"];
     }
     else {
         [uiDictionary setObject:faceoutlinecolor forKey:@"fd_outline_color"];
     }
-
+    
     if([imageProcessingData objectForKey:@"DetectedFaceOutlineColor"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"DetectedFaceOutlineColor"] forKey:@"fd_detected_face_outline_color"];
     }
     else {
         [uiDictionary setObject:dDetectedFaceOutlineColor forKey:@"fd_detected_face_outline_color"];
     }
-
+    
     if([imageProcessingData objectForKey:@"OutsideColorOfFaceOutline"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"OutsideColorOfFaceOutline"] forKey:@"fd_outside_face_outline_color"];
     }
     else {
         [uiDictionary setObject:dOutsideFaceOutlineColor forKey:@"fd_outside_face_outline_color"];
     }
-
+    
     if([imageProcessingData objectForKey:@"OutsideDetectedColorOfFaceOutline"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"OutsideDetectedColorOfFaceOutline"] forKey:@"fd_detected_outside_face_outline_color"];
     }
     else {
         [uiDictionary setObject:dDetectedOutsideFaceOutlineColor forKey:@"fd_detected_outside_face_outline_color"];
     }
-
+    
     //**
     if([imageProcessingData objectForKey:@"retryButtonColor"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"retryButtonColor"] forKey:@"fd_retry_button_color"];
-
+        
     }
     else {
         [uiDictionary setObject:retryButtonColor forKey:@"fd_retry_button_color"];
     }
-
+    
     if([imageProcessingData objectForKey:@"retryButtonColorAlpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"retryButtonColorAlpha"] forKey:@"fd_retry_button_color_alpha"];
     }
@@ -1013,7 +945,7 @@ static bool idfaceshowInstruction = true;
     } else {
         [uiDictionary setObject:confirmButtonColor forKey:@"fd_confirm_button_color"];
     }
-
+    
     if([imageProcessingData objectForKey:@"confirmButtonColorAlpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"confirmButtonColorAlpha"] forKey:@"fd_confirm_button_color_alpha"];
     }
@@ -1024,7 +956,7 @@ static bool idfaceshowInstruction = true;
     } else {
         [uiDictionary setObject:retryButtonBorderColor forKey:@"fd_retry_button_border_color"];
     }
-
+    
     if([imageProcessingData objectForKey:@"retryButtonColorBorderAlpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"retryButtonColorBorderAlpha"] forKey:@"fd_retry_button_border_color_alpha"];
     }
@@ -1035,30 +967,30 @@ static bool idfaceshowInstruction = true;
     else {
         [uiDictionary setObject:confirmButtonBackgroundColor forKey:@"fd_confirm_button_background_color"];
     }
-
+    
     if([imageProcessingData objectForKey:@"confirmButtonStyleAlpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"confirmButtonStyleAlpha"] forKey:@"fd_confirm_button_background_color_alpha"];
     }
-//    else {
-//        [uiDictionary setObject:@"1" forKey:@"fd_confirm_button_background_color_alpha"];
-//    }
-
+    //    else {
+    //        [uiDictionary setObject:@"1" forKey:@"fd_confirm_button_background_color_alpha"];
+    //    }
+    
     if([imageProcessingData objectForKey:@"faceOutlineHexColorAlpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"faceOutlineHexColorAlpha"] forKey:@"fd_outline_color_alpha"];
     }
-
+    
     if([imageProcessingData objectForKey:@"detectedFaceOutlineHexColorAlpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"detectedFaceOutlineHexColorAlpha"] forKey:@"fd_detected_face_outline_color_alpha"];
     }
-
+    
     if([imageProcessingData objectForKey:@"outsideFaceOutlineColorAlpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"outsideFaceOutlineColorAlpha"] forKey:@"fd_outside_face_outline_color_alpha"];
     }
-
+    
     if([imageProcessingData objectForKey:@"detectedFaceOutsideColorAlpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"detectedFaceOutsideColorAlpha"] forKey:@"fd_detected_outside_face_outline_color_alpha"];
     }
-
+    
     if([imageProcessingData objectForKey:@"HideFaceTitleAlignment"]) {
         if([@"Y" isEqualToString:[imageProcessingData objectForKey:@"HideFaceTitleAlignment"]]) {
             [uiDictionary setObject:@"N" forKey:@"fd_hide_face_title_lable"];
@@ -1066,10 +998,10 @@ static bool idfaceshowInstruction = true;
             [uiDictionary setObject:@"Y" forKey:@"fd_hide_face_title_lable"];
         }
     }
-//    else {
-//        [uiDictionary setObject:@"N" forKey:@"fd_hide_face_title_lable"];
-//    }
-
+    //    else {
+    //        [uiDictionary setObject:@"N" forKey:@"fd_hide_face_title_lable"];
+    //    }
+    
     if([imageProcessingData objectForKey:@"HideFaceHintMessageAlignment"]) {
         if([@"Y" isEqualToString:[imageProcessingData objectForKey:@"HideFaceHintMessageAlignment"]]) {
             [uiDictionary setObject:@"N" forKey:@"fd_hide_face_hint_message"];
@@ -1077,230 +1009,230 @@ static bool idfaceshowInstruction = true;
             [uiDictionary setObject:@"Y" forKey:@"fd_hide_face_hint_message"];
         }
     }
-//    else {
-//        [uiDictionary setObject:@"N" forKey:@"fd_hide_face_hint_message"];
-//    }
-
+    //    else {
+    //        [uiDictionary setObject:@"N" forKey:@"fd_hide_face_hint_message"];
+    //    }
+    
     if([imageProcessingData objectForKey:@"FACE_CONTOURS"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"FACE_CONTOURS"] forKey:@"fd_face_contours"];
     }
     else {
         [uiDictionary setObject:defaultFaceContour forKey:@"fd_face_contours"];
     }
-
+    
     // Passive Or Active Face Detection Flag
     if([imageProcessingData objectForKey:@"FaceDetectionMethod"] && ![[imageProcessingData objectForKey:@"FaceDetectionMethod"] isEqualToString:@"Passive"]) {
         [uiDictionary setObject:@"N" forKey:@"fd_enable_passive_face_detection"];
     }
-//    else {
-//        [uiDictionary setObject:defaultPassiveFaceCapture forKey:@"fd_enable_passive_face_detection"];
-//    }
-
+    //    else {
+    //        [uiDictionary setObject:defaultPassiveFaceCapture forKey:@"fd_enable_passive_face_detection"];
+    //    }
+    
     //Enable Manual CaptureButton
     if([imageProcessingData objectForKey:@"EnableManualCapture"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"EnableManualCapture"] forKey:@"fd_enable_manual_capture"];
     }
-//    else {
-//        [uiDictionary setObject:defaultManualCaptureEnable forKey:@"fd_enable_manual_capture"];
-//    }
-
+    //    else {
+    //        [uiDictionary setObject:defaultManualCaptureEnable forKey:@"fd_enable_manual_capture"];
+    //    }
+    
     //Enable Manual Capture Time
     if([imageProcessingData objectForKey:@"fd_enable_manual_capture_time"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_enable_manual_capture_time"] forKey:@"fd_enable_manual_capture_time"];
     }
-//    else {
-//        [uiDictionary setObject:defaultManualCaptureTime forKey:@"fd_enable_manual_capture_time"];
-//    }
-
+    //    else {
+    //        [uiDictionary setObject:defaultManualCaptureTime forKey:@"fd_enable_manual_capture_time"];
+    //    }
+    
     // Enable Manual Capture Retry Count
     if([imageProcessingData objectForKey:@"fd_enable_manual_capture_retry_count"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_enable_manual_capture_retry_count"] forKey:@"fd_enable_manual_capture_retry_count"];
     }
-//    else {
-//        [uiDictionary setObject:defaultManualCaptureButtonRetryCount forKey:@"fd_enable_manual_capture_retry_count"];
-//    }
-
+    //    else {
+    //        [uiDictionary setObject:defaultManualCaptureButtonRetryCount forKey:@"fd_enable_manual_capture_retry_count"];
+    //    }
+    
     //Latest changes
     //TitleImageBitmap
     if([imageProcessingData objectForKey:@"fd_title_img_bitmap_base64"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_title_img_bitmap_base64"] forKey:@"fd_title_img_bitmap_base64"];
     }
-
+    
     //Eye Open Threshold
     if([imageProcessingData objectForKey:@"fd_eye_open_threshold"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"fd_eye_open_threshold"] forKey:@"fd_eye_open_threshold"];
     }
-
+    
     //Spoof Detection threshold
     if([imageProcessingData objectForKey:@"fd_Spoof_Detection_threshold"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"fd_Spoof_Detection_threshold"] forKey:@"fd_Spoof_Detection_threshold"];
     }
-
+    
     //Saturation value
     if([imageProcessingData objectForKey:@"fd_saturation_value"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"fd_saturation_value"] forKey:@"fd_saturation_value"];
     }
-
+    
     //Manual Capture Button Time
     if([imageProcessingData objectForKey:@"fd_enable_manual_capture_time"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"fd_enable_manual_capture_time"] forKey:@"fd_enable_manual_capture_time"];
     }
-
+    
     //Manual Capture Retry count
     if([imageProcessingData objectForKey:@"fd_enable_manual_capture_retry_count"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"fd_enable_manual_capture_retry_count"] forKey:@"fd_enable_manual_capture_retry_count"];
     }
-
+    
     //Label Shadow
     if([imageProcessingData objectForKey:@"fd_enable_label_shadow"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_enable_label_shadow"] forKey:@"fd_enable_label_shadow"];
     }
-
+    
     //Upload Face data
     if([imageProcessingData objectForKey:@"fd_upload_facedata"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"fd_upload_facedata"] forKey:@"fd_upload_facedata"];
     }
-
+    
     //Passive OutsideFaceOut line color
     if([imageProcessingData objectForKey:@"fd_passive_outside_face_outline_color"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_passive_outside_face_outline_color"] forKey:@"fd_passive_outside_face_outline_color"];
     }
-
+    
     //Passive OutsideFaceOut line color Alpha
     if([imageProcessingData objectForKey:@"fd_passive_outside_face_outline_color_alpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_passive_outside_face_outline_color_alpha"] forKey:@"fd_passive_outside_face_outline_color_alpha"];
     }
-
+    
     //Instruction Preview Background color
     if([imageProcessingData objectForKey:@"fd_instruction_preview_background_color"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_instruction_preview_background_color"] forKey:@"fd_instruction_preview_background_color"];
     }
-
+    
     //Instruction Preview Background color Alpha
     if([imageProcessingData objectForKey:@"fd_instruction_preview_background_color_alpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_instruction_preview_background_color_alpha"] forKey:@"fd_instruction_preview_background_color_alpha"];
     }
-
+    
     //Success Message color
     if([imageProcessingData objectForKey:@"fd_capture_success_message_color"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_capture_success_message_color"] forKey:@"fd_capture_success_message_color"];
     }
-
+    
     //Success Message Color Alpha
     if([imageProcessingData objectForKey:@"fd_capture_success_message_color_alpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_capture_success_message_color_alpha"] forKey:@"fd_capture_success_message_color_alpha"];
     }
-
+    
     //Preview Screen Enable
     if([imageProcessingData objectForKey:@"fd_preview_screen"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_preview_screen"] forKey:@"fd_preview_screen"];
     }
-
+    
     //Dummy Image color
     if([imageProcessingData objectForKey:@"fd_dummy_image_color"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_dummy_image_color"] forKey:@"fd_dummy_image_color"];
     }
-
+    
     //Dummy Image color alpha
     if([imageProcessingData objectForKey:@"fd_dummy_image_color_alpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_dummy_image_color_alpha"] forKey:@"fd_dummy_image_color_alpha"];
     }
-
+    
     //Instruction Image Resource ID
     if([imageProcessingData objectForKey:@"fd_instruction_img_resource_id"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_instruction_img_resource_id"] forKey:@"fd_instruction_img_resource_id"];
     }
-
+    
     //Enable Cropping
     if([imageProcessingData objectForKey:@"fd_enable_cropping"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"fd_enable_cropping"] forKey:@"fd_enable_cropping"];
     }
-
+    
     //Enable dot capture
     if([imageProcessingData objectForKey:@"fd_enable_donotcapture"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"fd_enable_donotcapture"] forKey:@"fd_enable_donotcapture"];
     }
-
+    
     //Enable BGR
     if([imageProcessingData objectForKey:@"fd_enable_bgr"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"fd_enable_bgr"] forKey:@"fd_enable_bgr"];
     }
-
+    
     //Face Hint ICON
     if([imageProcessingData objectForKey:@"fd_hide_face_hint_icon"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_hide_face_hint_icon"] forKey:@"fd_hide_face_hint_icon"];
     }
-
+    
     //Hide Title Image
     if([imageProcessingData objectForKey:@"fd_hide_title_image"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_hide_title_image"] forKey:@"fd_hide_title_image"];
     }
-
+    
     //Show Custom UI
     if([imageProcessingData objectForKey:@"fd_show_custom_ui"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_show_custom_ui"] forKey:@"fd_show_custom_ui"];
     }
-
+    
     //Face Outline Image ID
     if([imageProcessingData objectForKey:@"fd_face_outline_image_id"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_face_outline_image_id"] forKey:@"fd_face_outline_image_id"];
     }
-
+    
     //Outside Face Outline Image ID
     if([imageProcessingData objectForKey:@"fd_outside_face_outline_image_id"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_outside_face_outline_image_id"] forKey:@"fd_outside_face_outline_image_id"];
     }
-
+    
     //Face Outline Progress Images
     if([imageProcessingData objectForKey:@"fd_face_outline_progress_images"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_face_outline_progress_images"] forKey:@"fd_face_outline_progress_images"];
     }
-
+    
     //Face Outline Progress Image Delay
     if([imageProcessingData objectForKey:@"fd_face_outline_progress_images_delay"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_face_outline_progress_images_delay"] forKey:@"fd_face_outline_progress_images_delay"];
     }
-
+    
     //Face Turn Arrow List
     if([imageProcessingData objectForKey:@"fd_face_turn_arrow_list"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_face_turn_arrow_list"] forKey:@"fd_face_turn_arrow_list"];
     }
-
+    
     //Toggle Camera Button icon
     if([imageProcessingData objectForKey:@"fd_toggle_camera_button_icon"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_toggle_camera_button_icon"] forKey:@"fd_toggle_camera_button_icon"];
     }
-
+    
     //CaptureButton Color
     if([imageProcessingData objectForKey:@"fd_capture_button_color"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_capture_button_color"] forKey:@"fd_capture_button_color"];
     }
-
+    
     //Capture Button Color Alpha
     if([imageProcessingData objectForKey:@"fd_capture_button_color_alpha"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_capture_button_color_alpha"] forKey:@"fd_capture_button_color_alpha"];
     }
-
+    
     //Label Text Type
     if([imageProcessingData objectForKey:@"fd_label_text_type"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_label_text_type"] forKey:@"fd_label_text_type"];
     }
-
+    
     //Header Text type
     if([imageProcessingData objectForKey:@"fd_header_text_type"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_header_text_type"] forKey:@"fd_header_text_type"];
     }
-
+    
     //Face hint icon on top
     if([imageProcessingData objectForKey:@"fd_face_hint_icon_on_top"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_face_hint_icon_on_top"] forKey:@"fd_face_hint_icon_on_top"];
     }
-
+    
     //Face title image on top
     if([imageProcessingData objectForKey:@"fd_title_image_on_top"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_title_image_on_top"] forKey:@"fd_title_image_on_top"];
     }
-
+    
     //Face Camera MegaPixel
     if([imageProcessingData objectForKey:@"fd_minimum_camera_megapixel"]) {
         [uiDictionary setObject:[imageProcessingData objectForKey:@"fd_minimum_camera_megapixel"] forKey:@"fd_minimum_camera_megapixel"];
@@ -1309,22 +1241,23 @@ static bool idfaceshowInstruction = true;
     NSMutableDictionary *selfieCapDic = [[NSMutableDictionary alloc] init];
     [selfieCapDic setObject:uiDictionary forKey:@"face_capture"];
     [AppItSDK customizeUserInterface:selfieCapDic];
-
+    
     [AppItSDK detectFace:self faceCaptureConfig:nonUIDictionary];
 }
 
 -(void) prepare_data_for_image_proc{
-    int mAlpha = 1;
+//    int mAlpha = 1;
     
     
-    NSString *dFontStyle = @"Default", *hintMessageColor = @"606060", *instContinueButtonColor = @"FFFFFF", *instContinueButtonTextColor = @"487D95", *hintMessageSize = @"", *instructionTextColor = @"FFFFFF";
+    NSString *hintMessageColor = @"606060";
+//    "*dFontStyle = @"Default", *instContinueButtonColor = @"FFFFFF", *instContinueButtonTextColor = @"487D95", *hintMessageSize = @"", *instructionTextColor = @"FFFFFF";
     
-    int hintMessageColorAlpha = mAlpha, instContinueButtonAlpha = mAlpha, instContinueButtonTextAlpha = mAlpha, dOutsideFaceOutlineColorAlpha =mAlpha;
+//    int hintMessageColorAlpha = mAlpha, instContinueButtonAlpha = mAlpha, instContinueButtonTextAlpha = mAlpha, dOutsideFaceOutlineColorAlpha =mAlpha;
     
     NSMutableDictionary *uiDictionary = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *nonUIDictionary = [[NSMutableDictionary alloc] init];
     
-    NSString *dOutsideFaceOutlineColor = @"487D95";
+//    NSString *dOutsideFaceOutlineColor = @"487D95";
     NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
     NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
     NSArray *imageProcessingArray = [dataToAppit objectForKey:@"imageProcessing"];
@@ -1401,11 +1334,13 @@ static bool idfaceshowInstruction = true;
             //            [nonUIDictionary setObject:@"800" forKey:@"id_image_width"];
         }
         
-        NSString *dIdOutlineColor = @"FFFFFF", *dDetectedIdOutlineColor = @"6EB24C", *dOutsideIdOutlineColor = @"FFFFFF",*dDetectedPOAOutlineColor = @"6EB24C",*dDetectedOutsideIdOutlineColor = @"FFFFFF",*titleMessageStyle = @"Normal", *hintMessageStyle = @"Normal" ,*titleMessageColor = @"FFFFFF", *backButtonColor = @"FEAD36", *titleTextFontSize=@"", *hintTextFontSize=@"", *idCaptureBorderType = @"Thick", *retryButtonColor = @"606060", *confirmButtonColor = @"606060", *retryButtonBordorColor = @"FFFFFF", *confirmButtonStyleColor = @"FFFFFF";
+        NSString *dIdOutlineColor = @"FFFFFF", *dDetectedIdOutlineColor = @"6EB24C", *dOutsideIdOutlineColor = @"FFFFFF",*dDetectedOutsideIdOutlineColor = @"FFFFFF",*titleMessageStyle = @"Normal", *hintMessageStyle = @"Normal" ,*titleMessageColor = @"FFFFFF", *backButtonColor = @"FEAD36", *titleTextFontSize=@"", *idCaptureBorderType = @"Thick", *retryButtonColor = @"606060", *confirmButtonColor = @"606060", *retryButtonBordorColor = @"FFFFFF", *confirmButtonStyleColor = @"FFFFFF";
+//        *dDetectedPOAOutlineColor = @"6EB24C", *hintTextFontSize=@"",
         
-        NSString *idOutlineColor = dIdOutlineColor, *detectedidoutlinecolor = dDetectedIdOutlineColor, *idOutsideOutlineColor = dOutsideIdOutlineColor;
+        NSString *idOutlineColor = dIdOutlineColor, *idOutsideOutlineColor = dOutsideIdOutlineColor;
+//        *detectedidoutlinecolor = dDetectedIdOutlineColor;
         
-        int idOutlineColorAlpha = mAlpha,detectedidoutlinetransparency = mAlpha, idOutsideOutlineColorAlpha = mAlpha,titleMessageColorAlpha = mAlpha,backButtonColorAlpha = mAlpha, confirmButtonColorAlpha = mAlpha, retryButtonColorAlpha = mAlpha, retryButtonBorderColorAlpha = mAlpha, confirmButtonStyleColorAlpha = mAlpha;
+//        int idOutlineColorAlpha = mAlpha,detectedidoutlinetransparency = mAlpha, idOutsideOutlineColorAlpha = mAlpha,titleMessageColorAlpha = mAlpha,backButtonColorAlpha = mAlpha, confirmButtonColorAlpha = mAlpha, retryButtonColorAlpha = mAlpha, retryButtonBorderColorAlpha = mAlpha, confirmButtonStyleColorAlpha = mAlpha;
         
         if([imageProcessingData objectForKey:@"IdOutlineColor"]) {
             [uiDictionary setObject:[imageProcessingData objectForKey:@"IdOutlineColor"] forKey:@"id_outline_color"];
@@ -1721,7 +1656,7 @@ static bool idfaceshowInstruction = true;
         if([imageProcessingData objectForKey:@"id_image_resolution"]) {
             [uiDictionary setObject:[imageProcessingData objectForKey:@"id_image_resolution"] forKey:@"id_image_resolution"];
         }
-
+        
         /* Need to check
          id_label_text_type
          "id_header_text_type": "Default",
@@ -1736,7 +1671,7 @@ static bool idfaceshowInstruction = true;
             
             snippetConfig = [imageProcessingData objectForKey:@"imageSnippetConfig"];
             NSArray *snippetArray  = [snippetConfig objectForKey:@"ImageSnippetReverseMapping"];
-            NSMutableArray *snippetNameArray = [ [NSMutableArray alloc] init];
+//            NSMutableArray *snippetNameArray = [ [NSMutableArray alloc] init];
             
             psgfKeyValueSnippetDictionary = [[NSMutableDictionary alloc] init];
             
@@ -1829,7 +1764,7 @@ static bool idfaceshowInstruction = true;
 }
 
 -(void) prepare_data_for_fingerprint{
-        
+    
     NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
     imageProcessingData = [NSMutableDictionary dictionary];
     NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
@@ -1870,7 +1805,7 @@ static bool idfaceshowInstruction = true;
     if([imageProcessingData objectForKey:@"showInstruction"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"showInstruction"] forKey:@"cfc_show_instruction_screen"];
     }
-        
+    
     // Index Finger
     if([imageProcessingData objectForKey:@"indexFingerMinThreshold"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"indexFingerMinThreshold"] forKey:@"cfc_indexfinger_min_threshold"];
@@ -1933,27 +1868,27 @@ static bool idfaceshowInstruction = true;
     if([imageProcessingData objectForKey:@"style"]) {
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"style"] forKey:@"cfc_label_text_style"];
     }
-
+    
     // Focus Threshold
     if([imageProcessingData objectForKey:@"FocusThreshold"]) {
         [AppItSDK setFPFocusThreshold:[[imageProcessingData objectForKey:@"FocusThreshold"] intValue]];
     }
-
+    
     [nonUIDictionary setObject:@"1" forKey:@"cfc_zoom_camera"];
-
+    
     /* Following Extra VAlues Come From Config Side
-        zoomCamera4F = 20;
-        cameraBiometrics = Y;
-    */
+     zoomCamera4F = 20;
+     cameraBiometrics = Y;
+     */
     
     /* Following Value from SDK side not configured
-        "cfc_label_text_color": "FFFFFF",
-        "cfc_label_text_color_alpha": "1",
-        "cfc_instruction_button_color": "FFFFFF",
-        "cfc_instruction_button_alpha": "1",
-        "labels": {
-          "camera_finger_capture_title": "Capture Fingerprint"
-        }
+     "cfc_label_text_color": "FFFFFF",
+     "cfc_label_text_color_alpha": "1",
+     "cfc_instruction_button_color": "FFFFFF",
+     "cfc_instruction_button_alpha": "1",
+     "labels": {
+     "camera_finger_capture_title": "Capture Fingerprint"
+     }
      */
     
     NSMutableDictionary *fingCapDict = [[NSMutableDictionary alloc] init];
@@ -1978,9 +1913,9 @@ static bool idfaceshowInstruction = true;
     NSArray *imageProcessingArray = [dataToAppit objectForKey:@"imageProcessing"];
     imageProcessingData = [imageProcessingArray objectAtIndex:0];
     
-    NSMutableArray *snippetArrayList = [[NSMutableArray alloc] init];
+//    NSMutableArray *snippetArrayList = [[NSMutableArray alloc] init];
     
-    NSMutableDictionary *snippetDict = [imageProcessingData objectForKey:@"imageSnippetConfig"];
+//    NSMutableDictionary *snippetDict = [imageProcessingData objectForKey:@"imageSnippetConfig"];
     NSArray *snippetArray  = [requestParamJson objectForKey:@"snippetMappingList"];
     NSString *imageData = [requestParamJson objectForKey:@"capturedImageData"];
     
@@ -1988,7 +1923,7 @@ static bool idfaceshowInstruction = true;
     NSData *imageNSData = [NSData dataWithContentsOfURL:url];
     UIImage *snippetImage = [UIImage imageWithData:imageNSData];
     
-    NSMutableArray *snippetNameArray = [ [NSMutableArray alloc] init];
+//    NSMutableArray *snippetNameArray = [ [NSMutableArray alloc] init];
     
     NSMutableDictionary *snippetNameDictionary = [[NSMutableDictionary alloc] init];
     
@@ -2107,6 +2042,84 @@ static bool idfaceshowInstruction = true;
     NSDictionary *voiceRecordingConfig = [voiceRecordingConfigArray objectAtIndex:0];
     return voiceRecordingConfig;
     
+}
+-(void)videoRecordingCallback {
+    NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
+    NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
+    NSDictionary* videoRecordingDictionary = [dataToAppit objectForKey:@"videoRecording"];
+    NSString* videoRecordingRequestType = [videoRecordingDictionary objectForKey:@"RequestType"];
+    isBackPressed = false;
+    if(![videoRecordingRequestType isEqualToString:@"Polling"]) {
+        [self.navigationController setNavigationBarHidden:YES animated:YES];
+        if (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation))
+        {
+            [[UIDevice currentDevice] setValue:
+             [NSNumber numberWithInteger: UIInterfaceOrientationPortrait]
+                                        forKey:@"orientation"];
+        }
+        if(first_launch) {
+            //  [self initViews];
+            first_launch = false;
+        }
+        count=0;
+        minute=0;
+        
+        videoRecSeconds = 0;
+        divideInSecond = 0.0;
+        numberOfPart = 0;
+        videoChunkSize = 0;
+        startChunkPosition = 0;
+        fullScreen = true;
+        recordingStarted = @"nil";
+        NSString* recordingStringDuration = [videoRecordingDictionary objectForKey:@"duration"];
+        recordingDuration = [recordingStringDuration integerValue];
+        NSString *textOnVideoScreen;
+        if([videoRecordingDictionary objectForKey:@"textOnVideoScreen"]) {
+            //                    [labelScrolledData setText:[videoRecordingDictionary objectForKey:@"textOnVideoScreen"]];
+            textOnVideoScreen = [videoRecordingDictionary objectForKey:@"textOnVideoScreen"];
+        } else {
+            //  [labelScrolledData setText:@""];
+            textOnVideoScreen = @"";
+        }
+        
+        NSString *showVideoFeedback = [videoRecordingDictionary objectForKey:@"showVideoFeedback"];
+        BOOL enableBgVideoRecording = [@"N" isEqualToString:showVideoFeedback];
+        
+        videoCallbackExecuted = false;
+        //                [AppItSDK startVideoRecording:self recordingTime:recordingDuration additionalDictionary:nil textDatatoScrolled:textOnVideoScreen];
+        [AppItSDK startVideoRecording:self recordingTime:recordingDuration additionalDictionary:nil textDatatoScrolled:textOnVideoScreen isEnableBgVideoRecording:enableBgVideoRecording];
+    } else {
+        NSMutableDictionary *config = [self build_common_return_data];
+        NSMutableDictionary *result = [NSMutableDictionary new];
+        NSString* chunkBase64 = @"";
+        int endChunkPosition = startChunkPosition + videoChunkSize;
+        
+        if(endChunkPosition >= base64Encoded.length) {
+//            long fullLength = base64Encoded.length;
+            chunkBase64 = [base64Encoded substringWithRange:NSMakeRange(startChunkPosition,base64Encoded.length - startChunkPosition)];
+            [result setObject:@"FINISH" forKey:@"FileStatus"];
+        }else {
+//            long fullLength = base64Encoded.length;
+            chunkBase64 = [base64Encoded substringWithRange:NSMakeRange(startChunkPosition, endChunkPosition - startChunkPosition)];
+            [result setObject:@"PENDING" forKey:@"FileStatus"];
+        }
+        startChunkPosition = endChunkPosition;
+        [config setObject:@"51" forKey:@"status"];
+        [result setObject:chunkBase64 forKey:@"VideoData"];
+        [config setObject:[self get_json_string:result] forKey:@"dataFromAppit"];
+        
+        NSString *encodedJsonString = [self get_encoded_json_string:config];
+        
+        [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
+    }
+
+}
+
+-(void)videoConferenceCallback {
+    NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
+    NSDictionary *dataToAppit = [self parse_string_to_json:dataToAppitString];
+    NSDictionary *videoConferencingDataDictionary = [dataToAppit objectForKey:@"videoConference"];
+    [self checkCameraPermission_videoConference:videoConferencingDataDictionary];
 }
 
 -(void)handle_get_spectification_callback {
@@ -2262,31 +2275,43 @@ static bool idfaceshowInstruction = true;
     [self videoConferencingResponse: _resultDictionary];
 }
 
--(void)setUpWebViewForPDF:(NSString *)url {
+-(void)openAppitIframeCallback {
+    NSDictionary *dataToAppit = [requestParamJson objectForKey:@"dataToAppit"];
+    NSString *url_String = [dataToAppit objectForKey:@"URL"];
+    NSString *title_String = [dataToAppit objectForKey:@"TITLE"];
+
+    if(![NS_String_Utils stringIsNilOrEmpty:url_String]) {
+        [self setUpWebViewForPDF:url_String titleString:title_String];
+    }
+}
+
+-(void)setUpWebViewForPDF:(NSString *)url titleString:(NSString *)title{
     
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
     dispatch_async(queue, ^{
-        
         [self URL_download_Process_pdf:url];
-        
     });
     
-    [_top_buttons_viewHolder_pdf setHidden:NO];
-    [_another_wkWebview_viewHolder_pdf setHidden:NO];
-    [_file_name_label_pdf setText:[url lastPathComponent]];
-    
-    pdf_webView = [[WKWebView alloc] initWithFrame: CGRectZero
-                                     configuration: [self setJS]];
-    pdf_webView.allowsBackForwardNavigationGestures = YES;
-    pdf_webView.configuration.preferences.javaScriptEnabled = YES;
-    [_another_wkWebview_viewHolder_pdf addSubview: pdf_webView];
-    [self setConstraints_for_PDF_WkWebView:pdf_webView parentView:_another_wkWebview_viewHolder_pdf];
+    [self.pdf_WebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
+
+    NSString *url_title = [[url lastPathComponent] stringByReplacingOccurrencesOfString:@"_" withString:@" "];
+    [self.pdf_TitleLabel setText:url_title];
+    [self.pdf_View setHidden:NO];
+    [self.view bringSubviewToFront:self.pdf_View];
+
+//    [self.pdf_TitleLabel setText:title];
+
+//    pdf_webView = [[WKWebView alloc] initWithFrame: CGRectZero configuration: [self setJS]];
+//    pdf_webView.allowsBackForwardNavigationGestures = YES;
+//    pdf_webView.configuration.preferences.javaScriptEnabled = YES;
+//    [_another_wkWebview_viewHolder_pdf addSubview: pdf_webView];
+
+//    [self setConstraints_for_PDF_WkWebView:pdf_webView parentView:_another_wkWebview_viewHolder_pdf];
     
     //    [pdf_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://demo.idmission.com/Faysal-Bank-Demo/images/downloadFormPDFPrd-1.pdf"]]];
-    [pdf_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
 }
 
--(void) setConstraints_for_PDF_WkWebView:(WKWebView *)webView parentView:(UIView *)parentView{
+-(void)setConstraints_for_PDF_WkWebView:(WKWebView *)webView parentView:(UIView *)parentView{
     
     webView.translatesAutoresizingMaskIntoConstraints = NO;
     
@@ -2297,7 +2322,7 @@ static bool idfaceshowInstruction = true;
                                    toItem:parentView
                                    attribute:NSLayoutAttributeTrailing
                                    multiplier:1.0f
-                                   constant:0.f];
+                                   constant:20.f];
     
     NSLayoutConstraint *leading = [NSLayoutConstraint
                                    constraintWithItem:webView
@@ -2306,7 +2331,7 @@ static bool idfaceshowInstruction = true;
                                    toItem:parentView
                                    attribute:NSLayoutAttributeLeading
                                    multiplier:1.0f
-                                   constant:0.f];
+                                   constant:20.f];
     
     NSLayoutConstraint *bottom =[NSLayoutConstraint
                                  constraintWithItem:webView
@@ -2315,9 +2340,9 @@ static bool idfaceshowInstruction = true;
                                  toItem:parentView
                                  attribute:NSLayoutAttributeBottom
                                  multiplier:1.0f
-                                 constant:0.f];
+                                 constant:20.f];
     
-    NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:webView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:parentView attribute:NSLayoutAttributeTop multiplier:1.0f constant:0.f];
+    NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:webView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:parentView attribute:NSLayoutAttributeTop multiplier:1.0f constant:20.f];
     
     [parentView addConstraint:trailing];
     [parentView addConstraint:leading];
@@ -2328,10 +2353,7 @@ static bool idfaceshowInstruction = true;
 
 -(void) URL_download_Process_pdf:(NSString *)url_string_data {
     
-    NSDate *executionStart = [NSDate date];
-    
     NSURL *url = [NSURL URLWithString:url_string_data];
-    
     
     NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
     sessionConfiguration.HTTPAdditionalHeaders = @{
@@ -2340,9 +2362,6 @@ static bool idfaceshowInstruction = true;
     NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:self delegateQueue:nil];
     
     NSURLSessionDataTask *downloadDataTask = [session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        
-        NSDate *executionFinish = [NSDate date];
-        NSTimeInterval executionTime = [executionFinish timeIntervalSinceDate:executionStart];
         
         if(error != nil){
             NSLog(@"Error while downloading content = %@", error);
@@ -2356,10 +2375,10 @@ static bool idfaceshowInstruction = true;
                     [[NSFileManager defaultManager] createDirectoryAtPath:outFileDirectoryPath withIntermediateDirectories:YES attributes:nil error:&error];
                 }
                 
-                content_file_name = [url_string_data lastPathComponent];
+                self->content_file_name = [url_string_data lastPathComponent];
                 
-                if(![NS_String_Utils stringIsNilOrEmpty:content_file_name]) {
-                    NSString *content_file_path = [NSString stringWithFormat:@"%@/%@", outFileDirectoryPath, content_file_name];
+                if(![NS_String_Utils stringIsNilOrEmpty:self->content_file_name]) {
+                    NSString *content_file_path = [NSString stringWithFormat:@"%@/%@", outFileDirectoryPath, self->content_file_name];
                     
                     if ([[NSFileManager defaultManager] fileExistsAtPath:content_file_path]) {
                         // delete if exist
@@ -2420,8 +2439,7 @@ static bool idfaceshowInstruction = true;
             numberOfPart = ceil(videoRecSeconds/divideInSecond);
             videoChunkSize = ceil(base64Encoded.length/numberOfPart);
             
-            NSString *time = [[NSString alloc]
-                              initWithFormat:@"%02d:%02d",0, 0];
+//            NSString *time = [[NSString alloc] initWithFormat:@"%02d:%02d",0, 0];
             
             [self call_inform_js:@"invokeIosAppitHandler" functionParameters:encodedJsonString];
         } else {
@@ -2985,13 +3003,13 @@ static bool idfaceshowInstruction = true;
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:@"showOpenCvSeque"]){
         
-                
+        
     }else if([segue.identifier isEqualToString:@"showFaceDetectionSegue"]){
-
+        
     }else if ([segue.identifier isEqualToString:@"showCardScanSegue"]){
-
+        
     }else if([segue.identifier isEqualToString:@"showVideoRecordingSegue"]){
-
+        
     }else if([segue.identifier isEqualToString:@"showPasswordSegue"]){
         PasswordViewController *controller = (PasswordViewController *)segue.destinationViewController;
         controller.modalPresentationStyle = UIModalPresentationFullScreen;
@@ -3089,7 +3107,7 @@ static bool idfaceshowInstruction = true;
     [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
         NSLog(@"User clicked button called %@ or tapped elsewhere",action.title);
     }]];
-
+    
     alertController.modalPresentationStyle = UIModalPresentationPopover;
     
     UIPopoverPresentationController * popover = alertController.popoverPresentationController;
@@ -3106,9 +3124,9 @@ static bool idfaceshowInstruction = true;
 -(void)clearAppDataAndRefresh{
     
     NSFileManager *defaultManager = [NSFileManager defaultManager];
-
+    
     // All kinds of data
-     NSSet *websiteDataTypes = [WKWebsiteDataStore allWebsiteDataTypes];
+    NSSet *websiteDataTypes = [WKWebsiteDataStore allWebsiteDataTypes];
     // Date from
     NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
     // Execute
@@ -3170,17 +3188,15 @@ static bool idfaceshowInstruction = true;
 - (IBAction)closeWkWebviewButtonClicked:(id)sender {
     
     [self.webView setHidden:NO];
-    [pdf_webView removeFromSuperview];
-    pdf_webView = nil;
-    [_top_buttons_viewHolder_pdf setHidden:YES];
-    [_another_wkWebview_viewHolder_pdf setHidden:YES];
+    [self.pdf_View setHidden:YES];
+    
 }
 - (IBAction)shareDataButtonClicked:(id)sender {
+    
     if(![NS_String_Utils stringIsNilOrEmpty:content_file_name]) {
+        
         NSString *documentsDirectory = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
-        
         NSString *resourcePath = [documentsDirectory stringByAppendingPathComponent:@"/Content_Folder/"];
-        
         resourcePath = [resourcePath stringByAppendingPathComponent:content_file_name];
         
         if ([[NSFileManager defaultManager] fileExistsAtPath:resourcePath]) {
@@ -3188,10 +3204,8 @@ static bool idfaceshowInstruction = true;
             
             if (URL) {
                 self->documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:URL];
-                
                 [self->documentInteractionController setDelegate:self];
-                
-                [self->documentInteractionController presentOptionsMenuFromRect:[_top_buttons_viewHolder_pdf frame] inView:self.view animated:YES];
+                [self->documentInteractionController presentOptionsMenuFromRect:[self.pdf_View frame] inView:self.view animated:YES];
             }
         }
         
@@ -3231,7 +3245,7 @@ static bool idfaceshowInstruction = true;
         if (recordedSuccessfully){
             [myTimer invalidate];
             NSLog(@"Recorded Successfully");
-            CGRect layerRect = [[[self view] layer] bounds];
+//            CGRect layerRect = [[[self view] layer] bounds];
             recordingInProgress = NO;
             NSURL* finalURL = [self resizeVideo:outputFileURL];
             
@@ -3349,11 +3363,11 @@ static bool idfaceshowInstruction = true;
     if(isMute) {
         AVMutableComposition *composition = [AVMutableComposition composition];
         
-        AVMutableCompositionTrack *compositionVideoTrack = [composition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
+//        AVMutableCompositionTrack *compositionVideoTrack = [composition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
         
-        CMTimeRange x = CMTimeRangeMake(kCMTimeZero, [avAsset duration]);
+//        CMTimeRange x = CMTimeRangeMake(kCMTimeZero, [avAsset duration]);
         
-        bool ok = [compositionVideoTrack insertTimeRange:x ofTrack:audioTrack atTime:kCMTimeZero error:nil];
+//        bool ok = [compositionVideoTrack insertTimeRange:x ofTrack:audioTrack atTime:kCMTimeZero error:nil];
         audioReader = [AVAssetReader assetReaderWithAsset:composition error:&error];
     } else {
         audioReader = [AVAssetReader assetReaderWithAsset:avAsset error:&error];
@@ -3516,7 +3530,7 @@ static bool idfaceshowInstruction = true;
     int height = self.view.frame.size.height;
     int width = self.view.frame.size.width;
     int centerX = width/2;
-    int centerY = height/2;
+//    int centerY = height/2;
     int buttonWidhHeight = 100;
     int progressPadding = 40;
     if(height <= 623) {
@@ -3816,18 +3830,15 @@ static bool idfaceshowInstruction = true;
             playerViewController.view.frame = CGRectMake(x,y,self.view.frame.size.width-x-x,self.view.frame.size.height-y-y);
         }
         [_webView setHidden:YES];
-        float navigationheight = self.navigationController.navigationBar.frame.size.height;
         int height = self.view.frame.size.height;
         int width = self.view.frame.size.width;
         int centerX = width/2;
-        int centerY = height/2;
         int buttonWidhHeight = 100;
         int progressPadding = 40;
         if(height <= 623) {
             buttonWidhHeight = 50;
             progressPadding = 20;
         }
-        int padding = 10;
         int botPadding = 0;
         
         [recordingButton setFrame:CGRectMake(centerX-(buttonWidhHeight/2), height-buttonWidhHeight - botPadding, buttonWidhHeight, buttonWidhHeight)];
@@ -3954,7 +3965,7 @@ static bool idfaceshowInstruction = true;
         BOOL status = [idServerInterface isTemplateDownloadingRequire:templateDownload];
         if(status){
             NSLog(@"download_templates : Templates update require...");
-            NSString* statusCode = [idServerInterface downloadTemplates:templateDownload];
+//            NSString* statusCode = [idServerInterface downloadTemplates:templateDownload];
             templateDownloadStatus = 1;
             downloadStatus = @"23";
         }else{
