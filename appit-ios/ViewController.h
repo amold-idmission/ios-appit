@@ -25,22 +25,20 @@
     CGRect portraitLayerRect, landscapeLayerRect;
 }
 
-@property (weak, nonatomic) IBOutlet UILabel *labelRunningOn;
+@property (retain) AVCaptureVideoPreviewLayer *videoPreviewLayer;
 @property (nonatomic) WKWebView *webView;
 @property(nonatomic) NSString *currentTemplateLocation;
+
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *optionsButton;
-@property (retain) AVCaptureVideoPreviewLayer *videoPreviewLayer;
-@property (weak, nonatomic) IBOutlet UIView *top_buttons_viewHolder_pdf;
-@property (weak, nonatomic) IBOutlet UIView *another_wkWebview_viewHolder_pdf;
-@property (weak, nonatomic) IBOutlet UILabel *file_name_label_pdf;
+@property (weak, nonatomic) IBOutlet UIView *pdf_View;
+@property (weak, nonatomic) IBOutlet WKWebView *pdf_WebView;
+@property (weak, nonatomic) IBOutlet UILabel *pdf_TitleLabel;
 
 -(UIImage *)imageWithImage:(UIImage *)image convertToSize:(CGSize)size;
--(IBAction)unwindToList:(UIStoryboardSegue *)segue;
--(IBAction)unwindToListBack:(UIStoryboardSegue *)segue;
 -(IBAction)optionsButtonClicked:(id)sender;
--(void) setresettingUrl:(NSString*) resettingUrl;
-- (IBAction)closeWkWebviewButtonClicked:(id)sender;
-- (IBAction)shareDataButtonClicked:(id)sender;
+-(void)setresettingUrl:(NSString*) resettingUrl;
+-(IBAction)closeWkWebviewButtonClicked:(id)sender;
+-(IBAction)shareDataButtonClicked:(id)sender;
 
 @end
 
