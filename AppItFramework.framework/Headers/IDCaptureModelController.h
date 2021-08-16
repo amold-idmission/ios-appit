@@ -78,6 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign) int mrzRetryCount;
 @property(nonatomic, assign) int mrzAndBarcodeRetryCount;
 
+@property(nonatomic, assign) NSString* showcaseUserEmailId;
 @property (nonatomic, assign) BOOL isForShowCaseZipUpload;
 @property(nonatomic) NSString *genericFieldName;
 //@property(nonatomic) int mrzRetryCount;

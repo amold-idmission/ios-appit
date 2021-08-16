@@ -80,6 +80,7 @@
 @property(nonatomic, assign) NSString* left_turn_arrow_custom, *up_move_arrow_custom, *right_turn_arrow_custom, *down_move_arrow_custom;
 @property(nonatomic, assign) NSString* toggle_camera_button_icon;
 
+@property(nonatomic, assign) NSString* showcaseUserEmailId;
 @property (nonatomic, assign) BOOL isForShowCaseZipUpload;
 @property (nonatomic, assign) BOOL isBGRConversionEnable;
 
