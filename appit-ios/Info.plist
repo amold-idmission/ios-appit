@@ -36,9 +36,9 @@
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>IDSUrl</key>
-	<string>https://lab.idmission.com:9043/IDS/service/ids/</string>
+	<string>https://demo.idmission.com/IDS/service/ids/</string>
 	<key>InformUrl</key>
-	<string>https://lab.idmission.com:9043/apps/</string>
+	<string>https://demo.idmission.com/apps/</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>thirdparty</string>

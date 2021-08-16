@@ -1007,7 +1007,7 @@ enum SDKIDType{
 +(bool)getcfc_keep_index_finger;
 +(void)setcfc_keep_index_finger:(bool)_cfc_keep_index_finger;
 
-+(bool)cfc_keep_middle_finger;
++(bool)getcfc_keep_middle_finger;
 +(void)setcfc_keep_middle_finger:(bool)_cfc_keep_middle_finger;
 
 +(bool)getcfc_keep_ring_finger;
@@ -1015,6 +1015,18 @@ enum SDKIDType{
 
 +(bool)getcfc_keep_baby_finger;
 +(void)setcfc_keep_baby_finger:(bool)_cfc_keep_baby_finger;
+
++(bool)getcfc_capture_index_finger;
++(void)setcfc_capture_index_finger:(bool)_cfc_capture_index_finger;
+
++(bool)getcfc_capture_middle_finger;
++(void)setcfc_capture_middle_finger:(bool)_cfc_capture_middle_finger;
+
++(bool)getcfc_capture_ring_finger;
++(void)setcfc_capture_ring_finger:(bool)_cfc_capture_ring_finger;
+
++(bool)getcfc_capture_baby_finger;
++(void)setcfc_capture_baby_finger:(bool)_cfc_capture_baby_finger;
 
 +(void)extraAdditionalData:(NSMutableDictionary *)dataDictionary;
 

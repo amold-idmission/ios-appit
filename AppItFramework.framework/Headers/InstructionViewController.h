@@ -14,6 +14,7 @@
 }
 
 @property(nonatomic,assign)id delegate;
+@property(nonatomic) NSString *showcaseEmailIdToPass;
 @property(nonatomic) NSString *instruction_type;
 @property(nonatomic) NSString *background_color;
 @property(nonatomic) int background_color_alpha;
