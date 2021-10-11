@@ -1850,19 +1850,19 @@ static bool idfaceshowInstruction = true;
     
     // Finger to be Capture
     if([imageProcessingData objectForKey:@"processIndexFinger"]) {
-        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processIndexFinger"] forKey:@"cfc_capture_index_finger"];
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processIndexFinger"] forKey:@"cfc_process_indexfinger"];
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processIndexFinger"] forKey:@"cfc_keep_index_finger"];
     }
     if([imageProcessingData objectForKey:@"processMiddleFinger"]) {
-        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processMiddleFinger"] forKey:@"cfc_capture_middle_finger"];
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processMiddleFinger"] forKey:@"cfc_process_middlefinger"];
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processMiddleFinger"] forKey:@"cfc_keep_middle_finger"];
     }
     if([imageProcessingData objectForKey:@"processRingFinger"]) {
-        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processRingFinger"] forKey:@"cfc_capture_ring_finger"];
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processRingFinger"] forKey:@"cfc_process_ringfinger"];
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processRingFinger"] forKey:@"cfc_keep_ring_finger"];
     }
     if([imageProcessingData objectForKey:@"processBabyFinger"]) {
-        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processBabyFinger"] forKey:@"cfc_capture_baby_finger"];
+        [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processBabyFinger"] forKey:@"cfc_process_babyfinger"];
         [nonUIDictionary setObject:[imageProcessingData objectForKey:@"processBabyFinger"] forKey:@"cfc_keep_baby_finger"];
     }
     

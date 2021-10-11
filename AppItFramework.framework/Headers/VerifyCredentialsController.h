@@ -42,10 +42,13 @@
 +(BOOL)isIDModelDownloaded;
 +(void)setIsIDModelDownloaded:(BOOL)modelDownloaded;
 
-//+(NSString *)getRequestCancelCount;
-//+(void)setRequestCancelCount : (NSString*)_cancelCount;
-
 -(id)initWithData:(id)instance loginId:(NSString *)loginId password:(NSString *)password url:(NSString *)url productID:(NSString *)productID merchantID:(NSString *)merchantID enableGPS:(bool)enableGPS EnableDebug:(bool)EnableDebug Language:(NSString *)Language productName:(NSString *)productName;
+
++(void)sendKeyCloak_TokenRequest:(NSString*)captureEntityType isrealORspoof:real_spoof_string outFileDirectoryPath:outFileDirectoryPath;
++(NSString*)getKeyclokFaceUsername;
++(NSString*)getKeyclokFacePassword;
++(NSString*)getKeyclokIDUsername;
++(NSString*)getKeyclokIDPassword;
 
 @end
 
