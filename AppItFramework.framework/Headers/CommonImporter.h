@@ -9,69 +9,74 @@
 #import <Foundation/Foundation.h>
 #import "AppItSDK.h"
 #import "NSStringUtils.h"
-#import "LanguageUtils.h"
-#import "OpenCvViewController.h"
-#import "FaceDetectionViewController.h"
-#import "FaceDetectionNewViewController.h"
-#import "MatchFaceViewController.h"
-#import "ProcessImageViewController.h"
-#import "ProcessAndMatchViewController.h"
-#import "CompleteOperationViewController.h"
-#import "CardDetectionViewController.h"
-#import "VerifyCustomerViewController.h"
-#import "InstructionViewController.h"
 #import "NSLogUtils.h"
 #import "UIColor+fromHex.h"
 #import "RequestQueue.h"
-#import "FingerDetectionViewController2.h"
-#import "FingerDetectionViewController.h"
-#import "GPSManager.h"
-#import "VoiceRecordingController.h"
-#import "VoiceRecordingVC.h"
-#import "VideoRecordingController.h"
-#import "FingerprintEnrolmentTask.h"
-#import "FingerPrintVerificationTask.h"
+#import "LanguageUtils.h"
 #import "ResultData.h"
 #import "RequestResponseVController.h"
 #import "BundleLocalization.h"
-#import "BarcodeViewController.h"
-#import "CaptureSignatureController.h"
 #import "VerifyPOAClass.h"
-#import "CreateEmployeeControllerViewController.h"
-#import "VerifyEmployeeController.h"
-#import "CreateTokenControllerViewController.h"
-#import "VerifyTokenController.h"
-#import "SnippetCaptureController.h"
 #import "StringLabels.h"
-#import "UpdateCustomerViewController.h"
-#import "GenerateOTPController.h"
-#import "VerifyOTPController.h"
-#import "ImagePreviewViewController.h"
-//#import "ImageUtils.h"
-#import "MlKitFaceController.h"
-#import "VerifyCredentialsController.h"
-#import "ExecuteGenericRequestViewController.h"
-#import "UpdateEmployeeViewController.h"
-#import "IdValidationAndVideoMatchingController.h"
 #import "UIConfigurationManager.h"
-#import "GenericServiceCallViewController.h"
-#import "VideoConferencingViewController.h"
-#import "SlantedIdCaptureViewController.h"
-#import "SlantedLandscapeViewController.h"
-#import "VoiceRecorder.h"
-#import "MlKitBarcodeScanViewController.h"
 #import "DownloadTemplateData.h"
-#import "PassiveFaceDetectionViewController.h"
-#import "FillFastController.h"
 #import "GetTemplateInfoTask.h"
 #import "TBXML.h"
 #import "TBXMLParser.h"
 #import "NSData+GZIP.h"
-#import "CardViewController.h"
-#import "IDCaptureModelController.h"
-#import "FillFastModelController.h"
-#import "DocumentUploadController.h"
 
+#import "ProcessImageViewController.h"
+#import "ProcessAndMatchViewController.h"
+#import "CompleteOperationViewController.h"
+
+#import "VerifyCredentialsController.h"
+#import "InstructionViewController.h"
+#import "PassiveFaceDetectionViewController.h"
+#import "OpenCvViewController.h"              /* Need To Delete For Face+ID Flavour */
+#import "FaceDetectionViewController.h"       /* Need To Delete For Face+ID Flavour */
+#import "FaceDetectionNewViewController.h"    /* Need To Delete For Face+ID Flavour */
+#import "MlKitFaceController.h"               /* Need To Delete For Face+ID Flavour */
+#import "MatchFaceViewController.h"
+#import "IDCaptureModelController.h"
+#import "SnippetCaptureController.h"
+#import "DocumentUploadController.h"
+#import "SlantedIdCaptureViewController.h"    /* Need To Delete For Face+ID Flavour */
+#import "SlantedLandscapeViewController.h"    /* Need To Delete For Face+ID Flavour */
+#import "CardViewController.h"                /* Need To Delete For Face+ID Flavour */
+#import "CardDetectionViewController.h"       /* Need To Delete For Face+ID Flavour */
+#import "FillFastController.h"                /* Need To Delete For Face+ID Flavour */
+#import "FillFastModelController.h"           /* Need To Delete For Face+ID Flavour */
+#import "FingerDetectionViewController2.h"    /* Need To Delete For Face+ID Flavour */
+#import "FingerDetectionViewController.h"     /* Need To Delete For Face+ID Flavour */
+#import "FingerprintEnrolmentTask.h"
+#import "FingerPrintVerificationTask.h"
+#import "MlKitBarcodeScanViewController.h"
+#import "BarcodeViewController.h"
+#import "CaptureSignatureController.h"
+#import "GPSManager.h"
+#import "VoiceRecorder.h"
+#import "VoiceRecordingController.h"
+#import "VoiceRecordingVC.h"
+#import "VideoRecordingController.h"
+#import "VideoConferencingViewController.h"
+
+#import "CreateEmployeeControllerViewController.h"
+#import "VerifyEmployeeController.h"
+#import "UpdateEmployeeViewController.h"
+
+#import "VerifyCustomerViewController.h"
+#import "UpdateCustomerViewController.h"
+
+#import "CreateTokenControllerViewController.h"
+#import "VerifyTokenController.h"
+
+#import "GenerateOTPController.h"
+#import "VerifyOTPController.h"
+
+#import "ImagePreviewViewController.h"
+#import "IdValidationAndVideoMatchingController.h"
+#import "GenericServiceCallViewController.h"
+#import "ExecuteGenericRequestViewController.h"
 
 @interface CommonImporter : NSObject
 

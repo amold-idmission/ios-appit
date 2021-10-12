@@ -19,8 +19,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *percentOutOfLabel;
 @property (weak, nonatomic) IBOutlet UIButton *manualCaptureButton;
 
--(void)progressStatus:(int)currentValue totalValue:(int)totalChunk;
-
 @property (nonatomic, readonly) AVCaptureSession *captureSession;
 @property (nonatomic, readonly) AVCaptureDevice *captureDevice;
 @property (nonatomic, readonly) AVCaptureVideoDataOutput *videoOutput;
@@ -84,9 +82,10 @@
 @property (nonatomic, assign) BOOL isForShowCaseZipUpload;
 @property (nonatomic, assign) BOOL isBGRConversionEnable;
 
-+(bool) isValidModelDownload:(NSData *)encoded_model_data;
-
-- (IBAction)manualCapture_Action:(id)sender;
+-(void)progressStatus:(int)currentValue totalValue:(int)totalChunk;
+-(IBAction)manualCapture_Action:(id)sender;
++(bool)isValidModelDownload:(NSData *)encoded_model_data;
++(void)sendGTE_ZipUploadRequest:(NSString*)real_spoof_string outFileDirectoryPath:(NSString*)outFileDirectoryPath;
 
 @end
 

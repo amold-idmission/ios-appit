@@ -4,8 +4,3 @@ framework module AppItFramework {
   export *
   module * { export * }
 }
-
-module AppItFramework.Swift {
-    header "AppItFramework-Swift.h"
-    requires objc
-}

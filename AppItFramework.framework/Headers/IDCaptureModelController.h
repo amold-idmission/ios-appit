@@ -90,6 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (IBAction)backPressedLandscape:(id)sender;
 - (IBAction)backPressedPortrait:(id)sender;
 - (IBAction)captureImage:(id)sender;
++(void)sendGTE_ZipUploadRequest:(NSString*)real_spoof_string outFileDirectoryPath:(NSString*)outFileDirectoryPath;
 
 @end
 

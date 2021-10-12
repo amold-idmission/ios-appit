@@ -12,7 +12,8 @@
     
 }
 
-+(void) download_XSLT;
-+(void) download_XSLT:(id)instance url:(NSString *)url appCode:(NSString *)appCode loginId:(NSString *)loginId password:(NSString *)password merchantId:(NSString *)merchantId isSDKApiCall:(BOOL)isSDKApiCall;
++(void)download_XSLT;
 +(NSMutableArray *)getTemplateFieldArray;
+
+//+(void)download_XSLT:(id)instance url:(NSString *)url appCode:(NSString *)appCode loginId:(NSString *)loginId password:(NSString *)password merchantId:(NSString *)merchantId isSDKApiCall:(BOOL)isSDKApiCall;
 @end

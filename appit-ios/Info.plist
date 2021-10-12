@@ -36,9 +36,9 @@
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>IDSUrl</key>
-	<string>https://demo.idmission.com/IDS/service/ids/</string>
+	<string>https://kyc.idmission.com/IDS/service/ids/</string>
 	<key>InformUrl</key>
-	<string>https://demo.idmission.com/apps/</string>
+	<string>https://kyc.idmission.com/apps/</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>thirdparty</string>
