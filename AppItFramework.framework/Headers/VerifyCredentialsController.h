@@ -13,7 +13,6 @@
 #import "AppItSDK.h"
 #import "GlobalGetterSetter.h"
 
-//@interface VerifyCredentialsController : UIViewController<NSXMLParserDelegate> {
 @interface VerifyCredentialsController : NSObject<NSXMLParserDelegate> {
     
 }
@@ -33,20 +32,23 @@
 @property (nonatomic) bool enableDebug;
 @property (nonatomic) bool enableGPS;
 
-+(NSString*)getModelPath;
-+(NSString*)getModelPath:(NSString *)uniqueKey;
-+(BOOL)isModelDownloaded;
-+(void)setIsModelDownloaded:(BOOL)modelDownloaded;
-+(BOOL)isIDModelDownloaded;
-+(void)setIsIDModelDownloaded:(BOOL)modelDownloaded;
-+(NSString *)getRequestCancelCount;
-+(void)setRequestCancelCount : (NSString*)_cancelCount;
++(NSString*)getFaceModelPath;
++(NSString*)getFaceModelPath:(NSString *)uniqueKey;
++(BOOL)isFaceModelDownloaded;
++(void)setIsFaceModelDownloaded:(BOOL)modelDownloaded;
 
 +(NSString*)getIdModelPath;
 +(NSString*)getIdModelPath:(NSString *)uniqueKey;
++(BOOL)isIDModelDownloaded;
++(void)setIsIDModelDownloaded:(BOOL)modelDownloaded;
 
--(id) initWithData:(id)instance loginId:(NSString *)loginId password:(NSString *)password
-               url:(NSString *)url productID:(NSString *)productID merchantID:(NSString *)merchantID enableGPS:(bool)enableGPS EnableDebug:(bool)EnableDebug Language:(NSString *)Language productName:(NSString *)productName;
+-(id)initWithData:(id)instance loginId:(NSString *)loginId password:(NSString *)password url:(NSString *)url productID:(NSString *)productID merchantID:(NSString *)merchantID enableGPS:(bool)enableGPS EnableDebug:(bool)EnableDebug Language:(NSString *)Language productName:(NSString *)productName;
+
++(void)sendKeyCloak_TokenRequest:(NSString*)captureEntityType isrealORspoof:real_spoof_string outFileDirectoryPath:outFileDirectoryPath;
++(NSString*)getKeyclokFaceUsername;
++(NSString*)getKeyclokFacePassword;
++(NSString*)getKeyclokIDUsername;
++(NSString*)getKeyclokIDPassword;
 
 @end
 

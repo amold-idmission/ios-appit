@@ -13,34 +13,24 @@
 
 @interface ImageUtils : NSObject
 
+//OpenCV Functions
 +(UIImage*)UIImageFromCVMat:(cv::Mat)im convert_color:(bool)convert_color;
-
-+(cv::Mat)CVMatFromUIImage:(UIImage*)im isGrayRequired:(BOOL)isGrayRequired;
-
--(cv::Mat)read_image_data:(NSString*) filepath;
-
 +(UIImage*)UIImageFromCVMat:(cv::Mat)im;
-
-+(UIImage*)UIImageFromSampleBuffer:(CMSampleBufferRef) sampleBuffer;
-
-+(UIImage*)rotatingUIImageByOrientation:(UIImage*)initImage fromImageOrientation:(UIImageOrientation)orientation;
-
++(CGImageRef)CGImageFromCVMat:(cv::Mat)cvMat;
+-(cv::Mat)read_image_data:(NSString*) filepath;
++(cv::Mat)CVMatFromUIImage:(UIImage*)im isGrayRequired:(BOOL)isGrayRequired;
 +(int)compareImageMat: (cv::Mat)matImage1 matImg2:(cv::Mat)matImage2 minMatches:(int)minMatches;
 
+
+
++(UIImage*)UIImageFromSampleBuffer:(CMSampleBufferRef) sampleBuffer;
++(UIImage*)rotatingUIImageByOrientation:(UIImage*)initImage fromImageOrientation:(UIImageOrientation)orientation;
 +(UIImage*)imageScaledToSize:(UIImage*)image scaledToSize:(CGSize)newSize;
-
 +(NSString*)reduceImageSize:(UIImage*)image imageSize:(int)imageSize;
-
 +(UIImage*)imageWithImage:(UIImage *)image convertToSize:(CGSize)size;
-
-+(CGImageRef)CGImageFromCVMat:(cv::Mat)cvMat;
-
 +(NSString*)createImageJSONString:(NSString*)fileBase64 formKey:(NSString*)formKey;
-
 +(NSString*)createFaceImageJSONString:(NSString*)fileBase64 formKey:(NSString*)formKey face_autoCapture:(NSString *)face_autoCapture;
-
 +(NSString*)createVoiceJSONString:(NSString*)fileBase64 formKey:(NSString*)formKey;
-
 +(NSString*)createPDFDocumentJSONString:(NSString*)fileBase64 formKey:(NSString*)formKey;
 
 @end
