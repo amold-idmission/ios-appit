@@ -68,7 +68,8 @@ enum SDKLanguage{
      SDKLanguage_EN=1,
      SDKLanguage_ES=2,
      SDKLanguage_MY=3,
-     SDKLanguage_AR=4
+     SDKLanguage_AR=4,
+     SDKLanguage_FR=5
 };
 
 enum SDKIDType{
@@ -471,6 +472,13 @@ enum SDKIDType{
 
 +(NSString *)getGenericFieldName;
 +(void)setGenericfieldName:(NSString*)genericField;
+
+/// Get Genric document name as stored in files
++(NSString *)getGenericDocumentName;
+
+/// Set Genric document name as stored in files
+/// @param name actual name e.g. sample.pdf
++(void)setGenericDocumentName:(NSString*)name;
 
 +(NSString *)getGenericFieldFormatType;
 +(void)setGenericFieldFormatType:(NSString*)genFieldFormatType;
@@ -1007,7 +1015,7 @@ enum SDKIDType{
 +(bool)getcfc_keep_index_finger;
 +(void)setcfc_keep_index_finger:(bool)_cfc_keep_index_finger;
 
-+(bool)cfc_keep_middle_finger;
++(bool)getcfc_keep_middle_finger;
 +(void)setcfc_keep_middle_finger:(bool)_cfc_keep_middle_finger;
 
 +(bool)getcfc_keep_ring_finger;
@@ -1015,6 +1023,18 @@ enum SDKIDType{
 
 +(bool)getcfc_keep_baby_finger;
 +(void)setcfc_keep_baby_finger:(bool)_cfc_keep_baby_finger;
+
++(bool)getcfc_process_indexfinger;
++(void)setcfc_process_indexfinger:(bool)_cfc_process_indexfinger;
+
++(bool)getcfc_process_middlefinger;
++(void)setcfc_process_middlefinger:(bool)_cfc_process_middlefinger;
+
++(bool)getcfc_process_ringfinger;
++(void)setcfc_process_ringfinger:(bool)_cfc_process_ringfinger;
+
++(bool)getcfc_process_babyfinger;
++(void)setcfc_process_babyfinger:(bool)_cfc_process_babyfinger;
 
 +(void)extraAdditionalData:(NSMutableDictionary *)dataDictionary;
 
@@ -1065,7 +1085,6 @@ enum SDKIDType{
 +(void)setCaptureLeftHand:(bool)CaptureLeftHand;
 
 +(int)getEyes_Open_percentage_threshold;
-
 +(void)setEyes_Open_percentage_threshold:(int)eyesOpen_facedetection_threshold;
 
 +(int)getFace_Spoof_Detection_threshold;
@@ -1101,9 +1120,6 @@ enum SDKIDType{
 
 +(void)setPreviousPublicKey_IDModel:(NSString*)prev_publicKeyId;
 +(NSString *)getPreviousPublicKey_IDModel;
-
-+(bool)getIsFace_ZipUploadData;
-+(void)setIsFace_ZipUploadData:(bool)isFaceUploadZipData;
 
 +(int)getMrzScanMaxLimit;
 +(void)setMrzScanMaxLimit : (int)mrz_Scan_Max_Limit;
@@ -1207,11 +1223,21 @@ enum SDKIDType{
 
 +(int)getSignatureTitleLabelColorAlpha;
 +(void)setSignatureTitleLabelColorAlpha:(int)signature_title_label_color_alpha;
+
++(bool)getIsDigitalSignatureEnabled;
++(void)setIsDigitalSignatureEnabled:(bool)IsDigitalSignaturEnabled;
+
 //
 
 // Face Data Upload Changes
 +(NSString *)getFaceDataUploadEnvironment;
 +(void)setFaceDataUploadEnvironment:(NSString*)face_data_upload_env;
+
++(bool)getIsFace_ZipUploadData;
++(void)setIsFace_ZipUploadData:(bool)isFaceUploadZipData;
+
++(int)getMinMegaPixelCameraForFace;
++(void)setMinMegaPixelCameraForFace:(int)fd_min_megaPixel_Camera;
 
 //ID Dummy Image Color
 +(NSString *)getIDDummyImageColor;
