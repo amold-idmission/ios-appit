@@ -14,7 +14,6 @@
     
 }
 //@property (assign) NSString *right_left_UIFlag;
-
 //Property define for maintaining response data
 @property(nonatomic, strong) NSString *responseStatus;
 @property(nonatomic,assign)id delegate;
