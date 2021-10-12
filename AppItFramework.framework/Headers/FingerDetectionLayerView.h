@@ -11,7 +11,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FingerDetectionLayerView : UIView
+@interface FingerDetectionLayerView : UIView {
+    int previewLayer_FingerSize;
+}
 
 @property(readwrite) BOOL captureLeftHand;
 @property(readwrite) UIColor *backgroundColor;
@@ -20,7 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL isDebugEnable;
 @property (nonatomic) CGRect fingerAreaRect;
 
-- (id)initWithFrame:(CGRect)frame backGroundColor:(UIColor *)backGroundColor backGroundColorAlpha:(CGFloat)backGroundColorAlpha isDebugEnable:(BOOL)isDebugEnable;
+//- (id)initWithFrame:(CGRect)frame backGroundColor:(UIColor *)backGroundColor backGroundColorAlpha:(CGFloat)backGroundColorAlpha isDebugEnable:(BOOL)isDebugEnable;
+- (id)initWithFrame:(CGRect)frame fingerLayerCount:(int)finger_Layer_Count backGroundColor:(UIColor *)backGroundColor backGroundColorAlpha:(CGFloat)backGroundColorAlpha isDebugEnable:(BOOL)isDebugEnable;
 
 -(void)setRoiFingerInfos:(NSArray*)RoiFingerInfos;
 

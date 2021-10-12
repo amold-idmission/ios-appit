@@ -45,6 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,assign)id delegate;
 
+@property(nonatomic) BOOL isInstructionScreenEnabled;
 @property(nonatomic) BOOL capture_in_portrait_mode;
 @property(nonatomic) BOOL capturedImagePressed;
 @property(nonatomic) int imageWidth;
@@ -77,6 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign) int mrzRetryCount;
 @property(nonatomic, assign) int mrzAndBarcodeRetryCount;
 
+@property(nonatomic, assign) NSString* showcaseUserEmailId;
 @property (nonatomic, assign) BOOL isForShowCaseZipUpload;
 @property(nonatomic) NSString *genericFieldName;
 //@property(nonatomic) int mrzRetryCount;
@@ -88,6 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (IBAction)backPressedLandscape:(id)sender;
 - (IBAction)backPressedPortrait:(id)sender;
 - (IBAction)captureImage:(id)sender;
++(void)sendGTE_ZipUploadRequest:(NSString*)real_spoof_string outFileDirectoryPath:(NSString*)outFileDirectoryPath;
 
 @end
 

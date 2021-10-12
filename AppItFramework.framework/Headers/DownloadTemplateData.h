@@ -14,8 +14,9 @@
 }
 
 +(void) download_Template;
-+(void) download_Template:(id)instance url:(NSString *)url appCode:(NSString *)appCode loginId:(NSString *)loginId password:(NSString *)password merchantId:(NSString *)merchantId isSDKApiCall:(BOOL)isSDKApiCall;
 +(NSMutableArray *)getTemplateFieldArray;
+
+//+(void)download_Template:(id)instance url:(NSString *)url appCode:(NSString *)appCode loginId:(NSString *)loginId password:(NSString *)password merchantId:(NSString *)merchantId isSDKApiCall:(BOOL)isSDKApiCall;
 
 @end
 
