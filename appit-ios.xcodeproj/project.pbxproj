@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C2FB57327273B870058FED7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C2FB57227273B870058FED7 /* GoogleService-Info.plist */; };
 		0C7E29862714AF5100647297 /* AppItFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C7E29842714AF4D00647297 /* AppItFramework.framework */; };
 		0C7E29872714AF5100647297 /* AppItFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0C7E29842714AF4D00647297 /* AppItFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1F02EC011A7A929B0081C599 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F02EC001A7A929B0081C599 /* main.m */; };
@@ -108,7 +109,6 @@
 		C40D888E21FF0B4800B43E9D /* arrow_up.png in Resources */ = {isa = PBXBuildFile; fileRef = C40D888A21FF0B4700B43E9D /* arrow_up.png */; };
 		C428788A20849F9000AC6E8D /* id_capture_instruction.png in Resources */ = {isa = PBXBuildFile; fileRef = C428788820849F8F00AC6E8D /* id_capture_instruction.png */; };
 		C428788B20849F9000AC6E8D /* face_detection_instruction.png in Resources */ = {isa = PBXBuildFile; fileRef = C428788920849F8F00AC6E8D /* face_detection_instruction.png */; };
-		C436600E21F9CAD900BC5464 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C436600A21F9CAD900BC5464 /* GoogleService-Info.plist */; };
 		C453991C206A828D00E8E2DE /* face_outline_border_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = C4539908206A828A00E8E2DE /* face_outline_border_ipad.png */; };
 		C453991D206A828D00E8E2DE /* face_outline_border_2436.png in Resources */ = {isa = PBXBuildFile; fileRef = C4539909206A828A00E8E2DE /* face_outline_border_2436.png */; };
 		C453991E206A828D00E8E2DE /* face_outline_border_2048.png in Resources */ = {isa = PBXBuildFile; fileRef = C453990A206A828A00E8E2DE /* face_outline_border_2048.png */; };
@@ -196,6 +196,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0C2FB57227273B870058FED7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0C7E29842714AF4D00647297 /* AppItFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppItFramework.framework; sourceTree = "<group>"; };
 		1ECF16173843E86C0A2CD48A /* Pods-appit-iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-appit-iosTests.release.xcconfig"; path = "Target Support Files/Pods-appit-iosTests/Pods-appit-iosTests.release.xcconfig"; sourceTree = "<group>"; };
 		1F02EBFB1A7A929B0081C599 /* Inform.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Inform.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -360,7 +361,6 @@
 		51C2450E1E8404D50070BDC7 /* light_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = light_red.png; sourceTree = "<group>"; };
 		51C2450F1E8404D50070BDC7 /* smile_gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smile_gray.png; sourceTree = "<group>"; };
 		51C245101E8404D50070BDC7 /* smile_green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smile_green.png; sourceTree = "<group>"; };
-		51E627731DB5015D00BFF616 /* Inform.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Inform.entitlements; sourceTree = "<group>"; };
 		51FDC99A1E85036F00D67787 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		51FDC9A11E8503C900D67787 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		51FDC9A31E8503CB00D67787 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -377,7 +377,6 @@
 		C40D888A21FF0B4700B43E9D /* arrow_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_up.png; sourceTree = "<group>"; };
 		C428788820849F8F00AC6E8D /* id_capture_instruction.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = id_capture_instruction.png; sourceTree = "<group>"; };
 		C428788920849F8F00AC6E8D /* face_detection_instruction.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = face_detection_instruction.png; sourceTree = "<group>"; };
-		C436600A21F9CAD900BC5464 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C4539908206A828A00E8E2DE /* face_outline_border_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = face_outline_border_ipad.png; sourceTree = "<group>"; };
 		C4539909206A828A00E8E2DE /* face_outline_border_2436.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = face_outline_border_2436.png; sourceTree = "<group>"; };
 		C453990A206A828A00E8E2DE /* face_outline_border_2048.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = face_outline_border_2048.png; sourceTree = "<group>"; };
@@ -492,9 +491,7 @@
 		1F02EBFD1A7A929B0081C599 /* appit-ios */ = {
 			isa = PBXGroup;
 			children = (
-				C436600A21F9CAD900BC5464 /* GoogleService-Info.plist */,
 				26BE89251DBA295200370863 /* Settings */,
-				51E627731DB5015D00BFF616 /* Inform.entitlements */,
 				1F02EC021A7A929B0081C599 /* AppDelegate.h */,
 				1F02EC031A7A929B0081C599 /* AppDelegate.mm */,
 				1FD5C24D1AC25FAA00653837 /* zxingwrapper.h */,
@@ -515,6 +512,7 @@
 				266A55331B3A875500A6D638 /* XMLReader.m */,
 				1F24853E1ABCCC9F00321FE1 /* DocumentTemplateFactory.h */,
 				1F24853F1ABCCD0600321FE1 /* DocumentTemplateFactory.mm */,
+				0C2FB57227273B870058FED7 /* GoogleService-Info.plist */,
 				2662B61B1B46509B00605EF7 /* libxslt */,
 				1F79DA331A9E4B82006A1ECC /* ImageProcessing */,
 				1F02EBFE1A7A929B0081C599 /* Supporting Files */,
@@ -870,6 +868,7 @@
 				C40616FA22B7B78C006A8409 /* Embed Frameworks */,
 				A1F2D51EAA2A774C0B8142D5 /* [CP] Embed Pods Frameworks */,
 				E01DDD1A75D6415E524359D2 /* [CP] Copy Pods Resources */,
+				0C2FB57527273D290058FED7 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -996,7 +995,6 @@
 				F26862012004F32F001E3EF8 /* done_rec.png in Resources */,
 				78AB4EF41FC41B100026C7BD /* right_hand_start.png in Resources */,
 				C45E683821FF2B90006323D6 /* instruction_4.png in Resources */,
-				C436600E21F9CAD900BC5464 /* GoogleService-Info.plist in Resources */,
 				2683E6561C11D3F2002EF52F /* back_camera_icon.png in Resources */,
 				C407B0D7225B48F300320E3E /* circle.png in Resources */,
 				F26862022004F32F001E3EF8 /* minimize.png in Resources */,
@@ -1034,6 +1032,7 @@
 				C453992E206A828D00E8E2DE /* face_outline_ipad.png in Resources */,
 				C4539925206A828D00E8E2DE /* face_outline_1334.png in Resources */,
 				2683E6591C11D3F2002EF52F /* flash_on_icon.png in Resources */,
+				0C2FB57327273B870058FED7 /* GoogleService-Info.plist in Resources */,
 				51FDC9A01E8503C900D67787 /* Localizable.strings in Resources */,
 				2662B6691B46509B00605EF7 /* xsltwin32config.h.in in Resources */,
 				C4A30729222FC964005EC2CF /* donesnippet.png in Resources */,
@@ -1063,6 +1062,25 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0C2FB57527273D290058FED7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
+		};
 		2E0BD944357B746533C3A6D1 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1113,6 +1131,10 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-appit-iosTests/Pods-appit-iosTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseCore/FirebaseCore.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseCoreDiagnostics/FirebaseCoreDiagnostics.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseCrashlytics/FirebaseCrashlytics.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseInstallations/FirebaseInstallations.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleDataTransport/GoogleDataTransport.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
@@ -1128,6 +1150,10 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreDiagnostics.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCrashlytics.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseInstallations.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleDataTransport.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
@@ -1153,6 +1179,10 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-appit-ios/Pods-appit-ios-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseCore/FirebaseCore.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseCoreDiagnostics/FirebaseCoreDiagnostics.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseCrashlytics/FirebaseCrashlytics.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseInstallations/FirebaseInstallations.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleDataTransport/GoogleDataTransport.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
@@ -1168,6 +1198,10 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreDiagnostics.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCrashlytics.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseInstallations.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleDataTransport.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
@@ -1471,7 +1505,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 26;
 				DEVELOPMENT_TEAM = SXB7K82DRL;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1536,7 +1570,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 26;
 				DEVELOPMENT_TEAM = SXB7K82DRL;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
