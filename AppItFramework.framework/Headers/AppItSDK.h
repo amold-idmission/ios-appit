@@ -1179,8 +1179,8 @@ enum SDKIDType{
 +(NSArray *)getid_camera_supported_resolution_array;
 +(void)setid_camera_supported_resolution_array:(NSArray *)_id_camera_supported_resolution_array;
 
-+(NSString *)getid_enable_image_resize;
-+(void)setid_enable_image_resize:(NSString *)_id_enable_image_resize;
+//+(NSString *)getid_enable_image_resize;
+//+(void)setid_enable_image_resize:(NSString *)_id_enable_image_resize;
 
 +(float)getid_zoom_camera;
 +(void)setid_zoom_camera:(float)_id_zoom_camera;

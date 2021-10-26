@@ -3,13 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		0C2FB57327273B870058FED7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C2FB57227273B870058FED7 /* GoogleService-Info.plist */; };
-		0C7E29862714AF5100647297 /* AppItFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C7E29842714AF4D00647297 /* AppItFramework.framework */; };
-		0C7E29872714AF5100647297 /* AppItFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0C7E29842714AF4D00647297 /* AppItFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0CB20044272848D70006FE19 /* AppItFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CB20042272848C70006FE19 /* AppItFramework.framework */; platformFilter = ios; };
+		0CB20045272848D70006FE19 /* AppItFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0CB20042272848C70006FE19 /* AppItFramework.framework */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1F02EC011A7A929B0081C599 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F02EC001A7A929B0081C599 /* main.m */; };
 		1F02EC041A7A929B0081C599 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F02EC031A7A929B0081C599 /* AppDelegate.mm */; };
 		1F02EC071A7A929B0081C599 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F02EC061A7A929B0081C599 /* ViewController.m */; };
@@ -188,7 +188,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0C7E29872714AF5100647297 /* AppItFramework.framework in Embed Frameworks */,
+				0CB20045272848D70006FE19 /* AppItFramework.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -197,7 +197,7 @@
 
 /* Begin PBXFileReference section */
 		0C2FB57227273B870058FED7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		0C7E29842714AF4D00647297 /* AppItFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppItFramework.framework; sourceTree = "<group>"; };
+		0CB20042272848C70006FE19 /* AppItFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppItFramework.framework; sourceTree = "<group>"; };
 		1ECF16173843E86C0A2CD48A /* Pods-appit-iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-appit-iosTests.release.xcconfig"; path = "Target Support Files/Pods-appit-iosTests/Pods-appit-iosTests.release.xcconfig"; sourceTree = "<group>"; };
 		1F02EBFB1A7A929B0081C599 /* Inform.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Inform.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F02EBFF1A7A929B0081C599 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -448,7 +448,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C7E29862714AF5100647297 /* AppItFramework.framework in Frameworks */,
+				0CB20044272848D70006FE19 /* AppItFramework.framework in Frameworks */,
 				C45D21E725D3F752004212A8 /* liblept.a in Frameworks */,
 				C45D21E625D3F752004212A8 /* libtesseract_all.a in Frameworks */,
 				9EF7C3AD5B6296CE56DFA15B /* Pods_appit_ios.framework in Frameworks */,
@@ -469,7 +469,7 @@
 		1F02EBF21A7A929B0081C599 = {
 			isa = PBXGroup;
 			children = (
-				0C7E29842714AF4D00647297 /* AppItFramework.framework */,
+				0CB20042272848C70006FE19 /* AppItFramework.framework */,
 				1F02EBFD1A7A929B0081C599 /* appit-ios */,
 				1F02EC171A7A929B0081C599 /* Unit Tests */,
 				1F02EC331A7A9F540081C599 /* Frameworks */,
@@ -1526,7 +1526,10 @@
 				);
 				INFOPLIST_FILE = "appit-ios/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ThirdParty/tesseract/lib",
@@ -1591,7 +1594,10 @@
 				);
 				INFOPLIST_FILE = "appit-ios/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ThirdParty/tesseract/lib",
@@ -1647,7 +1653,11 @@
 					ThirdParty/tesseract/include,
 				);
 				INFOPLIST_FILE = "appit-iosTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ThirdParty/tesseract/lib",
@@ -1679,7 +1689,11 @@
 					ThirdParty/tesseract/include,
 				);
 				INFOPLIST_FILE = "appit-iosTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ThirdParty/tesseract/lib",

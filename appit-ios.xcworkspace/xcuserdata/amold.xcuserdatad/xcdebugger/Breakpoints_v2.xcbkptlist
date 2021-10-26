@@ -14,8 +14,8 @@
             filePath = "appit-ios/ViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1747"
-            endingLineNumber = "1747"
+            startingLineNumber = "1757"
+            endingLineNumber = "1757"
             landmarkName = "-prepare_data_for_image_proc"
             landmarkType = "7">
          </BreakpointContent>
