@@ -93,7 +93,17 @@ static bool idfaceshowInstruction = true;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
-    [super viewWillAppear:animated];
+    
+    if (@available(iOS 13.0, *)) {
+      UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
+      appearance.backgroundColor = [UIColor colorWithRed:255 green:255 blue:255 alpha:1];
+      appearance.titleTextAttributes = @{
+        NSForegroundColorAttributeName : [UIColor whiteColor]
+      };
+      self.navigationController.navigationBar.standardAppearance = appearance;
+      [self.navigationController.navigationBar setScrollEdgeAppearance:self.navigationController.navigationBar.standardAppearance];
+    }
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

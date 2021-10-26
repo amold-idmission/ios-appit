@@ -9,12 +9,10 @@
 #import "AppDelegate.h"
 #include <tesseract/baseapi.h>
 #import "CommonUtils.h"
-//#import "FaceDetectionViewController.h"
-//#import "OpenCvViewControllerAppit.h"
 #import "TemplateDownloadViewController.h"
 #import "Settings.h"
 #import "ViewController.h"
-
+#import <Firebase.h>
 
 @interface AppDelegate ()
 
@@ -55,7 +53,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     //FireBase App Configuration
-//    [FIRApp configure];
+    [FIRApp configure];
     
     tess_data_path = [self setup_tesseract_data];
     

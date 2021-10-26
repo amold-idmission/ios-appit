@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AppItSDK.h"
 
 @interface ResultData : NSObject
 
