@@ -13,10 +13,6 @@
 
 @interface PassiveFaceDetectionViewController : UIViewController<AVCaptureVideoDataOutputSampleBufferDelegate>
 
-@property (weak, nonatomic) IBOutlet UIView *progressView;
-@property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
-@property (weak, nonatomic) IBOutlet UILabel *percentLabel;
-@property (weak, nonatomic) IBOutlet UILabel *percentOutOfLabel;
 @property (weak, nonatomic) IBOutlet UIButton *manualCaptureButton;
 
 @property (nonatomic, readonly) AVCaptureSession *captureSession;

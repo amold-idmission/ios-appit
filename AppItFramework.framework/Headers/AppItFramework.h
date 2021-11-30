@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <AppItFramework/OpenCvViewController.h>
 #import <AppItFramework/ProcessImageViewController.h>
-#import <AppItFramework/AppItConstants.h>
+//#import <AppItFramework/AppItConstants.h>
 #import <AppItFramework/FaceDetectionViewController.h>
 #import <AppItFramework/MatchFaceViewController.h>
 
