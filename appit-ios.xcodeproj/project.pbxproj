@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0C2FB57327273B870058FED7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C2FB57227273B870058FED7 /* GoogleService-Info.plist */; };
-		0C5154D5275638E300CBD767 /* AppItFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C5154D3275638DF00CBD767 /* AppItFramework.framework */; platformFilter = ios; };
-		0C5154D6275638E300CBD767 /* AppItFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0C5154D3275638DF00CBD767 /* AppItFramework.framework */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0CC422BF2785D36200355908 /* AppItFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CC422BD2785D34F00355908 /* AppItFramework.framework */; platformFilter = ios; };
+		0CC422C02785D36200355908 /* AppItFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0CC422BD2785D34F00355908 /* AppItFramework.framework */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1F02EC011A7A929B0081C599 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F02EC001A7A929B0081C599 /* main.m */; };
 		1F02EC041A7A929B0081C599 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F02EC031A7A929B0081C599 /* AppDelegate.mm */; };
 		1F02EC071A7A929B0081C599 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F02EC061A7A929B0081C599 /* ViewController.m */; };
@@ -188,7 +188,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0C5154D6275638E300CBD767 /* AppItFramework.framework in Embed Frameworks */,
+				0CC422C02785D36200355908 /* AppItFramework.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -197,7 +197,7 @@
 
 /* Begin PBXFileReference section */
 		0C2FB57227273B870058FED7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		0C5154D3275638DF00CBD767 /* AppItFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppItFramework.framework; sourceTree = "<group>"; };
+		0CC422BD2785D34F00355908 /* AppItFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppItFramework.framework; sourceTree = "<group>"; };
 		1ECF16173843E86C0A2CD48A /* Pods-appit-iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-appit-iosTests.release.xcconfig"; path = "Target Support Files/Pods-appit-iosTests/Pods-appit-iosTests.release.xcconfig"; sourceTree = "<group>"; };
 		1F02EBFB1A7A929B0081C599 /* Inform.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Inform.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F02EBFF1A7A929B0081C599 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -448,7 +448,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C5154D5275638E300CBD767 /* AppItFramework.framework in Frameworks */,
+				0CC422BF2785D36200355908 /* AppItFramework.framework in Frameworks */,
 				C45D21E725D3F752004212A8 /* liblept.a in Frameworks */,
 				C45D21E625D3F752004212A8 /* libtesseract_all.a in Frameworks */,
 				9EF7C3AD5B6296CE56DFA15B /* Pods_appit_ios.framework in Frameworks */,
@@ -469,7 +469,7 @@
 		1F02EBF21A7A929B0081C599 = {
 			isa = PBXGroup;
 			children = (
-				0C5154D3275638DF00CBD767 /* AppItFramework.framework */,
+				0CC422BD2785D34F00355908 /* AppItFramework.framework */,
 				1F02EBFD1A7A929B0081C599 /* appit-ios */,
 				1F02EC171A7A929B0081C599 /* Unit Tests */,
 				1F02EC331A7A9F540081C599 /* Frameworks */,
@@ -1505,7 +1505,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_TEAM = SXB7K82DRL;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1536,7 +1536,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/appit-ios",
 				);
-				MARKETING_VERSION = 8.4.4;
+				MARKETING_VERSION = 9.1.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lc++",
@@ -1573,7 +1573,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_TEAM = SXB7K82DRL;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1604,7 +1604,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/appit-ios",
 				);
-				MARKETING_VERSION = 8.4.4;
+				MARKETING_VERSION = 9.1.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lc++",

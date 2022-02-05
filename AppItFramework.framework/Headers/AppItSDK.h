@@ -16,44 +16,54 @@
 
 @optional
 -(void)initializeSDKResponse : (NSMutableDictionary* _Nonnull) result;
--(void)captureImageResponse : (NSMutableDictionary* _Nonnull) result;
--(void)processImageResponse : (NSMutableDictionary* _Nonnull) result;
 -(void)faceDetectionResponse : (NSMutableDictionary* _Nonnull) result;
+-(void)captureImageResponse : (NSMutableDictionary* _Nonnull) result;
+-(void)captureSignatureResponse : (NSMutableDictionary* _Nonnull) result;
+-(void)genericDocumentResponse : (NSMutableDictionary* _Nonnull) result;
+-(void)voiceRecordingResponse : (NSMutableDictionary* _Nonnull) result;
+-(void)videoRecordingResponse : (NSMutableDictionary* _Nonnull) result;
+-(void)videoConferencingResponse : (NSMutableDictionary* _Nonnull) result;
+-(void)fourFingerprintDetectionResponse : (NSMutableDictionary* _Nonnull) result;
+-(void)fingerprintEnrolmentResponse : (NSMutableDictionary* _Nonnull) result;
+-(void)fingerprintVerificationResponse : (NSMutableDictionary* _Nonnull) result;
 -(void)cardDetectionResponse : (NSMutableDictionary* _Nonnull) result;
+-(void)snippetCaptureResponse : (NSMutableDictionary * _Nonnull)result;
+-(void)scanBarcodeResponse : (NSMutableDictionary* _Nonnull) result;
+-(void)gpsCoordinateResponse : (NSMutableDictionary* _Nonnull) result;
+-(void)downloadXsltResultResponse : (NSMutableDictionary* _Nonnull) result;
 -(void)proofOfAddressDetectionResponse : (NSMutableDictionary* _Nonnull) result;
 -(void)bankStatementDetectionResponse : (NSMutableDictionary* _Nonnull) result;
 -(void)birthCertificateDetectionResponse : (NSMutableDictionary* _Nonnull) result;
--(void)genericDocumentResponse : (NSMutableDictionary* _Nonnull) result;
--(void)faceMatchingResponse : (NSMutableDictionary* _Nonnull) result;
--(void)processImageAndFaceMatchingResponse : (NSMutableDictionary* _Nonnull) result;
--(void)completeOperationResponse : (NSMutableDictionary* _Nonnull) result;
--(void)verifyCustomerResponse : (NSMutableDictionary* _Nonnull) result;
--(void)fourFingerprintDetectionResponse : (NSMutableDictionary* _Nonnull) result;
--(void)voiceRecordingResponse : (NSMutableDictionary* _Nonnull) result;
--(void)videoRecordingResponse : (NSMutableDictionary* _Nonnull) result;
--(void)fingerprintEnrolmentResponse : (NSMutableDictionary* _Nonnull) result;
--(void)fingerprintVerificationResponse : (NSMutableDictionary* _Nonnull) result;
--(void)gpsCoordinateResponse : (NSMutableDictionary* _Nonnull) result;
--(void)scanBarcodeResponse : (NSMutableDictionary* _Nonnull) result;
--(void)captureSignatureResponse : (NSMutableDictionary* _Nonnull) result;
--(void)verifyPOAResponse : (NSMutableDictionary* _Nonnull)result;
--(void)createEmployeeResponse : (NSMutableDictionary * _Nonnull)result;
--(void)verifyEmployeeResponse : (NSMutableDictionary * _Nonnull)result;
--(void)generateTokenResponse : (NSMutableDictionary * _Nonnull)result;
--(void)verifyTokenResponse : (NSMutableDictionary * _Nonnull)result;
--(void)snippetCaptureResponse : (NSMutableDictionary * _Nonnull)result;
--(void)updateCustomerResponse : (NSMutableDictionary * _Nonnull)result;
--(void)generateOTPResponse : (NSMutableDictionary * _Nonnull)result;
--(void)verifyOTPResponse : (NSMutableDictionary * _Nonnull)result;
--(void)executeGenericResponse : (NSMutableDictionary * _Nonnull)result;
--(void)idValidationAndVideoMatchingResponse : (NSMutableDictionary * _Nonnull)result;
--(void)updateGenericResponse : (NSMutableDictionary * _Nonnull)result;
--(void)updateEmployeeResponse : (NSMutableDictionary * _Nonnull)result;
--(void)genericApiCallResponse : (NSMutableDictionary * _Nonnull)result;
--(void)videoConferencingResponse : (NSMutableDictionary* _Nonnull) result;
--(void)downloadXsltResultResponse : (NSMutableDictionary* _Nonnull) result;
 -(void)autoFillResponse : (NSMutableDictionary* _Nonnull) result;
 -(void)onAutoFillFieldInformationAvailable : (NSMutableDictionary* _Nonnull) result;
+-(void)onDownloadCountryResultAvailable : (NSMutableDictionary* _Nonnull) result;
+-(void)onDownloadStateResultAvailable : (NSMutableDictionary* _Nonnull) result;
+
+-(void)processImageResponse : (NSMutableDictionary* _Nonnull) result;
+-(void)faceMatchingResponse : (NSMutableDictionary* _Nonnull) result;
+-(void)processImageAndFaceMatchingResponse : (NSMutableDictionary* _Nonnull) result;
+
+-(void)verifyCustomerResponse : (NSMutableDictionary* _Nonnull) result;
+-(void)updateCustomerResponse : (NSMutableDictionary * _Nonnull)result;
+
+-(void)createEmployeeResponse : (NSMutableDictionary * _Nonnull)result;
+-(void)verifyEmployeeResponse : (NSMutableDictionary * _Nonnull)result;
+-(void)updateEmployeeResponse : (NSMutableDictionary * _Nonnull)result;
+
+-(void)generateTokenResponse : (NSMutableDictionary * _Nonnull)result;
+-(void)verifyTokenResponse : (NSMutableDictionary * _Nonnull)result;
+
+-(void)generateOTPResponse : (NSMutableDictionary * _Nonnull)result;
+-(void)verifyOTPResponse : (NSMutableDictionary * _Nonnull)result;
+
+-(void)executeGenericResponse : (NSMutableDictionary * _Nonnull)result;
+-(void)updateGenericResponse : (NSMutableDictionary * _Nonnull)result;
+-(void)genericApiCallResponse : (NSMutableDictionary * _Nonnull)result;
+
+-(void)completeOperationResponse : (NSMutableDictionary* _Nonnull) result;
+-(void)verifyPOAResponse : (NSMutableDictionary* _Nonnull)result;
+-(void)idValidationAndVideoMatchingResponse : (NSMutableDictionary * _Nonnull)result;
+
 @end
 
 @class AVCaptureDevice;
@@ -89,46 +99,33 @@ enum SDKIDType{
     SDKIDType_OTHERS = 14
 };
 
-// Calls From Client Side -Start
-
+//MARK: - Initialize SDK API
 +(void)initializeAppItSDK:(id _Nonnull)instance url:(NSString* _Nonnull)url loginId:(NSString* _Nonnull)loginId password:(NSString* _Nonnull)password merchantID:(NSString* _Nonnull)merchantID productID:(NSString* _Nonnull)productID productName:(NSString* _Nonnull)productName Language:(NSString* _Nonnull)Language;
 +(void)initializeAppItSDK:(id _Nonnull)instance url:(NSString* _Nonnull)url loginId:(NSString* _Nonnull)loginId password:(NSString* _Nonnull)password merchantID:(NSString* _Nonnull)merchantID productID:(NSString* _Nonnull)productID productName:(NSString* _Nonnull)productName Language:(NSString* _Nonnull)Language enableGPS:(bool)enableGPS;
 +(void)initializeAppItSDK:(id _Nonnull)instance url:(NSString* _Nonnull)url loginId:(NSString* _Nonnull)loginId password:(NSString* _Nonnull)password merchantID:(NSString* _Nonnull)merchantID productID:(NSString* _Nonnull)productID productName:(NSString* _Nonnull)productName language:(enum SDKLanguage)language enableGPS:(bool)enableGPS;
-
 +(void)initializeAppItSDK:(id _Nonnull)instance url:(NSString* _Nonnull)url loginId:(NSString* _Nonnull)loginId password:(NSString* _Nonnull)password merchantID:(NSString* _Nonnull)merchantID productID:(NSString* _Nonnull)productID productName:(NSString* _Nonnull)productName Language:(NSString* _Nonnull)Language EnableDebug:(bool)EnableDebug enableGPS:(bool)enableGPS;
-
 +(void)initializeLabels:(NSMutableDictionary*)englishLabels spanishLabels:(NSMutableDictionary*)spanishLabels;
 
+//MARK: - Download Country & State List API
++(void)downloadCountryList:(id)instance isProgressVisible:(bool)isProgressViewVisisble;
++(void)downloadStateList:(UIViewController*)instance countryIDCode:(NSString*)countryCode isProgressVisible:(bool)isProgressViewVisisble;
+
+//MARK: - Autofill API
++(void)autoFill:(id)instance idCaptureConfig:(NSMutableDictionary *)idCaptureConfig additionalDictionary:(NSMutableDictionary *)additionalDictionary;
++(void)getAutoFillFieldInformation:(id)instance uiConfigDictionary:(NSMutableDictionary*)uiConfigDictionary;
+
+//MARK: - Generic API
 +(void)executeGenericRequest:(id)instance customProductDefination:(NSMutableDictionary*)customProductDefination additionalDictionary:(NSMutableDictionary*)additionalDictionary employeeDictionary:(NSMutableDictionary*)employeeDictionary finalSubmit:(bool)finalSubmit clearFormKey:(bool)clearFormKey;
 
-//+(void)captureFrontImage:(id)instance;
-//+(void)captureFrontImage:(id)instance capturePortrait:(bool)capturePortrait;
-//+(void)captureFrontImage:(id)instance capturePortrait:(bool)capturePortrait minimumLightThreshold:(int)minimumLightThreshold minimumFocusThreshold:(int)minimumFocusThreshold GlarePercentage:(int)GlarePercentage EnableCaptureButtonTime:(int)EnableCaptureButtonTime ImageSize:(int)ImageSize ImageHeight:(int)ImageHeight ImageWidth:(int)ImageWidth;
-//+(void)captureFrontImage:(id)instance capturePortrait:(bool)capturePortrait minimumLightThreshold:(int)minimumLightThreshold minimumFocusThreshold:(int)minimumFocusThreshold GlarePercentage:(int)GlarePercentage EnableCaptureButtonTime:(int)EnableCaptureButtonTime ImageSize:(int)ImageSize ImageHeight:(int)ImageHeight ImageWidth:(int)ImageWidth idOutlineColor:(NSString*)idOutlineColor idOutlineColorTransparency:(int)idOutlineColorTransparency detectedIdOutlineColor:(NSString*)detectedIdOutlineColor detectedIdOutlineTransparency:(int)detectedIdOutlineTransparency idOutsideOutlineColor:(NSString*)idOutsideOutlineColor idOutsideOutlineColorTransparency:(int)idOutsideOutlineColorTransparency;
-//+(void)captureFrontImage:(id)instance capturePortrait:(bool)capturePortrait minimumLightThreshold:(int)minimumLightThreshold minimumFocusThreshold:(int)minimumFocusThreshold GlarePercentage:(int)GlarePercentage EnableCaptureButtonTime:(int)EnableCaptureButtonTime ImageSize:(int)ImageSize ImageHeight:(int)ImageHeight ImageWidth:(int)ImageWidth idOutlineColor:(NSString*)idOutlineColor idOutlineColorTransparency:(int)idOutlineColorTransparency detectedIdOutlineColor:(NSString*)detectedIdOutlineColor detectedIdOutlineTransparency:(int)detectedIdOutlineTransparency idOutsideOutlineColor:(NSString*)idOutsideOutlineColor idOutsideOutlineColorTransparency:(int)idOutsideOutlineColorTransparency detectedColorOutsideOutline:(NSString*)detectedColorOutsideOutline detectedColorOutsideOutlineTransparency:(int)detectedColorOutsideOutlineTransparency titleImage:(UIImage*)titleImage;
-//+(void)captureFrontImage:(id)instance capturePortrait:(bool)capturePortrait minimumLightThreshold:(int)minimumLightThreshold minimumFocusThreshold:(int)minimumFocusThreshold GlarePercentage:(int)GlarePercentage EnableCaptureButtonTime:(int)EnableCaptureButtonTime ImageSize:(int)ImageSize ImageHeight:(int)ImageHeight ImageWidth:(int)ImageWidth idOutlineColor:(NSString*)idOutlineColor idOutlineColorTransparency:(int)idOutlineColorTransparency detectedIdOutlineColor:(NSString*)detectedIdOutlineColor detectedIdOutlineTransparency:(int)detectedIdOutlineTransparency idOutsideOutlineColor:(NSString*)idOutsideOutlineColor idOutsideOutlineColorTransparency:(int)idOutsideOutlineColorTransparency detectedColorOutsideOutline:(NSString*)detectedColorOutsideOutline detectedColorOutsideOutlineTransparency:(int)detectedColorOutsideOutlineTransparency titleImage:(UIImage*)titleImage showInstruction:(bool)showInstruction instructionimage:(UIImage*)instructionimage;
-//+(void)captureFrontImage:(id)instance capturePortrait:(bool)capturePortrait minimumLightThreshold:(int)minimumLightThreshold minimumFocusThreshold:(int)minimumFocusThreshold GlarePercentage:(int)GlarePercentage EnableCaptureButtonTime:(int)EnableCaptureButtonTime ImageSize:(int)ImageSize ImageHeight:(int)ImageHeight ImageWidth:(int)ImageWidth idOutlineColor:(NSString*)idOutlineColor idOutlineColorTransparency:(int)idOutlineColorTransparency detectedIdOutlineColor:(NSString*)detectedIdOutlineColor detectedIdOutlineTransparency:(int)detectedIdOutlineTransparency idOutsideOutlineColor:(NSString*)idOutsideOutlineColor idOutsideOutlineColorTransparency:(int)idOutsideOutlineColorTransparency detectedColorOutsideOutline:(NSString*)detectedColorOutsideOutline detectedColorOutsideOutlineTransparency:(int)detectedColorOutsideOutlineTransparency titleImage:(UIImage *)titleImage showInstruction:(bool)showInstruction instructionimage:(UIImage *)instructionimage isCaptureEnable:(bool)isCaptureEnable;
-//+(void)captureFrontImage:(id)instance ImageHeight:(int)ImageHeight ImageWidth:(int)ImageWidth capturePortrait:(bool)capturePortrait  isCaptureEnable:(bool)isCaptureEnable EnableCaptureButtonTime:(int)EnableCaptureButtonTime  showInstruction:(bool)showInstruction instructionimage:(UIImage *)instructionimage;
-//+(void)captureFrontImage:(id)instance ImageHeight:(int)ImageHeight ImageWidth:(int)ImageWidth capturePortrait:(bool)capturePortrait  isCaptureEnable:(bool)isCaptureEnable EnableCaptureButtonTime:(int)EnableCaptureButtonTime  showInstruction:(bool)showInstruction instructionimage:(UIImage *)instructionimage idOutlineColor:(NSString*)idOutlineColor idOutlineColorTransparency:(int)idOutlineColorTransparency detectedIdOutlineColor:(NSString*)detectedIdOutlineColor detectedIdOutlineTransparency:(int)detectedIdOutlineTransparency idOutsideOutlineColor:(NSString*)idOutsideOutlineColor idOutsideOutlineColorTransparency:(int)idOutsideOutlineColorTransparency detectedColorOutsideOutline:(NSString*)detectedColorOutsideOutline detectedColorOutsideOutlineTransparency:(int)detectedColorOutsideOutlineTransparency titleImage:(UIImage *)titleImage;
-//+(void)captureFrontImage:(NSString*)id_capture_type instance:(id)instance titleImage:(UIImage *)titleImage additionalDictionary:(NSMutableDictionary*)additionalDictionary instructionimage:(UIImage*)instructionimage fieldName:(NSString*)fieldName uiConfigDictionary:(NSMutableDictionary*)uiConfigDictionary;
+//MARK: - Capture-ID API
 +(void)captureFrontImage:(id _Nonnull)instance additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary uiConfigDictionary:(NSMutableDictionary* _Nullable)uiConfigDictionary;
-
-+(void)captureSecondaryFrontImage:(id _Nonnull)instance additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary uiConfigDictionary:(NSMutableDictionary* _Nullable)uiConfigDictionary;
-
-//+(void)captureBackImage:(id)instance;
-//+(void)captureBackImage:(id)instance capturePortrait:(bool)capturePortrait;
-//+(void)captureBackImage:(id)instance capturePortrait:(bool)capturePortrait minimumLightThreshold:(int)minimumLightThreshold minimumFocusThreshold:(int)minimumFocusThreshold GlarePercentage:(int)GlarePercentage EnableCaptureButtonTime:(int)EnableCaptureButtonTime ImageSize:(int)ImageSize ImageHeight:(int)ImageHeight ImageWidth:(int)ImageWidth;
-//+(void)captureBackImage:(id)instance capturePortrait:(bool)capturePortrait minimumLightThreshold:(int)minimumLightThreshold minimumFocusThreshold:(int)minimumFocusThreshold GlarePercentage:(int)GlarePercentage EnableCaptureButtonTime:(int)EnableCaptureButtonTime ImageSize:(int)ImageSize ImageHeight:(int)ImageHeight ImageWidth:(int)ImageWidth idOutlineColor:(NSString*)idOutlineColor idOutlineColorTransparency:(int)idOutlineColorTransparency detectedIdOutlineColor:(NSString*)detectedIdOutlineColor detectedIdOutlineTransparency:(int)detectedIdOutlineTransparency idOutsideOutlineColor:(NSString*)idOutsideOutlineColor idOutsideOutlineColorTransparency:(int)idOutsideOutlineColorTransparency;
-//+(void)captureBackImage:(id)instance capturePortrait:(bool)capturePortrait minimumLightThreshold:(int)minimumLightThreshold minimumFocusThreshold:(int)minimumFocusThreshold GlarePercentage:(int)GlarePercentage EnableCaptureButtonTime:(int)EnableCaptureButtonTime ImageSize:(int)ImageSize ImageHeight:(int)ImageHeight ImageWidth:(int)ImageWidth idOutlineColor:(NSString*)idOutlineColor idOutlineColorTransparency:(int)idOutlineColorTransparency detectedIdOutlineColor:(NSString*)detectedIdOutlineColor detectedIdOutlineTransparency:(int)detectedIdOutlineTransparency idOutsideOutlineColor:(NSString*)idOutsideOutlineColor idOutsideOutlineColorTransparency:(int)idOutsideOutlineColorTransparency detectedColorOutsideOutline:(NSString*)detectedColorOutsideOutline detectedColorOutsideOutlineTransparency:(int)detectedColorOutsideOutlineTransparency titleImage:(UIImage*)titleImage;
-//+(void)captureBackImage:(id)instance capturePortrait:(bool)capturePortrait minimumLightThreshold:(int)minimumLightThreshold minimumFocusThreshold:(int)minimumFocusThreshold GlarePercentage:(int)GlarePercentage EnableCaptureButtonTime:(int)EnableCaptureButtonTime ImageSize:(int)ImageSize ImageHeight:(int)ImageHeight ImageWidth:(int)ImageWidth idOutlineColor:(NSString*)idOutlineColor idOutlineColorTransparency:(int)idOutlineColorTransparency detectedIdOutlineColor:(NSString*)detectedIdOutlineColor detectedIdOutlineTransparency:(int)detectedIdOutlineTransparency idOutsideOutlineColor:(NSString*)idOutsideOutlineColor idOutsideOutlineColorTransparency:(int)idOutsideOutlineColorTransparency detectedColorOutsideOutline:(NSString*)detectedColorOutsideOutline detectedColorOutsideOutlineTransparency:(int)detectedColorOutsideOutlineTransparency titleImage:(UIImage*)titleImage showInstruction:(bool)showInstruction instructionimage:(UIImage*)instructionimage;
-//+(void)captureBackImage:(id)instance capturePortrait:(bool)capturePortrait minimumLightThreshold:(int)minimumLightThreshold minimumFocusThreshold:(int)minimumFocusThreshold GlarePercentage:(int)GlarePercentage EnableCaptureButtonTime:(int)EnableCaptureButtonTime ImageSize:(int)ImageSize ImageHeight:(int)ImageHeight ImageWidth:(int)ImageWidth idOutlineColor:(NSString*)idOutlineColor idOutlineColorTransparency:(int)idOutlineColorTransparency detectedIdOutlineColor:(NSString*)detectedIdOutlineColor detectedIdOutlineTransparency:(int)detectedIdOutlineTransparency idOutsideOutlineColor:(NSString*)idOutsideOutlineColor idOutsideOutlineColorTransparency:(int)idOutsideOutlineColorTransparency detectedColorOutsideOutline:(NSString*)detectedColorOutsideOutline detectedColorOutsideOutlineTransparency:(int)detectedColorOutsideOutlineTransparency titleImage:(UIImage *)titleImage showInstruction:(bool)showInstruction instructionimage:(UIImage *)instructionimage isCaptureEnable:(bool)isCaptureEnable;
-//+(void)captureBackImage:(id)instance ImageHeight:(int)ImageHeight ImageWidth:(int)ImageWidth capturePortrait:(bool)capturePortrait  isCaptureEnable:(bool)isCaptureEnable EnableCaptureButtonTime:(int)EnableCaptureButtonTime  showInstruction:(bool)showInstruction instructionimage:(UIImage *)instructionimage;
-//+(void)captureBackImage:(id)instance ImageHeight:(int)ImageHeight ImageWidth:(int)ImageWidth capturePortrait:(bool)capturePortrait  isCaptureEnable:(bool)isCaptureEnable EnableCaptureButtonTime:(int)EnableCaptureButtonTime  showInstruction:(bool)showInstruction instructionimage:(UIImage *)instructionimage idOutlineColor:(NSString*)idOutlineColor idOutlineColorTransparency:(int)idOutlineColorTransparency detectedIdOutlineColor:(NSString*)detectedIdOutlineColor detectedIdOutlineTransparency:(int)detectedIdOutlineTransparency idOutsideOutlineColor:(NSString*)idOutsideOutlineColor idOutsideOutlineColorTransparency:(int)idOutsideOutlineColorTransparency detectedColorOutsideOutline:(NSString*)detectedColorOutsideOutline detectedColorOutsideOutlineTransparency:(int)detectedColorOutsideOutlineTransparency titleImage:(UIImage *)titleImage;
-//+(void)captureBackImage:(NSString*)id_capture_type instance:(id)instance titleImage:(UIImage *)titleImage additionalDictionary:(NSMutableDictionary*)additionalDictionary instructionimage:(UIImage*)instructionimage fieldName:(NSString*)fieldName uiConfigDictionary:(NSMutableDictionary*)uiConfigDictionary;
 +(void)captureBackImage:(id _Nonnull)instance additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary uiConfigDictionary:(NSMutableDictionary* _Nullable)uiConfigDictionary;
 
+//MARK: - Capture Secondary-ID API
++(void)captureSecondaryFrontImage:(id _Nonnull)instance additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary uiConfigDictionary:(NSMutableDictionary* _Nullable)uiConfigDictionary;
 +(void)captureSecondaryBackImage:(id _Nonnull)instance additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary uiConfigDictionary:(NSMutableDictionary* _Nullable)uiConfigDictionary;
 
+//MARK: - ProcessImage API
 +(void)processImage:(id _Nonnull)instance countryCode:(NSString* _Nullable)countryCode stateCode:(NSString* _Nullable)stateCode idType:(NSString* _Nullable)idType;
 +(void)processImage:(id _Nonnull)instance countryCode:(NSString* _Nullable)countryCode stateCode:(NSString* _Nullable)stateCode idType:(NSString* _Nullable)idType additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary;
 +(void)processImage:(id _Nonnull)instance countryCode:(NSString* _Nullable)countryCode stateCode:(NSString* _Nullable)stateCode idType:(NSString* _Nullable)idType additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary finalSubmit:(bool)finalSubmit;
@@ -136,32 +133,27 @@ enum SDKIDType{
 +(void)processImage:(id _Nonnull)instance countryCode:(NSString* _Nullable)countryCode stateCode:(NSString* _Nullable)stateCode id_Type:(enum SDKIDType)id_Type additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary finalSubmit:(bool)finalSubmit clearFormKey:(bool)clearFormKey employeeDictionary:(NSMutableDictionary* _Nullable)employeeDictionary;
 +(void)processImage:(id _Nonnull)instance countryCode:(NSString* _Nullable)countryCode stateCode:(NSString* _Nullable)stateCode idType:(NSString* _Nullable)idType additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary finalSubmit:(bool)finalSubmit clearFormKey:(bool)clearFormKey employeeDictionary:(NSMutableDictionary* _Nullable)employeeDictionary;
 
-//+(void)detectFace:(id)instance;
-//+(void)detectFace:(id)instance lowLightThreshold:(int)lowLightThreshold focusPercentage:(int)focusPercentage faceDetectionPercentage:(int)faceDetectionPercentage ImageSize:(int)ImageSize setFrontCameraDefault:(bool)setFrontCameraDefault;
-//+(void)detectFace:(id)instance lowLightThreshold:(int)lowLightThreshold focusPercentage:(int)focusPercentage faceDetectionPercentage:(int)faceDetectionPercentage ImageSize:(int)ImageSize setFrontCameraDefault:(bool)setFrontCameraDefault showPreviewScreen:(bool)showPreviewScreen;
-//+(void)detectFace:(id)instance lowLightThreshold:(int)lowLightThreshold focusPercentage:(int)focusPercentage faceDetectionPercentage:(int)faceDetectionPercentage ImageSize:(int)ImageSize setFrontCameraDefault:(bool)setFrontCameraDefault showPreviewScreen:(bool)showPreviewScreen faceOutlineColor:(NSString*)faceOutlineColor faceOutlineTransparency:(int)faceOutlineTransparency detectedFaceOutlineColor:(NSString*)detectedFaceOutlineColor detectedFaceOutlineTransparency:(int)detectedFaceOutlineTransparency outsideFaceOutlineColor:(NSString*)outsideFaceOutlineColor outsideFaceOutlineTransparency:(int)outsideFaceOutlineTransparency;
-//+(void)detectFace:(id)instance lowLightThreshold:(int)lowLightThreshold focusPercentage:(int)focusPercentage faceDetectionPercentage:(int)faceDetectionPercentage ImageSize:(int)ImageSize setFrontCameraDefault:(bool)setFrontCameraDefault showPreviewScreen:(bool)showPreviewScreen faceOutlineColor:(NSString*)faceOutlineColor faceOutlineTransparency:(int)faceOutlineTransparency detectedFaceOutlineColor:(NSString*)detectedFaceOutlineColor detectedFaceOutlineTransparency:(int)detectedFaceOutlineTransparency outsideFaceOutlineColor:(NSString*)outsideFaceOutlineColor outsideFaceOutlineTransparency:(int)outsideFaceOutlineTransparency detectedOutsideFaceOutlineColor :(NSString*)detectedOutsideFaceOutlineColor detectedOutsideFaceOutlineColorTrans:(int)detectedOutsideFaceOutlineColorTrans titleImageFace:(UIImage*)titleImageFace;
-//+(void)detectFace:(id)instance lowLightThreshold:(int)lowLightThreshold focusPercentage:(int)focusPercentage faceDetectionPercentage:(int)faceDetectionPercentage ImageSize:(int)ImageSize setFrontCameraDefault:(bool)setFrontCameraDefault showPreviewScreen:(bool)showPreviewScreen faceOutlineColor:(NSString*)faceOutlineColor faceOutlineTransparency:(int)faceOutlineTransparency detectedFaceOutlineColor:(NSString*)detectedFaceOutlineColor detectedFaceOutlineTransparency:(int)detectedFaceOutlineTransparency outsideFaceOutlineColor:(NSString*)outsideFaceOutlineColor outsideFaceOutlineTransparency:(int)outsideFaceOutlineTransparency detectedOutsideFaceOutlineColor :(NSString*)detectedOutsideFaceOutlineColor detectedOutsideFaceOutlineColorTrans:(int)detectedOutsideFaceOutlineColorTrans titleImageFace:(UIImage*)titleImageFace showInstruction:(bool)showInstruction instructionimage:(UIImage*)instructionimage;
-//+(void)detectFace:(id)instance lowLightThreshold:(int)lowLightThreshold focusPercentage:(int)focusPercentage faceDetectionPercentage:(int)faceDetectionPercentage ImageSize:(int)ImageSize setFrontCameraDefault:(bool)setFrontCameraDefault showPreviewScreen:(bool)showPreviewScreen faceOutlineColor:(NSString*)faceOutlineColor faceOutlineTransparency:(int)faceOutlineTransparency detectedFaceOutlineColor:(NSString*)detectedFaceOutlineColor detectedFaceOutlineTransparency:(int)detectedFaceOutlineTransparency outsideFaceOutlineColor:(NSString*)outsideFaceOutlineColor outsideFaceOutlineTransparency:(int)outsideFaceOutlineTransparency detectedOutsideFaceOutlineColor :(NSString*)detectedOutsideFaceOutlineColor detectedOutsideFaceOutlineColorTrans:(int)detectedOutsideFaceOutlineColorTrans titleImageFace:(UIImage*)titleImageFace showInstruction:(bool)showInstruction instructionimage:(UIImage *)instructionimage toggleCamera:(bool)toggleCamera;
-//+(void)detectFace:(id)instance setFrontCameraDefault:(bool)setFrontCameraDefault toggleCamera:(bool)toggleCamera showPreviewScreen:(bool)showPreviewScreen showInstruction:(bool)showInstruction instructionimage:(UIImage *)instructionimage;
-//+(void)detectFace:(id)instance setFrontCameraDefault:(bool)setFrontCameraDefault toggleCamera:(bool)toggleCamera showPreviewScreen:(bool)showPreviewScreen showInstruction:(bool)showInstruction instructionimage:(UIImage *)instructionimage faceOutlineColor:(NSString*)faceOutlineColor faceOutlineTransparency:(int)faceOutlineTransparency detectedFaceOutlineColor:(NSString*)detectedFaceOutlineColor detectedFaceOutlineTransparency:(int)detectedFaceOutlineTransparency outsideFaceOutlineColor:(NSString*)outsideFaceOutlineColor outsideFaceOutlineTransparency:(int)outsideFaceOutlineTransparency detectedOutsideFaceOutlineColor :(NSString*)detectedOutsideFaceOutlineColor detectedOutsideFaceOutlineColorTrans:(int)detectedOutsideFaceOutlineColorTrans titleImageFace:(UIImage*)titleImageFace;
-//+(void)detectFace:(id)instance titleImageFace:(UIImage*)titleImageFace instructionimage:(UIImage *)instructionimage uiConfigDictionary:(NSMutableDictionary*)uiConfigDictionary;
+//MARK: - Detect Face API
 +(void)detectFace:(id _Nonnull)instance faceCaptureConfig:(NSMutableDictionary* _Nullable)faceCaptureConfig;
 +(void)detectFace:(id _Nonnull)instance faceCaptureConfig:(NSMutableDictionary* _Nullable)faceCaptureConfig uiConfigDictionary:(NSMutableDictionary* _Nullable)uiConfigDictionary;
 
+//MARK: - Match Face API
 +(void)matchFaceImage:(id _Nonnull)instance faceImageType:(NSString* _Nullable)faceImageType idImageType:(NSString* _Nullable)idImageType;
 +(void)matchFaceImage:(id _Nonnull)instance faceImageType:(NSString* _Nullable)faceImageType idImageType:(NSString* _Nullable)idImageType additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary;
 +(void)matchFaceImage:(id _Nonnull)instance faceImageType:(NSString* _Nullable)faceImageType idImageType:(NSString* _Nullable)idImageType additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary finalSubmit:(bool)finalSubmit;
 +(void)matchFaceImage:(id _Nonnull)instance faceImageType:(NSString* _Nullable)faceImageType idImageType:(NSString* _Nullable)idImageType additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary finalSubmit:(bool)finalSubmit clearFormKey:(bool)clearFormKey;
 +(void)matchFaceImage:(id _Nonnull)instance faceImageType:(NSString* _Nullable)faceImageType idImageType:(NSString* _Nullable)idImageType additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary clearFormKey:(bool)clearFormKey employeeDictionary:(NSMutableDictionary* _Nullable)employeeDictionary;
 
+//MARK: - Verify Customer API
 +(void)verifyCustomer:(id _Nonnull)instance biometricType:(NSString* _Nullable)biometricType;
 +(void)verifyCustomer:(id _Nonnull)instance biometricType:(NSString* _Nullable)biometricType additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary;
 +(void)verifyCustomer:(id _Nonnull)instance biometricType:(NSString* _Nullable)biometricType additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary clearFormKey:(bool)clearFormKey;
 
+//MARK: - Update Customer API
 +(void)updateCustomer:(id _Nonnull)instance additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary;
 +(void)updateCustomer:(id _Nonnull)instance faceImageType:(NSString* _Nullable)faceImageType additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary;
 
+//MARK: - Capture Address Proof API
 +(void)captureAddressProof:(id)instance;
 +(void)captureAddressProof:(id)instance capturePortrait:(bool)capturePortrait;
 +(void)captureAddressProof:(id)instance capturePortrait:(bool)capturePortrait minimumLightThreshold:(int)minimumLightThreshold minimumFocusThreshold:(int)minimumFocusThreshold GlarePercentage:(int)GlarePercentage EnableCaptureButtonTime:(int)EnableCaptureButtonTime ImageSize:(int)ImageSize ImageHeight:(int)ImageHeight ImageWidth:(int)ImageWidth;
@@ -172,6 +164,7 @@ enum SDKIDType{
 +(void)captureAddressProof:(id)instance capturePortrait:(bool)capturePortrait minimumLightThreshold:(int)minimumLightThreshold minimumFocusThreshold:(int)minimumFocusThreshold GlarePercentage:(int)GlarePercentage EnableCaptureButtonTime:(int)EnableCaptureButtonTime ImageSize:(int)ImageSize ImageHeight:(int)ImageHeight ImageWidth:(int)ImageWidth additionalDictionary:(NSMutableDictionary*)additionalDictionary idOutlineColor:(NSString*)idOutlineColor idOutlineColorTransparency:(int)idOutlineColorTransparency detectedPOAOutlineColor:(NSString*)detectedPOAOutlineColor detectedPOAColorOutlineTransperency:(int)detectedPOAColorOutlineTransperency idOutsideOutlineColor:(NSString*)idOutsideOutlineColor idOutsideOutlineColorTransparency:(int)idOutsideOutlineColorTransparency detectedColorOutsideOutline:(NSString*)detectedColorOutsideOutline detectedColorOutsideOutlineTransparency:(int)detectedColorOutsideOutlineTransparency titleImage:(UIImage *)titleImage showInstruction:(bool)showInstruction instructionimage:(UIImage *)instructionimage isCaptureEnabled:(bool)isCaptureEnabled;
 +(void)captureAddressProof:(NSString*)id_capture_type instance:(id)instance titleImage:(UIImage *)titleImage additionalDictionary:(NSMutableDictionary*)additionalDictionary instructionimage:(UIImage*)instructionimage fieldName:(NSString*)fieldName uiConfigDictionary:(NSMutableDictionary*)uiConfigDictionary ;
 
+//MARK: - Capture Bank-Statement API
 +(void)captureBankStatement:(id)instance;
 +(void)captureBankStatement:(id)instance capturePortrait:(bool)capturePortrait;
 +(void)captureBankStatement:(id)instance capturePortrait:(bool)capturePortrait minimumLightThreshold:(int)minimumLightThreshold minimumFocusThreshold:(int)minimumFocusThreshold GlarePercentage:(int)GlarePercentage EnableCaptureButtonTime:(int)EnableCaptureButtonTime ImageSize:(int)ImageSize ImageHeight:(int)ImageHeight ImageWidth:(int)ImageWidth;
@@ -182,6 +175,7 @@ enum SDKIDType{
 +(void)captureBankStatement:(id)instance capturePortrait:(bool)capturePortrait minimumLightThreshold:(int)minimumLightThreshold minimumFocusThreshold:(int)minimumFocusThreshold GlarePercentage:(int)GlarePercentage EnableCaptureButtonTime:(int)EnableCaptureButtonTime ImageSize:(int)ImageSize ImageHeight:(int)ImageHeight ImageWidth:(int)ImageWidth additionalDictionary:(NSMutableDictionary *)additionalDictionary idOutlineColor:(NSString*)idOutlineColor idOutlineColorTransparency:(int)idOutlineColorTransparency detectedPOAOutlineColor:(NSString*)detectedPOAOutlineColor detectedPOAColorOutlineTransperency:(int)detectedPOAColorOutlineTransperency idOutsideOutlineColor:(NSString*)idOutsideOutlineColor idOutsideOutlineColorTransparency:(int)idOutsideOutlineColorTransparency detectedColorOutsideOutline:(NSString*)detectedColorOutsideOutline detectedColorOutsideOutlineTransparency:(int)detectedColorOutsideOutlineTransparency titleImage:(UIImage *)titleImage showInstruction:(bool)showInstruction instructionimage:(UIImage *)instructionimage isCaptureEnable:(bool)isCaptureEnable;
 +(void)captureBankStatement:(NSString*)id_capture_type instance:(id)instance titleImage:(UIImage *)titleImage additionalDictionary:(NSMutableDictionary*)additionalDictionary instructionimage:(UIImage*)instructionimage fieldName:(NSString*)fieldName uiConfigDictionary:(NSMutableDictionary*)uiConfigDictionary;
 
+//MARK: - Capture Birth Certificate API
 +(void)captureBirthCertificate:(id)instance;
 +(void)captureBirthCertificate:(id)instance capturePortrait:(bool)capturePortrait;
 +(void)captureBirthCertificate:(id)instance capturePortrait:(bool)capturePortrait minimumLightThreshold:(int)minimumLightThreshold minimumFocusThreshold:(int)minimumFocusThreshold GlarePercentage:(int)GlarePercentage EnableCaptureButtonTime:(int)EnableCaptureButtonTime ImageSize:(int)ImageSize ImageHeight:(int)ImageHeight ImageWidth:(int)ImageWidth;
@@ -192,32 +186,37 @@ enum SDKIDType{
 +(void)captureBirthCertificate:(id)instance capturePortrait:(bool)capturePortrait minimumLightThreshold:(int)minimumLightThreshold minimumFocusThreshold:(int)minimumFocusThreshold GlarePercentage:(int)GlarePercentage EnableCaptureButtonTime:(int)EnableCaptureButtonTime ImageSize:(int)ImageSize ImageHeight:(int)ImageHeight ImageWidth:(int)ImageWidth additionalDictionary:(NSMutableDictionary *)additionalDictionary idOutlineColor:(NSString*)idOutlineColor idOutlineColorTransparency:(int)idOutlineColorTransparency detectedPOAOutlineColor:(NSString*)detectedPOAOutlineColor detectedPOAColorOutlineTransperency:(int)detectedPOAColorOutlineTransperency idOutsideOutlineColor:(NSString*)idOutsideOutlineColor idOutsideOutlineColorTransparency:(int)idOutsideOutlineColorTransparency detectedColorOutsideOutline:(NSString*)detectedColorOutsideOutline detectedColorOutsideOutlineTransparency:(int)detectedColorOutsideOutlineTransparency titleImage:(UIImage *)titleImage showInstruction:(bool)showInstruction instructionimage:(UIImage *)instructionimage isCaptureEnable:(bool)isCaptureEnable;
 +(void)captureBirthCertificate:(NSString*)id_capture_type instance:(id)instance titleImage:(UIImage *)titleImage additionalDictionary:(NSMutableDictionary*)additionalDictionary instructionimage:(UIImage*)instructionimage fieldName:(NSString*)fieldName uiConfigDictionary:(NSMutableDictionary*)uiConfigDictionary;
 
+//MARK: - Capture Generic Document API
 +(void)captureGenericDocument:(id)instance capturePortrait:(bool)capturePortrait minimumLightThreshold:(int)minimumLightThreshold minimumFocusThreshold:(int)minimumFocusThreshold GlarePercentage:(int)GlarePercentage EnableCaptureButtonTime:(int)EnableCaptureButtonTime ImageSize:(int)ImageSize ImageHeight:(int)ImageHeight ImageWidth:(int)ImageWidth additionalDictionary:(NSMutableDictionary *)additionalDictionary idOutlineColor:(NSString*)idOutlineColor idOutlineColorTransparency:(int)idOutlineColorTransparency detectedPOAOutlineColor:(NSString*)detectedPOAOutlineColor detectedPOAColorOutlineTransperency:(int)detectedPOAColorOutlineTransperency idOutsideOutlineColor:(NSString*)idOutsideOutlineColor idOutsideOutlineColorTransparency:(int)idOutsideOutlineColorTransparency detectedColorOutsideOutline:(NSString*)detectedColorOutsideOutline detectedColorOutsideOutlineTransparency:(int)detectedColorOutsideOutlineTransparency titleImage:(UIImage *)titleImage showInstruction:(bool)showInstruction instructionimage:(UIImage *)instructionimage genericFieldName:(NSString*)genericFieldName;
 +(void)captureGenericDocument:(id)instance capturePortrait:(bool)capturePortrait minimumLightThreshold:(int)minimumLightThreshold minimumFocusThreshold:(int)minimumFocusThreshold GlarePercentage:(int)GlarePercentage EnableCaptureButtonTime:(int)EnableCaptureButtonTime ImageSize:(int)ImageSize ImageHeight:(int)ImageHeight ImageWidth:(int)ImageWidth additionalDictionary:(NSMutableDictionary *)additionalDictionary idOutlineColor:(NSString*)idOutlineColor idOutlineColorTransparency:(int)idOutlineColorTransparency detectedPOAOutlineColor:(NSString*)detectedPOAOutlineColor detectedPOAColorOutlineTransperency:(int)detectedPOAColorOutlineTransperency idOutsideOutlineColor:(NSString*)idOutsideOutlineColor idOutsideOutlineColorTransparency:(int)idOutsideOutlineColorTransparency detectedColorOutsideOutline:(NSString*)detectedColorOutsideOutline detectedColorOutsideOutlineTransparency:(int)detectedColorOutsideOutlineTransparency titleImage:(UIImage *)titleImage showInstruction:(bool)showInstruction instructionimage:(UIImage *)instructionimage genericFieldName:(NSString*)genericFieldName isCaptureEnable:(bool)isCaptureEnable;
 +(void)captureGenericDocument:(NSString*)id_capture_type instance:(id)instance titleImage:(UIImage *)titleImage additionalDictionary:(NSMutableDictionary*)additionalDictionary instructionimage:(UIImage*)instructionimage fieldName:(NSString*)fieldName uiConfigDictionary:(NSMutableDictionary*)uiConfigDictionary;
-
 +(void)captureGenericDocument:(id _Nonnull)instance additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary uiConfigDictionary:(NSMutableDictionary* _Nullable)uiConfigDictionary fieldName:(NSString* _Nonnull)fieldName;
 
-//+(void)captureFourFingerprint:(id)instance focusThreshold:(int)focusThreshold;
+//MARK: - Capture Four-FingerPrint API
 +(void)captureFourFingerprint:(id)instance focusThreshold:(int)focusThreshold uiConfigDict:(NSMutableDictionary*)uiConfigDict;
 +(void)captureFourFingerprint:(id _Nonnull)instance cameraFingerCaptureConfig:(NSMutableDictionary* _Nullable)cameraFingerCaptureConfig;
-//Voice Recording
+
+//MARK: - Capture Voice Recording API
+
 +(void)startVoiceRecording:(id)instance recordingTime:(int)recordingTime additionalDictionary:(NSMutableDictionary*)additionalDictionary;
 +(void)startVoiceRecording:(id _Nonnull)instance voiceRecordingConfig:(NSMutableDictionary* _Nullable)voiceRecordingConfig additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary;
 
-//Video Recording
+//MARK: - Capture Video Recording API
 +(void)startVideoRecording:(UIViewController*)instance recordingTime:(int)recordingTime additionalDictionary:(NSMutableDictionary*)additionalDictionary textDatatoScrolled:(NSString*)textDatatoScrolled;
 +(void)startVideoRecording:(UIViewController*)instance recordingTime:(int)recordingTime additionalDictionary:(NSMutableDictionary*)additionalDictionary textDatatoScrolled:(NSString*)textDatatoScrolled isEnableBgVideoRecording:(BOOL)isEnableBgVideoRecording;
++(void)startVideoRecording:(UIViewController*)instance recordingTime:(int)recordingTime minrecordingTime:(int)minRecordingTime additionalDictionary:(NSMutableDictionary*)additionalDictionary textDatatoScrolled:(NSString*)textDatatoScrolled;
 
-//FingerPrint Enrollment
+//MARK: - FingerPrint Enrollment API
 +(void)enrollFingerprint:(id _Nonnull)instance additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary clearFormKey:(bool)clearFormKey;
-//verifyFingerprint
+
+//MARK: - VerifyFingerprint API
 +(void)verifyFingerprint:(id _Nonnull)instance additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary clearFormKey:(bool)clearFormKey;
-//clear all fingerprint
+
+//MARK: - Clear Fingerprint API
 +(void)clearAllFingerprints:(id _Nonnull)instance;
-//clear selected figerprint
 +(void)clearSelectedFingerPrint:(id _Nonnull)instance selectedFinger:(NSString * _Nullable)selectedFinger;
 
+//MARK: - ProcessImage & MatchFace API
 +(void)processImageAndMatchFace:(id _Nonnull)instance countryCode:(NSString* _Nullable)countryCode stateCode:(NSString* _Nullable)stateCode idType:(NSString* _Nullable)idType faceImageType:(NSString* _Nullable)faceImageType;
 +(void)processImageAndMatchFace:(id _Nonnull)instance countryCode:(NSString* _Nullable)countryCode stateCode:(NSString* _Nullable)stateCode idType:(NSString* _Nullable)idType faceImageType:(NSString* _Nullable)faceImageType  additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary;
 +(void)processImageAndMatchFace:(id _Nonnull)instance countryCode:(NSString* _Nullable)countryCode stateCode:(NSString* _Nullable)stateCode idType:(NSString* _Nullable)idType faceImageType:(NSString* _Nullable)faceImageType  additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary finalSubmit:(bool)finalSubmit;
@@ -225,56 +224,54 @@ enum SDKIDType{
 +(void)processImageAndMatchFace:(id _Nonnull)instance countryCode:(NSString* _Nullable)countryCode stateCode:(NSString* _Nullable)stateCode id_Type:(enum SDKIDType)id_Type faceImageType:(NSString* _Nullable)faceImageType  additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary finalSubmit:(bool)finalSubmit clearFormKey:(bool)clearFormKey employeeDictionary:(NSMutableDictionary* _Nullable)employeeDictionary;
 +(void)processImageAndMatchFace:(id _Nonnull)instance countryCode:(NSString* _Nullable)countryCode stateCode:(NSString* _Nullable)stateCode idType:(NSString* _Nullable)idType faceImageType:(NSString* _Nullable)faceImageType  additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary finalSubmit:(bool)finalSubmit clearFormKey:(bool)clearFormKey employeeDictionary:(NSMutableDictionary* _Nullable)employeeDictionary;
 
-//IDValidationWithVideoMatch
+//MARK: - IDValidation With Video Match API
 +(void)idValidationAndMatchVideo:(id _Nonnull)instance countryCode:(NSString* _Nullable)countryCode stateCode:(NSString* _Nullable)stateCode id_Type:(enum SDKIDType)id_Type additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary finalSubmit:(bool)finalSubmit clearFormKey:(bool)clearFormKey employeeDictionary:(NSMutableDictionary* _Nullable)employeeDictionary;
 +(void)idValidationAndMatchVideo:(id _Nonnull)instance countryCode:(NSString* _Nullable)countryCode stateCode:(NSString* _Nullable)stateCode idType:(NSString* _Nullable)idType additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary finalSubmit:(bool)finalSubmit clearFormKey:(bool)clearFormKey employeeDictionary:(NSMutableDictionary* _Nullable)employeeDictionary;
 
+//MARK: - Detect Card
 +(void)detectCard:(id _Nonnull)instance;
 +(void)detectCard:(id _Nonnull)instance additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary;
 
-+(void)setImages:(NSMutableDictionary* _Nullable)images;
-
-+(void)getGPSCoordinate:(id _Nonnull)instance;
-
-+(void)completeOperation:(id _Nonnull)instance;
-
-//Customize User Interface Call
-//+(void)customizeUserInterface:(id)instance faceTitleOnTop:(bool)faceTitleOnTop faceHintMessageOnTop:(bool)faceHintMessageOnTop faceHintIconOnTop:(bool)faceHintIconOnTop faceTitleImageOnTop:(bool)faceTitleImageOnTop;
-+(void)customizeUserInterface:(id)instance faceTitleOnTop:(bool)faceTitleOnTop hideFaceTitle:(bool)hideFaceTitle faceHintMessageOnTop:(bool)faceHintMessageOnTop hideFacehintMsg:(bool)hideFacehintMsg faceHintIconOnTop:(bool)faceHintIconOnTop hideFacehintIcon:(bool)hideFacehintIcon faceTitleImageOnTop:(bool)faceTitleImageOnTop hideFacetitleImage:(bool)hideFacetitleImage idCaptureTitleAlignment:(NSString*)idCaptureTitleAlignment hideIDCaptureTitle:(bool)hideIDCaptureTitle idCaptureHintMsgAlignment:(NSString*)idCaptureHintMsgAlignment hideIDCapturehintMsg:(bool)hideIDCapturehintMsg idCaptureTitleImgAlignment:(NSString*)idCaptureTitleImgAlignment hideIDCapturetitleImg:(bool)hideIDCapturetitleImg;
-//+(void)customizeUserInterface:(NSString*)uiconfigurationString;
-+(void)customizeUserInterface:(NSMutableDictionary* _Nonnull)uiconfiguration;
-
-+(void)changeLanguageBundle:(NSString*)language;
-+(NSString*)getLanguageBundle;
+//MARK: - Scan Barcode
 +(void)scanBarcode:(id _Nonnull)instance;
 +(void)scanBarcode:(id _Nonnull)instance showPortraitBarcodeScreen:(bool)showPortraitBarcodeScreen barcodeScanText:(NSString*)barcodeScanText;
 +(void)scanBarcode:(id _Nonnull)instance uiConfigDictionary:(NSMutableDictionary* _Nullable)uiConfigDictionary;
+
+//MARK: - Capture Signature
 +(void)captureSignature:(id _Nonnull)instance;
 +(void)captureSignature:(id _Nonnull)instance uiConfigDictionary:(NSMutableDictionary* _Nullable)uiConfigDictionary;
+
+//MARK: - Snippet Capture
++(void)snippetCapture:(id)instance capturePortrait:(bool)capturePortrait minimumLightThreshold:(int)minimumLightThreshold minimumFocusThreshold:(int)minimumFocusThreshold GlarePercentage:(int)GlarePercentage EnableCaptureButtonTime:(int)EnableCaptureButtonTime ImageSize:(int)ImageSize ImageHeight:(int)ImageHeight ImageWidth:(int)ImageWidth idOutlineColor:(NSString*)idOutlineColor idOutlineColorTransparency:(int)idOutlineColorTransparency detectedIdOutlineColor:(NSString*)detectedIdOutlineColor detectedIdOutlineTransparency:(int)detectedIdOutlineTransparency idOutsideOutlineColor:(NSString*)idOutsideOutlineColor idOutsideOutlineColorTransparency:(int)idOutsideOutlineColorTransparency detectedColorOutsideOutline:(NSString*)detectedColorOutsideOutline detectedColorOutsideOutlineTransparency:(int)detectedColorOutsideOutlineTransparency titleImage:(UIImage *)titleImage showInstruction:(bool)showInstruction instructionimage:(UIImage *)instructionimage snippetFieldsDictionary:(NSMutableDictionary*)snippetFieldsDictionary;
++(void)snippetCapture:(id)instance capturePortrait:(bool)capturePortrait minimumLightThreshold:(int)minimumLightThreshold minimumFocusThreshold:(int)minimumFocusThreshold GlarePercentage:(int)GlarePercentage EnableCaptureButtonTime:(int)EnableCaptureButtonTime ImageSize:(int)ImageSize ImageHeight:(int)ImageHeight ImageWidth:(int)ImageWidth idOutlineColor:(NSString*)idOutlineColor idOutlineColorTransparency:(int)idOutlineColorTransparency detectedIdOutlineColor:(NSString*)detectedIdOutlineColor detectedIdOutlineTransparency:(int)detectedIdOutlineTransparency idOutsideOutlineColor:(NSString*)idOutsideOutlineColor idOutsideOutlineColorTransparency:(int)idOutsideOutlineColorTransparency detectedColorOutsideOutline:(NSString*)detectedColorOutsideOutline detectedColorOutsideOutlineTransparency:(int)detectedColorOutsideOutlineTransparency titleImage:(UIImage *)titleImage showInstruction:(bool)showInstruction instructionimage:(UIImage *)instructionimage snippetFieldsDictionary:(NSMutableDictionary*)snippetFieldsDictionary isCaptureEnable:(bool)isCaptureEnable;
++(void)snippetCapture:(NSString*)id_capture_type instance:(id)instance titleImage:(UIImage *)titleImage additionalDictionary:(NSMutableDictionary*)additionalDictionary instructionimage:(UIImage*)instructionimage fieldName:(NSString*)fieldName uiConfigDictionary:(NSMutableDictionary*)uiConfigDictionary;
++(void)snippetCapture:(id _Nonnull)instance additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary uiConfigDictionary:(NSMutableDictionary* _Nullable)uiConfigDictionary snippetFieldsDictionary:(NSMutableDictionary* _Nullable)snippetFieldsDictionary isIdCaptureCall:(bool)isIdCaptureCall;
+
+//MARK: - Slant capture
++(void)captureSlantImage:(id)instance additionalDictionary:(NSMutableDictionary*)additionalDictionary uiConfigDictionary:(NSMutableDictionary*)uiConfigDictionary;
+
+//MARK: - Video Conferencing API Call
++(void)startVideoConferencing:(id _Nonnull)instance videoConferenceData:(NSMutableDictionary* _Nullable)videoConferenceData;
+
+//MARK: - Generic API Call
++(void)genericApiCall:(id _Nonnull)instance genericDataDictionary:(NSMutableDictionary * _Nullable)genericDataDictionary;
+
+
++(void)setImages:(NSMutableDictionary* _Nullable)images;
++(void)getGPSCoordinate:(id _Nonnull)instance;
++(void)completeOperation:(id _Nonnull)instance;
+//Customize User Interface Call
++(void)customizeUserInterface:(id)instance faceTitleOnTop:(bool)faceTitleOnTop hideFaceTitle:(bool)hideFaceTitle faceHintMessageOnTop:(bool)faceHintMessageOnTop hideFacehintMsg:(bool)hideFacehintMsg faceHintIconOnTop:(bool)faceHintIconOnTop hideFacehintIcon:(bool)hideFacehintIcon faceTitleImageOnTop:(bool)faceTitleImageOnTop hideFacetitleImage:(bool)hideFacetitleImage idCaptureTitleAlignment:(NSString*)idCaptureTitleAlignment hideIDCaptureTitle:(bool)hideIDCaptureTitle idCaptureHintMsgAlignment:(NSString*)idCaptureHintMsgAlignment hideIDCapturehintMsg:(bool)hideIDCapturehintMsg idCaptureTitleImgAlignment:(NSString*)idCaptureTitleImgAlignment hideIDCapturetitleImg:(bool)hideIDCapturetitleImg;
++(void)customizeUserInterface:(NSMutableDictionary* _Nonnull)uiconfiguration;
++(void)changeLanguageBundle:(NSString*)language;
++(NSString*)getLanguageBundle;
++(void)generateOTP:(id _Nonnull)instance additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary emailId:(NSString* _Nullable)emailId mobileNumber:(NSString* _Nullable)mobileNumber notificationType:(NSString* _Nullable)notificationType;
++(void)verifyOTP:(id _Nonnull)instance additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary receivedOTP:(NSString* _Nonnull)receivedOTP;
 +(void)verifyAddress:(id _Nonnull)instance addressJSONDictionary:(NSMutableDictionary* _Nullable)addressJSONDictionary additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary doExtract:(bool)doExtract doVerify:(bool)doVerify finalSubmit:(bool)finalSubmit;
 +(void)createEmployee:(id _Nonnull)instance employeeDictionary:(NSMutableDictionary* _Nullable)employeeDictionary additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary finalSubmit:(bool)finalSubmit;
 +(void)verifyEmployee:(id _Nonnull)instance employeeCode:(NSString* _Nullable)employeeCode additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary finalSubmit:(bool)finalSubmit clearFormKey:(bool)clearFormKey;
 +(void)generateToken:(id _Nonnull)instance;
 +(void)verifyToken:(id _Nonnull)instance;
-
-+(void)snippetCapture:(id)instance capturePortrait:(bool)capturePortrait minimumLightThreshold:(int)minimumLightThreshold minimumFocusThreshold:(int)minimumFocusThreshold GlarePercentage:(int)GlarePercentage EnableCaptureButtonTime:(int)EnableCaptureButtonTime ImageSize:(int)ImageSize ImageHeight:(int)ImageHeight ImageWidth:(int)ImageWidth idOutlineColor:(NSString*)idOutlineColor idOutlineColorTransparency:(int)idOutlineColorTransparency detectedIdOutlineColor:(NSString*)detectedIdOutlineColor detectedIdOutlineTransparency:(int)detectedIdOutlineTransparency idOutsideOutlineColor:(NSString*)idOutsideOutlineColor idOutsideOutlineColorTransparency:(int)idOutsideOutlineColorTransparency detectedColorOutsideOutline:(NSString*)detectedColorOutsideOutline detectedColorOutsideOutlineTransparency:(int)detectedColorOutsideOutlineTransparency titleImage:(UIImage *)titleImage showInstruction:(bool)showInstruction instructionimage:(UIImage *)instructionimage snippetFieldsDictionary:(NSMutableDictionary*)snippetFieldsDictionary;
-
-+(void)snippetCapture:(id)instance capturePortrait:(bool)capturePortrait minimumLightThreshold:(int)minimumLightThreshold minimumFocusThreshold:(int)minimumFocusThreshold GlarePercentage:(int)GlarePercentage EnableCaptureButtonTime:(int)EnableCaptureButtonTime ImageSize:(int)ImageSize ImageHeight:(int)ImageHeight ImageWidth:(int)ImageWidth idOutlineColor:(NSString*)idOutlineColor idOutlineColorTransparency:(int)idOutlineColorTransparency detectedIdOutlineColor:(NSString*)detectedIdOutlineColor detectedIdOutlineTransparency:(int)detectedIdOutlineTransparency idOutsideOutlineColor:(NSString*)idOutsideOutlineColor idOutsideOutlineColorTransparency:(int)idOutsideOutlineColorTransparency detectedColorOutsideOutline:(NSString*)detectedColorOutsideOutline detectedColorOutsideOutlineTransparency:(int)detectedColorOutsideOutlineTransparency titleImage:(UIImage *)titleImage showInstruction:(bool)showInstruction instructionimage:(UIImage *)instructionimage snippetFieldsDictionary:(NSMutableDictionary*)snippetFieldsDictionary isCaptureEnable:(bool)isCaptureEnable;
-
-+(void)snippetCapture:(NSString*)id_capture_type instance:(id)instance titleImage:(UIImage *)titleImage additionalDictionary:(NSMutableDictionary*)additionalDictionary instructionimage:(UIImage*)instructionimage fieldName:(NSString*)fieldName uiConfigDictionary:(NSMutableDictionary*)uiConfigDictionary;
-
-+(void)snippetCapture:(id _Nonnull)instance additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary uiConfigDictionary:(NSMutableDictionary* _Nullable)uiConfigDictionary snippetFieldsDictionary:(NSMutableDictionary* _Nullable)snippetFieldsDictionary isIdCaptureCall:(bool)isIdCaptureCall;
-
-+(void)generateOTP:(id _Nonnull)instance additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary emailId:(NSString* _Nullable)emailId mobileNumber:(NSString* _Nullable)mobileNumber notificationType:(NSString* _Nullable)notificationType;
-+(void)verifyOTP:(id _Nonnull)instance additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary receivedOTP:(NSString* _Nonnull)receivedOTP;
-
-//GenericApiCall
-+(void)genericApiCall:(id _Nonnull)instance genericDataDictionary:(NSMutableDictionary * _Nullable)genericDataDictionary;
-
-+(void)startVideoConferencing:(id _Nonnull)instance videoConferenceData:(NSMutableDictionary* _Nullable)videoConferenceData;
-
-//Slant capture
-+(void)captureSlantImage:(id)instance additionalDictionary:(NSMutableDictionary*)additionalDictionary uiConfigDictionary:(NSMutableDictionary*)uiConfigDictionary;
 
 // Calls From Client Side -End
 
@@ -941,10 +938,8 @@ enum SDKIDType{
 +(NSURL*)getVideoRecordingURL;
 +(void)setVideoRecordingURL:(NSURL*)_videoecordingURL;
 
-+(void)presentIdCaptureViewController:(id)instance id_capture_type:(NSString*)id_capture_type;
-
-+(void)presentFaceViewController:(id)instance isPassiveFD:(BOOL)isPassiveFD;
-
++(void)presentIdCaptureViewController:(id)instance id_capture_type:(NSString*)id_capture_type instructionScreenDelegate:(id)instruction_Screen_Delegate;
++(void)presentFaceViewController:(id)instance instructionScreenDelegate:(id)instruction_Screen_Delegate;;
 +(void)presentFPViewController:(id)instance finger_type:(NSString*)finger_type;
 
 //Initialize Service ID Seprate API call
@@ -973,17 +968,20 @@ enum SDKIDType{
 +(NSString*)getIDBackImageRequired;
 +(void)setIDBackImageRequired:(NSString*)_id_back_image_required;
 
-+(NSString *)getNeedImmediateResponse;
-+(void)setNeedImmediateResponse:(NSString *)_need_Immediate_response;
-
 +(NSString*)getPostDataAPIReq;
 +(void)setPostDataAPIReq:(NSString*)_post_data_api_required;
+
++(NSString *)getNeedImmediateResponse;
++(void)setNeedImmediateResponse:(NSString *)_need_Immediate_response;
 
 +(NSString*)getSendInputImagesPOST;
 +(void)setSendInputImagesPOST:(NSString*)_send_input_images_post;
 
 +(NSString*)getSendProcessedImagesPOST;
 +(void)setSendProcessedImagesPOST:(NSString*)_send_processed_images_post;
+
++(NSString*)getStripSpecialCharacters;
++(void)setStripSpecialCharacters:(NSString*)_strip_special_characters;
 
 +(int)getcfc_indexfinger_min_threshold;
 +(void)setcfc_indexfinger_min_threshold:(int)_cfc_indexfinger_min_threshold;
@@ -1098,26 +1096,22 @@ enum SDKIDType{
 
 +(void)setFaceModelName:(NSString*)faceModelPath;
 +(NSString*)getFaceModelName;
-
 +(void)setIDModelName:(NSString*)idModelPath;
 +(NSString*)getIdModelName;
 
 +(void)setUniqueKey:(NSString*)uniqueKeyId;
 +(NSString *)getUniqueKey;
 
-+(void)setPublicKey:(NSString*)publicKeyId;
-+(NSString *)getPublicKey;
-
-+(void)setPublicKey_IDModel:(NSString*)publicKeyId;
-+(NSString *)getPublicKey_IDModel;
-
-+(void)setUniqueKey_IDModel:(NSString*)uniqueKeyId;
-+(NSString *)getUniqueKey_IDModel ;
-
++(void)setPreviousUniqueKey:(NSString*)prev_UniqueKeyId;
++(NSString *)getPreviousUniqueKey;
 +(void)setPreviousUniqueKey_IDModel:(NSString*)prev_UniqueKeyId;
 +(NSString *)getPreviousUniqueKey_IDModel ;
 
++(void)setPublicKey:(NSString*)publicKeyId;
++(NSString *)getPublicKey;
 
++(void)setPreviousPublicKey:(NSString*)prev_publicKeyId;
++(NSString *)getPreviousPublicKey;
 +(void)setPreviousPublicKey_IDModel:(NSString*)prev_publicKeyId;
 +(NSString *)getPreviousPublicKey_IDModel;
 
@@ -1133,19 +1127,7 @@ enum SDKIDType{
 +(int)getIdfocusScoreLimit;
 +(void)setIdfocusScoreLimit: (int)id_focus_score_limit;
 
-//
-+(void) autoFill:(id)instance idCaptureConfig:(NSMutableDictionary *)idCaptureConfig additionalDictionary:(NSMutableDictionary *)additionalDictionary;
-
-+(void)getAutoFillFieldInformation:(id)instance uiConfigDictionary:(NSMutableDictionary*)uiConfigDictionary;
-
 +(NSString *)stringFromTimeInterval;
-
-
-+(void)setPreviousUniqueKey:(NSString*)prev_UniqueKeyId;
-+(NSString *)getPreviousUniqueKey;
-
-+(void)setPreviousPublicKey:(NSString*)prev_publicKeyId;
-+(NSString *)getPreviousPublicKey;
 
 //Face Retry Capture
 +(bool)getIsManualCaptureEnabled;
