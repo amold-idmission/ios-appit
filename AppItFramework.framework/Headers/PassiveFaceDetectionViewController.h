@@ -28,6 +28,7 @@
 @property (nonatomic, assign) BOOL landscapeMode;
 
 @property(nonatomic,assign)id delegate;
+@property(nonatomic,assign)id instructionScreen_delegate;
 @property(nonatomic) NSMutableDictionary *resultDictionary;
 
 
@@ -78,7 +79,6 @@
 @property (nonatomic, assign) BOOL isForShowCaseZipUpload;
 @property (nonatomic, assign) BOOL isBGRConversionEnable;
 
--(void)progressStatus:(int)currentValue totalValue:(int)totalChunk;
 -(IBAction)manualCapture_Action:(id)sender;
 +(bool)isValidModelDownload:(NSData *)encoded_model_data;
 +(void)sendGTE_ZipUploadRequest:(NSString*)real_spoof_string outFileDirectoryPath:(NSString*)outFileDirectoryPath;

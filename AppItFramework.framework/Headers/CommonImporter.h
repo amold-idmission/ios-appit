@@ -33,9 +33,6 @@
 #import "InstructionViewController.h"
 #import "PassiveFaceDetectionViewController.h"
 #import "OpenCvViewController.h"              /* Need To Delete For Face+ID Flavour */
-#import "FaceDetectionViewController.h"       /* Need To Delete For Face+ID Flavour */
-#import "FaceDetectionNewViewController.h"    /* Need To Delete For Face+ID Flavour */
-#import "MlKitFaceController.h"               /* Need To Delete For Face+ID Flavour */
 #import "MatchFaceViewController.h"
 #import "IDCaptureModelController.h"
 #import "SnippetCaptureController.h"
@@ -44,7 +41,6 @@
 #import "SlantedLandscapeViewController.h"    /* Need To Delete For Face+ID Flavour */
 #import "CardViewController.h"                /* Need To Delete For Face+ID Flavour */
 #import "CardDetectionViewController.h"       /* Need To Delete For Face+ID Flavour */
-#import "FillFastController.h"                /* Need To Delete For Face+ID Flavour */
 #import "FillFastModelController.h"           /* Need To Delete For Face+ID Flavour */
 #import "FingerDetectionViewController2.h"    /* Need To Delete For Face+ID Flavour */
 #import "FingerDetectionViewController.h"     /* Need To Delete For Face+ID Flavour */

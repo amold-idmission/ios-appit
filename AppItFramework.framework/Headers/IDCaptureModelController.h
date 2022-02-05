@@ -16,19 +16,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface IDCaptureModelController : UIViewController<AVCaptureVideoDataOutputSampleBufferDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIDocumentPickerDelegate> {
+@interface IDCaptureModelController : UIViewController <AVCaptureVideoDataOutputSampleBufferDelegate, UIImagePickerControllerDelegate, UIDocumentPickerDelegate, UINavigationControllerDelegate> {
     
     IBOutlet UIView *baseView;
     IBOutlet UIView *previewView;
     IBOutlet TargetRectangleModelDetect *targetRectangle;
     IBOutlet UIProgressView *progressView;
     IBOutlet UILabel *textView;
-//     IBOutlet UIActivityIndicatorView *activityIndicator;
     IBOutlet UILabel *intensityAndFocusTextView;
     IBOutlet UILabel *documentNameLabel;
     IBOutlet UIButton *backButton;
-    //    IBOutlet UIButton *backPortraitButton;
-//    IBOutlet UIButton *backButtonPortrait;
     IBOutlet UIButton *rotatePortraitButton;
     IBOutlet UIButton *rotateLandscapeButton;
     IBOutlet UIButton *captureButton;
@@ -44,20 +41,24 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 @property(nonatomic,assign)id delegate;
-
-@property(nonatomic) BOOL isInstructionScreenEnabled;
+@property(nonatomic,assign)id instructionScreen_delegate;
+@property(nonatomic) NSString *imageType;
+@property (nonatomic, assign) BOOL isForShowCaseZipUpload;
+@property(nonatomic) NSString *genericFieldName;
 @property(nonatomic) BOOL capture_in_portrait_mode;
+@property(nonatomic, assign) int mrzRetryCount;
+@property(nonatomic, assign) int mrzAndBarcodeRetryCount;
+
+@property(nonatomic, assign) NSString* showcaseUserEmailId;
 @property(nonatomic) BOOL capturedImagePressed;
 @property(nonatomic) int imageWidth;
 @property(nonatomic) int imageHeight;
-@property(nonatomic) NSString *imageType;
 @property(nonatomic) NSMutableDictionary *resultDictionary;
 
-@property(nonatomic)  size_t MinImageIntensity;
-@property(nonatomic)  size_t MinImageFocusScore;
+@property(nonatomic) size_t MinImageIntensity;
+@property(nonatomic) size_t MinImageFocusScore;
 @property(nonatomic) BOOL enable_glare_detection;
 @property(nonatomic, assign) int glare_percentage_threshold;
-//(nonatomic) BOOL enable_capture_button;
 @property(nonatomic, assign) int enable_capture_button_time;
 @property(nonatomic, assign) NSString *id_outline_color;
 @property(nonatomic, assign) int id_outline_color_alpha;
@@ -75,21 +76,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign) int back_button_color_alpha;
 @property(nonatomic, assign) NSString *text_font_size;
 @property(nonatomic, assign) NSString *header_font_size;
-@property(nonatomic, assign) int mrzRetryCount;
-@property(nonatomic, assign) int mrzAndBarcodeRetryCount;
 
-@property(nonatomic, assign) NSString* showcaseUserEmailId;
-@property (nonatomic, assign) BOOL isForShowCaseZipUpload;
-@property(nonatomic) NSString *genericFieldName;
-//@property(nonatomic) int mrzRetryCount;
-//@property(nonatomic) int mrzAndBarcodeRetryCount;
-//@property(nonatomic) int barcodeRetryCount;
-
-//- (IBAction)rotatePortrait:(id)sender;
-//- (IBAction)rotateLandscape:(id)sender;
-- (IBAction)backPressedLandscape:(id)sender;
-- (IBAction)backPressedPortrait:(id)sender;
-- (IBAction)captureImage:(id)sender;
+-(IBAction)backPressedLandscape:(id)sender;
+-(IBAction)backPressedPortrait:(id)sender;
+-(IBAction)captureImage:(id)sender;
 +(void)sendGTE_ZipUploadRequest:(NSString*)real_spoof_string outFileDirectoryPath:(NSString*)outFileDirectoryPath;
 
 @end
