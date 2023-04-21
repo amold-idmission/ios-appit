@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface VideoConferencingViewController : UIViewController<ARDAppClientDelegate>{
+@interface VideoConferencingViewController : UIViewController<ARDAppClientDelegate, NSURLSessionDataDelegate>{
     
     IBOutlet UIImageView *waiting_imageview;
     IBOutlet UIButton *back_button_uibutton;
@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSString *videoConferenceServerURL;
 @property(nonatomic) NSString *videoConferenceTargetorigin;
 @property(nonatomic) NSString *videoConferenceID;
+@property(nonatomic) NSString *formID;
 
 +(NSString*)getVideoConferenceNode;
 

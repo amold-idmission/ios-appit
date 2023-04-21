@@ -24,29 +24,22 @@
 @property (nonatomic) NSString *timeStamp;
 
 -(id)initWithData:(float)confidence documentLocation:(CGRect)documentLocation focus:(float)focus;
+-(CGRect)getDocumentLocation;
+-(float)getConfidence;
+-(float)getFocus;
 
--(float) getConfidence;
+-(float)getPhotoCopyScore;
+-(float)getRealScore;
+-(float)getScreenScore;
 
--(CGRect) getDocumentLocation;
+-(float)getWidthRatio;
+-(void)setWidthRatio:(float) widthRatio;
 
--(float) getFocus;
-
--(float) getWidthRatio;
-
--(void) setWidthRatio:(float) widthRatio;
-
-//-(float) getCardPrinterScore;
--(float) getPhotoCopyScore;
--(float) getRealScore;
-//-(float) getRealSmudgedScore;
--(float) getScreenScore;
-
--(void)setTimeStamp:(NSString*)time_stamp;
 -(NSString*)getTimeStamp;
+-(void)setTimeStamp:(NSString*)time_stamp;
 
--(NSMutableDictionary *) toJSON;
-
--(NSMutableDictionary *) toJSON_withRotatedLeftRect;
-
+-(NSMutableDictionary *)toJSON;
+-(NSMutableDictionary *)toJSON_withRotatedLeftRect;
+-(NSMutableDictionary *)getBoundingBox:(CGRect )frame;
 @end
 

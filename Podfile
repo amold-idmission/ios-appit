@@ -3,12 +3,10 @@ inhibit_all_warnings!
 
 def required_pods
 use_frameworks!   
-    pod 'OpenCV', '3.0.0'
     pod 'WebRTC'
     pod 'CocoaLumberjack'
     pod 'SocketRocket'
-    pod 'ZXingObjC', '~> 3.2.2'
-    pod 'SSZipArchive'
+    pod 'IdmEncryption'
 
     pod 'TensorFlowLiteObjC'
     pod 'GoogleMLKit/TextRecognition'

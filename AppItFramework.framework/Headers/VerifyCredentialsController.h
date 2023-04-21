@@ -32,15 +32,31 @@
 @property (nonatomic) bool enableDebug;
 @property (nonatomic) bool enableGPS;
 
-+(NSString*)getFaceModelPath;
 +(NSString*)getFaceModelPath:(NSString *)uniqueKey;
++(NSString*)getFaceMaskModelPath:(NSString *)uniqueKey;
++(NSString*)getIdDocDetectModelPath:(NSString *)uniqueKey;
++(NSString*)getIdRealnessModelPath:(NSString *)uniqueKey;
++(NSString*)getIdFocusModelPath:(NSString *)uniqueKey;
++(NSString*)getFingerModelPath:(NSString *)uniqueKey;
+
 +(BOOL)isFaceModelDownloaded;
 +(void)setIsFaceModelDownloaded:(BOOL)modelDownloaded;
 
-+(NSString*)getIdModelPath;
-+(NSString*)getIdModelPath:(NSString *)uniqueKey;
-+(BOOL)isIDModelDownloaded;
-+(void)setIsIDModelDownloaded:(BOOL)modelDownloaded;
++(BOOL)isFaceMaskModelDownloaded;
++(void)setIsFaceMaskModelDownloaded:(BOOL)modelDownloaded;
+
++(BOOL)isIdDocDetectModelDownloaded;
++(void)setIsIdDocDetectModelDownloaded:(BOOL)modelDownloaded;
+
++(BOOL)isIdRealnessModelDownloaded;
++(void)setIsIdRealnessModelDownloaded:(BOOL)modelDownloaded;
+
++(BOOL)isIdFocusModelDownloaded;
++(void)setIsIdFocusModelDownloaded:(BOOL)modelDownloaded;
+
++(BOOL)isFingerModelDownloaded;
++(void)setIsFingerModelDownloaded:(BOOL)modelDownloaded;
+
 
 -(id)initWithData:(id)instance loginId:(NSString *)loginId password:(NSString *)password url:(NSString *)url productID:(NSString *)productID merchantID:(NSString *)merchantID enableGPS:(bool)enableGPS EnableDebug:(bool)EnableDebug Language:(NSString *)Language productName:(NSString *)productName;
 

@@ -80,7 +80,6 @@
 @property (nonatomic, assign) BOOL isBGRConversionEnable;
 
 -(IBAction)manualCapture_Action:(id)sender;
-+(bool)isValidModelDownload:(NSData *)encoded_model_data;
 +(void)sendGTE_ZipUploadRequest:(NSString*)real_spoof_string outFileDirectoryPath:(NSString*)outFileDirectoryPath;
 
 @end

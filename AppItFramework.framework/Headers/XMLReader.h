@@ -7,6 +7,10 @@
 
 #import <Foundation/Foundation.h>
 
+#include "xsltInternals.h"
+#include "transform.h"
+#include "xsltutils.h"
+#import "exslt.h"
 
 @interface XMLReader : NSObject
 {

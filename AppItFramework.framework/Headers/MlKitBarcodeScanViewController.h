@@ -10,12 +10,10 @@
 #import <AVFoundation/AVFoundation.h>
 #import "CommonImporter.h"
 
-//@interface MlKitBarcodeScanViewController : UIViewController<AVCaptureMetadataOutputObjectsDelegate>
 @interface MlKitBarcodeScanViewController : UIViewController<AVCaptureMetadataOutputObjectsDelegate>
 
 @property (nonatomic, readonly) AVCaptureSession *captureSession;
 @property (nonatomic, readonly) AVCaptureDevice *captureDevice;
-//@property (nonatomic, readonly) AVCaptureVideoDataOutput *videoOutput;
 @property (nonatomic, readonly) AVCaptureMetadataOutput *videoOutput;
 @property (nonatomic, readonly) AVCaptureVideoPreviewLayer *videoPreviewLayer;
 @property (strong, nonatomic) AVCaptureStillImageOutput *avCaptureStillImageOutput;
@@ -38,6 +36,10 @@
 @property(nonatomic) int maxImageSize;
 
 +(NSString *)getBarcodeNode;
+
++(void)setBarcodeContent:(NSString*)barcodeContentData;
++(void)setBarcodeType:(NSString*)barcodeTypeData;
++(void)setBarcodeImage:(NSString*)barcodeImageData;
 
 @end
 

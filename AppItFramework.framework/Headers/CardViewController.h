@@ -43,7 +43,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) BOOL capturedImagePressed;
 @property(nonatomic) int imageWidth;
 @property(nonatomic) int imageHeight;
-@property(nonatomic) NSString *imageType;
 @property(nonatomic) NSMutableDictionary *resultDictionary;
 
 @property(nonatomic)  size_t MinImageIntensity;

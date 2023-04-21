@@ -10,6 +10,8 @@
 #import <AppItFramework/OpenCvViewController.h>
 #import <AppItFramework/ProcessImageViewController.h>
 #import <AppItFramework/MatchFaceViewController.h>
+#import <AppItFramework/PassiveFaceDetectionViewController.h>
+#import <AppItFramework/IDCaptureModelController.h>
 
 //! Project version number for AppItFramework.
 FOUNDATION_EXPORT double AppItFrameworkVersionNumber;

@@ -7,10 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import "Firebase.h"
 #import "MMSCropImageView.h"
 #import "AppItSDK.h"
-//#import <GoogleMobileVision/GoogleMobileVision.h>
 #import "Reachability.h"
 #import <MLKit.h>
 

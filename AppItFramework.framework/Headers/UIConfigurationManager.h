@@ -23,6 +23,7 @@
 +(UIConfiguration *)getDefaultBarcodeCaptureConfig;
 +(UIConfiguration *)getDefaultVoiceRecordingConfig;
 +(UIConfiguration *)getDefaultSignatureCaptureConfig;
++(UIConfiguration *)getDefaultVideoConferenceConfig;
 
 +(UIConfiguration *)getCustomIDCaptureFrontUIConfig;
 +(UIConfiguration *)getCustomIDCaptureBackUIConfig;
@@ -36,6 +37,7 @@
 +(UIConfiguration *)getCustomBarcodeCaptureUIConfig;
 +(UIConfiguration *)getCustomVoiceRecordingUIConfig;
 +(UIConfiguration *)getCustomSignatureCaptureUIConfig;
++(UIConfiguration *)getCustomVideoConferenceUIConfig;
 
 
 +(void) initDefaultUIConfig;

@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#include <tesseract/baseapi.h>
 #import "CommonUtils.h"
 #import "TemplateDownloadViewController.h"
 #import "Settings.h"
@@ -22,32 +21,8 @@
     
     NSString *tess_data_path;
     
-    tesseract::TessBaseAPI tesseract0;
-    tesseract::TessBaseAPI tesseract1;
-    tesseract::TessBaseAPI tesseract2;
-    
     NSString *templates_path;
     NSString* resettingUrl;
-}
-
--(NSString*) tess_data_path {
-    return tess_data_path;
-}
-
--(NSString*) templates_path {
-    return templates_path;
-}
-
--(void*) tesseract0 {
-    return &tesseract0;
-}
-
--(void*) tesseract1 {
-    return &tesseract1;
-}
-
--(void*) tesseract2 {
-    return &tesseract2;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -68,10 +43,6 @@
     //creating "recording" directory inside "tmp" directory to temporary keep voice recording file
     [self create_recording_directory_in_tmp];
     
-    
-    tesseract0.Init([tess_data_path UTF8String],"eng");
-    tesseract1.Init([tess_data_path UTF8String],"eng");
-    tesseract2.Init([tess_data_path UTF8String],"eng");
     
     return YES;
 }

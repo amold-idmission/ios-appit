@@ -9,8 +9,6 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 #import "IDServerInterface.h"
-#import "OpenCVUtils.h"
-#import "NSData+GZIP.h"
 #import "UIView+Toast.h"
 #import "PasswordViewController.h"
 #import "NS_String_Utils.h"
@@ -32,7 +30,7 @@
     NSDictionary *requestParamJson;
     NSMutableDictionary *imageProcessingData;
     BOOL callbackExecuted;
-    VoiceRecorder *voiceRecorder;
+//    VoiceRecorder *voiceRecorder;
     IDServerInterface *idServerInterface;
     NSInteger templateDownloadStatus;
     NSString *urlRelode;
@@ -452,9 +450,10 @@ static bool idfaceshowInstruction = true;
             [AppItSDK captureSignature:self];
         }else if ([operation isEqualToString: @"startVoiceRecording"] ) {
             NSMutableDictionary *voiceRecordingConfig = [[self getVoiceRecordingConfigData] mutableCopy];
-            [AppItSDK startVoiceRecording:self voiceRecordingConfig:voiceRecordingConfig];
+//            [AppItSDK startVoiceRecording:self voiceRecordingConfig:voiceRecordingConfig];
+            [AppItSDK startVoiceRecording:self voiceRecordingConfig:voiceRecordingConfig additionalDictionary:nil];
         }else if ([operation isEqualToString: @"stopVoiceRecording"] ) {
-            [AppItSDK stopVoiceRecording];
+//            [AppItSDK stopVoiceRecording];
         }else if([operation isEqualToString:@"videoRecording"]) {
             [self videoRecordingCallback];
         }else if ([operation isEqualToString: @"getAppitVersion"] ) {
@@ -2920,11 +2919,8 @@ static bool idfaceshowInstruction = true;
     
     NSError *err = nil;
     
-    NSLog(@"Recording Path : %@ ", [aRecorder.url path]);
-    NSLog(@"Recording Path : Converted : %@ ", [AppItSDK getRecordedFilePath]);
-    
     //    NSData *audioData = [NSData dataWithContentsOfFile:[aRecorder.url path] options: 0 error:&err];
-    NSData *audioData = [NSData dataWithContentsOfFile:[AppItSDK getRecordedFilePath] options: 0 error:&err];
+    NSData *audioData = [NSData dataWithContentsOfFile:[[AppItSDK getVoiceRecordingURL] absoluteString] options: 0 error:&err];
     [self handle_voice_recording_callback:audioData];
 }
 
@@ -2934,7 +2930,7 @@ static bool idfaceshowInstruction = true;
     NSString *time = [AppItSDK getRecordedAudioDuration];
     
     NSError *err = nil;
-    [[NSFileManager defaultManager] removeItemAtPath:[AppItSDK getRecordedFilePath] error:&err];
+    [[NSFileManager defaultManager] removeItemAtPath:[[AppItSDK getVoiceRecordingURL] absoluteString] error:&err];
     
     //build a config object and convert to json
     NSMutableDictionary *config = [self build_common_return_data];

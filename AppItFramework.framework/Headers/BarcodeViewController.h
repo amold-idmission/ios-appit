@@ -1,17 +1,31 @@
 
-//#import <ZXingObjC/ZXingObjC.h>
-//#import <GoogleMobileVision/GoogleMobileVision.h>
 #import "CommonImporter.h"
-//#import "ZXingObjC.h"
-#import <ZXingObjC/ZXingObjC.h>
-
+#import "UIKit/UIKit.h"
+#import "AVFoundation/AVFoundation.h"
 
 @protocol barcodeScanningResponse <NSObject>
 @required
 -(void)barcodeScanningResponse : (NSMutableDictionary*) result instance:(id)instance;
 @end
 
-@interface BarcodeViewController : UIViewController <ZXCaptureDelegate>
+@interface BarcodeViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate>
+
+@property(nonatomic, strong) AVCaptureSession *captureSession;
+@property(nonatomic, strong) AVCaptureVideoPreviewLayer *videopreviewLayer;
+@property (nonatomic, copy) NSString *sessionPreset;
+@property (nonatomic, assign) int camera;
+@property (nonatomic, strong, readonly) CALayer *layer;
+@property (nonatomic, assign) CGRect scanRect;
+@property (nonatomic, assign) CGImageRef lastScannedImage;
+@property (nonatomic, strong) AVCaptureDevice *captureDevice;
+@property (nonatomic, assign) CGAffineTransform transform;
+@property (strong, nonatomic) AVCaptureStillImageOutput *avCaptureStillImageOutput;
+@property (nonatomic, readonly) AVCaptureMetadataOutput *videoOutput;
+@property(nonatomic) int maxImageSize;
+@property(nonatomic)IBOutlet UIColor *config_Color;
+
+-(BOOL)startReading;
+-(void)stopReading;
 
 @property(nonatomic,assign)id delegate;
 @property(nonatomic, strong) NSString *barcodeImageData;
@@ -25,13 +39,8 @@
 
 +(NSString *)getBarcodeNode;
 
-//+(NSString *)getBarcodeContent;
 +(void)setBarcodeContent:(NSString*)barcodeContentData;
-
-//+(NSString *)getBarcodeType;
 +(void)setBarcodeType:(NSString*)barcodeTypeData;
-
-//+(NSString *)getBarcodeImage;
 +(void)setBarcodeImage:(NSString*)barcodeImageData;
 
 @end

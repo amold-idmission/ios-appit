@@ -30,7 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
     IBOutlet UIButton *rotateLandscapeButton;
     IBOutlet UIButton *captureButton;
     IBOutlet UIButton *captureButton_portrait;
-    IBOutlet NSLayoutConstraint *backButtonHeightConstraint;
     IBOutlet NSLayoutConstraint *captureButtonBottomConstraint;
     
     AVCaptureVideoPreviewLayer *previewLayer;

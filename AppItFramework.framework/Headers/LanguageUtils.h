@@ -14,4 +14,6 @@
 +(BOOL)isLanguageSupported:(NSString*)language;
 +(int)getStartTime;
 +(NSString*)getEndTime:(int)startTime;
++(NSString*)getOperationTime:(NSDate*)startDate endDate:(NSDate*)endDate;
++(NSString*)getCaptureTime:(NSDate*)startDate endDate:(NSDate*)endDate;
 @end

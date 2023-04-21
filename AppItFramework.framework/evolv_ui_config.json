@@ -1,14 +1,14 @@
 {
   "id_capture_front": {
-    "id_capture_portrait": "N",
+    "id_capture_portrait": "Y",
     "id_light_threshold": "70",
     "id_min_focus": "12",
     "id_max_focus": "35",
     "id_glare_percentage": "25",
     "id_enable_capture_button_time": "60",
     "id_max_image_size": "500",
-    "id_image_height": "800",
-    "id_image_width": "1170",
+    "id_image_height": "1170",
+    "id_image_width": "800",
     "id_capture_enable": "N",
     "id_generic_doc_fieldname": "",
     "id_outline_color": "FFFFFF",
@@ -96,15 +96,15 @@
     }
   },
   "id_capture_back": {
-    "id_capture_portrait": "N",
+    "id_capture_portrait": "Y",
     "id_light_threshold": "70",
     "id_min_focus": "12",
     "id_max_focus": "35",
     "id_glare_percentage": "25",
     "id_enable_capture_button_time": "60",
     "id_max_image_size": "500",
-    "id_image_height": "800",
-    "id_image_width": "1170",
+    "id_image_height": "1170",
+    "id_image_width": "800",
     "id_capture_enable": "N",
     "id_generic_doc_fieldname": "",
     "id_outline_color": "FFFFFF",
@@ -192,15 +192,15 @@
     }
   },
   "secondary_id_capture_front": {
-      "id_capture_portrait": "N",
+      "id_capture_portrait": "Y",
       "id_light_threshold": "70",
       "id_min_focus": "12",
       "id_max_focus": "35",
       "id_glare_percentage": "25",
       "id_enable_capture_button_time": "60",
       "id_max_image_size": "500",
-      "id_image_height": "800",
-      "id_image_width": "1170",
+      "id_image_height": "1170",
+      "id_image_width": "800",
       "id_capture_enable": "N",
       "id_generic_doc_fieldname": "",
       "id_outline_color": "FFFFFF",
@@ -288,15 +288,15 @@
       }
   },
   "secondary_id_capture_back": {
-      "id_capture_portrait": "N",
+      "id_capture_portrait": "Y",
       "id_light_threshold": "70",
       "id_min_focus": "12",
       "id_max_focus": "35",
       "id_glare_percentage": "25",
       "id_enable_capture_button_time": "60",
       "id_max_image_size": "500",
-      "id_image_height": "800",
-      "id_image_width": "1170",
+      "id_image_height": "1170",
+      "id_image_width": "800",
       "id_capture_enable": "N",
       "id_generic_doc_fieldname": "",
       "id_outline_color": "FFFFFF",
@@ -384,15 +384,15 @@
       }
   },
   "document_capture": {
-    "id_capture_portrait": "N",
+    "id_capture_portrait": "Y",
     "id_light_threshold": "70",
     "id_min_focus": "12",
     "id_max_focus": "35",
     "id_glare_percentage": "25",
     "id_enable_capture_button_time": "60",
     "id_max_image_size": "500",
-    "id_image_height": "800",
-    "id_image_width": "1170",
+    "id_image_height": "1170",
+    "id_image_width": "800",
     "id_capture_enable": "N",
     "id_generic_doc_fieldname": "",
     "id_outline_color": "FFFFFF",
@@ -817,7 +817,10 @@
       "signature_text_color": "000000",
       "signature_text_color_alpha": "1",
       "labels": {
-          "signature_title_label_message": "Sign"
+          "signature_title_label_message": "Sign",
+          "clear_pad": "Clear",
+          "done": "Done",
+          "please_sign" : "Please Sign"
       }
   },
   "voice_recording": {
@@ -847,6 +850,11 @@
         "voice_resume": "Resume",
         "voice_record": "Record",
         "voice_recording": "Recording"
+      }
+    },
+  "video_conference": {
+      "labels": {
+        "vc_instruction_text": "Please wait while we setup conference",
       }
     }
 }

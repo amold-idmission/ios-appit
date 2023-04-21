@@ -16,6 +16,7 @@
 
 @optional
 -(void)initializeSDKResponse : (NSMutableDictionary* _Nonnull) result;
+-(void)modelDownloadResponse : (NSMutableDictionary* _Nonnull) result;
 -(void)faceDetectionResponse : (NSMutableDictionary* _Nonnull) result;
 -(void)captureImageResponse : (NSMutableDictionary* _Nonnull) result;
 -(void)captureSignatureResponse : (NSMutableDictionary* _Nonnull) result;
@@ -193,7 +194,6 @@ enum SDKIDType{
 +(void)captureGenericDocument:(id _Nonnull)instance additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary uiConfigDictionary:(NSMutableDictionary* _Nullable)uiConfigDictionary fieldName:(NSString* _Nonnull)fieldName;
 
 //MARK: - Capture Four-FingerPrint API
-+(void)captureFourFingerprint:(id)instance focusThreshold:(int)focusThreshold uiConfigDict:(NSMutableDictionary*)uiConfigDict;
 +(void)captureFourFingerprint:(id _Nonnull)instance cameraFingerCaptureConfig:(NSMutableDictionary* _Nullable)cameraFingerCaptureConfig;
 
 //MARK: - Capture Voice Recording API
@@ -248,7 +248,7 @@ enum SDKIDType{
 +(void)snippetCapture:(id _Nonnull)instance additionalDictionary:(NSMutableDictionary* _Nullable)additionalDictionary uiConfigDictionary:(NSMutableDictionary* _Nullable)uiConfigDictionary snippetFieldsDictionary:(NSMutableDictionary* _Nullable)snippetFieldsDictionary isIdCaptureCall:(bool)isIdCaptureCall;
 
 //MARK: - Slant capture
-+(void)captureSlantImage:(id)instance additionalDictionary:(NSMutableDictionary*)additionalDictionary uiConfigDictionary:(NSMutableDictionary*)uiConfigDictionary;
+//+(void)captureSlantImage:(id)instance additionalDictionary:(NSMutableDictionary*)additionalDictionary uiConfigDictionary:(NSMutableDictionary*)uiConfigDictionary;
 
 //MARK: - Video Conferencing API Call
 +(void)startVideoConferencing:(id _Nonnull)instance videoConferenceData:(NSMutableDictionary* _Nullable)videoConferenceData;
@@ -283,15 +283,6 @@ enum SDKIDType{
 +(NSString *)getURL;
 +(void)setURL:(NSString*)url;
 
-+(NSString *)getChunkNumber;
-+(void)setChunkNumber : (NSString*)chunkNumber;
-
-+(NSString *)getTotalChunkNumber;
-+(void)setTotalChunkNumber : (NSString*)totalChunkNumber;
-
-+(NSString *)getDownloadedChunkCount;
-+(void)setDownloadedChunkCount : (NSString*)downloadedChunkCount;
-
 +(NSString *)getLoginID;
 +(void)setLoginID:(NSString*)loginId;
 
@@ -313,6 +304,9 @@ enum SDKIDType{
 +(NSString *)getCompanyName;
 +(void)setCompanyName : (NSString*)companyname;
 
++(int)getIdFocusThreshold;
++(void)setIdFocusThreshold : (int)idFocusThreshold;
+
 +(int)getMinimumFocusThreshold;
 +(void)setMinimumFocusThreshold:(int)minImageFocusScore;
 
@@ -322,14 +316,11 @@ enum SDKIDType{
 +(bool)getDisableDetectedRect_ID;
 +(void)setDisableDetectedRect_ID : (bool)isDisableDetectedRectangle;
 
-+(bool)getEnableRealId_Check;
-+(void)setEnableRealId_Check : (bool)isEnableRealId_Check;
-
 +(bool)getCaptureEnable;
 +(void)setCaptureEnable : (bool)CaptureEnable;
 
-+(NSString *)getFieldName;
-+(void)setFieldName : (NSString*)fieldName;
+//+(NSString *)getFieldName;
+//+(void)setFieldName : (NSString*)fieldName;
 
 +(int)getMinimumLightThreshold;
 +(void)setMinimumLightThreshold:(int)minImageIntensity;
@@ -409,6 +400,9 @@ enum SDKIDType{
 
 +(NSString *)getSecondaryBackInputImage;
 +(void)setSecondaryBackInputImage:(NSString*)backInputimage;
+
++(NSString *)getAutofillFrontInputImage;
++(void)setAutofillFrontInputImage:(NSString*)frontInputimage;
 
 +(NSString *)getFaceImage;
 +(void)setFaceImage:(NSString*)faceImage;
@@ -940,7 +934,6 @@ enum SDKIDType{
 
 +(void)presentIdCaptureViewController:(id)instance id_capture_type:(NSString*)id_capture_type instructionScreenDelegate:(id)instruction_Screen_Delegate;
 +(void)presentFaceViewController:(id)instance instructionScreenDelegate:(id)instruction_Screen_Delegate;;
-+(void)presentFPViewController:(id)instance finger_type:(NSString*)finger_type;
 
 //Initialize Service ID Seprate API call
 +(void)setCallExecutionParameter:(NSMutableDictionary *) additionalDictionary;
@@ -1034,14 +1027,6 @@ enum SDKIDType{
 +(bool)getcfc_process_babyfinger;
 +(void)setcfc_process_babyfinger:(bool)_cfc_process_babyfinger;
 
-+(void)extraAdditionalData:(NSMutableDictionary *)dataDictionary;
-
-+(void)startVoiceRecording:(id)instance voiceRecordingConfig:(NSMutableDictionary *)voiceRecordingConfig;
-
-+(void)stopVoiceRecording;
-
-+(NSString *)getRecordedFilePath;
-
 +(void)setVideoRecordingTimeSec:(int) videoRecIneconds;
 
 +(int)getVideoRecordingInSec;
@@ -1094,26 +1079,76 @@ enum SDKIDType{
 +(int)getInstPreview_outline_color_alpha;
 +(void)setInstPreview_outline_color_alpha:(int)InstPreviewOutline_color_alpha;
 
+
+
+//Getter-Setter For All Model Path
 +(void)setFaceModelName:(NSString*)faceModelPath;
 +(NSString*)getFaceModelName;
-+(void)setIDModelName:(NSString*)idModelPath;
-+(NSString*)getIdModelName;
 
++(void)setFaceMaskModelName:(NSString*)faceMaskModelPath;
++(NSString*)getFaceMaskModelName;
+
++(void)setIdDocDetectModelName:(NSString*)idDocDetectModelPath;
++(NSString*)getIdDocDetectModelName;
+
++(void)setIdRealnessModelName:(NSString*)idRealnessModelPath;
++(NSString*)getIdRealnessModelName;
+
++(void)setIdFocusModelName:(NSString*)idFocusModelPath;
++(NSString*)getIdFocusModelName;
+
++(void)setFingerModelName:(NSString*)fingerModelPath;
++(NSString*)getFingerModelName;
+
+
+
+//Getter-Setter For All Unique Key
 +(void)setUniqueKey:(NSString*)uniqueKeyId;
 +(NSString *)getUniqueKey;
 
-+(void)setPreviousUniqueKey:(NSString*)prev_UniqueKeyId;
-+(NSString *)getPreviousUniqueKey;
-+(void)setPreviousUniqueKey_IDModel:(NSString*)prev_UniqueKeyId;
-+(NSString *)getPreviousUniqueKey_IDModel ;
++(void)setPreviousUniqueKey_FaceModel:(NSString*)prev_UniqueKeyId;
++(NSString *)getPreviousUniqueKey_FaceModel;
 
++(void)setPreviousUniqueKey_FaceMaskModel:(NSString*)prev_UniqueKeyId;
++(NSString *)getPreviousUniqueKey_FaceMaskModel;
+
++(void)setPreviousUniqueKey_IdDocDetectModel:(NSString*)prev_UniqueKeyId;
++(NSString *)getPreviousUniqueKey_IdDocDetectModel;
+
++(void)setPreviousUniqueKey_IdRealnessModel:(NSString*)prev_UniqueKeyId;
++(NSString *)getPreviousUniqueKey_IdRealnessModel;
+
++(void)setPreviousUniqueKey_IdFocusModel:(NSString*)prev_UniqueKeyId;
++(NSString *)getPreviousUniqueKey_IdFocusModel;
+
++(void)setPreviousUniqueKey_FingerModel:(NSString*)prev_UniqueKeyId;
++(NSString *)getPreviousUniqueKey_FingerModel;
+
+
+
+//Getter-Setter For All Public Key
 +(void)setPublicKey:(NSString*)publicKeyId;
 +(NSString *)getPublicKey;
 
-+(void)setPreviousPublicKey:(NSString*)prev_publicKeyId;
-+(NSString *)getPreviousPublicKey;
-+(void)setPreviousPublicKey_IDModel:(NSString*)prev_publicKeyId;
-+(NSString *)getPreviousPublicKey_IDModel;
++(void)setPreviousPublicKey_FaceModel:(NSString*)prev_publicKeyId;
++(NSString *)getPreviousPublicKey_FaceModel;
+
++(void)setPreviousPublicKey_FaceMaskModel:(NSString*)prev_publicKeyId;
++(NSString *)getPreviousPublicKey_FaceMaskModel;
+
++(void)setPreviousPublicKey_IdDocDetectModel:(NSString*)prev_publicKeyId;
++(NSString *)getPreviousPublicKey_IdDocDetectModel;
+
++(void)setPreviousPublicKey_IdRealnessModel:(NSString*)prev_publicKeyId;
++(NSString *)getPreviousPublicKey_IdRealnessModel;
+
++(void)setPreviousPublicKey_IdFocusModel:(NSString*)prev_publicKeyId;
++(NSString *)getPreviousPublicKey_IdFocusModel;
+
++(void)setPreviousPublicKey_FingerModel:(NSString*)prev_publicKeyId;
++(NSString *)getPreviousPublicKey_FingerModel;
+
+
 
 +(int)getMrzScanMaxLimit;
 +(void)setMrzScanMaxLimit : (int)mrz_Scan_Max_Limit;
@@ -1240,7 +1275,19 @@ enum SDKIDType{
 +(bool)getUploadImageDocument_Check;
 +(void)setUploadImageDocument_Check : (bool)isUploadImageDocument_Check;
 
-+(int)getIdCaptureThreshold;
-+(void)setIdCaptureThreshold : (int)id_capture_threshold;
++(bool)getEnableRealId_Check;
++(void)setEnableRealId_Check : (bool)isEnableRealId_Check;
+
++(bool)getEnableRealId_Check_Metadata;
++(void)setEnableRealId_Check_Metadata : (bool)isEnableRealId_Check;
+
++(int)getRealIdCaptureThreshold;
++(void)setRealIdCaptureThreshold : (int)id_capture_threshold;
+
++(int)getRealIdFrontThreshold_Metadata;
++(void)setRealIdFrontThreshold_Metadata : (int)id_capture_threshold_Front;
+
++(int)getRealIdBackThreshold_Metadata;
++(void)setRealIdBackThreshold_Metadata : (int)id_capture_threshold_Back;
 
 @end

@@ -8,11 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
+#import "NSStringUtils.h"
 
 @interface VideoCaptureFingerprintViewController : UIViewController<AVCaptureVideoDataOutputSampleBufferDelegate>
-{
-    
-}
 
 @property (nonatomic, readonly) AVCaptureSession *captureSession;
 @property (nonatomic, readonly) AVCaptureDevice *captureDevice;

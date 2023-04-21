@@ -32,29 +32,26 @@
 #import "VerifyCredentialsController.h"
 #import "InstructionViewController.h"
 #import "PassiveFaceDetectionViewController.h"
+
 #import "OpenCvViewController.h"              /* Need To Delete For Face+ID Flavour */
+#import "CardViewController.h"                /* Need To Delete For Face+ID Flavour */
+#import "CardDetectionViewController.h"       /* Need To Delete For Face+ID Flavour */
+#import "FingerDetectionViewController.h"     /* Need To Delete For Face+ID Flavour */
+#import "VideoConferencingViewController.h"   /* Need To Delete For Face+ID Flavour */
+
 #import "MatchFaceViewController.h"
 #import "IDCaptureModelController.h"
 #import "SnippetCaptureController.h"
 #import "DocumentUploadController.h"
-#import "SlantedIdCaptureViewController.h"    /* Need To Delete For Face+ID Flavour */
-#import "SlantedLandscapeViewController.h"    /* Need To Delete For Face+ID Flavour */
-#import "CardViewController.h"                /* Need To Delete For Face+ID Flavour */
-#import "CardDetectionViewController.h"       /* Need To Delete For Face+ID Flavour */
-#import "FillFastModelController.h"           /* Need To Delete For Face+ID Flavour */
-#import "FingerDetectionViewController2.h"    /* Need To Delete For Face+ID Flavour */
-#import "FingerDetectionViewController.h"     /* Need To Delete For Face+ID Flavour */
+#import "FillFastModelController.h"
 #import "FingerprintEnrolmentTask.h"
 #import "FingerPrintVerificationTask.h"
 #import "MlKitBarcodeScanViewController.h"
 #import "BarcodeViewController.h"
 #import "CaptureSignatureController.h"
 #import "GPSManager.h"
-#import "VoiceRecorder.h"
-#import "VoiceRecordingController.h"
 #import "VoiceRecordingVC.h"
 #import "VideoRecordingController.h"
-#import "VideoConferencingViewController.h"
 
 #import "CreateEmployeeControllerViewController.h"
 #import "VerifyEmployeeController.h"

@@ -13,11 +13,6 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
--(NSString*) tess_data_path;
--(void*) tesseract0;
--(void*) tesseract1;
--(void*) tesseract2;
-
 -(NSString*) templates_path;
 @property BOOL restrictOrientationToSupportAll;
 

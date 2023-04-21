@@ -1,0 +1,5 @@
+1. Document
+2. MRZ
+3. PDF417
+4. Primary face
+5. Secondary face
