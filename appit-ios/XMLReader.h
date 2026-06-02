@@ -15,10 +15,10 @@
     NSError *errorPointer;
 }
 
-+ (NSDictionary *)dictionaryForXMLData:(NSData *)data error:(NSError *)errorPointer;
-+ (NSDictionary *)dictionaryForXMLString:(NSString *)string error:(NSError *)errorPointer;
-- (NSString *) transform:(NSString *)xml xsl:(NSString *)xsl;
-- (NSString *) transform_mrz:(NSString *)xml;
-+ (NSString *) replaceSpecialCharacters:(NSString*) string;
-+ (void) initSpecialCharactersArray;
+//+ (NSDictionary *)dictionaryForXMLData:(NSData *)data error:(NSError *)errorPointer;
+//+ (NSDictionary *)dictionaryForXMLString:(NSString *)string error:(NSError *)errorPointer;
+//- (NSString *) transform:(NSString *)xml xsl:(NSString *)xsl;
+//- (NSString *) transform_mrz:(NSString *)xml;
+//+ (NSString *) replaceSpecialCharacters:(NSString*) string;
+//+ (void) initSpecialCharactersArray;
 @end

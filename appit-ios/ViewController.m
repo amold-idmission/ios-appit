@@ -1922,13 +1922,6 @@ static bool idfaceshowInstruction = true;
     
 }
 
--(void) prepare_data_for_barcodeScan {
-    BarcodeViewController *controller = [[BarcodeViewController alloc] init];
-    controller.delegate = self;
-    controller.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self presentModalViewController:controller animated:YES];
-}
-
 - (void) prepare_data_for_snippet_capture {
     
     NSString *dataToAppitString = [requestParamJson objectForKey:@"dataToAppit"];
@@ -1977,13 +1970,6 @@ static bool idfaceshowInstruction = true;
     [AppItSDK setImages:setSnippetImage];
     
     [AppItSDK snippetCapture:self additionalDictionary:nil uiConfigDictionary:nil snippetFieldsDictionary:snippetNameDictionary isIdCaptureCall:false];
-}
-
--(void) prepare_data_for_signatureCapture {
-    CaptureSignatureController *controller = [[CaptureSignatureController alloc] init];
-    controller.delegate = self;
-    controller.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self presentModalViewController:controller animated:YES];
 }
 
 - (void)handle_opencv_result_callback {

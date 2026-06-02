@@ -1,0 +1,8 @@
+0: "Document",
+1: "MRZ",
+2: "PDF417",
+3: "Primary face",
+4: "Secondary face",
+5: "Glare",
+6: "Punch Hole",
+7: "Passport page" (If Two page passport it returns rect for Single page where actual passport data Present e.g MRZ/photo/Name etc... )

@@ -1,0 +1,30 @@
+//
+//  AppItFramework-Prefix.pch
+//  AppItFramework
+//
+//  Created by idmission solutions pvt ltd  on 23/05/16.
+//  Copyright © 2016 idmission solutions pvt ltd . All rights reserved.
+//
+
+#import <Availability.h>
+
+#ifndef AppItFramework_Prefix_pch
+#define AppItFramework_Prefix_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* AppItFramework_Prefix_pch */
+
+#ifdef __cplusplus
+#import <opencv2/opencv.hpp>
+#import <opencv2/imgproc/imgproc.hpp>
+#import <opencv2/imgproc/types_c.h>
+#import <opencv2/objdetect/objdetect_c.h>
+#endif
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+//#import <AppItConstants.h>
+#endif

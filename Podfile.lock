@@ -1,142 +1,192 @@
 PODS:
-  - CocoaLumberjack (3.7.0):
-    - CocoaLumberjack/Core (= 3.7.0)
-  - CocoaLumberjack/Core (3.7.0)
-  - Firebase/Analytics (7.3.0):
+  - CocoaLumberjack (3.9.1):
+    - CocoaLumberjack/Core (= 3.9.1)
+  - CocoaLumberjack/Core (3.9.1)
+  - Firebase/Analytics (12.13.0):
     - Firebase/Core
-  - Firebase/Core (7.3.0):
+  - Firebase/Core (12.13.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (= 7.3.0)
-  - Firebase/CoreOnly (7.3.0):
-    - FirebaseCore (= 7.3.0)
-  - Firebase/Crashlytics (7.3.0):
+    - FirebaseAnalytics (~> 12.13.0)
+  - Firebase/CoreOnly (12.13.0):
+    - FirebaseCore (~> 12.13.0)
+  - Firebase/Crashlytics (12.13.0):
     - Firebase/CoreOnly
-    - FirebaseCrashlytics (~> 7.3.0)
-  - FirebaseAnalytics (7.3.0):
-    - FirebaseCore (~> 7.0)
-    - FirebaseInstallations (~> 7.0)
-    - GoogleAppMeasurement (= 7.3.0)
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.0)
-    - GoogleUtilities/MethodSwizzler (~> 7.0)
-    - GoogleUtilities/Network (~> 7.0)
-    - "GoogleUtilities/NSData+zlib (~> 7.0)"
-    - nanopb (~> 2.30906.0)
-  - FirebaseCore (7.3.0):
-    - FirebaseCoreDiagnostics (~> 7.0)
-    - GoogleUtilities/Environment (~> 7.0)
-    - GoogleUtilities/Logger (~> 7.0)
-  - FirebaseCoreDiagnostics (7.3.0):
-    - GoogleDataTransport (~> 8.0)
-    - GoogleUtilities/Environment (~> 7.0)
-    - GoogleUtilities/Logger (~> 7.0)
-    - nanopb (~> 2.30906.0)
-  - FirebaseCrashlytics (7.3.0):
-    - FirebaseCore (~> 7.0)
-    - FirebaseInstallations (~> 7.0)
-    - GoogleDataTransport (~> 8.0)
-    - nanopb (~> 2.30906.0)
-    - PromisesObjC (~> 1.2)
-  - FirebaseInstallations (7.11.0):
-    - FirebaseCore (~> 7.0)
-    - GoogleUtilities/Environment (~> 7.0)
-    - GoogleUtilities/UserDefaults (~> 7.0)
-    - PromisesObjC (~> 1.2)
-  - GoogleAppMeasurement (7.3.0):
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.0)
-    - GoogleUtilities/MethodSwizzler (~> 7.0)
-    - GoogleUtilities/Network (~> 7.0)
-    - "GoogleUtilities/NSData+zlib (~> 7.0)"
-    - nanopb (~> 2.30906.0)
-  - GoogleDataTransport (8.0.1):
-    - nanopb (~> 2.30906.0)
-  - GoogleMLKit/FaceDetection (0.64.0):
+    - FirebaseCrashlytics (~> 12.13.0)
+  - FirebaseAnalytics (12.13.0):
+    - FirebaseAnalytics/Default (= 12.13.0)
+    - FirebaseCore (~> 12.13.0)
+    - FirebaseInstallations (~> 12.13.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
+    - GoogleUtilities/MethodSwizzler (~> 8.1)
+    - GoogleUtilities/Network (~> 8.1)
+    - "GoogleUtilities/NSData+zlib (~> 8.1)"
+    - nanopb (~> 3.30910.0)
+  - FirebaseAnalytics/Default (12.13.0):
+    - FirebaseCore (~> 12.13.0)
+    - FirebaseInstallations (~> 12.13.0)
+    - GoogleAppMeasurement/Default (= 12.13.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
+    - GoogleUtilities/MethodSwizzler (~> 8.1)
+    - GoogleUtilities/Network (~> 8.1)
+    - "GoogleUtilities/NSData+zlib (~> 8.1)"
+    - nanopb (~> 3.30910.0)
+  - FirebaseCore (12.13.0):
+    - FirebaseCoreInternal (~> 12.13.0)
+    - GoogleUtilities/Environment (~> 8.1)
+    - GoogleUtilities/Logger (~> 8.1)
+  - FirebaseCoreExtension (12.13.0):
+    - FirebaseCore (~> 12.13.0)
+  - FirebaseCoreInternal (12.13.0):
+    - "GoogleUtilities/NSData+zlib (~> 8.1)"
+  - FirebaseCrashlytics (12.13.0):
+    - FirebaseCore (~> 12.13.0)
+    - FirebaseInstallations (~> 12.13.0)
+    - FirebaseRemoteConfigInterop (~> 12.13.0)
+    - FirebaseSessions (~> 12.13.0)
+    - GoogleDataTransport (~> 10.1)
+    - GoogleUtilities/Environment (~> 8.1)
+    - nanopb (~> 3.30910.0)
+    - PromisesObjC (~> 2.4)
+  - FirebaseInstallations (12.13.0):
+    - FirebaseCore (~> 12.13.0)
+    - GoogleUtilities/Environment (~> 8.1)
+    - GoogleUtilities/UserDefaults (~> 8.1)
+    - PromisesObjC (~> 2.4)
+  - FirebaseRemoteConfigInterop (12.13.0)
+  - FirebaseSessions (12.13.0):
+    - FirebaseCore (~> 12.13.0)
+    - FirebaseCoreExtension (~> 12.13.0)
+    - FirebaseInstallations (~> 12.13.0)
+    - GoogleDataTransport (~> 10.1)
+    - GoogleUtilities/Environment (~> 8.1)
+    - GoogleUtilities/UserDefaults (~> 8.1)
+    - nanopb (~> 3.30910.0)
+    - PromisesSwift (~> 2.1)
+  - GoogleAdsOnDeviceConversion (3.5.0):
+    - GoogleUtilities/Environment (~> 8.1)
+    - GoogleUtilities/Logger (~> 8.1)
+    - GoogleUtilities/Network (~> 8.1)
+    - nanopb (~> 3.30910.0)
+  - GoogleAppMeasurement/Core (12.13.0):
+    - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
+    - GoogleUtilities/MethodSwizzler (~> 8.1)
+    - GoogleUtilities/Network (~> 8.1)
+    - "GoogleUtilities/NSData+zlib (~> 8.1)"
+    - nanopb (~> 3.30910.0)
+  - GoogleAppMeasurement/Default (12.13.0):
+    - GoogleAdsOnDeviceConversion (~> 3.5.0)
+    - GoogleAppMeasurement/Core (= 12.13.0)
+    - GoogleAppMeasurement/IdentitySupport (= 12.13.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
+    - GoogleUtilities/MethodSwizzler (~> 8.1)
+    - GoogleUtilities/Network (~> 8.1)
+    - "GoogleUtilities/NSData+zlib (~> 8.1)"
+    - nanopb (~> 3.30910.0)
+  - GoogleAppMeasurement/IdentitySupport (12.13.0):
+    - GoogleAppMeasurement/Core (= 12.13.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
+    - GoogleUtilities/MethodSwizzler (~> 8.1)
+    - GoogleUtilities/Network (~> 8.1)
+    - "GoogleUtilities/NSData+zlib (~> 8.1)"
+    - nanopb (~> 3.30910.0)
+  - GoogleDataTransport (10.1.0):
+    - nanopb (~> 3.30910.0)
+    - PromisesObjC (~> 2.4)
+  - GoogleMLKit/FaceDetection (8.0.0):
     - GoogleMLKit/MLKitCore
-    - MLKitFaceDetection (~> 0.64.0)
-  - GoogleMLKit/MLKitCore (0.64.0):
-    - MLKitCommon (~> 0.64.0)
-  - GoogleMLKit/TextRecognition (0.64.0):
+    - MLKitFaceDetection (~> 7.0.0)
+  - GoogleMLKit/MLKitCore (8.0.0):
+    - MLKitCommon (~> 13.0.0)
+  - GoogleMLKit/TextRecognition (8.0.0):
     - GoogleMLKit/MLKitCore
-    - MLKitTextRecognition (~> 0.64.0)
-  - GoogleToolboxForMac/DebugUtils (2.3.0):
-    - GoogleToolboxForMac/Defines (= 2.3.0)
-  - GoogleToolboxForMac/Defines (2.3.0)
-  - GoogleToolboxForMac/Logger (2.3.0):
-    - GoogleToolboxForMac/Defines (= 2.3.0)
-  - "GoogleToolboxForMac/NSData+zlib (2.3.0)":
-    - GoogleToolboxForMac/Defines (= 2.3.0)
-  - "GoogleToolboxForMac/NSDictionary+URLArguments (2.3.0)":
-    - GoogleToolboxForMac/DebugUtils (= 2.3.0)
-    - GoogleToolboxForMac/Defines (= 2.3.0)
-    - "GoogleToolboxForMac/NSString+URLArguments (= 2.3.0)"
-  - "GoogleToolboxForMac/NSString+URLArguments (2.3.0)"
-  - GoogleUtilities/AppDelegateSwizzler (7.1.1):
+    - MLKitTextRecognition (~> 6.0.0)
+  - GoogleToolboxForMac/Defines (4.2.1)
+  - GoogleToolboxForMac/Logger (4.2.1):
+    - GoogleToolboxForMac/Defines (= 4.2.1)
+  - "GoogleToolboxForMac/NSData+zlib (4.2.1)":
+    - GoogleToolboxForMac/Defines (= 4.2.1)
+  - GoogleUtilities/AppDelegateSwizzler (8.1.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (7.1.1):
-    - PromisesObjC (~> 1.2)
-  - GoogleUtilities/Logger (7.1.1):
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Environment (8.1.0):
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Logger (8.1.0):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (7.1.1):
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/MethodSwizzler (8.1.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (7.1.1):
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Network (8.1.0):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Privacy
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (7.1.1)"
-  - GoogleUtilities/Reachability (7.1.1):
+  - "GoogleUtilities/NSData+zlib (8.1.0)":
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Privacy (8.1.0)
+  - GoogleUtilities/Reachability (8.1.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (7.1.1):
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/UserDefaults (8.1.0):
     - GoogleUtilities/Logger
-  - GoogleUtilitiesComponents (1.0.0):
-    - GoogleUtilities/Logger
-  - GTMSessionFetcher/Core (1.5.0)
-  - IdmEncryption (3.0.0)
-  - MLKitCommon (0.64.2):
-    - GoogleDataTransport (~> 8.0)
-    - GoogleToolboxForMac/Logger (~> 2.1)
-    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
-    - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
-    - GoogleUtilities/UserDefaults (~> 7.0)
-    - GoogleUtilitiesComponents (~> 1.0)
-    - GTMSessionFetcher/Core (~> 1.1)
-    - Protobuf (~> 3.12)
-  - MLKitFaceDetection (0.64.0):
-    - MLKitCommon (~> 0.64)
-    - MLKitVision (~> 0.64)
-  - MLKitTextRecognition (0.64.0):
-    - MLKitCommon (~> 0.64)
-    - MLKitVision (~> 0.64)
-  - MLKitVision (0.64.0):
-    - GoogleToolboxForMac/Logger (~> 2.1)
-    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
-    - GTMSessionFetcher/Core (~> 1.1)
-    - MLKitCommon (~> 0.64)
-    - Protobuf (~> 3.12)
-  - nanopb (2.30906.0):
-    - nanopb/decode (= 2.30906.0)
-    - nanopb/encode (= 2.30906.0)
-  - nanopb/decode (2.30906.0)
-  - nanopb/encode (2.30906.0)
-  - PromisesObjC (1.2.11)
-  - Protobuf (3.14.0)
-  - SocketRocket (0.5.1)
-  - TensorFlowLiteC (2.3.0):
-    - TensorFlowLiteC/Core (= 2.3.0)
-  - TensorFlowLiteC/Core (2.3.0)
-  - TensorFlowLiteObjC (2.3.0):
-    - TensorFlowLiteC (= 2.3.0)
+    - GoogleUtilities/Privacy
+  - GTMSessionFetcher/Core (3.5.0)
+  - IdmEncryption (12.0.0)
+  - MLImage (1.0.0-beta7)
+  - MLKitCommon (13.0.0):
+    - GoogleDataTransport (~> 10.0)
+    - GoogleToolboxForMac/Logger (< 5.0, >= 4.2.1)
+    - "GoogleToolboxForMac/NSData+zlib (< 5.0, >= 4.2.1)"
+    - GoogleUtilities/Logger (~> 8.0)
+    - GoogleUtilities/UserDefaults (~> 8.0)
+    - GTMSessionFetcher/Core (< 4.0, >= 3.3.2)
+  - MLKitFaceDetection (7.0.0):
+    - MLKitCommon (~> 13.0)
+    - MLKitVision (~> 9.0)
+  - MLKitTextRecognition (6.0.0):
+    - MLKitCommon (~> 13.0)
+    - MLKitTextRecognitionCommon (= 5.0.0)
+    - MLKitVision (~> 9.0)
+  - MLKitTextRecognitionCommon (5.0.0):
+    - MLKitCommon (~> 13.0)
+    - MLKitVision (~> 9.0)
+  - MLKitVision (9.0.0):
+    - GoogleToolboxForMac/Logger (< 5.0, >= 4.2.1)
+    - "GoogleToolboxForMac/NSData+zlib (< 5.0, >= 4.2.1)"
+    - GTMSessionFetcher/Core (< 4.0, >= 3.3.2)
+    - MLImage (= 1.0.0-beta7)
+    - MLKitCommon (~> 13.0)
+  - nanopb (3.30910.0):
+    - nanopb/decode (= 3.30910.0)
+    - nanopb/encode (= 3.30910.0)
+  - nanopb/decode (3.30910.0)
+  - nanopb/encode (3.30910.0)
+  - OpenSSL-Universal (3.6.0000)
+  - PromisesObjC (2.4.0)
+  - PromisesSwift (2.4.0):
+    - PromisesObjC (= 2.4.0)
+  - SocketRocket (0.7.1)
+  - TensorFlowLiteC (2.7.0):
+    - TensorFlowLiteC/Core (= 2.7.0)
+  - TensorFlowLiteC/Core (2.7.0)
+  - TensorFlowLiteObjC (2.7.0):
+    - TensorFlowLiteObjC/Core (= 2.7.0)
+  - TensorFlowLiteObjC/Core (2.7.0):
+    - TensorFlowLiteC (= 2.7.0)
   - WebRTC (63.11.20455)
 
 DEPENDENCIES:
   - CocoaLumberjack
   - Firebase/Analytics
   - Firebase/Crashlytics
-  - GoogleMLKit/FaceDetection
-  - GoogleMLKit/TextRecognition
+  - GoogleMLKit/FaceDetection (~> 8.0.0)
+  - GoogleMLKit/TextRecognition (~> 8.0.0)
   - IdmEncryption
+  - OpenSSL-Universal
   - SocketRocket
-  - TensorFlowLiteObjC
+  - TensorFlowLiteObjC (~> 2.7.0)
   - WebRTC
 
 SPEC REPOS:
@@ -145,57 +195,69 @@ SPEC REPOS:
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
-    - FirebaseCoreDiagnostics
+    - FirebaseCoreExtension
+    - FirebaseCoreInternal
     - FirebaseCrashlytics
     - FirebaseInstallations
+    - FirebaseRemoteConfigInterop
+    - FirebaseSessions
+    - GoogleAdsOnDeviceConversion
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleMLKit
     - GoogleToolboxForMac
     - GoogleUtilities
-    - GoogleUtilitiesComponents
     - GTMSessionFetcher
     - IdmEncryption
+    - MLImage
     - MLKitCommon
     - MLKitFaceDetection
     - MLKitTextRecognition
+    - MLKitTextRecognitionCommon
     - MLKitVision
     - nanopb
+    - OpenSSL-Universal
     - PromisesObjC
-    - Protobuf
+    - PromisesSwift
     - SocketRocket
     - TensorFlowLiteC
     - TensorFlowLiteObjC
     - WebRTC
 
 SPEC CHECKSUMS:
-  CocoaLumberjack: e8955b9d337ac307103b0a34fd141c32f27e53c5
-  Firebase: 26223c695fe322633274198cb19dca8cb7e54416
-  FirebaseAnalytics: 2580c2d62535ae7b644143d48941fcc239ea897a
-  FirebaseCore: 4d3c72622ce0e2106aaa07bb4b2935ba2c370972
-  FirebaseCoreDiagnostics: d50e11039e5984d92c8a512be2395f13df747350
-  FirebaseCrashlytics: d31325312c92e2cb2f0386d589b9aa44e303d99b
-  FirebaseInstallations: a58d4f72ec5861840b84df489f2668d970df558a
-  GoogleAppMeasurement: 8d3c0aeede16ab7764144b5a4ca8e1d4323841b7
-  GoogleDataTransport: e4085e6762f36a6141738f46b0153473ce57fb18
-  GoogleMLKit: 3c1f895592d95625eb57b8e66d4f13a5d36f9b49
-  GoogleToolboxForMac: 1350d40e86a76f7863928d63bcb0b89c84c521c5
-  GoogleUtilities: 3dc4ff0d5e4840e2fa8eef0889620e8c33d4218c
-  GoogleUtilitiesComponents: a69c0b3b369ba443e988141e75ef49d9010b1c80
-  GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
-  IdmEncryption: fc75e2b3ab3db04ef5796e26188976770df7074a
-  MLKitCommon: bc4f9fc68ea0edba2e8cbb16805df924f40b0e38
-  MLKitFaceDetection: 502256dbfd3bad005f974dd022bc74a817fcd618
-  MLKitTextRecognition: 3ca1c65117899a7538d1f3c012c916ac1483698d
-  MLKitVision: bd96ec12ea19d589435523c914766538da259161
-  nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53
-  PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
-  Protobuf: 0cde852566359049847168e51bd1c690e0f70056
-  SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
-  TensorFlowLiteC: 51f50caf5777f740a70e2c1a5dbdc149e7aeb50b
-  TensorFlowLiteObjC: 5b358503636cffcbbafd8b0ac9badb577fd72800
+  CocoaLumberjack: e4ba3b414dfca8c1916c6303d37f63b3a95134c6
+  Firebase: 7d62445aeabdaea36f7d372f33052fed9a72514f
+  FirebaseAnalytics: 853fa849aca9e418f163c2de5ed0a867efa4fddf
+  FirebaseCore: 58905958aa00a061397a0fd759ae4b55bddb3576
+  FirebaseCoreExtension: 5b94169f1ee96ecc2dbde40bc53690e4d65eb652
+  FirebaseCoreInternal: 37bee58388fc6d183f0ab1b32d69ae44f2cf8aad
+  FirebaseCrashlytics: 8bb2d41cb47e8f3ea34200d99361499a59995e0d
+  FirebaseInstallations: 134bde50e477628ded76070efdb12d515d53f948
+  FirebaseRemoteConfigInterop: 4801ab93a543ef8fedfb40ae2f66d03e3fdcb864
+  FirebaseSessions: 0e5f64cd99400275798fcb5e2b773dd000ca02c1
+  GoogleAdsOnDeviceConversion: 914d95386d0dd6815e8b1d70c465fe1d13312a1e
+  GoogleAppMeasurement: 01e991b4c0c025dd66558dbc5133b5d70ccdf88e
+  GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
+  GoogleMLKit: ddd51d7dff36ff28defa69afedd9cdce684fd857
+  GoogleToolboxForMac: d1a2cbf009c453f4d6ded37c105e2f67a32206d8
+  GoogleUtilities: 00c88b9a86066ef77f0da2fab05f65d7768ed8e1
+  GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
+  IdmEncryption: 25f3d9ce4ab3ca555952433a06ef3d194d4acb33
+  MLImage: 2ab9c968e75f57911c16f4c9d9e8a8e9604a86a1
+  MLKitCommon: 26b779f072a182c1603d4c88a101c350cac837b1
+  MLKitFaceDetection: d50aff1a44aa9a4e95f7e208298a3ce40b68f9f8
+  MLKitTextRecognition: 072488cfd29f1726733378661881f88db74ba3dc
+  MLKitTextRecognitionCommon: 228502b9dc61ea9cfb6199ebafef3baa842e2043
+  MLKitVision: fa8dea9012ac59497c79ddbe9ebf32051047ac4c
+  nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
+  OpenSSL-Universal: 9110d21982bb7e8b22a962b6db56a8aa805afde7
+  PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
+  PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
+  SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
+  TensorFlowLiteC: 50d75ed3640c15dcfbaf88ca4326297b445e00a1
+  TensorFlowLiteObjC: d9e20bf9a4c22994e480ebf57aa9693262ee49a2
   WebRTC: f2a6203584745fe53532633397557876b5d71640
 
-PODFILE CHECKSUM: 5acf767c3458b460cb55270a09f9178fc957ef12
+PODFILE CHECKSUM: 8dd5072a08f72347b5260f8d872101c11dbd0855
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.16.2
